@@ -1,22 +1,20 @@
-from selenium import webdriver
+import requests
+import json
 
-# Create a new instance of the Firefox WebDriver
-driver = webdriver.Firefox()
+API_URL = "https://api-inference.huggingface.co/models/tarteel-ai/whisper-base-ar-quran"
+headers = {"Authorization": "Bearer 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"}
 
-# Open the target webpage
-driver.get("URL_OF_THE_WEBPAGE")
+def query(filename):
+    with open(filename, "rb") as f:
+        data = f.read()
+    response = requests.post(API_URL, headers=headers, data=data)
+    return response.json()
 
-# Find the file input element by its class name (or another suitable locator)
-file_input = driver.find_element_by_class_name("svelte-116rqfv")
+output = query(r"C:\Users\Crazy\Desktop\94\_1.mp3")
 
-# Provide the path to the file you want to upload
-file_path = "path/to/your/file.wav"
-file_input.send_keys(file_path)
+def joe(text):
+    response = requests.get(f"https://api.quran.com/api/v4/search?q={text}")
+    return response.json()
 
-# You might need to submit the form or perform other actions to proceed
-# For example:
-# submit_button = driver.find_element_by_id("submit-button-id")
-# submit_button.click()
-
-# Close the browser window
-driver.quit()
+with open("output.json", "w") as f:
+    json.dump(joe(output), f, indent=4)
