@@ -57,7 +57,7 @@ def main():
         translation = temp_file.read()
 
     # Print the modified text
-    print(f"Using translation: `{translation}`")
+    print(f"Translation: `{translation}`")
 
     # Clean up: Delete the temporary file
     os.remove(temp_file_path)
