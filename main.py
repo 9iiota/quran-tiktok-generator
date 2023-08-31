@@ -20,13 +20,13 @@ class OFFSETS(Enum):
 OFFSET = OFFSETS.LEFT.value
 
 def main():
-    name = "29 - Al-'Ankabut"
-    for i in range(1,4):
-        audio_clip_path = f"Audio/{name}/{i}.mp3"
-        video_clip_name = random.choice([file for file in os.listdir("Background_Clips") if file.endswith(".mp4")])
-        video_clip_path = f"Background_Clips/{video_clip_name}"
-        video_file_name = f"Videos/{name}_{i}.mp4"
-        batch_video_creation(audio_clip_path, video_clip_path, video_file_name)
+    batch_video_creation(
+        full_audio_name="Abdul Rahman Mossad - Al-'Ankabut.mp3",
+        count=6,
+        audio_clip_directory="Audio/29 - Al-'Ankabut",
+        background_clip_directory="Background_Clips",
+        output_path="Videos/Final.mp4"
+    )
 
 def speech_to_text(filename):
     try:
@@ -99,7 +99,7 @@ def edit_translation(translation):
 
     return translation
 
-def create_single_video(audio_clip_path, video_clip_path, tajweed, translation, output_path, shadow_opacity=0.7, fade_duration=0.5):
+def create_single_video(audio_clip_path, video_clip_path, tajweed, translation, shadow_opacity=0.7, fade_duration=0.5):
     audio_clip = mpy.AudioFileClip(audio_clip_path)
     video_clip = mpy.VideoFileClip(video_clip_path)
     video_clip = video_clip.set_duration(
@@ -156,45 +156,67 @@ def create_single_video(audio_clip_path, video_clip_path, tajweed, translation, 
         fade_duration
     )
 
-    shadow_video_with_tajweed_and_translation = mpy.CompositeVideoClip(
+    final_video = mpy.CompositeVideoClip(
         [video_with_shadow, tajweed_text_clip, translation_text_clip], 
         use_bgclip=True
     )
 
-    final_video_with_audio = shadow_video_with_tajweed_and_translation.set_audio(audio_clip)
+    return final_video
 
-    final_video_with_audio.write_videofile(
-        output_path, 
-        codec="libx264", 
-        audio_codec="aac", 
+def batch_video_creation(full_audio_name, count, audio_clip_directory, background_clip_directory, output_path):
+    array = []
+    duration = 0
+    for i in range(1, count + 1):
+        # Get the Arabic text from the audio file
+        while True:
+            arabic_text = speech_to_text(f"{audio_clip_directory}/{i}.mp3")
+            if arabic_text is not None:
+                break
+
+        # Get the verse key from the Arabic text
+        verse_key = get_verse_key(arabic_text["text"])["search"]["results"][0]["verse_key"]
+
+        # Get the tajweed of the verse and possibly edit it
+        tajweed = get_tajweed(verse_key)
+        tajweed = edit_tajweed(tajweed)
+        print(f"Tajweed: `{tajweed}`")
+
+        # Get the translation of the verse and possibly edit it
+        translation = get_english_translation(verse_key)
+        translation = edit_translation(translation)
+        print(f"Translation: `{translation}`")
+
+        # Get the audio and video clip paths
+        audio_clip_path = f"{audio_clip_directory}/{i}.mp3"
+        audio_duration = mpy.AudioFileClip(audio_clip_path).duration
+
+        while True:
+            video_clip_name = random.choice([file for file in os.listdir(background_clip_directory) if file.endswith(".mp4")])
+            video_clip_path = f"{background_clip_directory}/{video_clip_name}"
+            video_duration = mpy.VideoFileClip(video_clip_path).duration
+            if video_duration >= audio_duration:
+                break
+
+        # Create the video
+        video = create_single_video(audio_clip_path, video_clip_path, tajweed, translation)
+        array.append(video)
+
+        # Update the duration
+        duration += video.duration
+    
+    # Concatenate all the videos
+    final_video = mpy.concatenate_videoclips(
+        array
+    ).set_audio(
+        mpy.AudioFileClip(f"{audio_clip_directory}/{full_audio_name}")
+    ).set_duration(
+        duration
     )
-
-def batch_video_creation(audio_clip_path, video_clip_path, video_file_name):
-    # Get the Arabic text from the audio file
-    while True:
-        arabic_text = speech_to_text(audio_clip_path)
-        if arabic_text is not None:
-            break
-
-    # Get the verse key from the Arabic text
-    verse_key = get_verse_key(arabic_text["text"])["search"]["results"][0]["verse_key"]
-
-    # Get the tajweed of the verse
-    tajweed = get_tajweed(verse_key)
-
-    # Possibly edit the tajweed
-    tajweed = edit_tajweed(tajweed)
-    print(f"Tajweed: `{tajweed}`")
-
-    # Get the translation of the verse
-    translation = get_english_translation(verse_key)
-
-    # Possibly edit the translation
-    translation = edit_translation(translation)
-    print(f"Translation: `{translation}`")
-
-    # Create the video
-    create_single_video(audio_clip_path, video_clip_path, tajweed, translation, video_file_name)
+    final_video.write_videofile(
+        output_path,
+        codec="libx264", 
+        audio_codec="aac"
+    )
 
 if __name__ == "__main__":
     main()
