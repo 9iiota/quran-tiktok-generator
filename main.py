@@ -22,7 +22,7 @@ OFFSET = OFFSETS.LEFT.value
 def main():
     batch_video_creation(
         full_audio_name="Abdul Rahman Mossad - Al-'Ankabut.mp3",
-        count=6,
+        count=5,
         audio_clip_directory="Audio/29 - Al-'Ankabut",
         background_clip_directory="Background_Clips",
         output_path="Videos/Final.mp4"
@@ -166,43 +166,51 @@ def create_single_video(audio_clip_path, video_clip_path, tajweed, translation, 
 def batch_video_creation(full_audio_name, count, audio_clip_directory, background_clip_directory, output_path):
     array = []
     duration = 0
-    for i in range(1, count + 1):
-        # Get the Arabic text from the audio file
-        while True:
-            arabic_text = speech_to_text(f"{audio_clip_directory}/{i}.mp3")
-            if arabic_text is not None:
-                break
+    
+    # Get the Arabic text from the audio file
+    while True:
+        arabic_text = speech_to_text(f"{audio_clip_directory}/1.mp3")
+        if arabic_text is not None:
+            break
 
-        # Get the verse key from the Arabic text
-        verse_key = get_verse_key(arabic_text["text"])["search"]["results"][0]["verse_key"]
+    # Get the verse key from the Arabic text
+    verse_key = get_verse_key(arabic_text["text"])["search"]["results"][0]["verse_key"]
+    chapter, verse = map(int, verse_key.split(":"))
 
-        # Get the tajweed of the verse and possibly edit it
-        tajweed = get_tajweed(verse_key)
-        tajweed = edit_tajweed(tajweed)
-        print(f"Tajweed: `{tajweed}`")
+    with open("notes.txt", "w", encoding="utf-8") as file:
+        pass
 
-        # Get the translation of the verse and possibly edit it
-        translation = get_english_translation(verse_key)
-        translation = edit_translation(translation)
-        print(f"Translation: `{translation}`")
+    with open("notes.txt", "a", encoding="utf-8") as file:
+        for i in range(1, count + 1):
+            tajweed = get_tajweed(f"{chapter}:{verse + i - 1}")  # Fetch tajweed for this verse
+            translation = get_english_translation(f"{chapter}:{verse + i - 1}")  # Fetch translation for this verse
+            new_string = f"{tajweed}\t{translation}"  # Combine tajweed and translation
+            file.write(new_string + "\n")
 
-        # Get the audio and video clip paths
-        audio_clip_path = f"{audio_clip_directory}/{i}.mp3"
-        audio_duration = mpy.AudioFileClip(audio_clip_path).duration
+    input("Appropriately edit the text file now...")
 
-        while True:
-            video_clip_name = random.choice([file for file in os.listdir(background_clip_directory) if file.endswith(".mp4")])
-            video_clip_path = f"{background_clip_directory}/{video_clip_name}"
-            video_duration = mpy.VideoFileClip(video_clip_path).duration
-            if video_duration >= audio_duration:
-                break
+    with open("notes.txt", "r", encoding="utf-8") as file:
+        lines = file.readlines()
+        for i in range(1, count + 1):
+            # Get the audio and video clip paths
+            audio_clip_path = f"{audio_clip_directory}/{i}.mp3"
+            audio_duration = mpy.AudioFileClip(audio_clip_path).duration
 
-        # Create the video
-        video = create_single_video(audio_clip_path, video_clip_path, tajweed, translation)
-        array.append(video)
+            while True:
+                video_clip_name = random.choice([file for file in os.listdir(background_clip_directory) if file.endswith(".mp4")])
+                video_clip_path = f"{background_clip_directory}/{video_clip_name}"
+                video = mpy.VideoFileClip(video_clip_path)
+                video_duration = video.duration
+                video.close()
+                if video_duration >= audio_duration:
+                    break
 
-        # Update the duration
-        duration += video.duration
+            # Create the video
+            video = create_single_video(audio_clip_path, video_clip_path, lines[i - 1].split("\t")[0], lines[i - 1].split("\t")[1])
+            array.append(video)
+
+            # Update the duration
+            duration += video.duration
     
     # Concatenate all the videos
     final_video = mpy.concatenate_videoclips(
