@@ -1,3 +1,4 @@
+import json
 import moviepy.editor as mpy
 import os
 import random
@@ -5,7 +6,7 @@ import requests
 import subprocess
 import tempfile
 from bs4 import BeautifulSoup
-from enum import Enum
+from time import sleep
 
 API_URL = "https://api-inference.huggingface.co/models/tarteel-ai/whisper-base-ar-quran"
 headers = {"Authorization": "Bearer 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"}
@@ -13,16 +14,10 @@ headers = {"Authorization": "Bearer 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"}
 ARABIC_FONT = "Fonts/Hafs.ttf"
 ENGLISH_FONT = "Fonts/Butler_Regular.otf"
 
-class OFFSETS(Enum):
-    LEFT = 0
-    MIDDLE = 420
-    RIGHT = 840
-OFFSET = OFFSETS.LEFT.value
-
 def main():
     batch_video_creation(
         full_audio_name="Abdul Rahman Mossad - Al-'Ankabut.mp3",
-        count=5,
+        count=11,
         audio_clip_directory="Audio/29 - Al-'Ankabut",
         background_clip_directory="Background_Clips",
         output_path="Videos/Final.mp4"
@@ -40,10 +35,11 @@ def speech_to_text(filename):
             return json_response
         else:
             print(f"Error: {json_response['error']}")
-            return None
+            print("Retrying in 10 seconds...")
+            sleep(10)
     except Exception as e:
         print(f"Error: {e}")
-        return None
+    return None
 
 def get_verse_key(text):
     response = requests.get(f"https://api.quran.com/api/v4/search?q={text}")
@@ -102,11 +98,15 @@ def edit_translation(translation):
 def create_single_video(audio_clip_path, video_clip_path, tajweed, translation, shadow_opacity=0.7, fade_duration=0.5):
     audio_clip = mpy.AudioFileClip(audio_clip_path)
     video_clip = mpy.VideoFileClip(video_clip_path)
+    x_offset = random.randint(0, max(0, video_clip.w - 720))
+    y_offset = random.randint(0, max(0, video_clip.h - 1080))
     video_clip = video_clip.set_duration(
         audio_clip.duration
     ).crop(
-        x1=OFFSET, 
-        x2=OFFSET + video_clip.h * .5625
+        x1=x_offset,
+        y1=y_offset,
+        x2=x_offset+720,
+        y2=y_offset+1080
     )
 
     shadow_clip = mpy.ColorClip(
@@ -159,6 +159,8 @@ def create_single_video(audio_clip_path, video_clip_path, tajweed, translation, 
     final_video = mpy.CompositeVideoClip(
         [video_with_shadow, tajweed_text_clip, translation_text_clip], 
         use_bgclip=True
+    ).set_fps(
+        24
     )
 
     return final_video
@@ -177,20 +179,22 @@ def batch_video_creation(full_audio_name, count, audio_clip_directory, backgroun
     verse_key = get_verse_key(arabic_text["text"])["search"]["results"][0]["verse_key"]
     chapter, verse = map(int, verse_key.split(":"))
 
-    with open("notes.txt", "w", encoding="utf-8") as file:
+    with open("arabic.txt", "w", encoding="utf-8") as arabic_file, open("english.txt", "w", encoding="utf-8"):
         pass
 
-    with open("notes.txt", "a", encoding="utf-8") as file:
+    with open("arabic.txt", "a", encoding="utf-8") as arabic_file, open("english.txt", "a", encoding="utf-8") as english_file:
         for i in range(1, count + 1):
             tajweed = get_tajweed(f"{chapter}:{verse + i - 1}")  # Fetch tajweed for this verse
             translation = get_english_translation(f"{chapter}:{verse + i - 1}")  # Fetch translation for this verse
-            new_string = f"{tajweed}\t{translation}"  # Combine tajweed and translation
-            file.write(new_string + "\n")
 
-    input("Appropriately edit the text file now...")
+            arabic_file.write(tajweed + "\n")
+            english_file.write(translation + "\n")
 
-    with open("notes.txt", "r", encoding="utf-8") as file:
-        lines = file.readlines()
+    input("Appropriately edit the text files now...")
+
+    with open("arabic.txt", "r", encoding="utf-8") as arabic_file, open("english.txt", "r", encoding="utf-8") as english_file:
+        arabic_lines = arabic_file.readlines()
+        english_lines = english_file.readlines()
         for i in range(1, count + 1):
             # Get the audio and video clip paths
             audio_clip_path = f"{audio_clip_directory}/{i}.mp3"
@@ -206,7 +210,7 @@ def batch_video_creation(full_audio_name, count, audio_clip_directory, backgroun
                     break
 
             # Create the video
-            video = create_single_video(audio_clip_path, video_clip_path, lines[i - 1].split("\t")[0], lines[i - 1].split("\t")[1])
+            video = create_single_video(audio_clip_path, video_clip_path, arabic_lines[i - 1], english_lines[i - 1])
             array.append(video)
 
             # Update the duration
@@ -214,7 +218,8 @@ def batch_video_creation(full_audio_name, count, audio_clip_directory, backgroun
     
     # Concatenate all the videos
     final_video = mpy.concatenate_videoclips(
-        array
+        array,
+        method="compose"
     ).set_audio(
         mpy.AudioFileClip(f"{audio_clip_directory}/{full_audio_name}")
     ).set_duration(
@@ -228,3 +233,8 @@ def batch_video_creation(full_audio_name, count, audio_clip_directory, backgroun
 
 if __name__ == "__main__":
     main()
+
+    # with open("output.json", "r", encoding="utf-8") as file:
+    #     data = json.load(file)
+
+    # print(json.dumps(data, indent=4, ensure_ascii=False))
