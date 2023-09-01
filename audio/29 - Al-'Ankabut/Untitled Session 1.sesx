@@ -71,12 +71,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="149269" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="18719" sourceOutPoint="167988" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="149269" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="18719" sourceOutPoint="167988" startPoint="0" zOrder="0">
           <component componentGuid="7d8adb33-aa8e-45fe-841e-673d1d4f5dfb" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="14e0cc60-664e-4055-91ca-17ab95f3e8f7" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="254aa663-8d03-41a9-a7db-5b31601c4c68" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -160,12 +160,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="458562" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="167988" sourceOutPoint="626550" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="458562" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="167988" sourceOutPoint="626550" startPoint="0" zOrder="0">
           <component componentGuid="c17e0538-4730-4c2c-bb32-f18a0bc51e8b" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="a95539b9-b849-4c16-a127-ed5f47de879b" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="0a457aac-fdf6-474e-9106-c318ba5f93c5" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -249,12 +249,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="247482" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="626550" sourceOutPoint="874032" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="247482" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="626550" sourceOutPoint="874032" startPoint="0" zOrder="0">
           <component componentGuid="8934b82c-760b-4ceb-a532-961959833986" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="bf607550-e5c8-4396-9347-e9e6b2789797" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="544a64fb-f9f4-4ac3-ab23-0c4528e4bd05" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -338,12 +338,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="179139" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="874032" sourceOutPoint="1053171" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="179139" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="874032" sourceOutPoint="1053171" startPoint="0" zOrder="0">
           <component componentGuid="2d30a558-5cfc-4bad-b549-884dba91f3c2" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="37eb11cf-d76d-480b-b1fc-832a16bc67a8" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="c69903b5-9ca5-4320-a0f9-173551d378cc" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -427,12 +427,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="375665" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="1053171" sourceOutPoint="1428836" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="375665" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="1053171" sourceOutPoint="1428836" startPoint="0" zOrder="0">
           <component componentGuid="128ff085-a936-4901-9821-8ba9d56cccc1" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="95dfb344-8291-4086-a78a-4846b50a1a69" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="6d555ad9-9471-4206-97b8-22540c61dd6f" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -516,12 +516,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="266524" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="1428836" sourceOutPoint="1695360" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="266524" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="1428836" sourceOutPoint="1695360" startPoint="0" zOrder="0">
           <component componentGuid="0e9357ce-9cc5-4550-b2ed-d3759b90fdee" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="56ea482e-2442-47f5-8cb6-19e0c843a483" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="a1a83d1f-3801-49ff-a9c3-418c1b6b8bf4" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -538,7 +538,7 @@
           </channelMap>
         </audioClip>
       </audioTrack>
-      <audioTrack automationLaneOpenState="false" id="10007" index="7" select="false" visible="true">
+      <audioTrack automationLaneOpenState="false" id="10007" index="7" select="true" visible="true">
         <trackParameters trackHeight="30" trackHue="211" trackMinimized="false">
           <name>Track 7</name>
         </trackParameters>
@@ -605,12 +605,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="211642" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="1695360" sourceOutPoint="1907002" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="211642" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="1695360" sourceOutPoint="1907002" startPoint="0" zOrder="0">
           <component componentGuid="0245a360-c5b2-4a9a-9ad6-a10285df8e02" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="3e494d53-4c33-4141-8e93-586966988f29" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="17d5de31-158b-4245-89fe-ddc6fd78ff1d" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -694,12 +694,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="207863" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="1907002" sourceOutPoint="2114865" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="207863" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="1907002" sourceOutPoint="2114865" startPoint="0" zOrder="0">
           <component componentGuid="fb59388b-896d-490b-8664-16dbb12f0794" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="e44146f4-105f-401a-84cd-0a3ed4190fc4" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="5cd00329-7481-4902-ace9-7efe50eb4ad8" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -708,8 +708,8 @@
           </component>
           <fadeIn crossFadeLinkType="linkedAsymmetric" endPoint="0" shape="19" startPoint="0" type="log"/>
           <fadeOut crossFadeLinkType="linkedAsymmetric" endPoint="207863" shape="19" startPoint="207863" type="log"/>
-          <editParameter parameterIndex="0" slotIndex="4294967280"/>
           <editParameter parameterIndex="0" slotIndex="4294967281"/>
+          <editParameter parameterIndex="0" slotIndex="4294967280"/>
           <channelMap>
             <channel index="0" sourceIndex="0"/>
             <channel index="1" sourceIndex="1"/>
@@ -783,12 +783,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="455401" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="2114865" sourceOutPoint="2570266" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="455401" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="2114865" sourceOutPoint="2570266" startPoint="0" zOrder="0">
           <component componentGuid="ec646bf4-1b98-49bb-943e-232b5432d94b" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="cdb75f4b-0726-4da6-8c8e-63a0c745d598" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="fc4d8cd7-3c27-4fd7-b0b7-d48d307717d3" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -872,12 +872,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="325019" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="2614306" sourceOutPoint="2939325" startPoint="0" zOrder="16">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="325019" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="2614306" sourceOutPoint="2939325" startPoint="0" zOrder="16">
           <component componentGuid="7fd29d49-8d26-4abe-a319-5b95c936f672" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="66a19591-87f0-4397-a612-4fa522c66b3a" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="3f89aca6-b49a-4f0d-8bcc-fa2fac27fa29" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -965,12 +965,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="316970" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="2939325" sourceOutPoint="3256295" startPoint="0" zOrder="25">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="316970" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="2939325" sourceOutPoint="3256295" startPoint="0" zOrder="25">
           <component componentGuid="721ba748-2cd5-4dc2-9c26-949ec21c4497" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="ee65f3f9-f538-4766-ae03-863037114753" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="72def053-6120-4c91-8c83-33a995d95caa" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -1058,12 +1058,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="213909" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="3256293" sourceOutPoint="3470202" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="213909" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="3256293" sourceOutPoint="3470202" startPoint="0" zOrder="0">
           <component componentGuid="d29997f3-3074-4029-b53b-3e6f47cc95db" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="3dc772ab-71c3-41af-a917-74ac76073472" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="848b5da0-42ea-4fa5-925b-fcc6b694462b" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -1147,12 +1147,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="282693" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="3470202" sourceOutPoint="3752895" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="282693" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="3470202" sourceOutPoint="3752895" startPoint="0" zOrder="0">
           <component componentGuid="229aa9e8-dee8-4595-bd78-c3f021fefac9" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="24e1b73d-859b-46af-a74f-78f75a1a378d" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="65ed3abb-4f8b-4d25-ac43-c4a5f1fd1dc1" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -1236,12 +1236,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="276407" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="3752895" sourceOutPoint="4029302" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="276407" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="3752895" sourceOutPoint="4029302" startPoint="0" zOrder="0">
           <component componentGuid="8e0d8401-8d0b-40ca-87bf-e2335d170e82" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="0551717f-2b29-4441-a9c6-c94fe29e6436" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="f0cf7e80-30f3-4974-9b20-fb53a8917828" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -1325,12 +1325,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="319731" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="4029302" sourceOutPoint="4349033" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="319731" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="4029302" sourceOutPoint="4349033" startPoint="0" zOrder="0">
           <component componentGuid="4793ed11-b710-4ac9-862f-6b670ff8dff8" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="8d36aa44-b0f0-4d98-84b5-713b0659c98b" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="7b30a54d-f242-47fc-84b5-40de600352a0" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -1414,12 +1414,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="330312" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="4349033" sourceOutPoint="4679345" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="330312" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="4349033" sourceOutPoint="4679345" startPoint="0" zOrder="0">
           <component componentGuid="b258b089-6406-4f1d-8670-e7a9185be8fc" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="5aed0656-ea0d-4f74-864f-6fb6b4c64983" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="556baf91-d053-48fd-9aa7-47130a535cee" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -1503,12 +1503,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="322754" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="4679345" sourceOutPoint="5002099" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="322754" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="4679345" sourceOutPoint="5002099" startPoint="0" zOrder="0">
           <component componentGuid="d5a5d0ae-609b-4d79-ae04-48da88b02d23" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="d6e5aab6-91cd-4e38-ab8c-92e47c363803" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="39737d0d-a1b0-43cc-8174-0b7c18bf8afa" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -1592,12 +1592,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="461396" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="5002099" sourceOutPoint="5463495" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="461396" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="5002099" sourceOutPoint="5463495" startPoint="0" zOrder="0">
           <component componentGuid="6c2b2c58-7ebd-4b8a-a036-95f340eed6e5" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="d5a858ac-463d-4278-aa99-3c3cf9a5951e" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="887d17ff-2f72-41c3-9000-a0b7d0de4b1a" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -1681,12 +1681,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="244144" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="5463495" sourceOutPoint="5707639" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="244144" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="5463495" sourceOutPoint="5707639" startPoint="0" zOrder="0">
           <component componentGuid="87c397f2-915c-4222-8170-ee36409471fe" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="f7a4c439-c0c7-4488-9519-7d0a3b380166" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="b873e995-ceaf-4c19-aeb6-224738024702" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -1703,7 +1703,7 @@
           </channelMap>
         </audioClip>
       </audioTrack>
-      <audioTrack automationLaneOpenState="false" id="10022" index="20" select="true" visible="true">
+      <audioTrack automationLaneOpenState="false" id="10022" index="20" select="false" visible="true">
         <trackParameters trackHeight="30" trackHue="130" trackMinimized="false">
           <name>Track 20</name>
         </trackParameters>
@@ -1770,12 +1770,12 @@
           </component>
         </trackAudioParameters>
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
-        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="139119" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="true" sourceInPoint="5707639" sourceOutPoint="5846758" startPoint="0" zOrder="0">
+        <audioClip clipAutoCrossfade="true" crossFadeHeadClipID="-1" crossFadeTailClipID="-1" endPoint="139119" fileID="0" hue="-1" id="0" lockedInTime="false" looped="false" name="Abdul Rahman Mossad - Al-'Ankabut" offline="false" select="false" sourceInPoint="5707639" sourceOutPoint="5846758" startPoint="0" zOrder="0">
           <component componentGuid="f775cfb0-bbc2-47d7-830b-ba32eafee5a0" componentID="Audition.Fader" id="clipGain" name="volume" powered="true">
             <parameter index="0" name="volume" parameterValue="1"/>
             <parameter index="1" name="static gain" parameterValue="1"/>
           </component>
-          <component componentGuid="6eb791fc-4f00-44c8-83bc-eac943c65fcc" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
+          <component componentGuid="688afcd8-b5e0-4d6b-848b-a6c06091fdea" componentID="Audition.Mute" id="clipMute" name="Mute" powered="true">
             <parameter index="0" parameterValue="0"/>
             <parameter index="1" name="mute" parameterValue="0"/>
           </component>
@@ -1861,9 +1861,9 @@
         <editParameter parameterIndex="0" slotIndex="4294967280"/>
       </masterTrack>
     </tracks>
-    <sessionState ctiPosition="451670" smpteStart="0">
-      <selectionState selectionDuration="0" selectionStart="451670"/>
-      <viewState horizontalViewDuration="1579379" horizontalViewStart="0" trackControlsWidth="224" verticalScrollOffset="0"/>
+    <sessionState ctiPosition="5781259" smpteStart="0">
+      <selectionState selectionDuration="0" selectionStart="5781259"/>
+      <viewState horizontalViewDuration="2164950" horizontalViewStart="0" trackControlsWidth="224" verticalScrollOffset="0"/>
       <timeFormatState beatsPerBar="4" beatsPerMinute="120" customFrameRate="12" linkToDefaultTimeSettings="false" noteLength="4" subdivisions="16" timeCodeDropFrame="false" timeCodeFrameRate="30" timeCodeNTSC="false" timeFormat="timeFormatDecimal"/>
       <mixingOptionState defaultPanModeLogarithmic="false" panPower="-3" playOverlappingClips="false"/>
     </sessionState>
@@ -1878,9 +1878,9 @@
             xmlns:xmpDM="http://ns.adobe.com/xmp/1.0/DynamicMedia/">
          <xmp:CreatorTool>Adobe Audition 23.2 (Windows)</xmp:CreatorTool>
          <xmp:CreateDate>2023-08-30T21:01:17+02:00</xmp:CreateDate>
-         <xmp:MetadataDate>2023-09-01T17:59:10+02:00</xmp:MetadataDate>
-         <xmp:ModifyDate>2023-09-01T17:59:10+02:00</xmp:ModifyDate>
-         <xmpMM:InstanceID>xmp.iid:889b0d1b-6f81-1b41-b1f9-11104383f728</xmpMM:InstanceID>
+         <xmp:MetadataDate>2023-09-01T21:42:55+02:00</xmp:MetadataDate>
+         <xmp:ModifyDate>2023-09-01T21:42:55+02:00</xmp:ModifyDate>
+         <xmpMM:InstanceID>xmp.iid:2f220356-df30-f240-a3a8-96ac2aa3007a</xmpMM:InstanceID>
          <xmpMM:DocumentID>xmp.did:662351b5-b6bc-9242-b53f-153aed1af464</xmpMM:DocumentID>
          <xmpMM:OriginalDocumentID>xmp.did:662351b5-b6bc-9242-b53f-153aed1af464</xmpMM:OriginalDocumentID>
          <xmpMM:History>
@@ -2267,6 +2267,34 @@
                   <stEvt:action>saved</stEvt:action>
                   <stEvt:instanceID>xmp.iid:889b0d1b-6f81-1b41-b1f9-11104383f728</stEvt:instanceID>
                   <stEvt:when>2023-09-01T17:59:10+02:00</stEvt:when>
+                  <stEvt:softwareAgent>Adobe Audition 23.2 (Windows)</stEvt:softwareAgent>
+                  <stEvt:changed>/</stEvt:changed>
+               </rdf:li>
+               <rdf:li rdf:parseType="Resource">
+                  <stEvt:action>saved</stEvt:action>
+                  <stEvt:instanceID>xmp.iid:da1ea692-c3f2-ed46-af62-da8fe5dd9cbc</stEvt:instanceID>
+                  <stEvt:when>2023-09-01T21:42:44+02:00</stEvt:when>
+                  <stEvt:softwareAgent>Adobe Audition 23.2 (Windows)</stEvt:softwareAgent>
+                  <stEvt:changed>/metadata</stEvt:changed>
+               </rdf:li>
+               <rdf:li rdf:parseType="Resource">
+                  <stEvt:action>saved</stEvt:action>
+                  <stEvt:instanceID>xmp.iid:80ce5f53-a6b2-5541-9101-d5666d5dc2ed</stEvt:instanceID>
+                  <stEvt:when>2023-09-01T21:42:44+02:00</stEvt:when>
+                  <stEvt:softwareAgent>Adobe Audition 23.2 (Windows)</stEvt:softwareAgent>
+                  <stEvt:changed>/</stEvt:changed>
+               </rdf:li>
+               <rdf:li rdf:parseType="Resource">
+                  <stEvt:action>saved</stEvt:action>
+                  <stEvt:instanceID>xmp.iid:93e85546-c268-9f41-862c-b40b3982ac21</stEvt:instanceID>
+                  <stEvt:when>2023-09-01T21:42:55+02:00</stEvt:when>
+                  <stEvt:softwareAgent>Adobe Audition 23.2 (Windows)</stEvt:softwareAgent>
+                  <stEvt:changed>/metadata</stEvt:changed>
+               </rdf:li>
+               <rdf:li rdf:parseType="Resource">
+                  <stEvt:action>saved</stEvt:action>
+                  <stEvt:instanceID>xmp.iid:2f220356-df30-f240-a3a8-96ac2aa3007a</stEvt:instanceID>
+                  <stEvt:when>2023-09-01T21:42:55+02:00</stEvt:when>
                   <stEvt:softwareAgent>Adobe Audition 23.2 (Windows)</stEvt:softwareAgent>
                   <stEvt:changed>/</stEvt:changed>
                </rdf:li>

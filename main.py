@@ -6,6 +6,8 @@ import requests
 import subprocess
 import tempfile
 from bs4 import BeautifulSoup
+from datetime import datetime
+from pyquran import quran
 from time import sleep
 
 API_URL = "https://api-inference.huggingface.co/models/tarteel-ai/whisper-base-ar-quran"
@@ -14,18 +16,52 @@ headers = {"Authorization": "Bearer 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"}
 ARABIC_FONT = "Fonts/Hafs.ttf"
 ENGLISH_FONT = "Fonts/Butler_Regular.otf"
 
+joe = [
+    "0:00.000",
+    "0:03.109",
+    "0:12.663",
+    "0:17.819",
+    "0:21.551",
+    "0:29.377",
+    "0:34.930",
+    "0:39.339",
+    "0:43.669",
+    "0:53.157",
+    "0:59.928",
+    "1:06.474",
+    "1:10.931",
+    "1:16.820",
+    "1:22.579",
+    "1:29.240",
+    "1:36.121",
+    "1:42.845",
+    "1:52.458",
+    "1:57.544",
+    "2:00.442"
+]
+
 def main():
     batch_video_creation(
+        timestamps=joe,
         full_audio_name="Abdul Rahman Mossad - Al-'Ankabut.mp3",
         count=11,
         audio_clip_directory="Audio/29 - Al-'Ankabut",
         background_clip_directory="Background_Clips",
-        output_path="Videos/Final.mp4"
+        output_path="Videos/Final2.mp4"
     )
 
-def speech_to_text(filename):
+def speech_to_text(file_name):
+    """
+    Transcribe an audio file to text using a speech-to-text API.
+
+    Args:
+        file_name (str): The path to the audio file to be transcribed.
+
+    Returns:
+        str or None: The transcribed text if successful, or None on failure.
+    """
     try:
-        with open(filename, "rb") as f:
+        with open(file_name, "rb") as f:
             data = f.read()
         response = requests.post(API_URL, headers=headers, data=data)
         json_response = response.json()
@@ -39,18 +75,17 @@ def speech_to_text(filename):
             sleep(10)
     except Exception as e:
         print(f"Error: {e}")
+        print("Retrying in 10 seconds...")
+        sleep(10)
     return None
 
 def get_verse_key(text):
     response = requests.get(f"https://api.quran.com/api/v4/search?q={text}")
     return response.json()
 
-def get_tajweed(verse_key):
-    response = requests.get(f"https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?verse_key={verse_key}")
-    tajweed = response.json()["verses"][0]["text_uthmani_tajweed"]
-    soup = BeautifulSoup(tajweed, "html.parser")
-    clean_text = soup.get_text()
-    return clean_text
+def get_verse_text(verse_key):
+    chapter, verse = map(int, verse_key.split(":"))
+    return quran.get_verse(chapter, verse, with_tashkeel=True)
 
 def edit_tajweed(tajweed):
     # Create a temporary text file and open it with the default text editor
@@ -70,7 +105,7 @@ def edit_tajweed(tajweed):
 
     return tajweed
 
-def get_english_translation(verse_key):
+def get_verse_translation(verse_key):
     response = requests.get(f"https://api.quran.com/api/v4/quran/translations/20?verse_key={verse_key}")
     translation = response.json()["translations"][0]["text"]
     soup = BeautifulSoup(translation, "html.parser")
@@ -95,13 +130,15 @@ def edit_translation(translation):
 
     return translation
 
-def create_single_video(audio_clip_path, video_clip_path, tajweed, translation, shadow_opacity=0.7, fade_duration=0.5):
-    audio_clip = mpy.AudioFileClip(audio_clip_path)
+def create_single_video(video_duration, video_clip_path, tajweed, translation, shadow_opacity=0.7, fade_duration=0.5):
     video_clip = mpy.VideoFileClip(video_clip_path)
+
+    # Get the offsets
     x_offset = random.randint(0, max(0, video_clip.w - 720))
     y_offset = random.randint(0, max(0, video_clip.h - 1080))
+
     video_clip = video_clip.set_duration(
-        audio_clip.duration
+        video_duration
     ).crop(
         x1=x_offset,
         y1=y_offset,
@@ -165,13 +202,13 @@ def create_single_video(audio_clip_path, video_clip_path, tajweed, translation, 
 
     return final_video
 
-def batch_video_creation(full_audio_name, count, audio_clip_directory, background_clip_directory, output_path):
+def batch_video_creation(timestamps, full_audio_name, count, audio_clip_directory, background_clip_directory, output_path):
     array = []
     duration = 0
     
     # Get the Arabic text from the audio file
     while True:
-        arabic_text = speech_to_text(f"{audio_clip_directory}/1.mp3")
+        arabic_text = speech_to_text(f"{audio_clip_directory}/{full_audio_name}")
         if arabic_text is not None:
             break
 
@@ -184,8 +221,8 @@ def batch_video_creation(full_audio_name, count, audio_clip_directory, backgroun
 
     with open("arabic.txt", "a", encoding="utf-8") as arabic_file, open("english.txt", "a", encoding="utf-8") as english_file:
         for i in range(1, count + 1):
-            tajweed = get_tajweed(f"{chapter}:{verse + i - 1}")  # Fetch tajweed for this verse
-            translation = get_english_translation(f"{chapter}:{verse + i - 1}")  # Fetch translation for this verse
+            tajweed = get_verse_text(f"{chapter}:{verse + i - 1}")  # Fetch tajweed for this verse
+            translation = get_verse_translation(f"{chapter}:{verse + i - 1}")  # Fetch translation for this verse
 
             arabic_file.write(tajweed + "\n")
             english_file.write(translation + "\n")
@@ -196,21 +233,29 @@ def batch_video_creation(full_audio_name, count, audio_clip_directory, backgroun
         arabic_lines = arabic_file.readlines()
         english_lines = english_file.readlines()
         for i in range(1, count + 1):
-            # Get the audio and video clip paths
-            audio_clip_path = f"{audio_clip_directory}/{i}.mp3"
-            audio_duration = mpy.AudioFileClip(audio_clip_path).duration
-
-            while True:
-                video_clip_name = random.choice([file for file in os.listdir(background_clip_directory) if file.endswith(".mp4")])
-                video_clip_path = f"{background_clip_directory}/{video_clip_name}"
-                video = mpy.VideoFileClip(video_clip_path)
-                video_duration = video.duration
-                video.close()
-                if video_duration >= audio_duration:
-                    break
+            video_clip_name = random.choice([file for file in os.listdir(background_clip_directory) if file.endswith(".mp4")])
+            video_clip_path = f"{background_clip_directory}/{video_clip_name}"
 
             # Create the video
-            video = create_single_video(audio_clip_path, video_clip_path, arabic_lines[i - 1], english_lines[i - 1])
+            tajweed = arabic_lines[i - 1].strip()
+            translation = english_lines[i - 1].strip()
+            
+            # Get the start and end times
+            start_time = timestamps[i - 1]
+            end_time = timestamps[i]
+
+            # Convert the time strings to timedelta objects
+            time_format = "%M:%S.%f"  # Define the format of the time strings
+            time1 = datetime.strptime(start_time, time_format)
+            time2 = datetime.strptime(end_time, time_format)
+
+            # Calculate the time difference (subtraction)
+            time_difference = time2 - time1
+
+            # Convert the time difference to seconds as a float
+            time_difference_seconds = time_difference.total_seconds()
+
+            video = create_single_video(time_difference_seconds, video_clip_path, tajweed, translation)
             array.append(video)
 
             # Update the duration
@@ -233,8 +278,3 @@ def batch_video_creation(full_audio_name, count, audio_clip_directory, backgroun
 
 if __name__ == "__main__":
     main()
-
-    # with open("output.json", "r", encoding="utf-8") as file:
-    #     data = json.load(file)
-
-    # print(json.dumps(data, indent=4, ensure_ascii=False))
