@@ -289,6 +289,7 @@ def batch_video_creation(timestamps, count, full_audio_path, background_clip_dir
     with open("arabic.txt", "r", encoding="utf-8") as arabic_file, open("english.txt", "r", encoding="utf-8") as english_file:
         arabic_lines = arabic_file.readlines()
         english_lines = english_file.readlines()
+        used_video_clips = []
         for i in range(1, count + 1):
             tajweed = arabic_lines[i - 1].strip()
             translation = english_lines[i - 1].strip()
@@ -300,7 +301,8 @@ def batch_video_creation(timestamps, count, full_audio_path, background_clip_dir
                 video_clip_path = f"{background_clip_directory}/{video_clip_name}"
                 video_clip_duration = get_video_duration_seconds(video_clip_path)
 
-                if video_clip_duration >= time_difference_seconds:
+                if video_clip_path not in used_video_clips and video_clip_duration >= time_difference_seconds:
+                    used_video_clips.append(video_clip_path)
                     break
 
             video = create_single_video(time_difference_seconds, video_clip_path, tajweed, translation)
