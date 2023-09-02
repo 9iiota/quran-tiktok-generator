@@ -60,24 +60,22 @@ def speech_to_text(file_name):
     Returns:
         str or None: The transcribed text if successful, or None on failure.
     """
-    try:
-        with open(file_name, "rb") as f:
-            data = f.read()
-        response = requests.post(API_URL, headers=headers, data=data)
-        json_response = response.json()
+    while True:
+        try:
+            with open(file_name, "rb") as f:
+                data = f.read()
+            response = requests.post(API_URL, headers=headers, data=data)
+            json_response = response.json()
 
-        # Check if the response contains the "text" key
-        if "text" in json_response:
-            return json_response
-        else:
-            print(f"Error: {json_response['error']}")
-            print("Retrying in 10 seconds...")
-            sleep(10)
-    except Exception as e:
-        print(f"Error: {e}")
+            # Check if the response contains the "text" key
+            if "text" in json_response:
+                return json_response
+            else:
+                print(f"Error: {json_response['error']}")
+        except Exception as e:
+            print(f"Error: {e}")
         print("Retrying in 10 seconds...")
         sleep(10)
-    return None
 
 def get_verse_key(text):
     response = requests.get(f"https://api.quran.com/api/v4/search?q={text}")
@@ -207,10 +205,7 @@ def batch_video_creation(timestamps, full_audio_name, count, audio_clip_director
     duration = 0
     
     # Get the Arabic text from the audio file
-    while True:
-        arabic_text = speech_to_text(f"{audio_clip_directory}/{full_audio_name}")
-        if arabic_text is not None:
-            break
+    arabic_text = speech_to_text(f"{audio_clip_directory}/{full_audio_name}")
 
     # Get the verse key from the Arabic text
     verse_key = get_verse_key(arabic_text["text"])["search"]["results"][0]["verse_key"]
