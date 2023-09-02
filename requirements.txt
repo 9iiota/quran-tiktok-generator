@@ -1,5 +1,7 @@
 beautifulsoup4
-requests
 moviepy
-pyquran
 opencv-python
+pydub
+pyquran
+requests
+scikit-learn

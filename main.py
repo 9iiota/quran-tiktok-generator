@@ -1,14 +1,14 @@
 import cv2
-import json
 import moviepy.editor as mpy
 import os
 import random
 import requests
-import subprocess
-import tempfile
 from bs4 import BeautifulSoup
 from datetime import datetime
+from pydub import AudioSegment
 from pyquran import quran
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 from time import sleep
 
 API_URL = "https://api-inference.huggingface.co/models/tarteel-ai/whisper-base-ar-quran"
@@ -69,7 +69,7 @@ def speech_to_text(file_name):
 
             # Check if the response contains the "text" key
             if "text" in json_response:
-                return json_response
+                return json_response["text"]
             else:
                 print(f"Error: {json_response['error']}")
         except Exception as e:
@@ -125,7 +125,7 @@ def get_verse_key(text):
         str: The verse key of the verse.
     """
     response = requests.get(f"https://api.quran.com/api/v4/search?q={text}")
-    return response.json()
+    return response.json()["search"]["results"][0]["verse_key"]
 
 def get_verse_text(verse_key):
     """
@@ -270,7 +270,7 @@ def batch_video_creation(timestamps, count, full_audio_path, background_clip_dir
     arabic_text = speech_to_text(full_audio_path)
 
     # Get the verse key from the Arabic text
-    verse_key = get_verse_key(arabic_text["text"])["search"]["results"][0]["verse_key"]
+    verse_key = get_verse_key(arabic_text)
     chapter, verse = map(int, verse_key.split(":"))
 
     with open("arabic.txt", "w", encoding="utf-8") as arabic_file, open("english.txt", "w", encoding="utf-8"):
@@ -326,5 +326,45 @@ def batch_video_creation(timestamps, count, full_audio_path, background_clip_dir
         audio_codec="aac"
     )
 
+def get_sentence_idk(full_audio_path, start_time, end_time):
+    # Load the full audio file
+    audio = AudioSegment.from_mp3(full_audio_path)
+
+    # # Extract the desired segment
+    start_time = start_time.replace(":", "").replace(".", "")
+    end_time = end_time.replace(":", "").replace(".", "")
+    audio_segment = audio[int(start_time):int(end_time)]
+
+    # Export the segment as a temporary MP3 file
+    temp_mp3_file = "temp.mp3"
+    audio_segment.export(temp_mp3_file, format="mp3")
+    speechtotext = speech_to_text(temp_mp3_file)
+
+    # Clean up the temporary WAV file
+    if os.path.exists(temp_mp3_file):
+        os.remove(temp_mp3_file)
+
+    verse_key = get_verse_key(speechtotext)
+    pyquran = get_verse_text(verse_key)
+
+    jart = []
+    for i in range(len(pyquran)):
+        for j in range(i, len(pyquran)):
+            sentence = pyquran[i:j]
+            # Create a CountVectorizer to convert sentences to vectors
+            vectorizer = CountVectorizer().fit_transform([speechtotext, sentence])
+
+            # Calculate the cosine similarity between the two sentences
+            cosine_sim = cosine_similarity(vectorizer)
+            jart.append((cosine_sim[0][1], sentence))
+    jart.sort(key=lambda x: x[0], reverse=True)
+    best = jart[0]
+
+    return best[1]
+
 if __name__ == "__main__":
-    main()
+    # main()
+
+    with open("result.txt", "w", encoding="utf-8") as f:
+        sentence = get_sentence_idk("Audio/29 - Al-'Ankabut/Abdul Rahman Mossad - Al-'Ankabut.mp3", joe[1], joe[2])
+        f.write(sentence + "\n")
