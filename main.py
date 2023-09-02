@@ -1,3 +1,4 @@
+import cv2
 import json
 import moviepy.editor as mpy
 import os
@@ -228,10 +229,6 @@ def batch_video_creation(timestamps, full_audio_name, count, audio_clip_director
         arabic_lines = arabic_file.readlines()
         english_lines = english_file.readlines()
         for i in range(1, count + 1):
-            video_clip_name = random.choice([file for file in os.listdir(background_clip_directory) if file.endswith(".mp4")])
-            video_clip_path = f"{background_clip_directory}/{video_clip_name}"
-
-            # Create the video
             tajweed = arabic_lines[i - 1].strip()
             translation = english_lines[i - 1].strip()
             
@@ -249,6 +246,16 @@ def batch_video_creation(timestamps, full_audio_name, count, audio_clip_director
 
             # Convert the time difference to seconds as a float
             time_difference_seconds = time_difference.total_seconds()
+
+            while True:
+                video_clip_name = random.choice([file for file in os.listdir(background_clip_directory) if file.endswith(".mp4")])
+                video_clip_path = f"{background_clip_directory}/{video_clip_name}"
+
+                video_clip = cv2.VideoCapture(video_clip_path)
+                video_clip_duration = video_clip.get(cv2.CAP_PROP_FRAME_COUNT) / video_clip.get(cv2.CAP_PROP_FPS)
+
+                if video_clip_duration >= time_difference_seconds:
+                    break
 
             video = create_single_video(time_difference_seconds, video_clip_path, tajweed, translation)
             array.append(video)
