@@ -44,11 +44,10 @@ joe = [
 def main():
     batch_video_creation(
         timestamps=joe,
-        full_audio_name="Abdul Rahman Mossad - Al-'Ankabut.mp3",
         count=11,
-        audio_clip_directory="Audio/29 - Al-'Ankabut",
+        full_audio_path="Audio/29 - Al-'Ankabut/Abdul Rahman Mossad - Al-'Ankabut.mp3",
         background_clip_directory="Background_Clips",
-        output_path="Videos/Final2.mp4"
+        output_path="Videos/Final.mp4"
     )
 
 def speech_to_text(file_name):
@@ -59,7 +58,7 @@ def speech_to_text(file_name):
         file_name (str): The path to the audio file to be transcribed.
 
     Returns:
-        str or None: The transcribed text if successful, or None on failure.
+        str: The transcribed text
     """
     while True:
         try:
@@ -78,58 +77,100 @@ def speech_to_text(file_name):
         print("Retrying in 10 seconds...")
         sleep(10)
 
+def get_time_difference_seconds(audio_duration, video_duration):
+    """
+    Calculate the time difference between two time strings in the format "MM:SS.SSS".
+
+    Args:
+        audio_duration (str): The duration of the audio clip.
+        video_duration (str): The duration of the video clip.
+
+    Returns:
+        float: The time difference in seconds.
+    """
+    # Convert the time strings to timedelta objects
+    time_format = "%M:%S.%f"
+    audio_duration = datetime.strptime(audio_duration, time_format)
+    video_duration = datetime.strptime(video_duration, time_format)
+    
+    # Calculate the time difference (subtraction)
+    time_difference = video_duration - audio_duration
+
+    # Convert the time difference to seconds as a float
+    time_difference_seconds = time_difference.total_seconds()
+
+    return time_difference_seconds
+
+def get_video_duration_seconds(video_path):
+    """
+    Get the duration of a video in seconds.
+
+    Args:
+        video_path (str): The path to the video file.
+
+    Returns:
+        float: The duration of the video in seconds.
+    """
+    video = cv2.VideoCapture(video_path)
+    return video.get(cv2.CAP_PROP_FRAME_COUNT) / video.get(cv2.CAP_PROP_FPS)
+
 def get_verse_key(text):
+    """
+    Get the verse key of a verse from the Quran.
+
+    Args:
+        text (str): The text of the verse.
+
+    Returns:
+        str: The verse key of the verse.
+    """
     response = requests.get(f"https://api.quran.com/api/v4/search?q={text}")
     return response.json()
 
 def get_verse_text(verse_key):
+    """
+    Get the text of a verse from the Quran.
+
+    Args:
+        verse_key (str): The verse key of the verse.
+
+    Returns:
+        str: The text of the verse.
+    """
     chapter, verse = map(int, verse_key.split(":"))
     return quran.get_verse(chapter, verse, with_tashkeel=True)
 
-def edit_tajweed(tajweed):
-    # Create a temporary text file and open it with the default text editor
-    with tempfile.NamedTemporaryFile(suffix=".txt", delete=False, mode="w", encoding="utf-8") as temp_file:
-        temp_file.write(tajweed)
-        temp_file_path = temp_file.name
-
-    # Open the temporary text file with the default text editor
-    subprocess.run(["notepad.exe", temp_file_path], shell=True)
-
-    # Read the modified text from the temporary file
-    with open(temp_file_path, "r", encoding="utf-8") as temp_file:
-        tajweed = temp_file.read()
-
-    # Clean up: Delete the temporary file
-    os.remove(temp_file_path)
-
-    return tajweed
-
 def get_verse_translation(verse_key):
+    """
+    Get the translation of a verse from the Quran.
+
+    Args:
+        verse_key (str): The verse key of the verse.
+
+    Returns:
+        str: The translation of the verse.
+    """
     response = requests.get(f"https://api.quran.com/api/v4/quran/translations/20?verse_key={verse_key}")
     translation = response.json()["translations"][0]["text"]
     soup = BeautifulSoup(translation, "html.parser")
     clean_text = soup.get_text()
     return clean_text
 
-def edit_translation(translation):
-    # Create a temporary text file and open it with the default text editor
-    with tempfile.NamedTemporaryFile(suffix=".txt", delete=False, mode="w", encoding="utf-8") as temp_file:
-        temp_file.write(translation)
-        temp_file_path = temp_file.name
+def create_single_video(video_duration, video_clip_path, verse_text, verse_translation, shadow_opacity=0.7, fade_duration=0.5):
+    """
+    Create a single video with the given parameters.
 
-    # Open the temporary text file with the default text editor
-    subprocess.run(["notepad.exe", temp_file_path], shell=True)
+    Args:
+        video_duration (float): The duration of the video.
+        video_clip_path (str): The path to the video clip.
+        verse_text (str): The text of the verse.
+        verse_translation (str): The translation of the verse.
+        shadow_opacity (float, optional): The opacity of the shadow. Defaults to 0.7.
+        fade_duration (float, optional): The duration of the fade in and fade out. Defaults to 0.5.
 
-    # Read the modified text from the temporary file
-    with open(temp_file_path, "r", encoding="utf-8") as temp_file:
-        translation = temp_file.read()
-
-    # Clean up: Delete the temporary file
-    os.remove(temp_file_path)
-
-    return translation
-
-def create_single_video(video_duration, video_clip_path, tajweed, translation, shadow_opacity=0.7, fade_duration=0.5):
+    Returns:
+        moviepy.video.compositing.CompositeVideoClip: The final video.
+    """
     video_clip = mpy.VideoFileClip(video_clip_path)
 
     # Get the offsets
@@ -141,8 +182,8 @@ def create_single_video(video_duration, video_clip_path, tajweed, translation, s
     ).crop(
         x1=x_offset,
         y1=y_offset,
-        x2=x_offset+720,
-        y2=y_offset+1080
+        x2=x_offset + 720,
+        y2=y_offset + 1080
     )
 
     shadow_clip = mpy.ColorClip(
@@ -154,12 +195,15 @@ def create_single_video(video_duration, video_clip_path, tajweed, translation, s
     )
 
     video_with_shadow = mpy.CompositeVideoClip(
-        [video_clip, shadow_clip], 
+        [
+            video_clip,
+            shadow_clip
+        ], 
         use_bgclip=True
     )
 
     tajweed_text_clip = mpy.TextClip(
-        txt=tajweed,
+        txt=verse_text,
         size=video_clip.size,
         color="white",
         bg_color="transparent",
@@ -176,7 +220,7 @@ def create_single_video(video_duration, video_clip_path, tajweed, translation, s
     )
 
     translation_text_clip = mpy.TextClip(
-        txt=translation,
+        txt=verse_translation,
         size=video_clip.size,
         color="white",
         bg_color="transparent",
@@ -193,7 +237,11 @@ def create_single_video(video_duration, video_clip_path, tajweed, translation, s
     )
 
     final_video = mpy.CompositeVideoClip(
-        [video_with_shadow, tajweed_text_clip, translation_text_clip], 
+        [
+            video_with_shadow,
+            tajweed_text_clip,
+            translation_text_clip
+        ], 
         use_bgclip=True
     ).set_fps(
         24
@@ -201,12 +249,25 @@ def create_single_video(video_duration, video_clip_path, tajweed, translation, s
 
     return final_video
 
-def batch_video_creation(timestamps, full_audio_name, count, audio_clip_directory, background_clip_directory, output_path):
+def batch_video_creation(timestamps, count, full_audio_path, background_clip_directory, output_path):
+    """
+    Create a batch of videos with the given parameters.
+
+    Args:
+        timestamps (list): The timestamps of the verses.
+        count (int): The number of clips in the final video.
+        full_audio_path (str): The path to the full audio file.
+        background_clip_directory (str): The path to the directory containing the background clips.
+        output_path (str): The path to the output video.
+
+    Returns:
+        moviepy.video.compositing.concatenate.ConcatenatedClips: The final video.
+    """
     array = []
     duration = 0
     
     # Get the Arabic text from the audio file
-    arabic_text = speech_to_text(f"{audio_clip_directory}/{full_audio_name}")
+    arabic_text = speech_to_text(full_audio_path)
 
     # Get the verse key from the Arabic text
     verse_key = get_verse_key(arabic_text["text"])["search"]["results"][0]["verse_key"]
@@ -232,27 +293,12 @@ def batch_video_creation(timestamps, full_audio_name, count, audio_clip_director
             tajweed = arabic_lines[i - 1].strip()
             translation = english_lines[i - 1].strip()
             
-            # Get the start and end times
-            start_time = timestamps[i - 1]
-            end_time = timestamps[i]
-
-            # Convert the time strings to timedelta objects
-            time_format = "%M:%S.%f"  # Define the format of the time strings
-            time1 = datetime.strptime(start_time, time_format)
-            time2 = datetime.strptime(end_time, time_format)
-
-            # Calculate the time difference (subtraction)
-            time_difference = time2 - time1
-
-            # Convert the time difference to seconds as a float
-            time_difference_seconds = time_difference.total_seconds()
+            time_difference_seconds = get_time_difference_seconds(timestamps[i - 1], timestamps[i])
 
             while True:
                 video_clip_name = random.choice([file for file in os.listdir(background_clip_directory) if file.endswith(".mp4")])
                 video_clip_path = f"{background_clip_directory}/{video_clip_name}"
-
-                video_clip = cv2.VideoCapture(video_clip_path)
-                video_clip_duration = video_clip.get(cv2.CAP_PROP_FRAME_COUNT) / video_clip.get(cv2.CAP_PROP_FPS)
+                video_clip_duration = get_video_duration_seconds(video_clip_path)
 
                 if video_clip_duration >= time_difference_seconds:
                     break
@@ -268,7 +314,7 @@ def batch_video_creation(timestamps, full_audio_name, count, audio_clip_director
         array,
         method="compose"
     ).set_audio(
-        mpy.AudioFileClip(f"{audio_clip_directory}/{full_audio_name}")
+        mpy.AudioFileClip(full_audio_path)
     ).set_duration(
         duration
     )
