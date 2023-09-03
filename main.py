@@ -18,15 +18,23 @@ ENGLISH_FONT = "Fonts/Butler_Regular.otf"
 
 def main():
     create_video(
-        timestamps_csv_file_path="Markers.csv",
-        timestamps_txt_file_path="timestamps.txt",
-        count=20,
-        full_audio_path="Audio/29 - Al-'Ankabut/Abdul Rahman Mossad - Al-'Ankabut.mp3",
+        timestamps_csv_file_path=r"Audio\101 - Al-Qari'ah\Markers.csv",
+        timestamps_output_path=r"Audio\101 - Al-Qari'ah\timestamps.txt",
+        count=11,
+        full_audio_path=r"Audio\101 - Al-Qari'ah\Salim Bahanan - Al-Qari'ah.mp3",
         background_clip_directory="Background_Clips",
-        output_path="Videos/Final6.mp4",
-        arabic_file_path="verse_text.txt",
-        english_file_path="verse_translation.txt"
+        output_path="Videos/Salim Bahanan - Al-Qari'ah.mp4"
     )
+    # create_video(
+    #     timestamps_csv_file_path="Markers.csv",
+    #     timestamps_txt_file_path="timestamps.txt",
+    #     count=20,
+    #     full_audio_path="Audio/29 - Al-'Ankabut/Abdul Rahman Mossad - Al-'Ankabut.mp3",
+    #     background_clip_directory="Background_Clips",
+    #     output_path="Videos/Final6.mp4",
+    #     arabic_file_path="verse_text.txt",
+    #     english_file_path="verse_translation.txt"
+    # )
 
 def get_timestamps(timestamps_file_path, output_file_path):
     """
@@ -259,7 +267,7 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
 
     return final_clip
 
-def create_video(timestamps_csv_file_path, timestamps_txt_file_path, count, full_audio_path, background_clip_directory, output_path, arabic_file_path="arabic.txt", english_file_path="english.txt"):
+def create_video(timestamps_csv_file_path, timestamps_output_path, count, full_audio_path, background_clip_directory, output_path):
     """
     Create a video with the given parameters.
 
@@ -275,50 +283,34 @@ def create_video(timestamps_csv_file_path, timestamps_txt_file_path, count, full
     duration = 0
     
     # Get the timestamps from the timestamps file
-    get_timestamps(timestamps_csv_file_path, timestamps_txt_file_path)
+    get_timestamps(timestamps_csv_file_path, timestamps_output_path)
 
-    if arabic_file_path == "arabic.txt" or english_file_path == "english.txt":
-        # Get the Arabic text from the audio file
-        arabic_text = speech_to_text(full_audio_path)
+    # Get the Arabic text from the audio file
+    # arabic_text = speech_to_text(full_audio_path)
 
-        # Get the verse key from the Arabic text
-        verse_key = get_verse_key(arabic_text)
-        chapter, verse = map(int, verse_key.split(":"))
+    # Get the verse key from the Arabic text
+    verse_key = "101:1" # get_verse_key(arabic_text)
+    chapter, verse = map(int, verse_key.split(":"))
 
-    if arabic_file_path == "arabic.txt":
-        with open("arabic.txt", "w", encoding="utf-8") as arabic_file:
-            pass
+    with open("verse_text.txt", "w", encoding="utf-8") as arabic_file, open("verse_translation.txt", "w", encoding="utf-8"):
+        pass
 
-    if english_file_path == "english.txt":
-        with open("english.txt", "w", encoding="utf-8"):
-            pass
-
-    if arabic_file_path == "arabic.txt":
-        with open("arabic.txt", "a", encoding="utf-8") as arabic_file:
-            pass
-    
-    if english_file_path == "english.txt":
-        with open("english.txt", "a", encoding="utf-8") as english_file:
-            pass
-    
-    if arabic_file_path == "arabic.txt" or english_file_path == "english.txt":
+    with open("verse_text.txt", "a", encoding="utf-8") as arabic_file, open("verse_translation.txt", "a", encoding="utf-8") as english_file:
         for i in range(1, count + 1):
             try:
-                if arabic_file_path == "arabic.txt":
-                    tajweed = get_verse_text(f"{chapter}:{verse + i - 1}")  # Fetch tajweed for this verse
-                    arabic_file.write(tajweed + "\n")
+                tajweed = get_verse_text(f"{chapter}:{verse + i - 1}")  # Fetch tajweed for this verse
+                arabic_file.write(tajweed + "\n")
 
-                if english_file_path == "english.txt":
-                    translation = get_verse_translation(f"{chapter}:{verse + i - 1}")  # Fetch translation for this verse\
-                    english_file.write(translation + "\n")
+                translation = get_verse_translation(f"{chapter}:{verse + i - 1}")  # Fetch translation for this verse\
+                english_file.write(translation + "\n")
             except:
                 pass
 
-        input("Appropriately edit the text files now...")
+    input("Appropriately edit the text files now...")
 
-    with open(arabic_file_path, "r", encoding="utf-8") as arabic_file, \
-        open(english_file_path, "r", encoding="utf-8") as english_file, \
-        open(timestamps_txt_file_path, "r", encoding="utf-8") as timestamps_file:
+    with open("verse_text.txt", "r", encoding="utf-8") as arabic_file, \
+        open("verse_translation.txt", "r", encoding="utf-8") as english_file, \
+        open(timestamps_output_path, "r", encoding="utf-8") as timestamps_file:
         arabic_lines = arabic_file.readlines()
         english_lines = english_file.readlines()
         timestamps2 = timestamps_file.readlines()
