@@ -2,7 +2,5 @@ beautifulsoup4
 moviepy
 opencv-python
 plyer
-pydub
 pyquran
 requests
-scikit-learn
