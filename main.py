@@ -1,3 +1,4 @@
+import asyncio
 import cv2
 import moviepy.editor as mpy
 import os
@@ -17,11 +18,41 @@ ENGLISH_FONT = "Fonts/Butler_Regular.otf"
 
 def main():
     create_video(
+        timestamps_csv_file_path="Markers.csv",
+        timestamps_txt_file_path="timestamps.txt",
         count=20,
         full_audio_path="Audio/29 - Al-'Ankabut/Abdul Rahman Mossad - Al-'Ankabut.mp3",
         background_clip_directory="Background_Clips",
-        output_path="Videos/Final4.mp4"
+        output_path="Videos/Final6.mp4",
+        arabic_file_path="verse_text.txt",
+        english_file_path="verse_translation.txt"
     )
+
+def get_timestamps(timestamps_file_path, output_file_path):
+    """
+    Get the timestamps from the timestamps file.
+
+    Args:
+        timestamps_file_path (str): The path to the timestamps file.
+        output_file_path (str): The path to the output file.
+    """
+    with open(timestamps_file_path, "r", encoding="utf-8") as timestamps_file:
+        lines = timestamps_file.readlines()[1:]
+        with open(output_file_path, "w", encoding="utf-8") as output_file:
+            i = 0
+            while i < len(lines):
+                time = lines[i].split("\t")[1]
+                
+                type = lines[i].split("\t")[4]
+                if type == "Subclip":
+                    i += 1
+                    time2 = lines[i].split("\t")[1]
+                    output_file.write(f"{time2},{time}\n")
+                else:
+                    output_file.write(time)
+                    if (i + 1) < len(lines):
+                        output_file.write("\n")
+                i += 1
 
 def speech_to_text(file_name):
     """
@@ -145,6 +176,7 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
     Returns:
         moviepy.video.compositing.CompositeVideoClip: The final clip.
     """
+    print(f"Video duration: {video_duration}\tVideo clip path: {video_clip_path}\tVerse text: {verse_text}\tVerse translation: {verse_translation}\tText duration: {text_duration}\tShadow opacity: {shadow_opacity}\tFade duration: {fade_duration}")
     text_duration = video_duration if text_duration is None else text_duration
     
     video_clip = mpy.VideoFileClip(video_clip_path)
@@ -227,11 +259,13 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
 
     return final_clip
 
-def create_video(count, full_audio_path, background_clip_directory, output_path):
+def create_video(timestamps_csv_file_path, timestamps_txt_file_path, count, full_audio_path, background_clip_directory, output_path, arabic_file_path="arabic.txt", english_file_path="english.txt"):
     """
     Create a video with the given parameters.
 
     Args:
+        timestamps_csv_file_path (str): The path to the timestamps CSV file.
+        timestamps_txt_file_path (str): The path to the timestamps TXT file.
         count (int): The number of clips in the final video.
         full_audio_path (str): The path to the full audio file.
         background_clip_directory (str): The path to the directory containing the background clips.
@@ -240,32 +274,51 @@ def create_video(count, full_audio_path, background_clip_directory, output_path)
     array = []
     duration = 0
     
-    # Get the Arabic text from the audio file
-    arabic_text = speech_to_text(full_audio_path)
+    # Get the timestamps from the timestamps file
+    get_timestamps(timestamps_csv_file_path, timestamps_txt_file_path)
 
-    # Get the verse key from the Arabic text
-    verse_key = get_verse_key(arabic_text)
-    chapter, verse = map(int, verse_key.split(":"))
+    if arabic_file_path == "arabic.txt" or english_file_path == "english.txt":
+        # Get the Arabic text from the audio file
+        arabic_text = speech_to_text(full_audio_path)
 
-    with open("arabic.txt", "w", encoding="utf-8") as arabic_file, open("english.txt", "w", encoding="utf-8"):
-        pass
+        # Get the verse key from the Arabic text
+        verse_key = get_verse_key(arabic_text)
+        chapter, verse = map(int, verse_key.split(":"))
 
-    with open("arabic.txt", "a", encoding="utf-8") as arabic_file, open("english.txt", "a", encoding="utf-8") as english_file:
+    if arabic_file_path == "arabic.txt":
+        with open("arabic.txt", "w", encoding="utf-8") as arabic_file:
+            pass
+
+    if english_file_path == "english.txt":
+        with open("english.txt", "w", encoding="utf-8"):
+            pass
+
+    if arabic_file_path == "arabic.txt":
+        with open("arabic.txt", "a", encoding="utf-8") as arabic_file:
+            pass
+    
+    if english_file_path == "english.txt":
+        with open("english.txt", "a", encoding="utf-8") as english_file:
+            pass
+    
+    if arabic_file_path == "arabic.txt" or english_file_path == "english.txt":
         for i in range(1, count + 1):
             try:
-                tajweed = get_verse_text(f"{chapter}:{verse + i - 1}")  # Fetch tajweed for this verse
-                arabic_file.write(tajweed + "\n")
+                if arabic_file_path == "arabic.txt":
+                    tajweed = get_verse_text(f"{chapter}:{verse + i - 1}")  # Fetch tajweed for this verse
+                    arabic_file.write(tajweed + "\n")
 
-                translation = get_verse_translation(f"{chapter}:{verse + i - 1}")  # Fetch translation for this verse\
-                english_file.write(translation + "\n")
+                if english_file_path == "english.txt":
+                    translation = get_verse_translation(f"{chapter}:{verse + i - 1}")  # Fetch translation for this verse\
+                    english_file.write(translation + "\n")
             except:
                 pass
 
-    input("Appropriately edit the text files now...")
+        input("Appropriately edit the text files now...")
 
-    with open("arabic.txt", "r", encoding="utf-8") as arabic_file, \
-        open("english.txt", "r", encoding="utf-8") as english_file, \
-        open("timestamps.txt", "r", encoding="utf-8") as timestamps_file:
+    with open(arabic_file_path, "r", encoding="utf-8") as arabic_file, \
+        open(english_file_path, "r", encoding="utf-8") as english_file, \
+        open(timestamps_txt_file_path, "r", encoding="utf-8") as timestamps_file:
         arabic_lines = arabic_file.readlines()
         english_lines = english_file.readlines()
         timestamps2 = timestamps_file.readlines()
