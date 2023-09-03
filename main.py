@@ -5,6 +5,7 @@ import random
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+from plyer import notification
 from pydub import AudioSegment
 from pyquran import quran
 from sklearn.feature_extraction.text import CountVectorizer
@@ -17,37 +18,36 @@ headers = {"Authorization": "Bearer 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"}
 ARABIC_FONT = "Fonts/Hafs.ttf"
 ENGLISH_FONT = "Fonts/Butler_Regular.otf"
 
-joe = [
-    "0:00.000",
-    "0:03.109",
-    "0:12.663",
-    "0:17.819",
-    "0:21.551",
-    "0:29.377",
-    "0:34.930",
-    "0:39.339",
-    "0:43.669",
-    "0:53.157",
-    "0:59.928",
-    "1:06.474",
-    "1:10.931",
-    "1:16.820",
-    "1:22.579",
-    "1:29.240",
-    "1:36.121",
-    "1:42.845",
-    "1:52.458",
-    "1:57.544",
-    "2:00.442"
-]
+# joe = [
+#     "0:35.137",
+#     "0:38.246",
+#     "0:47.800",
+#     "0:52.956",
+#     "0:56.688",
+#     "1:04.514",
+#     "1:10.067",
+#     "1:14.476",
+#     "1:18.806",
+#     "1:28.294",
+#     "1:35.065",
+#     "1:41.611",
+#     "1:46.068",
+#     "1:51.957",
+#     "1:57.716",
+#     "2:04.377",
+#     "2:11.258",
+#     "2:17.982",
+#     "2:27.595",
+#     "2:32.681",
+#     "2:35.579"
+# ]
 
 def main():
-    batch_video_creation(
-        timestamps=joe,
+    create_video(
         count=11,
         full_audio_path="Audio/29 - Al-'Ankabut/Abdul Rahman Mossad - Al-'Ankabut.mp3",
         background_clip_directory="Background_Clips",
-        output_path="Videos/Final.mp4"
+        output_path="Videos/Final3.mp4"
     )
 
 def speech_to_text(file_name):
@@ -77,24 +77,24 @@ def speech_to_text(file_name):
         print("Retrying in 10 seconds...")
         sleep(10)
 
-def get_time_difference_seconds(audio_duration, video_duration):
+def get_time_difference_seconds(time1, time2):
     """
     Calculate the time difference between two time strings in the format "MM:SS.SSS".
 
     Args:
-        audio_duration (str): The duration of the audio clip.
-        video_duration (str): The duration of the video clip.
+        time1 (str): The first time string.
+        time2 (str): The second time string.
 
     Returns:
         float: The time difference in seconds.
     """
     # Convert the time strings to timedelta objects
     time_format = "%M:%S.%f"
-    audio_duration = datetime.strptime(audio_duration, time_format)
-    video_duration = datetime.strptime(video_duration, time_format)
+    time1 = datetime.strptime(time1, time_format)
+    time2 = datetime.strptime(time2, time_format)
     
     # Calculate the time difference (subtraction)
-    time_difference = video_duration - audio_duration
+    time_difference = abs(time2 - time1)
 
     # Convert the time difference to seconds as a float
     time_difference_seconds = time_difference.total_seconds()
@@ -156,21 +156,24 @@ def get_verse_translation(verse_key):
     clean_text = soup.get_text()
     return clean_text
 
-def create_single_video(video_duration, video_clip_path, verse_text, verse_translation, shadow_opacity=0.7, fade_duration=0.5):
+def create_single_clip(video_duration, video_clip_path, verse_text, verse_translation, text_duration=None, shadow_opacity=0.7, fade_duration=0.5):
     """
-    Create a single video with the given parameters.
+    Create a single clip with the given parameters.
 
     Args:
         video_duration (float): The duration of the video.
         video_clip_path (str): The path to the video clip.
         verse_text (str): The text of the verse.
         verse_translation (str): The translation of the verse.
+        text_duration (float, optional): The duration of the text. Defaults to None.
         shadow_opacity (float, optional): The opacity of the shadow. Defaults to 0.7.
         fade_duration (float, optional): The duration of the fade in and fade out. Defaults to 0.5.
 
     Returns:
-        moviepy.video.compositing.CompositeVideoClip: The final video.
+        moviepy.video.compositing.CompositeVideoClip: The final clip.
     """
+    text_duration = video_duration if text_duration is None else text_duration
+    
     video_clip = mpy.VideoFileClip(video_clip_path)
 
     # Get the offsets
@@ -212,7 +215,7 @@ def create_single_video(video_duration, video_clip_path, verse_text, verse_trans
     ).set_position(
         (0, -.05), relative=True
     ).set_duration(
-        video_clip.duration
+        text_duration
     ).crossfadein(
         fade_duration
     ).crossfadeout(
@@ -229,39 +232,35 @@ def create_single_video(video_duration, video_clip_path, verse_text, verse_trans
     ).set_position(
         (0, 0), relative=True
     ).set_duration(
-        video_clip.duration
+        text_duration
     ).crossfadein(
         fade_duration
     ).crossfadeout(
         fade_duration
     )
 
-    final_video = mpy.CompositeVideoClip(
+    final_clip = mpy.CompositeVideoClip(
         [
             video_with_shadow,
             tajweed_text_clip,
             translation_text_clip
         ], 
         use_bgclip=True
-    ).set_fps(
-        24
+    ).set_duration(
+        video_duration
     )
 
-    return final_video
+    return final_clip
 
-def batch_video_creation(timestamps, count, full_audio_path, background_clip_directory, output_path):
+def create_video(count, full_audio_path, background_clip_directory, output_path):
     """
-    Create a batch of videos with the given parameters.
+    Create a video with the given parameters.
 
     Args:
-        timestamps (list): The timestamps of the verses.
         count (int): The number of clips in the final video.
         full_audio_path (str): The path to the full audio file.
         background_clip_directory (str): The path to the directory containing the background clips.
         output_path (str): The path to the output video.
-
-    Returns:
-        moviepy.video.compositing.concatenate.ConcatenatedClips: The final video.
     """
     array = []
     duration = 0
@@ -286,26 +285,36 @@ def batch_video_creation(timestamps, count, full_audio_path, background_clip_dir
 
     input("Appropriately edit the text files now...")
 
-    with open("arabic.txt", "r", encoding="utf-8") as arabic_file, open("english.txt", "r", encoding="utf-8") as english_file:
+    with open("arabic.txt", "r", encoding="utf-8") as arabic_file, \
+        open("english.txt", "r", encoding="utf-8") as english_file, \
+        open("timestamps.txt", "r", encoding="utf-8") as timestamps_file:
         arabic_lines = arabic_file.readlines()
         english_lines = english_file.readlines()
+        timestamps2 = timestamps_file.readlines()
         used_video_clips = []
         for i in range(1, count + 1):
             tajweed = arabic_lines[i - 1].strip()
             translation = english_lines[i - 1].strip()
             
-            time_difference_seconds = get_time_difference_seconds(timestamps[i - 1], timestamps[i])
+            start_video = timestamps2[i - 1].strip().split(",")[0]
+            end_video = timestamps2[i].strip().split(",")[0]
+            try:
+                end_text = timestamps2[i].strip().split(",")[1]
+            except:
+                end_text = None
+            video_duration = get_time_difference_seconds(start_video, end_video)
+            text_duration = get_time_difference_seconds(start_video, end_text) if end_text is not None else None
 
             while True:
                 video_clip_name = random.choice([file for file in os.listdir(background_clip_directory) if file.endswith(".mp4")])
                 video_clip_path = f"{background_clip_directory}/{video_clip_name}"
                 video_clip_duration = get_video_duration_seconds(video_clip_path)
 
-                if video_clip_path not in used_video_clips and video_clip_duration >= time_difference_seconds:
+                if video_clip_path not in used_video_clips and video_clip_duration >= video_duration:
                     used_video_clips.append(video_clip_path)
                     break
 
-            video = create_single_video(time_difference_seconds, video_clip_path, tajweed, translation)
+            video = create_single_clip(video_duration, video_clip_path, tajweed, translation, text_duration)
             array.append(video)
 
             # Update the duration
@@ -316,7 +325,7 @@ def batch_video_creation(timestamps, count, full_audio_path, background_clip_dir
         array,
         method="compose"
     ).set_audio(
-        mpy.AudioFileClip(full_audio_path)
+        mpy.AudioFileClip(full_audio_path).subclip(timestamps2[0].strip().split(",")[0])
     ).set_duration(
         duration
     )
@@ -324,6 +333,23 @@ def batch_video_creation(timestamps, count, full_audio_path, background_clip_dir
         output_path,
         codec="libx264", 
         audio_codec="aac"
+    )
+
+    create_notification("Video Creation Complete", "The video has been created successfully.")
+
+def create_notification(title, message):
+    """
+    Create a notification with the given parameters.
+
+    Args:
+        title (str): The title of the notification.
+        message (str): The message of the notification.
+    """
+    notification.notify(
+        title=title,
+        message=message,
+        app_name="Python",
+        timeout=3
     )
 
 def get_sentence_idk(full_audio_path, start_time, end_time):
@@ -363,8 +389,8 @@ def get_sentence_idk(full_audio_path, start_time, end_time):
     return best[1]
 
 if __name__ == "__main__":
-    # main()
+    main()
 
-    with open("result.txt", "w", encoding="utf-8") as f:
-        sentence = get_sentence_idk("Audio/29 - Al-'Ankabut/Abdul Rahman Mossad - Al-'Ankabut.mp3", joe[1], joe[2])
-        f.write(sentence + "\n")
+    # with open("result.txt", "w", encoding="utf-8") as f:
+    #     sentence = get_sentence_idk("Audio/29 - Al-'Ankabut/Abdul Rahman Mossad - Al-'Ankabut.mp3", joe[1], joe[2])
+    #     f.write(sentence + "\n")
