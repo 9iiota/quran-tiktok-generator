@@ -1,4 +1,3 @@
-import asyncio
 import cv2
 import moviepy.editor as mpy
 import os
@@ -6,15 +5,17 @@ import random
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+from enum import Enum
 from plyer import notification
 from pyquran import quran
 from time import sleep
 
-API_URL = "https://api-inference.huggingface.co/models/tarteel-ai/whisper-base-ar-quran"
-headers = {"Authorization": "Bearer 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"}
-
 ARABIC_FONT = "Fonts/Hafs.ttf"
 ENGLISH_FONT = "Fonts/Butler_Regular.otf"
+
+class MODES(Enum):
+    DARK = 1
+    LIGHT = 2
 
 def main():
     # create_video(
@@ -27,26 +28,28 @@ def main():
     # )
 
     create_video(
-        timestamps_csv_file_path=r"Audio\29 - Al-'Ankabut\Markers.csv",
-        timestamps_output_path=r"Audio\29 - Al-'Ankabut\timestamps.txt",
-        count=20,
-        full_audio_path=r"Audio\29 - Al-'Ankabut\Abdul Rahman Mossad - Al-'Ankabut.mp3",
+        timestamps_csv_file_path=r"Surahs\29 - Al-'Ankabut\Markers.csv",
+        count=3,
+        full_audio_path=r"Surahs\29 - Al-'Ankabut\Abdul Rahman Mossad - Al-'Ankabut.mp3",
         background_clip_directory="Background_Clips",
-        output_path="Videos/Abdul Rahman Mossad - Al-'Ankabut 2.mp4",
-        verse_text_color=(255, 255, 255),
-        verse_translation_color=(255, 255, 255)
+        output_path=r"Surahs\29 - Al-'Ankabut\Videos\Abdul Rahman Mossad - Al-'Ankabut test.mp4",
+        mode=MODES.LIGHT
     )
 
-def get_timestamps(timestamps_file_path, output_file_path):
+def get_timestamps(timestamps_csv_file_path):
     """
     Get the timestamps from the timestamps file.
 
     Args:
         timestamps_file_path (str): The path to the timestamps file.
         output_file_path (str): The path to the output file.
+
+    Returns:
+        str: The path to the output file.
     """
-    with open(timestamps_file_path, "r", encoding="utf-8") as timestamps_file:
-        lines = timestamps_file.readlines()[1:]
+    with open(timestamps_csv_file_path, "r", encoding="utf-8") as csv_file:
+        lines = csv_file.readlines()[1:]
+        output_file_path = timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
         with open(output_file_path, "w", encoding="utf-8") as output_file:
             i = 0
             while i < len(lines):
@@ -63,32 +66,7 @@ def get_timestamps(timestamps_file_path, output_file_path):
                         output_file.write("\n")
                 i += 1
 
-def speech_to_text(file_name):
-    """
-    Transcribe an audio file to text using a speech-to-text API.
-
-    Args:
-        file_name (str): The path to the audio file to be transcribed.
-
-    Returns:
-        str: The transcribed text
-    """
-    while True:
-        try:
-            with open(file_name, "rb") as f:
-                data = f.read()
-            response = requests.post(API_URL, headers=headers, data=data)
-            json_response = response.json()
-
-            # Check if the response contains the "text" key
-            if "text" in json_response:
-                return json_response["text"]
-            else:
-                print(f"Error: {json_response['error']}")
-        except Exception as e:
-            print(f"Error: {e}")
-        print("Retrying in 10 seconds...")
-        sleep(10)
+    return output_file_path
 
 def get_time_difference_seconds(time1, time2):
     """
@@ -127,20 +105,7 @@ def get_video_duration_seconds(video_path):
     video = cv2.VideoCapture(video_path)
     return video.get(cv2.CAP_PROP_FRAME_COUNT) / video.get(cv2.CAP_PROP_FPS)
 
-def get_verse_key(text):
-    """
-    Get the verse key of a verse from the Quran.
-
-    Args:
-        text (str): The text of the verse.
-
-    Returns:
-        str: The verse key of the verse.
-    """
-    response = requests.get(f"https://api.quran.com/api/v4/search?q={text}")
-    return response.json()["search"]["results"][0]["verse_key"]
-
-def get_verse_text(verse_key):
+def get_verse_text(chapter, verse):
     """
     Get the text of a verse from the Quran.
 
@@ -150,10 +115,9 @@ def get_verse_text(verse_key):
     Returns:
         str: The text of the verse.
     """
-    chapter, verse = map(int, verse_key.split(":"))
     return quran.get_verse(chapter, verse, with_tashkeel=True)
 
-def get_verse_translation(verse_key):
+def get_verse_translation(chapter, verse):
     """
     Get the translation of a verse from the Quran.
 
@@ -163,13 +127,13 @@ def get_verse_translation(verse_key):
     Returns:
         str: The translation of the verse.
     """
-    response = requests.get(f"https://api.quran.com/api/v4/quran/translations/20?verse_key={verse_key}")
+    response = requests.get(f"https://api.quran.com/api/v4/quran/translations/20?verse_key={chapter}:{verse}")
     translation = response.json()["translations"][0]["text"]
     soup = BeautifulSoup(translation, "html.parser")
     clean_text = soup.get_text()
     return clean_text
 
-def create_single_clip(video_duration, video_clip_path, verse_text, verse_translation, text_duration=None, shadow_opacity=0.7, fade_duration=0.5, verse_text_color=(0, 0, 0), verse_translation_color=(0, 0, 0)):
+def create_single_clip(video_duration, video_clip_path, verse_text, verse_translation, text_duration, shadow_color, verse_text_color, verse_translation_color, shadow_opacity, fade_duration):
     """
     Create a single clip with the given parameters.
 
@@ -181,6 +145,10 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
         text_duration (float, optional): The duration of the text. Defaults to None.
         shadow_opacity (float, optional): The opacity of the shadow. Defaults to 0.7.
         fade_duration (float, optional): The duration of the fade in and fade out. Defaults to 0.5.
+        mode (MODES, optional): The mode of the video. Defaults to None.
+        shadow_color (str, optional): The color of the shadow. Defaults to "rgb(0, 0, 0)".
+        verse_text_color (str, optional): The color of the verse text. Defaults to "rgb(255, 255, 255)".
+        verse_translation_color (str, optional): The color of the verse translation. Defaults to "rgb(255, 255, 255)".
 
     Returns:
         moviepy.video.compositing.CompositeVideoClip: The final clip.
@@ -203,8 +171,8 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
     )
 
     shadow_clip = mpy.ColorClip(
-        size=video_clip.size, 
-        color=(0, 0, 0), 
+        size=video_clip.size,
+        color=shadow_color,
         duration=video_clip.duration
     ).set_opacity(
         shadow_opacity
@@ -221,7 +189,7 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
     verse_text_clip = mpy.TextClip(
         txt=verse_text,
         size=video_clip.size,
-        color=f"rgb{verse_text_color}",
+        color=verse_text_color,
         bg_color="transparent",
         fontsize=45,
         font=ARABIC_FONT
@@ -238,7 +206,7 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
     verse_translation_clip = mpy.TextClip(
         txt=verse_translation,
         size=video_clip.size,
-        color=f"rgb{verse_translation_color}",
+        color=verse_translation_color,
         bg_color="transparent",
         fontsize=18,
         font=ENGLISH_FONT
@@ -267,56 +235,61 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
 
     return final_clip
 
-def create_video(timestamps_csv_file_path, timestamps_output_path, count, full_audio_path, background_clip_directory, output_path, verse_text_color=(0, 0, 0), verse_translation_color=(0, 0, 0)):
+def create_video(timestamps_csv_file_path, count, full_audio_path, background_clip_directory, output_path, mode=None, shadow_color=(0, 0, 0), verse_text_color="rgb(255, 255, 255)", verse_translation_color="rgb(255, 255, 255)", shadow_opacity=0.7, fade_duration=0.5):
     """
     Create a video with the given parameters.
 
     Args:
         timestamps_csv_file_path (str): The path to the timestamps CSV file.
-        timestamps_txt_file_path (str): The path to the timestamps TXT file.
         count (int): The number of clips in the final video.
         full_audio_path (str): The path to the full audio file.
         background_clip_directory (str): The path to the directory containing the background clips.
         output_path (str): The path to the output video.
     """
+    if mode == MODES.DARK:
+        shadow_color = (0, 0, 0)
+        verse_text_color = "rgb(255, 255, 255)"
+        verse_translation_color = "rgb(255, 255, 255)"
+    elif mode == MODES.LIGHT:
+        shadow_color = (255, 255, 255)
+        verse_text_color = "rgb(0, 0, 0)"
+        verse_translation_color = "rgb(0, 0, 0)"
+
     array = []
     duration = 0
-    
-    # Get the timestamps from the timestamps file
-    get_timestamps(timestamps_csv_file_path, timestamps_output_path)
 
-    # Get the Arabic text from the audio file
-    arabic_text = speech_to_text(full_audio_path)
+    # Get the timestamps from the timestamps file
+    timestamps_txt_file_path = get_timestamps(timestamps_csv_file_path)
 
     # Get the verse key from the Arabic text
-    verse_key = get_verse_key(arabic_text)
-    chapter, verse = map(int, verse_key.split(":"))
+    chapter = int(input("Enter the chapter number: "))
+    verse = int(input("Enter the verse number: "))
 
-    with open("verse_text.txt", "w", encoding="utf-8") as arabic_file, open("verse_translation.txt", "w", encoding="utf-8"):
+    with open("chapter_text.txt", "w", encoding="utf-8") as arabic_file, open("chapter_translation.txt", "w", encoding="utf-8"):
         pass
 
-    with open("verse_text.txt", "a", encoding="utf-8") as arabic_file, open("verse_translation.txt", "a", encoding="utf-8") as english_file:
+    with open("chapter_text.txt", "a", encoding="utf-8") as arabic_file, open("chapter_translation.txt", "a", encoding="utf-8") as english_file:
         for i in range(1, count + 1):
             try:
-                tajweed = get_verse_text(f"{chapter}:{verse + i - 1}")  # Fetch tajweed for this verse
-                arabic_file.write(tajweed + "\n")
+                text = get_verse_text(chapter, verse + i - 1)  # Fetch tajweed for this verse
+                arabic_file.write(text + "\n")
 
-                translation = get_verse_translation(f"{chapter}:{verse + i - 1}")  # Fetch translation for this verse\
+                translation = get_verse_translation(chapter, verse + i - 1)  # Fetch translation for this verse
                 english_file.write(translation + "\n")
             except:
                 pass
 
     input("Appropriately edit the text files now...")
 
-    with open("verse_text.txt", "r", encoding="utf-8") as arabic_file, \
-        open("verse_translation.txt", "r", encoding="utf-8") as english_file, \
-        open(timestamps_output_path, "r", encoding="utf-8") as timestamps_file:
+    with open("chapter_text.txt", "r", encoding="utf-8") as arabic_file, \
+        open("chapter_translation.txt", "r", encoding="utf-8") as english_file, \
+        open(timestamps_txt_file_path, "r", encoding="utf-8") as timestamps_file:
         arabic_lines = arabic_file.readlines()
         english_lines = english_file.readlines()
         timestamps2 = timestamps_file.readlines()
         used_video_clips = []
         for i in range(1, count + 1):
-            tajweed = arabic_lines[i - 1].strip()
+            text = arabic_lines[i - 1].strip()
             translation = english_lines[i - 1].strip()
             
             start_video = timestamps2[i - 1].strip().split(",")[0]
@@ -338,7 +311,18 @@ def create_video(timestamps_csv_file_path, timestamps_output_path, count, full_a
                     break
 
             print(f"Creating clip {i} of {count}...")
-            video = create_single_clip(video_duration, video_clip_path, tajweed, translation, text_duration, verse_text_color=verse_text_color, verse_translation_color=verse_translation_color)
+            video = create_single_clip(
+                video_duration=video_duration,
+                video_clip_path=video_clip_path,
+                verse_text=text,
+                verse_translation=translation,
+                text_duration=text_duration,
+                shadow_color=shadow_color,
+                verse_text_color=verse_text_color,
+                verse_translation_color=verse_translation_color,
+                shadow_opacity=shadow_opacity,
+                fade_duration=fade_duration
+            )
             array.append(video)
 
             # Update the duration
@@ -375,50 +359,6 @@ def create_notification(title, message):
         app_name="Python",
         timeout=3
     )
-
-# def get_sentence_not_working(full_audio_path, start_time, end_time):
-#     # Load the full audio file
-#     audio = AudioSegment.from_mp3(full_audio_path)
-
-#     # # Extract the desired segment
-#     start_time = start_time.replace(":", "").replace(".", "")
-#     end_time = end_time.replace(":", "").replace(".", "")
-#     audio_segment = audio[int(start_time):int(end_time)]
-
-#     # Export the segment as a temporary MP3 file
-#     temp_mp3_file = "temp.mp3"
-#     audio_segment.export(temp_mp3_file, format="mp3")
-#     speechtotext = speech_to_text(temp_mp3_file)
-
-#     # Clean up the temporary WAV file
-#     if os.path.exists(temp_mp3_file):
-#         os.remove(temp_mp3_file)
-
-#     verse_key = get_verse_key(speechtotext)
-#     pyquran = get_verse_text(verse_key)
-
-#     jart = []
-#     for i in range(len(pyquran)):
-#         for j in range(i, len(pyquran)):
-#             sentence = pyquran[i:j]
-#             # Create a CountVectorizer to convert sentences to vectors
-#             vectorizer = CountVectorizer().fit_transform([speechtotext, sentence])
-
-#             # Calculate the cosine similarity between the two sentences
-#             cosine_sim = cosine_similarity(vectorizer)
-
-#             # Calculate the Jaccard similarity between the two sentences
-#             jaccard_sim = textdistance.algorithms.jaccard(speechtotext, sentence)
-
-#             jart.append((cosine_sim[0][1], jaccard_sim, sentence, speechtotext))
-#     jart.sort(key=lambda x: x[0], reverse=True)
-
-#     deeetz = [item for item in jart if item[0] == jart[0][0]]
-#     deeetz.sort(key=lambda x: x[1], reverse=True)
-
-#     best = deeetz[0][2]
-
-#     return best
 
 if __name__ == "__main__":
     main()
