@@ -17,24 +17,25 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 ENGLISH_FONT = "Fonts/Butler_Regular.otf"
 
 def main():
-    create_video(
-        timestamps_csv_file_path=r"Audio\101 - Al-Qari'ah\Markers.csv",
-        timestamps_output_path=r"Audio\101 - Al-Qari'ah\timestamps.txt",
-        count=11,
-        full_audio_path=r"Audio\101 - Al-Qari'ah\Salim Bahanan - Al-Qari'ah.mp3",
-        background_clip_directory="Background_Clips",
-        output_path="Videos/Salim Bahanan - Al-Qari'ah.mp4"
-    )
     # create_video(
-    #     timestamps_csv_file_path="Markers.csv",
-    #     timestamps_txt_file_path="timestamps.txt",
-    #     count=20,
-    #     full_audio_path="Audio/29 - Al-'Ankabut/Abdul Rahman Mossad - Al-'Ankabut.mp3",
+    #     timestamps_csv_file_path=r"Audio\101 - Al-Qari'ah\Markers.csv",
+    #     timestamps_output_path=r"Audio\101 - Al-Qari'ah\timestamps.txt",
+    #     count=11,
+    #     full_audio_path=r"Audio\101 - Al-Qari'ah\Salim Bahanan - Al-Qari'ah.mp3",
     #     background_clip_directory="Background_Clips",
-    #     output_path="Videos/Final6.mp4",
-    #     arabic_file_path="verse_text.txt",
-    #     english_file_path="verse_translation.txt"
+    #     output_path="Videos/Salim Bahanan - Al-Qari'ah.mp4"
     # )
+
+    create_video(
+        timestamps_csv_file_path=r"Audio\29 - Al-'Ankabut\Markers.csv",
+        timestamps_output_path=r"Audio\29 - Al-'Ankabut\timestamps.txt",
+        count=20,
+        full_audio_path=r"Audio\29 - Al-'Ankabut\Abdul Rahman Mossad - Al-'Ankabut.mp3",
+        background_clip_directory="Background_Clips",
+        output_path="Videos/Abdul Rahman Mossad - Al-'Ankabut 2.mp4",
+        verse_text_color=(255, 255, 255),
+        verse_translation_color=(255, 255, 255)
+    )
 
 def get_timestamps(timestamps_file_path, output_file_path):
     """
@@ -168,7 +169,7 @@ def get_verse_translation(verse_key):
     clean_text = soup.get_text()
     return clean_text
 
-def create_single_clip(video_duration, video_clip_path, verse_text, verse_translation, text_duration=None, shadow_opacity=0.7, fade_duration=0.5):
+def create_single_clip(video_duration, video_clip_path, verse_text, verse_translation, text_duration=None, shadow_opacity=0.7, fade_duration=0.5, verse_text_color=(0, 0, 0), verse_translation_color=(0, 0, 0)):
     """
     Create a single clip with the given parameters.
 
@@ -184,22 +185,21 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
     Returns:
         moviepy.video.compositing.CompositeVideoClip: The final clip.
     """
-    print(f"Video duration: {video_duration}\tVideo clip path: {video_clip_path}\tVerse text: {verse_text}\tVerse translation: {verse_translation}\tText duration: {text_duration}\tShadow opacity: {shadow_opacity}\tFade duration: {fade_duration}")
     text_duration = video_duration if text_duration is None else text_duration
     
     video_clip = mpy.VideoFileClip(video_clip_path)
 
     # Get the offsets
-    x_offset = random.randint(0, max(0, video_clip.w - 720))
-    y_offset = random.randint(0, max(0, video_clip.h - 1080))
+    x_offset = random.randint(0, max(0, video_clip.w - 603))
+    y_offset = random.randint(0, max(0, video_clip.h - 1072))
 
     video_clip = video_clip.set_duration(
         video_duration
     ).crop(
         x1=x_offset,
         y1=y_offset,
-        x2=x_offset + 720,
-        y2=y_offset + 1080
+        x2=x_offset + 603,
+        y2=y_offset + 1072
     )
 
     shadow_clip = mpy.ColorClip(
@@ -218,10 +218,10 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
         use_bgclip=True
     )
 
-    tajweed_text_clip = mpy.TextClip(
+    verse_text_clip = mpy.TextClip(
         txt=verse_text,
         size=video_clip.size,
-        color="white",
+        color=f"rgb{verse_text_color}",
         bg_color="transparent",
         fontsize=45,
         font=ARABIC_FONT
@@ -235,10 +235,10 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
         fade_duration
     )
 
-    translation_text_clip = mpy.TextClip(
+    verse_translation_clip = mpy.TextClip(
         txt=verse_translation,
         size=video_clip.size,
-        color="white",
+        color=f"rgb{verse_translation_color}",
         bg_color="transparent",
         fontsize=18,
         font=ENGLISH_FONT
@@ -255,8 +255,8 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
     final_clip = mpy.CompositeVideoClip(
         [
             video_with_shadow,
-            tajweed_text_clip,
-            translation_text_clip
+            verse_text_clip,
+            verse_translation_clip
         ], 
         use_bgclip=True
     ).set_duration(
@@ -267,7 +267,7 @@ def create_single_clip(video_duration, video_clip_path, verse_text, verse_transl
 
     return final_clip
 
-def create_video(timestamps_csv_file_path, timestamps_output_path, count, full_audio_path, background_clip_directory, output_path):
+def create_video(timestamps_csv_file_path, timestamps_output_path, count, full_audio_path, background_clip_directory, output_path, verse_text_color=(0, 0, 0), verse_translation_color=(0, 0, 0)):
     """
     Create a video with the given parameters.
 
@@ -286,10 +286,10 @@ def create_video(timestamps_csv_file_path, timestamps_output_path, count, full_a
     get_timestamps(timestamps_csv_file_path, timestamps_output_path)
 
     # Get the Arabic text from the audio file
-    # arabic_text = speech_to_text(full_audio_path)
+    arabic_text = speech_to_text(full_audio_path)
 
     # Get the verse key from the Arabic text
-    verse_key = "101:1" # get_verse_key(arabic_text)
+    verse_key = get_verse_key(arabic_text)
     chapter, verse = map(int, verse_key.split(":"))
 
     with open("verse_text.txt", "w", encoding="utf-8") as arabic_file, open("verse_translation.txt", "w", encoding="utf-8"):
@@ -337,7 +337,8 @@ def create_video(timestamps_csv_file_path, timestamps_output_path, count, full_a
                     used_video_clips.append(video_clip_path)
                     break
 
-            video = create_single_clip(video_duration, video_clip_path, tajweed, translation, text_duration)
+            print(f"Creating clip {i} of {count}...")
+            video = create_single_clip(video_duration, video_clip_path, tajweed, translation, text_duration, verse_text_color=verse_text_color, verse_translation_color=verse_translation_color)
             array.append(video)
 
             # Update the duration
