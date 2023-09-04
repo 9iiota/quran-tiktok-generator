@@ -18,23 +18,23 @@ class MODES(Enum):
     LIGHT = 2
 
 def main():
-    create_video(
-        timestamps_csv_file_path=r"Surahs\29 - Al-'Ankabut\Markers.csv",
-        count=100,
-        full_audio_path=r"Surahs\29 - Al-'Ankabut\Abdul Rahman Mossad - Al-'Ankabut.mp3",
-        background_clip_directory="Background_Clips",
-        output_path=r"Surahs\29 - Al-'Ankabut\Videos\Abdul Rahman Mossad - Al-'Ankabut test.mp4",
-        mode=MODES.LIGHT
-    )
-
     # create_video(
-    #     timestamps_csv_file_path=r"Surahs\101 - Al-Qari'ah\Markers.csv",
+    #     timestamps_csv_file_path=r"Surahs\29 - Al-'Ankabut\Markers.csv",
     #     count=100,
-    #     full_audio_path=r"Surahs\101 - Al-Qari'ah\Salim Bahanan - Al-Qari'ah.mp3",
+    #     full_audio_path=r"Surahs\29 - Al-'Ankabut\Abdul Rahman Mossad - Al-'Ankabut.mp3",
     #     background_clip_directory="Background_Clips",
-    #     output_path=r"Surahs\101 - Al-Qari'ah\Videos\Salim Bahanan - Al-Qari'ah 2.mp4",
-    #     mode=MODES.DARK
+    #     output_path=r"Surahs\29 - Al-'Ankabut\Videos\Abdul Rahman Mossad - Al-'Ankabut test.mp4",
+    #     mode=MODES.LIGHT
     # )
+
+    create_video(
+        timestamps_csv_file_path=r"Surahs\101 - Al-Qari'ah\Markers.csv",
+        count=100,
+        full_audio_path=r"Surahs\101 - Al-Qari'ah\Salim Bahanan - Al-Qari'ah.mp3",
+        background_clip_directory="Background_Clips",
+        output_path=r"Surahs\101 - Al-Qari'ah\Videos\Salim Bahanan - Al-Qari'ah 3.mp4",
+        mode=MODES.DARK
+    )
 
 def get_timestamps(timestamps_csv_file_path):
     """
