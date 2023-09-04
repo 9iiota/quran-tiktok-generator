@@ -19,20 +19,20 @@ class MODES(Enum):
 
 def main():
     # create_video(
-    #     timestamps_csv_file_path=r"Audio\101 - Al-Qari'ah\Markers.csv",
-    #     timestamps_output_path=r"Audio\101 - Al-Qari'ah\timestamps.txt",
-    #     count=11,
-    #     full_audio_path=r"Audio\101 - Al-Qari'ah\Salim Bahanan - Al-Qari'ah.mp3",
+    #     timestamps_csv_file_path=r"Surahs\29 - Al-'Ankabut\Markers.csv",
+    #     count=100,
+    #     full_audio_path=r"Surahs\29 - Al-'Ankabut\Abdul Rahman Mossad - Al-'Ankabut.mp3",
     #     background_clip_directory="Background_Clips",
-    #     output_path="Videos/Salim Bahanan - Al-Qari'ah.mp4"
+    #     output_path=r"Surahs\29 - Al-'Ankabut\Videos\Abdul Rahman Mossad - Al-'Ankabut test.mp4",
+    #     mode=MODES.LIGHT
     # )
 
     create_video(
-        timestamps_csv_file_path=r"Surahs\29 - Al-'Ankabut\Markers.csv",
-        count=3,
-        full_audio_path=r"Surahs\29 - Al-'Ankabut\Abdul Rahman Mossad - Al-'Ankabut.mp3",
+        timestamps_csv_file_path=r"Surahs\101 - Al-Qari'ah\Markers.csv",
+        count=100,
+        full_audio_path=r"Surahs\101 - Al-Qari'ah\Salim Bahanan - Al-Qari'ah.mp3",
         background_clip_directory="Background_Clips",
-        output_path=r"Surahs\29 - Al-'Ankabut\Videos\Abdul Rahman Mossad - Al-'Ankabut test.mp4",
+        output_path=r"Surahs\101 - Al-Qari'ah\Videos\Salim Bahanan - Al-Qari'ah test.mp4",
         mode=MODES.LIGHT
     )
 
@@ -272,10 +272,15 @@ def create_video(timestamps_csv_file_path, count, full_audio_path, background_cl
         for i in range(1, count + 1):
             try:
                 text = get_verse_text(chapter, verse + i - 1)  # Fetch tajweed for this verse
-                arabic_file.write(text + "\n")
+                if text != "":
+                    arabic_file.write(text + "\n")
 
-                translation = get_verse_translation(chapter, verse + i - 1)  # Fetch translation for this verse
-                english_file.write(translation + "\n")
+                    translation = get_verse_translation(chapter, verse + i - 1)  # Fetch translation for this verse
+                    english_file.write(translation + "\n")
+                else:
+                    arabic_file.writelines(arabic_file.readlines()[:-1])
+                    english_file.writelines(english_file.readlines()[:-1])
+                    break
             except:
                 pass
 
@@ -289,44 +294,47 @@ def create_video(timestamps_csv_file_path, count, full_audio_path, background_cl
         timestamps2 = timestamps_file.readlines()
         used_video_clips = []
         for i in range(1, count + 1):
-            text = arabic_lines[i - 1].strip()
-            translation = english_lines[i - 1].strip()
-            
-            start_video = timestamps2[i - 1].strip().split(",")[0]
-            end_video = timestamps2[i].strip().split(",")[0]
             try:
-                end_text = timestamps2[i].strip().split(",")[1]
+                text = arabic_lines[i - 1].strip()
+                translation = english_lines[i - 1].strip()
+                
+                start_video = timestamps2[i - 1].strip().split(",")[0]
+                end_video = timestamps2[i].strip().split(",")[0]
+                try:
+                    end_text = timestamps2[i].strip().split(",")[1]
+                except:
+                    end_text = None
+                video_duration = get_time_difference_seconds(start_video, end_video)
+                text_duration = get_time_difference_seconds(start_video, end_text) if end_text is not None else None
+
+                while True:
+                    video_clip_name = random.choice([file for file in os.listdir(background_clip_directory) if file.endswith(".mp4")])
+                    video_clip_path = f"{background_clip_directory}/{video_clip_name}"
+                    video_clip_duration = get_video_duration_seconds(video_clip_path)
+
+                    if video_clip_path not in used_video_clips and video_clip_duration >= video_duration:
+                        used_video_clips.append(video_clip_path)
+                        break
+
+                print(f"Creating clip {i} of {count}...")
+                video = create_single_clip(
+                    video_duration=video_duration,
+                    video_clip_path=video_clip_path,
+                    verse_text=text,
+                    verse_translation=translation,
+                    text_duration=text_duration,
+                    shadow_color=shadow_color,
+                    verse_text_color=verse_text_color,
+                    verse_translation_color=verse_translation_color,
+                    shadow_opacity=shadow_opacity,
+                    fade_duration=fade_duration
+                )
+                array.append(video)
+
+                # Update the duration
+                duration += video.duration
             except:
-                end_text = None
-            video_duration = get_time_difference_seconds(start_video, end_video)
-            text_duration = get_time_difference_seconds(start_video, end_text) if end_text is not None else None
-
-            while True:
-                video_clip_name = random.choice([file for file in os.listdir(background_clip_directory) if file.endswith(".mp4")])
-                video_clip_path = f"{background_clip_directory}/{video_clip_name}"
-                video_clip_duration = get_video_duration_seconds(video_clip_path)
-
-                if video_clip_path not in used_video_clips and video_clip_duration >= video_duration:
-                    used_video_clips.append(video_clip_path)
-                    break
-
-            print(f"Creating clip {i} of {count}...")
-            video = create_single_clip(
-                video_duration=video_duration,
-                video_clip_path=video_clip_path,
-                verse_text=text,
-                verse_translation=translation,
-                text_duration=text_duration,
-                shadow_color=shadow_color,
-                verse_text_color=verse_text_color,
-                verse_translation_color=verse_translation_color,
-                shadow_opacity=shadow_opacity,
-                fade_duration=fade_duration
-            )
-            array.append(video)
-
-            # Update the duration
-            duration += video.duration
+                pass
     
     # Concatenate all the videos
     final_video = mpy.concatenate_videoclips(
