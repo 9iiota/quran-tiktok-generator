@@ -36,13 +36,22 @@ def main():
     #     mode=MODES.DARK
     # )
 
+    # create_video(
+    #     timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\Markers.csv",
+    #     count=100,
+    #     full_audio_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\Fatih Seferagic - 2 - Ayatul Kursi.mp3",
+    #     background_clip_directory="Background_Clips",
+    #     output_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\Videos\Fatih Seferagic - 2 - Ayatul Kursi_3.mp4",
+    #     mode=MODES.LIGHT
+    # )
+
     create_video(
-        timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\Markers.csv",
+        timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Markers.csv",
         count=100,
-        full_audio_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\Fatih Seferagic - 2 - Ayatul Kursi.mp3",
+        full_audio_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Abdul Rahman Mossad - 73 - Al-Muzzammil.mp3",
         background_clip_directory="Background_Clips",
-        output_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\Videos\Fatih Seferagic - 2 - Ayatul Kursi_3.mp4",
-        mode=MODES.LIGHT
+        output_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\Abdul Rahman Mossad - 73 - Al-Muzzammil_1.mp3",
+        mode=MODES.DARK
     )
 
 def get_timestamps(timestamps_csv_file_path):
