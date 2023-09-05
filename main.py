@@ -50,7 +50,7 @@ def main():
         count=100,
         full_audio_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Abdul Rahman Mossad - 73 - Al-Muzzammil.mp3",
         background_clip_directory="Background_Clips",
-        output_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\Abdul Rahman Mossad - 73 - Al-Muzzammil_1.mp3",
+        output_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\Abdul Rahman Mossad - 73 - Al-Muzzammil_2.mp4",
         mode=MODES.DARK
     )
 
@@ -365,7 +365,7 @@ def create_video(timestamps_csv_file_path, count, full_audio_path, background_cl
     )
     final_video.write_videofile(
         output_path,
-        codec="libx264", 
+        codec="libx264",
         audio_codec="aac"
     )
 
