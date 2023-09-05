@@ -350,13 +350,31 @@ class TikTok:
             return None
 
 if __name__ == "__main__":
+    # tiktok = TikTok(
+    #     timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Markers.csv",
+    #     background_clips_directory_path=r"Background_Clips",
+    #     audio_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\audio.mp3",
+    #     output_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\1.mp4",
+    #     mode=TikTok.MODES.LIGHT,
+    #     chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
+    #     chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
+    # )
+    # tiktok = TikTok(
+    #     timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Markers.csv",
+    #     background_clips_directory_path=r"Background_Clips",
+    #     audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3",
+    #     output_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\1.mp4",
+    #     mode=TikTok.MODES.LIGHT,
+    #     chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
+    #     chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
+    # )
     tiktok = TikTok(
-        timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Markers.csv",
+        timestamps_csv_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\Markers.csv",
         background_clips_directory_path=r"Background_Clips",
-        audio_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Abdul Rahman Mossad - 73 - Al-Muzzammil.mp3",
-        output_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\1.mp4",
-        mode=TikTok.MODES.LIGHT,
-        chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
-        chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
+        audio_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\audio.mp3",
+        output_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\Videos\11.mp4",
+        mode=TikTok.MODES.DARK,
+        chapter_text_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt",
+        chapter_translation_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt",
     )
     tiktok.create_video()
