@@ -12,6 +12,7 @@ from pyquran import quran
 
 ARABIC_FONT = "Fonts/Hafs.ttf"
 ENGLISH_FONT = "Fonts/Butler_Regular.otf"
+# ENGLISH_FONT = "Fonts/Lato-Semibold.ttf"
 
 def colored_print(color: str, text: str):
     """
@@ -80,21 +81,24 @@ class TikTok:
     class MODES(Enum):
         DARK = 1
         LIGHT = 2
+
+    DIMENSIONS = (603, 1072)
     
     def __init__(
             self,
             timestamps_csv_file_path: str,
-            background_clips_directory_path: str,
             audio_file_path: str,
             output_file_path: str,
-            mode: MODES = MODES.DARK,
             chapter_text_file_path: str = "chapter_text.txt",
             chapter_translation_file_path: str = "chapter_translation.txt",
+            background_clips_directory_path: str = "Background_Clips",
+            mode: MODES = MODES.DARK,
             shadow_opacity: float = 0.7,
             text_fade_duration: float = 0.5,
             chapter: int = None,
             start_verse: int = None,
-            end_verse: int = None
+            end_verse: int = None,
+            duplicates_allowed: bool = False,
         ):
         if chapter_text_file_path == "chapter_text.txt" and chapter_translation_file_path == "chapter_translation.txt":
             if chapter < 1 or chapter > 114:
@@ -124,6 +128,7 @@ class TikTok:
             self.verse_translation_color = "rgb(0, 0, 0)"
         self.shadow_opacity = shadow_opacity
         self.text_fade_duration = text_fade_duration
+        self.duplicates_allowed = duplicates_allowed
 
     def create_video(self):
         try:
@@ -173,9 +178,10 @@ class TikTok:
                     background_clip = random.choice(all_background_clips)
                     background_clip_path = os.path.join(self.background_clips_directory_path, background_clip)
                     background_clip_duration = get_video_duration_seconds(background_clip_path)
-                    if background_clip not in used_background_clips and background_clip_duration >= video_clip_duration:
-                        used_background_clips.append(background_clip)
-                        break
+                    if background_clip_duration >= video_clip_duration:
+                        if self.duplicates_allowed or (not self.duplicates_allowed and background_clip not in used_background_clips):
+                            used_background_clips.append(background_clip)
+                            break
                 
                 colored_print(Fore.GREEN, f"Creating clip {i}...")
                 video_clip = self.create_video_clip(
@@ -212,16 +218,16 @@ class TikTok:
     def create_video_clip(self, background_clip_path, background_clip_duration, text_duration, verse_text, verse_translation):
         video_clip = mpy.VideoFileClip(background_clip_path)
 
-        x_offset = random.randint(0, max(0, video_clip.w - 603))
-        y_offset = random.randint(0, max(0, video_clip.h - 1072))
+        x_offset = random.randint(0, max(0, video_clip.w - self.DIMENSIONS[0]))
+        y_offset = random.randint(0, max(0, video_clip.h - self.DIMENSIONS[1]))
 
         video_clip = video_clip.set_duration(
             background_clip_duration
         ).crop(
             x1=x_offset,
             y1=y_offset,
-            x2=x_offset + 603,
-            y2=y_offset + 1072
+            x2=x_offset + self.DIMENSIONS[0],
+            y2=y_offset + self.DIMENSIONS[1]
         )
 
         shadow_clip = mpy.ColorClip(
@@ -285,8 +291,6 @@ class TikTok:
             use_bgclip=True
         ).set_duration(
             background_clip_duration
-        ).set_fps(
-            24
         )
 
         return final_clip
@@ -368,13 +372,32 @@ if __name__ == "__main__":
     #     chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
     #     chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
     # )
+    # tiktok = TikTok(
+    #     timestamps_csv_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\Markers.csv",
+    #     background_clips_directory_path=r"Background_Clips",
+    #     audio_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\audio.mp3",
+    #     output_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\Videos\11.mp4",
+    #     mode=TikTok.MODES.DARK,
+    #     chapter_text_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt",
+    #     chapter_translation_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt",
+    # )
+    # tiktok = TikTok(
+    #     timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Markers.csv",
+    #     background_clips_directory_path=r"4k",
+    #     audio_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\audio.mp3",
+    #     output_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\3.mp4",
+    #     mode=TikTok.MODES.DARK,
+    #     # shadow_opacity=0.5,
+    #     chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
+    #     chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
+    #     output_dimensions=TikTok.DIMENSIONS.a1080p
+    # )
+    # tiktok.create_video()
     tiktok = TikTok(
-        timestamps_csv_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\Markers.csv",
-        background_clips_directory_path=r"Background_Clips",
-        audio_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\audio.mp3",
-        output_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\Videos\11.mp4",
-        mode=TikTok.MODES.DARK,
-        chapter_text_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt",
-        chapter_translation_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt",
+        timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Markers.csv",
+        audio_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Fatih Seferagic - 59 - Al-Hashr.mp3",
+        output_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Videos\3.mp4",
+        chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
+        chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
     )
     tiktok.create_video()
