@@ -217,13 +217,11 @@ class TikTok:
             ).set_audio(
                 mpy.AudioFileClip(self.audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
             ).set_duration(
-                final_video_duration
+                final_video_duration - .1
             )
             colored_print(Fore.GREEN, "Creating final video...")
             final_video.write_videofile(
-                self.output_file_path,
-                codec="libx264",
-                audio_codec="aac"
+                self.output_file_path
             )
 
             create_notification(
@@ -416,14 +414,22 @@ if __name__ == "__main__":
     #     chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
     #     chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
     # )
+    # tiktok = TikTok(
+    #     timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Markers.csv",
+    #     audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3",
+    #     output_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\short2.mp4",
+    #     chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
+    #     chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
+    #     background_clips_directory_path=r"4k",
+    #     start_line=6,
+    #     end_line=9
+    # )
     tiktok = TikTok(
-        timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Markers.csv",
-        audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3",
-        output_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\short2.mp4",
-        chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
-        chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
+        timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Markers.csv",
+        audio_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\audio.mp3",
+        output_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Videos\short1.mp4",
+        chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
+        chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
         background_clips_directory_path=r"4k",
-        start_line=6,
-        end_line=9
     )
     tiktok.create_video()
