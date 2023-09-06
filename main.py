@@ -11,8 +11,11 @@ from plyer import notification
 from pyquran import quran
 
 ARABIC_FONT = "Fonts/Hafs.ttf"
-ENGLISH_FONT = "Fonts/Butler_Regular.otf"
-# ENGLISH_FONT = "Fonts/Lato-Semibold.ttf"
+# ENGLISH_FONT = "Fonts/Butler_Regular.otf" # quran_2_listen
+# ENGLISH_FONT = "Fonts/Lato-Semibold.ttf" # quran_love77
+ENGLISH_FONT = "Fonts/Fontspring-DEMO-proximanovaexcn-regular.otf"
+
+# ENGLISH_FONT = "Fonts/Berlingske Serif Bold.otf"
 
 def colored_print(color: str, text: str):
     """
@@ -95,11 +98,15 @@ class TikTok:
             mode: MODES = MODES.DARK,
             shadow_opacity: float = 0.7,
             text_fade_duration: float = 0.5,
+            start_line: int = None,
+            end_line: int = None,
             chapter: int = None,
             start_verse: int = None,
             end_verse: int = None,
             duplicates_allowed: bool = False,
         ):
+        self.start_line = start_line
+        self.end_line = end_line
         if chapter_text_file_path == "chapter_text.txt" and chapter_translation_file_path == "chapter_translation.txt":
             if chapter < 1 or chapter > 114:
                 colored_print(Fore.RED, "Chapter must be between 1 and 114")
@@ -162,7 +169,16 @@ class TikTok:
             timestamps_lines = timestamps_file.readlines()
             used_background_clips = []
             video_clips = []
-            for i in range(1, len(chapter_text_lines) + 1):
+            if self.start_line is not None:
+                start = self.start_line
+            else:
+                start = 1
+            if self.end_line is not None:
+                end = self.end_line + 1
+            else:
+                end = len(chapter_text_lines) + 1
+            loop_range = range(start, end)
+            for i in loop_range:
                 verse_text = chapter_text_lines[i - 1].strip()
                 verse_translation = chapter_translation_lines[i - 1].strip()
                 audio_start = timestamps_lines[i - 1].strip().split(",")[0]
@@ -192,14 +208,14 @@ class TikTok:
                     verse_translation=verse_translation
                 )
                 video_clips.append(video_clip)
-            final_video_start = timestamps_lines[0].strip().split(",")[0]
-            final_video_end = timestamps_lines[-1].strip().split(",")[0]
+            final_video_start = timestamps_lines[start - 1].strip().split(",")[0]
+            final_video_end = timestamps_lines[end - 1].strip().split(",")[0]
             final_video_duration = get_time_difference_seconds(final_video_start, final_video_end)
             final_video = mpy.concatenate_videoclips(
                 clips=video_clips,
                 method="compose"
             ).set_audio(
-                mpy.AudioFileClip(self.audio_file_path).subclip(final_video_start, final_video_end)
+                mpy.AudioFileClip(self.audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
             ).set_duration(
                 final_video_duration
             )
@@ -393,11 +409,21 @@ if __name__ == "__main__":
     #     output_dimensions=TikTok.DIMENSIONS.a1080p
     # )
     # tiktok.create_video()
+    # tiktok = TikTok(
+    #     timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Markers.csv",
+    #     audio_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Fatih Seferagic - 59 - Al-Hashr.mp3",
+    #     output_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Videos\3.mp4",
+    #     chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
+    #     chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
+    # )
     tiktok = TikTok(
-        timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Markers.csv",
-        audio_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Fatih Seferagic - 59 - Al-Hashr.mp3",
-        output_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Videos\3.mp4",
-        chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
-        chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
+        timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Markers.csv",
+        audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3",
+        output_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\short2.mp4",
+        chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
+        chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
+        background_clips_directory_path=r"4k",
+        start_line=6,
+        end_line=9
     )
     tiktok.create_video()
