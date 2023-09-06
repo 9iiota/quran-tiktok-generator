@@ -85,8 +85,9 @@ class TikTok:
         DARK = 1
         LIGHT = 2
 
-    DIMENSIONS = (603, 1072)
+    DIMENSIONS = (576, 1024)
     
+    # TODO: Add output extension
     def __init__(
             self,
             timestamps_csv_file_path: str,
@@ -213,16 +214,27 @@ class TikTok:
             final_video_duration = get_time_difference_seconds(final_video_start, final_video_end)
             final_video = mpy.concatenate_videoclips(
                 clips=video_clips,
-                method="compose"
+                method="chain"
             ).set_audio(
                 mpy.AudioFileClip(self.audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
             ).set_duration(
                 final_video_duration - .1
             )
             colored_print(Fore.GREEN, "Creating final video...")
-            final_video.write_videofile(
-                self.output_file_path
-            )
+            try:
+                final_video.write_videofile(
+                    self.output_file_path,
+                    codec="png"
+                )
+            except Exception as error:
+                colored_print(Fore.RED, f"Error: {error}")
+                return
+            # 'libx264' (default codec for file extension .mp4) makes well-compressed videos (quality tunable using 'bitrate').
+            # 'mpeg4' (other codec for extension .mp4) can be an alternative to 'libx264', and produces higher quality videos by default.
+            # 'rawvideo' (use file extension .avi) will produce a video of perfect quality, of possibly very huge size.
+            # png (use file extension .avi) will produce a video of perfect quality, of smaller size than with rawvideo.
+            # 'libvorbis' (use file extension .ogv) is a nice video format, which is completely free/ open source. However not everyone has the codecs installed by default on their machine.
+            # 'libvpx' (use file extension .webm) is tiny a video format well indicated for web videos (with HTML5). Open source.
 
             create_notification(
                 title="TikTok",
@@ -427,7 +439,7 @@ if __name__ == "__main__":
     tiktok = TikTok(
         timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Markers.csv",
         audio_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\audio.mp3",
-        output_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Videos\short1.mp4",
+        output_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Videos\short3.avi",
         chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
         chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
         background_clips_directory_path=r"4k",
