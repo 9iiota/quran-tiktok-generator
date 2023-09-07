@@ -11,9 +11,9 @@ from plyer import notification
 from pyquran import quran
 
 ARABIC_FONT = "Fonts/Hafs.ttf"
-# ENGLISH_FONT = "Fonts/Butler_Regular.otf" # quran_2_listen
+ENGLISH_FONT = "Fonts/Butler_Regular.otf" # quran_2_listen
 # ENGLISH_FONT = "Fonts/Lato-Semibold.ttf" # quran_love77
-ENGLISH_FONT = "Fonts/Fontspring-DEMO-proximanovaexcn-regular.otf"
+# ENGLISH_FONT = "Fonts/Fontspring-DEMO-proximanovaexcn-regular.otf" # quranic_tiktoks
 
 # ENGLISH_FONT = "Fonts/Berlingske Serif Bold.otf"
 
@@ -84,6 +84,11 @@ class TikTok:
     class MODES(Enum):
         DARK = 1
         LIGHT = 2
+        MEDIUMSEAGREEN = 3
+        CORNFLOWERBLUE = 4
+        VIOLET = 5
+        WHEAT = 6
+        IVORY = 7
 
     DIMENSIONS = (576, 1024)
     
@@ -93,10 +98,10 @@ class TikTok:
             timestamps_csv_file_path: str,
             audio_file_path: str,
             output_file_path: str,
-            codec: str = "libx264",
             chapter_text_file_path: str = "chapter_text.txt",
             chapter_translation_file_path: str = "chapter_translation.txt",
             background_clips_directory_path: str = "Background_Clips",
+            codec: str = "libx264",
             mode: MODES = MODES.DARK,
             shadow_opacity: float = 0.7,
             text_fade_duration: float = 0.5,
@@ -141,6 +146,26 @@ class TikTok:
             self.shadow_color = (255, 255, 255)
             self.verse_text_color = "rgb(0, 0, 0)"
             self.verse_translation_color = "rgb(0, 0, 0)"
+        elif self.mode == TikTok.MODES.MEDIUMSEAGREEN:
+            self.shadow_color = (60,179,113)
+            self.verse_text_color = "rgb(255, 255, 255)"
+            self.verse_translation_color = "rgb(255, 255, 255)"
+        elif self.mode == TikTok.MODES.CORNFLOWERBLUE:
+            self.shadow_color = (100,149,237)
+            self.verse_text_color = "rgb(255, 255, 255)"
+            self.verse_translation_color = "rgb(255, 255, 255)"
+        elif self.mode == TikTok.MODES.VIOLET:
+            self.shadow_color = (238,130,238)
+            self.verse_text_color = "rgb(255, 255, 255)"
+            self.verse_translation_color = "rgb(255, 255, 255)"
+        elif self.mode == TikTok.MODES.WHEAT:
+            self.shadow_color = (245,222,179)
+            self.verse_text_color = "rgb(255, 255, 255)"
+            self.verse_translation_color = "rgb(255, 255, 255)"
+        elif self.mode == TikTok.MODES.IVORY:
+            self.shadow_color = (255,255,240)
+            self.verse_text_color = "rgb(255, 255, 255)"
+            self.verse_translation_color = "rgb(255, 255, 255)"
         self.shadow_opacity = shadow_opacity
         self.text_fade_duration = text_fade_duration
         self.duplicates_allowed = duplicates_allowed
@@ -198,7 +223,7 @@ class TikTok:
                     text_end = None
                 video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
                 text_duration = get_time_difference_seconds(audio_start, text_end) if text_end is not None else None
-                if self.hash_map is None or (self.hash_map is not None and (i - 1) not in self.hash_map):
+                if self.hash_map is None or (self.hash_map is not None and i not in self.hash_map):
                     all_background_clips = [clip for clip in os.listdir(self.background_clips_directory_path) if clip.endswith(".mp4")]
                     while True:
                         background_clip = random.choice(all_background_clips)
@@ -209,7 +234,7 @@ class TikTok:
                                 used_background_clips.append(background_clip)
                                 break
                 else:
-                    background_clip_name = self.hash_map[i - 1]
+                    background_clip_name = self.hash_map[i]
                     background_clip_path = os.path.join(self.background_clips_directory_path, background_clip_name)
                     background_clip_duration = get_video_duration_seconds(background_clip_path)
                     if background_clip_duration < video_clip_duration:
@@ -217,7 +242,7 @@ class TikTok:
                         return
                     elif background_clip_name not in used_background_clips:
                         used_background_clips.append(background_clip_name)
-                    del self.hash_map[i - 1]
+                    del self.hash_map[i]
                 
                 colored_print(Fore.GREEN, f"Creating clip {i}...")
                 video_clip = self.create_video_clip(
@@ -237,7 +262,7 @@ class TikTok:
             ).set_audio(
                 mpy.AudioFileClip(self.audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
             ).set_duration(
-                final_video_duration - .1
+                final_video_duration - .03
             )
             colored_print(Fore.GREEN, "Creating final video...")
             try:
@@ -260,11 +285,11 @@ class TikTok:
                 message="Video successfully created!"
             )
 
-    def create_video_clip(self, background_clip_path, background_clip_duration, text_duration, verse_text, verse_translation):
+    def create_video_clip(self, background_clip_path, background_clip_duration, text_duration, verse_text, verse_translation, x_offset=0, y_offset=0):
         video_clip = mpy.VideoFileClip(background_clip_path)
 
-        x_offset = random.randint(0, max(0, video_clip.w - self.DIMENSIONS[0]))
-        y_offset = random.randint(0, max(0, video_clip.h - self.DIMENSIONS[1]))
+        x_offset = random.randint(0, max(0, video_clip.w - self.DIMENSIONS[0])) if x_offset == 0 else x_offset
+        y_offset = random.randint(0, max(0, video_clip.h - self.DIMENSIONS[1])) if y_offset == 0 else y_offset
 
         video_clip = video_clip.set_duration(
             background_clip_duration
@@ -399,72 +424,11 @@ class TikTok:
             return None
 
 if __name__ == "__main__":
-    # tiktok = TikTok(
-    #     timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Markers.csv",
-    #     background_clips_directory_path=r"Background_Clips",
-    #     audio_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\audio.mp3",
-    #     output_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\1.mp4",
-    #     mode=TikTok.MODES.LIGHT,
-    #     chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
-    #     chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
-    # )
-    # tiktok = TikTok(
-    #     timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Markers.csv",
-    #     background_clips_directory_path=r"Background_Clips",
-    #     audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3",
-    #     output_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\1.mp4",
-    #     mode=TikTok.MODES.LIGHT,
-    #     chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
-    #     chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
-    # )
-    # tiktok = TikTok(
-    #     timestamps_csv_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\Markers.csv",
-    #     background_clips_directory_path=r"Background_Clips",
-    #     audio_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\audio.mp3",
-    #     output_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\Videos\11.mp4",
-    #     mode=TikTok.MODES.DARK,
-    #     chapter_text_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt",
-    #     chapter_translation_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt",
-    # )
-    # tiktok = TikTok(
-    #     timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Markers.csv",
-    #     background_clips_directory_path=r"4k",
-    #     audio_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\audio.mp3",
-    #     output_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\3.mp4",
-    #     mode=TikTok.MODES.DARK,
-    #     # shadow_opacity=0.5,
-    #     chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
-    #     chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
-    #     output_dimensions=TikTok.DIMENSIONS.a1080p
-    # )
-    # tiktok.create_video()
-    # tiktok = TikTok(
-    #     timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Markers.csv",
-    #     audio_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Fatih Seferagic - 59 - Al-Hashr.mp3",
-    #     output_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Videos\3.mp4",
-    #     chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
-    #     chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
-    # )
-    # tiktok = TikTok(
-    #     timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Markers.csv",
-    #     audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3",
-    #     output_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\short2.mp4",
-    #     chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
-    #     chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
-    #     background_clips_directory_path=r"4k",
-    #     start_line=6,
-    #     end_line=9
-    # )
-    # tiktok = TikTok(
-    #     timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Markers.csv",
-    #     audio_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\audio.mp3",
-    #     output_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Videos\short3",
-    #     codec="rawvideo",
-    #     chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
-    #     chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
-    #     background_clips_directory_path=r"4k",
-    #     hash_map={
-    #         1 : "146169 (1080p).mp4"
-    #     }
-    # )
-    # tiktok.create_video()
+    tiktok = TikTok(
+        timestamps_csv_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\Markers.csv",
+        audio_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\audio.mp3",
+        output_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\Videos\short3",
+        chapter_text_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt",
+        chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
+    )
+    tiktok.create_video()
