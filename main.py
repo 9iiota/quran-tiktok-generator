@@ -93,6 +93,7 @@ class TikTok:
             timestamps_csv_file_path: str,
             audio_file_path: str,
             output_file_path: str,
+            codec: str = "libx264",
             chapter_text_file_path: str = "chapter_text.txt",
             chapter_translation_file_path: str = "chapter_translation.txt",
             background_clips_directory_path: str = "Background_Clips",
@@ -105,6 +106,7 @@ class TikTok:
             start_verse: int = None,
             end_verse: int = None,
             duplicates_allowed: bool = False,
+            hash_map: dict = None
         ):
         self.start_line = start_line
         self.end_line = end_line
@@ -123,6 +125,11 @@ class TikTok:
         self.background_clips_directory_path = background_clips_directory_path
         self.audio_file_path = audio_file_path
         self.output_file_path = output_file_path
+        self.codec = codec
+        if self.codec == "rawvideo" or self.codec == "png":
+            self.output_file_path = self.output_file_path = self.output_file_path + ".avi"
+        elif self.codec == "libx264" or self.codec == "libx265" or self.codec == "mpeg4":
+            self.output_file_path = self.output_file_path = self.output_file_path + ".mp4"
         self.chapter_text_file_path = chapter_text_file_path
         self.chapter_translation_file_path = chapter_translation_file_path
         self.mode = mode
@@ -137,6 +144,7 @@ class TikTok:
         self.shadow_opacity = shadow_opacity
         self.text_fade_duration = text_fade_duration
         self.duplicates_allowed = duplicates_allowed
+        self.hash_map = hash_map
 
     def create_video(self):
         try:
@@ -190,15 +198,26 @@ class TikTok:
                     text_end = None
                 video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
                 text_duration = get_time_difference_seconds(audio_start, text_end) if text_end is not None else None
-                all_background_clips = [clip for clip in os.listdir(self.background_clips_directory_path) if clip.endswith(".mp4")]
-                while True:
-                    background_clip = random.choice(all_background_clips)
-                    background_clip_path = os.path.join(self.background_clips_directory_path, background_clip)
+                if self.hash_map is None or (self.hash_map is not None and (i - 1) not in self.hash_map):
+                    all_background_clips = [clip for clip in os.listdir(self.background_clips_directory_path) if clip.endswith(".mp4")]
+                    while True:
+                        background_clip = random.choice(all_background_clips)
+                        background_clip_path = os.path.join(self.background_clips_directory_path, background_clip)
+                        background_clip_duration = get_video_duration_seconds(background_clip_path)
+                        if background_clip_duration >= video_clip_duration:
+                            if self.duplicates_allowed or (not self.duplicates_allowed and background_clip not in used_background_clips):
+                                used_background_clips.append(background_clip)
+                                break
+                else:
+                    background_clip_name = self.hash_map[i - 1]
+                    background_clip_path = os.path.join(self.background_clips_directory_path, background_clip_name)
                     background_clip_duration = get_video_duration_seconds(background_clip_path)
-                    if background_clip_duration >= video_clip_duration:
-                        if self.duplicates_allowed or (not self.duplicates_allowed and background_clip not in used_background_clips):
-                            used_background_clips.append(background_clip)
-                            break
+                    if background_clip_duration < video_clip_duration:
+                        colored_print(Fore.RED, f"Background clip duration is less than video clip duration for clip {i}")
+                        return
+                    elif background_clip_name not in used_background_clips:
+                        used_background_clips.append(background_clip_name)
+                    del self.hash_map[i - 1]
                 
                 colored_print(Fore.GREEN, f"Creating clip {i}...")
                 video_clip = self.create_video_clip(
@@ -224,7 +243,7 @@ class TikTok:
             try:
                 final_video.write_videofile(
                     self.output_file_path,
-                    codec="png"
+                    codec=self.codec
                 )
             except Exception as error:
                 colored_print(Fore.RED, f"Error: {error}")
@@ -436,12 +455,16 @@ if __name__ == "__main__":
     #     start_line=6,
     #     end_line=9
     # )
-    tiktok = TikTok(
-        timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Markers.csv",
-        audio_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\audio.mp3",
-        output_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Videos\short3.avi",
-        chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
-        chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
-        background_clips_directory_path=r"4k",
-    )
-    tiktok.create_video()
+    # tiktok = TikTok(
+    #     timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Markers.csv",
+    #     audio_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\audio.mp3",
+    #     output_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Videos\short3",
+    #     codec="rawvideo",
+    #     chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
+    #     chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
+    #     background_clips_directory_path=r"4k",
+    #     hash_map={
+    #         1 : "146169 (1080p).mp4"
+    #     }
+    # )
+    # tiktok.create_video()
