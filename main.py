@@ -11,10 +11,6 @@ from plyer import notification
 from pyquran import quran
 
 ARABIC_FONT = "Fonts/Hafs.ttf"
-ENGLISH_FONT = "Fonts/Butler_Regular.otf" # quran_2_listen
-# ENGLISH_FONT = "Fonts/Lato-Semibold.ttf" # quran_love77
-# ENGLISH_FONT = "Fonts/Fontspring-DEMO-proximanovaexcn-regular.otf" # quranic_tiktoks
-
 # ENGLISH_FONT = "Fonts/Berlingske Serif Bold.otf"
 
 def colored_print(color: str, text: str):
@@ -90,11 +86,17 @@ class TikTok:
         WHEAT = 6
         IVORY = 7
 
+    class ACCOUNTS(Enum):
+        QURAN_2_LISTEN = 1 # crazyshocklight@hotmail.com
+        QURAN_LOVE77 = 2 # crazyshocklight2@gmail.com
+        QURANIC_TIKTOKS = 3 # crazyshocky@hotmail.com
+
     DIMENSIONS = (576, 1024)
     
     # TODO: Add output extension
     def __init__(
             self,
+            account: ACCOUNTS,
             timestamps_csv_file_path: str,
             audio_file_path: str,
             output_file_path: str,
@@ -113,6 +115,12 @@ class TikTok:
             duplicates_allowed: bool = False,
             hash_map: dict = None
         ):
+        if account == TikTok.ACCOUNTS.QURAN_2_LISTEN:
+            self.ENGLISH_FONT = "Fonts/Butler_Regular.otf"
+        elif account == TikTok.ACCOUNTS.QURAN_LOVE77:
+            self.ENGLISH_FONT = "Fonts/Lato-Semibold.ttf"
+        elif account == TikTok.ACCOUNTS.QURANIC_TIKTOKS:
+            self.ENGLISH_FONT = "Fonts/Fontspring-DEMO-proximanovaexcn-regular.otf"
         self.start_line = start_line
         self.end_line = end_line
         if chapter_text_file_path == "chapter_text.txt" and chapter_translation_file_path == "chapter_translation.txt":
@@ -341,7 +349,7 @@ class TikTok:
             color=self.verse_translation_color,
             bg_color="transparent",
             fontsize=18,
-            font=ENGLISH_FONT
+            font=self.ENGLISH_FONT
         ).set_position(
             (0, 0), relative=True
         ).set_duration(
@@ -424,11 +432,4 @@ class TikTok:
             return None
 
 if __name__ == "__main__":
-    tiktok = TikTok(
-        timestamps_csv_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\Markers.csv",
-        audio_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\audio.mp3",
-        output_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\Videos\short3",
-        chapter_text_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt",
-        chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
-    )
-    tiktok.create_video()
+    pass
