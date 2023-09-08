@@ -235,12 +235,13 @@ class TikTok:
                     all_background_clips = [clip for clip in os.listdir(self.background_clips_directory_path) if clip.endswith(".mp4")]
                     while True:
                         background_clip = random.choice(all_background_clips)
-                        background_clip_path = os.path.join(self.background_clips_directory_path, background_clip)
-                        background_clip_duration = get_video_duration_seconds(background_clip_path)
-                        if background_clip_duration >= video_clip_duration:
-                            if self.duplicates_allowed or (not self.duplicates_allowed and background_clip not in used_background_clips):
-                                used_background_clips.append(background_clip)
-                                break
+                        if background_clip not in self.hash_map.values():
+                            background_clip_path = os.path.join(self.background_clips_directory_path, background_clip)
+                            background_clip_duration = get_video_duration_seconds(background_clip_path)
+                            if background_clip_duration >= video_clip_duration:
+                                if self.duplicates_allowed or (not self.duplicates_allowed and background_clip not in used_background_clips):
+                                    used_background_clips.append(background_clip)
+                                    break
                 else:
                     background_clip_name = self.hash_map[i]
                     background_clip_path = os.path.join(self.background_clips_directory_path, background_clip_name)
@@ -432,4 +433,20 @@ class TikTok:
             return None
 
 if __name__ == "__main__":
-    pass
+    tiktok = TikTok(
+        account=TikTok.ACCOUNTS.QURAN_2_LISTEN,
+        timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\Markers.csv",
+        audio_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\audio.mp3",
+        output_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\Videos\1",
+        chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt",
+        chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
+        hash_map={
+            3: "Hyouka - E22(42)..mp4",
+            10: "Weathering With You (145).mp4",
+            1: "Weathering With You (328).mp4",
+            11: "Violet Evergarden - NCOP1 (10).mp4",
+            16: "Kimi No Nawa (274).mp4"
+
+        }
+    )
+    tiktok.create_video()
