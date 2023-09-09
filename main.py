@@ -9,6 +9,7 @@ from datetime import datetime
 from enum import Enum
 from plyer import notification
 from pyquran import quran
+from Tiktok_uploader import uploadVideo
 
 ARABIC_FONT = "Fonts/Hafs.ttf"
 # ENGLISH_FONT = "Fonts/Berlingske Serif Bold.otf"
@@ -103,6 +104,7 @@ class TikTok:
             chapter_text_file_path: str = "chapter_text.txt",
             chapter_translation_file_path: str = "chapter_translation.txt",
             background_clips_directory_path: str = "Background_Clips",
+            background_clip_speed: float = 1.0,
             codec: str = "libx264",
             mode: MODES = MODES.DARK,
             shadow_opacity: float = 0.7,
@@ -121,6 +123,7 @@ class TikTok:
             self.ENGLISH_FONT = "Fonts/Lato-Semibold.ttf"
         elif account == TikTok.ACCOUNTS.QURANIC_TIKTOKS:
             self.ENGLISH_FONT = "Fonts/Fontspring-DEMO-proximanovaexcn-regular.otf"
+            self.session_id = "8877ca2daba37ca9acea9b798208e9b0"
         self.start_line = start_line
         self.end_line = end_line
         if chapter_text_file_path == "chapter_text.txt" and chapter_translation_file_path == "chapter_translation.txt":
@@ -136,6 +139,7 @@ class TikTok:
         self.timestamps_csv_file_path = timestamps_csv_file_path
         self.timestamps_txt_file_path = self.timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
         self.background_clips_directory_path = background_clips_directory_path
+        self.background_clip_speed = background_clip_speed
         self.audio_file_path = audio_file_path
         self.output_file_path = output_file_path
         self.codec = codec
@@ -238,7 +242,7 @@ class TikTok:
                         if background_clip not in self.hash_map.values():
                             background_clip_path = os.path.join(self.background_clips_directory_path, background_clip)
                             background_clip_duration = get_video_duration_seconds(background_clip_path)
-                            if background_clip_duration >= video_clip_duration:
+                            if background_clip_duration / self.background_clip_speed >= video_clip_duration:
                                 if self.duplicates_allowed or (not self.duplicates_allowed and background_clip not in used_background_clips):
                                     used_background_clips.append(background_clip)
                                     break
@@ -295,7 +299,7 @@ class TikTok:
             )
 
     def create_video_clip(self, background_clip_path, background_clip_duration, text_duration, verse_text, verse_translation, x_offset=0, y_offset=0):
-        video_clip = mpy.VideoFileClip(background_clip_path)
+        video_clip = mpy.VideoFileClip(background_clip_path).speedx(self.background_clip_speed)
 
         x_offset = random.randint(0, max(0, video_clip.w - self.DIMENSIONS[0])) if x_offset == 0 else x_offset
         y_offset = random.randint(0, max(0, video_clip.h - self.DIMENSIONS[1])) if y_offset == 0 else y_offset
@@ -435,11 +439,11 @@ class TikTok:
 if __name__ == "__main__":
     tiktok = TikTok(
         account=TikTok.ACCOUNTS.QURAN_2_LISTEN,
-        timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\Markers.csv",
-        audio_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\audio.mp3",
-        output_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\Videos\1",
-        chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt",
-        chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
+        timestamps_csv_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\Markers.csv",
+        audio_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\audio.mp3",
+        output_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\Videos\quran_2_listen-3",
+        chapter_text_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt",
+        chapter_translation_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_translation.txt",
         hash_map={
             3: "Hyouka - E22(42)..mp4",
             10: "Weathering With You (145).mp4",
@@ -450,3 +454,17 @@ if __name__ == "__main__":
         }
     )
     tiktok.create_video()
+
+    joe = input("Would you like to upload the video to TikTok? (y/n): ")
+    if joe.lower() == "y":
+        title = input("Enter a title for the video: ")
+        tags = input("Enter tags for the video (separated by commas): ").split(",")
+        uploadVideo(
+            session_id=tiktok.session_id,
+            video_path=tiktok.output_file_path,
+            title=title,
+            tags=tags,
+            verbose=True
+        )
+    else:
+        colored_print(Fore.RED, "Video not uploaded")
