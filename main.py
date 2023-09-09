@@ -103,7 +103,7 @@ class TikTok:
             output_file_path: str,
             chapter_text_file_path: str = "chapter_text.txt",
             chapter_translation_file_path: str = "chapter_translation.txt",
-            background_clips_directory_path: str = "Background_Clips",
+            background_clips_directory_path: str = "Anime_Clips",
             background_clip_speed: float = 1.0,
             codec: str = "libx264",
             mode: MODES = MODES.DARK,
@@ -435,6 +435,115 @@ class TikTok:
         except Exception as error:
             colored_print(Fore.RED, f"Error: {error}")
             return None
+
+class Video:
+    def __init__(self, background_clip_path, final_clip_duration, text_duration=None, shadow_clip=None, *text_clips, background_clip_speed=1.0, x_offset=0, y_offset=0, dimensions=(576, 1024)):
+        self.background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
+        self.x_offset = random.randint(0, max(0, (x_offset + self.background_clip.w - dimensions[0]) % (self.background_clip.w - dimensions[0])))
+        self.y_offset = random.randint(0, max(0, (y_offset + self.background_clip.h - dimensions[1]) % (self.background_clip.h - dimensions[1])))
+        self.final_clip_duration = final_clip_duration
+        self.background_clip = self.background_clip.set_duration(
+            self.final_clip_duration
+        ).crop(
+            x1=self.x_offset,
+            y1=self.y_offset,
+            x2=self.x_offset + dimensions[0],
+            y2=self.y_offset + dimensions[1]
+        )
+        self.text_duration = text_duration if text_duration is not None else self.final_clip_duration
+        self.shadow_clip = shadow_clip
+        self.text_clips = text_clips
+
+    def create_video_clip(self):
+        if self.shadow_clip is not None:
+            final_clip = mpy.CompositeVideoClip(
+                [
+                    self.background_clip,
+                    self.shadow_clip,
+                    *self.text_clips
+                ],
+                use_bgclip=True
+            )
+        else:
+            final_clip = mpy.CompositeVideoClip(
+                [
+                    self.background_clip,
+                    *self.text_clips
+                ],
+                use_bgclip=True
+            )
+        return final_clip
+
+class Shadow:
+    def __init__(self, size, color, duration, opacity):
+        self.size = size
+        self.color = color
+        self.duration = duration
+        self.opacity = opacity
+
+    def create_shadow_clip(self):
+        shadow_clip = mpy.ColorClip(
+            size=self.size,
+            color=self.color,
+            duration=self.duration
+        ).set_opacity(
+            self.opacity
+        )
+        return shadow_clip
+
+class Text:
+    def __init__(self, text, size, color, fontsize, font, position, duration, bg_color="transparent", fade_duration=0.5):
+        self.text = text
+        self.size = size
+        self.color = color
+        self.fontsize = fontsize
+        self.font = font
+        self.position = position
+        self.duration = duration
+        self.bg_color = bg_color
+        self.fade_duration = fade_duration
+
+    def create_text_clip(self):
+        text_clip = mpy.TextClip(
+            txt=self.text,
+            size=self.size,
+            color=self.color,
+            bg_color=self.bg_color,
+            fontsize=self.fontsize,
+            font=self.font
+        ).set_position(
+            self.position, relative=True
+        ).set_duration(
+            self.duration
+        ).crossfadein(
+            self.fade_duration
+        ).crossfadeout(
+            self.fade_duration
+        )
+        return text_clip
+
+text_clips = [
+    Text(
+        text="سورة الفاتحة",
+        size=(576, 1024),
+        color="rgb(255, 255, 255)",
+        fontsize=45,
+        font=ARABIC_FONT,
+        position=(0, -.05),
+        duration=5
+    ),
+    Text(
+        text="The Opening",
+        size=(576, 1024),
+        color="rgb(255, 255, 255)",
+        fontsize=18,
+        font="Fonts/Butler_Regular.otf",
+        position=(0, 0),
+        duration=5
+    )
+]
+
+video = Video()
 
 if __name__ == "__main__":
     tiktok = TikTok(
