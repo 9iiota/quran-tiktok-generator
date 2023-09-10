@@ -239,7 +239,7 @@ class TikTok:
                     all_background_clips = [clip for clip in os.listdir(self.background_clips_directory_path) if clip.endswith(".mp4")]
                     while True:
                         background_clip = random.choice(all_background_clips)
-                        if background_clip not in self.hash_map.values():
+                        if self.hash_map is None or (self.hash_map is not None and background_clip not in self.hash_map.values()):
                             background_clip_path = os.path.join(self.background_clips_directory_path, background_clip)
                             background_clip_duration = get_video_duration_seconds(background_clip_path)
                             if background_clip_duration / self.background_clip_speed >= video_clip_duration:
@@ -469,6 +469,7 @@ class Video:
             self,
             output_file_path,
             account = ACCOUNTS.QURAN_2_LISTEN,
+            timestamps_txt_file_path="",
             chapter_text_file_path="chapter_text.txt",
             chapter_translation_file_path="chapter_translation.txt",
             background_clips_directory_path="Anime_Clips",
@@ -479,7 +480,7 @@ class Video:
             codec="libx264",
             dimensions=(576, 1024)
         ):
-        self.timestamps_txt_file_path = ""
+        self.timestamps_txt_file_path = timestamps_txt_file_path
         if codec == "libx264" or codec == "libx265" or codec == "mpeg4":
             self.output_file_path = output_file_path + ".mp4"
         elif codec == "rawvideo" or codec == "png":
@@ -557,7 +558,7 @@ class Video:
                 shadow_clip = Shadow_Clip(
                     size=self.dimensions,
                     color=self.shadow_color,
-                    duration=video_clip_duration
+                    duration=video_clip_duration,
                     opacity=self.shadow_opacity
                 )
                 video_clip = Video_Clip(
@@ -772,8 +773,18 @@ if __name__ == "__main__":
     #     )
     # else:
     #     colored_print(Fore.RED, "Video not uploaded")
-    video = Video(
-        output_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\Videos\1",
-        chapter_text_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\chapter_text.txt",
-        chapter_translation_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\chapter_translation.txt",
-    ).create_video()
+    # video = Video(
+    #     output_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\Videos\1",
+    #     timestamps_txt_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\timestamps.txt",
+    #     chapter_text_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\chapter_text.txt",
+    #     chapter_translation_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\chapter_translation.txt",
+    # ).create_video()
+    tiktok = TikTok(
+        account=TikTok.ACCOUNTS.QURAN_2_LISTEN,
+        timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\Markers.csv",
+        audio_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\audio.mp3",
+        output_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\Videos\quran_2_listen-1",
+        chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
+        chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt",
+    )
+    tiktok.create_video()
