@@ -657,84 +657,96 @@ class Video:
                     else:
                         break
 
-class Video_Clip:
-    def __init__(self, background_clip_path, background_clip_speed, final_clip_duration, dimensions, text_duration=None, shadow_clip=None, *text_clips, x_offset=0, y_offset=0):
-        self.background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
-        self.x_offset = random.randint(0, max(0, (x_offset + self.background_clip.w - dimensions[0]) % (self.background_clip.w - dimensions[0])))
-        self.y_offset = random.randint(0, max(0, (y_offset + self.background_clip.h - dimensions[1]) % (self.background_clip.h - dimensions[1])))
-        self.final_clip_duration = final_clip_duration
-        self.background_clip = self.background_clip.set_duration(
-            self.final_clip_duration
-        ).crop(
-            x1=self.x_offset,
-            y1=self.y_offset,
-            x2=self.x_offset + dimensions[0],
-            y2=self.y_offset + dimensions[1]
+def Video_Clip(
+        background_clip_path: str,
+        final_clip_duration: float,
+        dimensions: tuple(int, int),
+        *text_clips: mpy.TextClip,
+        background_clip_speed: float=1.0,
+        x_offset: int=0,
+        y_offset: int=0,
+        text_duration: float=None,
+        shadow_clip: mpy.ColorClip=None
+    ):
+    background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
+    x_offset = random.randint(0, max(0, (x_offset + background_clip.w - dimensions[0]) % (background_clip.w - dimensions[0])))
+    y_offset = random.randint(0, max(0, (y_offset + background_clip.h - dimensions[1]) % (background_clip.h - dimensions[1])))
+    background_clip = background_clip.set_duration(
+        final_clip_duration
+    ).crop(
+        x1=x_offset,
+        y1=y_offset,
+        x2=x_offset + dimensions[0],
+        y2=y_offset + dimensions[1]
+    )
+    text_duration = text_duration if text_duration is not None else final_clip_duration
+    clips = [
+        background_clip,
+        shadow_clip,
+        *text_clips
+    ] if shadow_clip is not None else [
+        background_clip,
+        *text_clips
+    ]
+    final_clip = mpy.CompositeVideoClip(
+        clips,
+        use_bgclip=True
+    ).set_duration(
+        final_clip_duration
+    )
+    return final_clip
+
+def Shadow_Clip(
+        size: tuple(int, int),
+        color: tuple(int, int, int),
+        duration: float=None,
+        opacity: float=0.7
+    ):
+    shadow_clip = mpy.ColorClip(
+        size=size,
+        color=color
+    ).set_opacity(
+        opacity
+    )
+    if duration is not None:
+        shadow_clip = shadow_clip.set_duration(
+            duration
         )
-        self.text_duration = text_duration if text_duration is not None else self.final_clip_duration
-        self.shadow_clip = shadow_clip
-        self.text_clips = text_clips
+    return shadow_clip
 
-    def create_video_clip(self):
-        if self.shadow_clip is not None:
-            final_clip = mpy.CompositeVideoClip(
-                [
-                    self.background_clip,
-                    self.shadow_clip,
-                    *self.text_clips
-                ],
-                use_bgclip=True
-            )
-        else:
-            final_clip = mpy.CompositeVideoClip(
-                [
-                    self.background_clip,
-                    *self.text_clips
-                ],
-                use_bgclip=True
-            )
-        return final_clip
-
-class Shadow_Clip:
-    def __init__(self, size, color, duration, opacity):
-        self.size = size
-        self.color = color
-        self.duration = duration
-        self.opacity = opacity
-
-    def create_shadow_clip(self):
-        shadow_clip = mpy.ColorClip(
-            size=self.size,
-            color=self.color,
-            duration=self.duration
-        ).set_opacity(
-            self.opacity
+def Text_Clip(
+        text: str,
+        size: tuple,
+        color: str, # "rgb(int, int, int)"
+        fontsize: int,
+        font: str,
+        position: tuple(str or float, str or float),
+        bg_color: str="transparent",
+        method: str="label",
+        duration: float=None,
+        fade_duration: float=0.5
+    ):
+    text_clip = mpy.TextClip(
+        txt=text,
+        size=size,
+        color=color,
+        bg_color=bg_color,
+        fontsize=fontsize,
+        font=font,
+        method=method
+    ).set_position(
+        position,
+        relative=True
+    ).crossfadein(
+        fade_duration
+    ).crossfadeout(
+        fade_duration
+    )
+    if duration is not None:
+        text_clip = text_clip.set_duration(
+            duration
         )
-        return shadow_clip
-
-class Text_Clip:
-    def __init__(self, text, size, color, fontsize, font, position, bg_color="transparent", duration=None, fade_duration=0.5):
-        text_clip = mpy.TextClip(
-            txt=text,
-            size=size,
-            color=color,
-            bg_color=bg_color,
-            fontsize=fontsize,
-            font=font
-        ).set_position(
-            position, relative=True
-        )
-        if duration is not None:
-            text_clip = text_clip.set_duration(
-                duration
-            )
-        if fade_duration is not None:
-            text_clip = text_clip.crossfadein(
-                fade_duration
-            ).crossfadeout(
-                fade_duration
-            )
-        return text_clip
+    return text_clip
 
 class TikToks():
     def __init__(self, account: TikTok.ACCOUNTS):
@@ -914,4 +926,5 @@ if __name__ == "__main__":
     # ).create_video()
     
     # TikToks(TikTok.ACCOUNTS.QURAN_2_LISTEN).abdul_rahman_mossad_maryam_93_98.create_video()
-    TikToks(TikTok.ACCOUNTS.QURAN_2_LISTEN).salim_bahanan_al_fatihah_2_7()
+    # TikToks(TikTok.ACCOUNTS.QURAN_2_LISTEN).salim_bahanan_al_fatihah_2_7()
+    pass
