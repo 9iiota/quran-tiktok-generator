@@ -3,6 +3,7 @@ import moviepy.editor as mpy
 import os
 import random
 import requests
+import uuid
 from bs4 import BeautifulSoup
 from colorama import Fore, Style
 from datetime import datetime
@@ -711,35 +712,166 @@ class Shadow_Clip:
         return shadow_clip
 
 class Text_Clip:
-    def __init__(self, text, size, color, fontsize, font, position, duration, bg_color="transparent", fade_duration=0.5):
-        self.text = text
-        self.size = size
-        self.color = color
-        self.fontsize = fontsize
-        self.font = font
-        self.position = position
-        self.duration = duration
-        self.bg_color = bg_color
-        self.fade_duration = fade_duration
-
-    def create_text_clip(self):
+    def __init__(self, text, size, color, fontsize, font, position, bg_color="transparent", duration=None, fade_duration=0.5):
         text_clip = mpy.TextClip(
-            txt=self.text,
-            size=self.size,
-            color=self.color,
-            bg_color=self.bg_color,
-            fontsize=self.fontsize,
-            font=self.font
+            txt=text,
+            size=size,
+            color=color,
+            bg_color=bg_color,
+            fontsize=fontsize,
+            font=font
         ).set_position(
-            self.position, relative=True
-        ).set_duration(
-            self.duration
-        ).crossfadein(
-            self.fade_duration
-        ).crossfadeout(
-            self.fade_duration
+            position, relative=True
         )
+        if duration is not None:
+            text_clip = text_clip.set_duration(
+                duration
+            )
+        if fade_duration is not None:
+            text_clip = text_clip.crossfadein(
+                fade_duration
+            ).crossfadeout(
+                fade_duration
+            )
         return text_clip
+
+class TikToks():
+    def __init__(self, account: TikTok.ACCOUNTS):
+        self.account = account
+
+    def abdul_rahman_mossad_maryam_93_98(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\Markers.csv",
+            audio_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\audio.mp3",
+            output_file_path=rf"Surahs\Abdul Rahman Mossad - 19 - Maryam\Videos\{self.account}_93-98_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt",
+        ).create_video()
+
+    def abdul_rahman_mossad_al_ankabut_54_62(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Markers.csv",
+            audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3",
+            output_file_path=rf"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\{self.account}_54-62_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
+        ).create_video()
+
+    def abdul_rahman_mossad_al_ankabut_56_57(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Markers.csv",
+            audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3",
+            output_file_path=rf"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\{self.account}_54-62_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
+            start_line=6,
+            end_line=9,
+        ).create_video()
+
+    def abdul_rahman_mossd_al_muzzammil_14_18(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Markers.csv",
+            audio_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\audio.mp3",
+            output_file_path=rf"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\{self.account}_14-18_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
+        ).create_video()
+
+    def abdul_rahman_mossd_al_muzzammil_14_15(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Markers.csv",
+            audio_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\audio.mp3",
+            output_file_path=rf"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\{self.account}_14-18_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
+            start_line=1,
+            end_line=3,
+        ).create_video()
+
+    def abdul_rahman_mossd_al_ghashiyah_10_26(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\Markers.csv",
+            audio_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\audio.mp3",
+            output_file_path=rf"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\Videos\{self.account}_10-26_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
+        ).create_video()
+
+    def fatih_seferagic_ayatul_kursi_255(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 2 - Al-Baqarah\Markers.csv",
+            audio_file_path=r"Surahs\Fatih Seferagic - 2 - Al-Baqarah\audio.mp3",
+            output_file_path=rf"Surahs\Fatih Seferagic - 2 - Al-Baqarah\Videos\{self.account}_255_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Fatih Seferagic - 2 - Al-Baqarah\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 2 - Al-Baqarah\chapter_translation.txt",
+        ).create_video()
+
+    def fatih_seferagic_al_hujurat_10(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Markers.csv",
+            audio_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\audio.mp3",
+            output_file_path=rf"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Videos\{self.account}_10_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
+        ).create_video()
+
+    def fatih_seferagic_al_hashr_21_24(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\Markers.csv",
+            audio_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\audio.mp3",
+            output_file_path=rf"Surahs\Fatih Seferagic - 59 - Al-Hashr\Videos\{self.account}_21-24_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
+        ).create_video()
+
+    def salim_bahanan_al_fatihah_2_7(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\Markers.csv",
+            audio_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\audio.mp3",
+            output_file_path=rf"Surahs\Salim Bahanan - 1 - Al-Fatihah\Videos\{self.account}_2-7_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_translation.txt",
+        ).create_video()
+
+    def salim_bahanan_ad_duhaa_1_11(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\Markers.csv",
+            audio_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\audio.mp3",
+            output_file_path=rf"Surahs\Salim Bahanan - 93 - Ad-Duhaa\Videos\{self.account}_1-11_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt",
+        ).create_video()
+
+    def salim_bahanan_al_qariah_1_11(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\Markers.csv",
+            audio_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\audio.mp3",
+            output_file_path=rf"Surahs\Salim Bahanan - 101 - Al-Qari'ah\Videos\{self.account}_1-11_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\chapter_translation.txt",
+        ).create_video()
+
+    def unknown_al_ankabut_56_58(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\Markers.csv",
+            audio_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\audio.mp3",
+            output_file_path=rf"Surahs\Unknown - 29 - Al-'Ankabut\Videos\{self.account}_56-58_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
+        ).create_video()
 
 if __name__ == "__main__":
     # tiktok = TikTok(
@@ -779,12 +911,6 @@ if __name__ == "__main__":
     #     chapter_text_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\chapter_text.txt",
     #     chapter_translation_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\chapter_translation.txt",
     # ).create_video()
-    tiktok = TikTok(
-        account=TikTok.ACCOUNTS.QURAN_2_LISTEN,
-        timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\Markers.csv",
-        audio_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\audio.mp3",
-        output_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\Videos\quran_2_listen-1",
-        chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
-        chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt",
-    )
-    tiktok.create_video()
+    
+    # TikToks(TikTok.ACCOUNTS.QURAN_2_LISTEN).abdul_rahman_mossad_maryam_93_98.create_video()
+    TikToks(TikTok.ACCOUNTS.QURAN_2_LISTEN).salim_bahanan_al_fatihah_2_7()
