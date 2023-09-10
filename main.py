@@ -351,13 +351,14 @@ class TikTok:
 
         verse_translation_clip = mpy.TextClip(
             txt=verse_translation,
-            size=video_clip.size,
+            size=(video_clip.size[0] * .6, None),
             color=self.verse_translation_color,
             bg_color="transparent",
             fontsize=18,
-            font=self.ENGLISH_FONT
+            font=self.ENGLISH_FONT,
+            method="caption"
         ).set_position(
-            (0, 0), relative=True
+            ("center", .49), relative=True
         ).set_duration(
             text_duration
         ).crossfadein(
