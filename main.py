@@ -95,7 +95,6 @@ class TikTok:
 
     DIMENSIONS = (576, 1024)
     
-    # TODO: Add output extension
     def __init__(
             self,
             account: ACCOUNTS,
@@ -105,6 +104,7 @@ class TikTok:
             chapter_text_file_path: str = "chapter_text.txt",
             chapter_translation_file_path: str = "chapter_translation.txt",
             background_clips_directory_path: str = "Anime_Clips",
+            single_frames: bool=False,
             background_clip_speed: float = 1.0,
             codec: str = "libx264",
             mode: MODES = MODES.DARK,
@@ -118,11 +118,11 @@ class TikTok:
             duplicates_allowed: bool = False,
             hash_map: dict = None
         ):
-        if account == TikTok.ACCOUNTS.QURAN_2_LISTEN:
+        if account == ACCOUNTS.QURAN_2_LISTEN:
             self.ENGLISH_FONT = "Fonts/Butler_Regular.otf"
-        elif account == TikTok.ACCOUNTS.QURAN_LOVE77:
+        elif account == ACCOUNTS.QURAN_LOVE77:
             self.ENGLISH_FONT = "Fonts/Lato-Semibold.ttf"
-        elif account == TikTok.ACCOUNTS.QURANIC_TIKTOKS:
+        elif account == ACCOUNTS.QURANIC_TIKTOKS:
             self.ENGLISH_FONT = "Fonts/Fontspring-DEMO-proximanovaexcn-regular.otf"
             self.session_id = "8877ca2daba37ca9acea9b798208e9b0"
         self.start_line = start_line
@@ -140,6 +140,7 @@ class TikTok:
         self.timestamps_csv_file_path = timestamps_csv_file_path
         self.timestamps_txt_file_path = self.timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
         self.background_clips_directory_path = background_clips_directory_path
+        self.single_frames = single_frames
         self.background_clip_speed = background_clip_speed
         self.audio_file_path = audio_file_path
         self.output_file_path = output_file_path
@@ -151,11 +152,11 @@ class TikTok:
         self.chapter_text_file_path = chapter_text_file_path
         self.chapter_translation_file_path = chapter_translation_file_path
         self.mode = mode
-        if self.mode == TikTok.MODES.DARK:
+        if self.mode == MODES.DARK:
             self.shadow_color = (0, 0, 0)
             self.verse_text_color = "rgb(255, 255, 255)"
             self.verse_translation_color = "rgb(255, 255, 255)"
-        elif self.mode == TikTok.MODES.LIGHT:
+        elif self.mode == MODES.LIGHT:
             self.shadow_color = (255, 255, 255)
             self.verse_text_color = "rgb(0, 0, 0)"
             self.verse_translation_color = "rgb(0, 0, 0)"
@@ -236,35 +237,50 @@ class TikTok:
                     text_end = None
                 video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
                 text_duration = get_time_difference_seconds(audio_start, text_end) if text_end is not None else None
-                if self.hash_map is None or (self.hash_map is not None and i not in self.hash_map):
-                    all_background_clips = [clip for clip in os.listdir(self.background_clips_directory_path) if clip.endswith(".mp4")]
-                    while True:
-                        background_clip = random.choice(all_background_clips)
-                        if self.hash_map is None or (self.hash_map is not None and background_clip not in self.hash_map.values()):
-                            background_clip_path = os.path.join(self.background_clips_directory_path, background_clip)
-                            background_clip_duration = get_video_duration_seconds(background_clip_path)
-                            if background_clip_duration / self.background_clip_speed >= video_clip_duration:
-                                if self.duplicates_allowed or (not self.duplicates_allowed and background_clip not in used_background_clips):
-                                    used_background_clips.append(background_clip)
-                                    break
+                if not self.single_frames:
+                    if self.hash_map is None or (self.hash_map is not None and i not in self.hash_map):
+                        all_background_clips = [clip for clip in os.listdir(self.background_clips_directory_path) if clip.endswith(".mp4")]
+                        while True:
+                            background_clip = random.choice(all_background_clips)
+                            if self.hash_map is None or (self.hash_map is not None and background_clip not in self.hash_map.values()):
+                                background_clip_path = os.path.join(self.background_clips_directory_path, background_clip)
+                                background_clip_duration = get_video_duration_seconds(background_clip_path)
+                                if background_clip_duration / self.background_clip_speed >= video_clip_duration:
+                                    if self.duplicates_allowed or (not self.duplicates_allowed and background_clip not in used_background_clips):
+                                        used_background_clips.append(background_clip)
+                                        break
+                    else:
+                        background_clip_name = self.hash_map[i]
+                        background_clip_path = os.path.join(self.background_clips_directory_path, background_clip_name)
+                        background_clip_duration = get_video_duration_seconds(background_clip_path)
+                        if background_clip_duration < video_clip_duration:
+                            colored_print(Fore.RED, f"Background clip duration is less than video clip duration for clip {i}")
+                            return
+                        elif background_clip_name not in used_background_clips:
+                            used_background_clips.append(background_clip_name)
+                        del self.hash_map[i]
                 else:
-                    background_clip_name = self.hash_map[i]
-                    background_clip_path = os.path.join(self.background_clips_directory_path, background_clip_name)
-                    background_clip_duration = get_video_duration_seconds(background_clip_path)
-                    if background_clip_duration < video_clip_duration:
-                        colored_print(Fore.RED, f"Background clip duration is less than video clip duration for clip {i}")
-                        return
-                    elif background_clip_name not in used_background_clips:
-                        used_background_clips.append(background_clip_name)
-                    del self.hash_map[i]
-                
+                    all_background_clips = [clip for clip in os.listdir(self.background_clips_directory_path) if clip.endswith(".mp4")]
+                    background_clip = random.choice(all_background_clips)
+                    background_clip_path = os.path.join(self.background_clips_directory_path, background_clip)
+                    video_clip = mpy.VideoFileClip(background_clip_path)
+
+                    # Get the total number of frames
+                    total_frames = int(video_clip.fps * video_clip.duration)
+
+                    # Generate a random frame number
+                    random_frame_number = random.randint(1, total_frames)
+
+                    # Seek to the random frame and capture it as an image
+                    background_clip_path = video_clip.get_frame(random_frame_number / video_clip.fps)
                 colored_print(Fore.GREEN, f"Creating clip {i}...")
                 video_clip = self.create_video_clip(
                     background_clip_path=background_clip_path,
                     background_clip_duration=video_clip_duration,
                     text_duration=text_duration,
                     verse_text=verse_text,
-                    verse_translation=verse_translation
+                    verse_translation=verse_translation,
+                    single_frame=self.single_frames
                 )
                 video_clips.append(video_clip)
             final_video_start = timestamps_lines[start - 1].strip().split(",")[0]
@@ -282,7 +298,8 @@ class TikTok:
             try:
                 final_video.write_videofile(
                     self.output_file_path,
-                    codec=self.codec
+                    codec=self.codec,
+                    fps=24,
                 )
             except Exception as error:
                 colored_print(Fore.RED, f"Error: {error}")
@@ -299,21 +316,30 @@ class TikTok:
                 message="Video successfully created!"
             )
 
-    def create_video_clip(self, background_clip_path, background_clip_duration, text_duration, verse_text, verse_translation, x_offset=0, y_offset=0):
-        video_clip = mpy.VideoFileClip(background_clip_path).speedx(self.background_clip_speed)
-
+    def create_video_clip(self, background_clip_path, background_clip_duration, text_duration, verse_text, verse_translation, x_offset=0, y_offset=0, single_frame=False):
+        if not single_frame:
+            video_clip = mpy.VideoFileClip(
+                background_clip_path
+            ).speedx(
+                self.background_clip_speed
+            ).set_duration(
+                background_clip_duration
+            )
+        else:
+            video_clip = mpy.ImageClip(
+                background_clip_path
+            ).set_duration(
+                background_clip_duration
+            )
         x_offset = random.randint(0, max(0, video_clip.w - self.DIMENSIONS[0])) if x_offset == 0 else x_offset
         y_offset = random.randint(0, max(0, video_clip.h - self.DIMENSIONS[1])) if y_offset == 0 else y_offset
-
-        video_clip = video_clip.set_duration(
-            background_clip_duration
-        ).crop(
+        
+        video_clip = video_clip.crop(
             x1=x_offset,
             y1=y_offset,
             x2=x_offset + self.DIMENSIONS[0],
             y2=y_offset + self.DIMENSIONS[1]
         )
-
         shadow_clip = mpy.ColorClip(
             size=video_clip.size,
             color=self.shadow_color,
@@ -466,202 +492,220 @@ class ACCOUNTS(Enum):
     QURAN_LOVE77 = 2 # crazyshocklight2@gmail.com
     QURANIC_TIKTOKS = 3 # crazyshocky@hotmail.com
 
-class Video:
-    def __init__(
-            self,
-            output_file_path,
-            account = ACCOUNTS.QURAN_2_LISTEN,
-            timestamps_txt_file_path="",
-            chapter_text_file_path="chapter_text.txt",
-            chapter_translation_file_path="chapter_translation.txt",
-            background_clips_directory_path="Anime_Clips",
-            background_clips_speed=1.0,
-            mode=MODES.DARK,
-            shadow_opacity=0.7,
-            duplicated_allowed=False,
-            codec="libx264",
-            dimensions=(576, 1024)
-        ):
-        self.timestamps_txt_file_path = timestamps_txt_file_path
-        if codec == "libx264" or codec == "libx265" or codec == "mpeg4":
-            self.output_file_path = output_file_path + ".mp4"
-        elif codec == "rawvideo" or codec == "png":
-            self.output_file_path = output_file_path + ".avi"
-        if account == TikTok.ACCOUNTS.QURAN_2_LISTEN:
-            self.ENGLISH_FONT = "Fonts/Butler_Regular.otf"
-        elif account == TikTok.ACCOUNTS.QURAN_LOVE77:
-            self.ENGLISH_FONT = "Fonts/Lato-Semibold.ttf"
-        elif account == TikTok.ACCOUNTS.QURANIC_TIKTOKS:
-            self.ENGLISH_FONT = "Fonts/Fontspring-DEMO-proximanovaexcn-regular.otf"
-            self.session_id = "8877ca2daba37ca9acea9b798208e9b0"
-        self.chapter_text_file_path = chapter_text_file_path
-        self.chapter_translation_file_path = chapter_translation_file_path
-        self.background_clips_directory_path = background_clips_directory_path
-        self.background_clips_speed = background_clips_speed
-        if mode == MODES.DARK:
-            self.shadow_color = (0, 0, 0)
-            self.verse_text_color = "rgb(255, 255, 255)"
-            self.verse_translation_color = "rgb(255, 255, 255)"
-        elif mode == MODES.LIGHT:
-            self.shadow_color = (255, 255, 255)
-            self.verse_text_color = "rgb(0, 0, 0)"
-            self.verse_translation_color = "rgb(0, 0, 0)"
-        self.shadow_opacity = shadow_opacity
-        self.duplicates_allowed = duplicated_allowed
-        self.codec = codec
-        self.dimensions = dimensions
-
-    def create_video(self, start=1, end=None, hash_map=None, *font_sizes):
-        used_background_clips = []
-        video_clips = []
-        with open(self.chapter_text_file_path, "r", encoding="utf-8") as chapter_text_file, \
-        open(self.chapter_translation_file_path, "r", encoding="utf-8") as chapter_translation_file, \
-        open(self.timestamps_txt_file_path, "r", encoding="utf-8") as timestamps_file:
-            chapter_text_lines = chapter_text_file.readlines()
-            chapter_translation_lines = chapter_translation_file.readlines()
-            timestamps_lines = timestamps_file.readlines()
-            if end is None:
-                end = len(chapter_text_lines) + 1
-            loop_range = range(start, end)
-            for i in loop_range:
-                verse_text = chapter_text_lines[i - 1].strip()
-                verse_translation = chapter_translation_lines[i - 1].strip()
-                audio_start = timestamps_lines[i - 1].strip().split(",")[0]
-                audio_end = timestamps_lines[i].strip().split(",")[0]
-                try:
-                    text_end = timestamps_lines[i].strip().split(",")[1]
-                    text_duration = get_time_difference_seconds(audio_start, text_end)
-                except IndexError:
-                    text_end = None
-                video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
-                if hash_map is None or (hash_map is not None and i not in hash_map):
-                    all_background_clips = [clip for clip in os.listdir(self.background_clips_directory_path) if clip.endswith(".mp4")]
-                    while True:
-                        background_clip = random.choice(all_background_clips)
-                        if background_clip not in hash_map.values():
-                            background_clip_path = os.path.join(self.background_clips_directory_path, background_clip)
-                            background_clip_duration = get_video_duration_seconds(background_clip_path)
-                            if background_clip_duration / self.background_clips_speed >= video_clip_duration:
-                                if self.duplicates_allowed or (not self.duplicates_allowed and background_clip not in used_background_clips):
-                                    used_background_clips.append(background_clip)
-                                    break
-                else:
-                    background_clip_name = hash_map[i]
-                    background_clip_path = os.path.join(self.background_clips_directory_path, background_clip_name)
-                    background_clip_duration = get_video_duration_seconds(background_clip_path)
-                    if background_clip_duration < video_clip_duration:
-                        colored_print(Fore.RED, f"Background clip duration is less than video clip duration for clip {i}")
-                        return
-                    elif background_clip_name not in used_background_clips:
-                        used_background_clips.append(background_clip_name)
-                    del hash_map[i]
-                
-                colored_print(Fore.GREEN, f"Creating clip {i}...")
-                shadow_clip = Shadow_Clip(
-                    size=self.dimensions,
-                    color=self.shadow_color,
-                    duration=video_clip_duration,
-                    opacity=self.shadow_opacity
-                )
-                video_clip = Video_Clip(
-                    background_clip_path=background_clip_path,
-                    background_clip_speed=self.background_clips_speed,
-                    final_clip_duration=video_clip_duration,
-                    dimensions=self.dimensions,
-                    text_duration=text_duration,
-                    shadow_clip=shadow_clip,
-                    text_clips=[
-                        Text_Clip(
-                            txt=verse_text,
-                            size=self.dimensions,
-                            color=self.verse_text_color,
-                            fontsize=45,
-                            font=ARABIC_FONT,
-                            position=(0, -.05), relative=True,
-                            duration=text_duration
-                        ),
-                        Text_Clip(
-                            txt=verse_translation,
-                            size=video_clip.size,
-                            color=self.verse_translation_color,
-                            fontsize=18,
-                            font=self.ENGLISH_FONT,
-                            position=(0, 0), relative=True,
-                            duration=text_duration
-                        )
-                    ]
-                ).create_video_clip()
-                video_clips.append(video_clip)
-            final_video_start = timestamps_lines[start - 1].strip().split(",")[0]
-            final_video_end = timestamps_lines[end - 1].strip().split(",")[0]
-            final_video_duration = get_time_difference_seconds(final_video_start, final_video_end)
-            final_video = mpy.concatenate_videoclips(
-                clips=video_clips,
-                method="chain"
-            ).set_audio(
-                mpy.AudioFileClip(self.audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
-            ).set_duration(
-                final_video_duration - .03
-            )
-            colored_print(Fore.GREEN, "Creating final video...")
-            try:
-                final_video.write_videofile(
-                    self.output_file_path,
-                    codec=self.codec
-                )
-            except Exception as error:
-                colored_print(Fore.RED, f"Error: {error}")
+def Video(
+        directory_path: str,
+        output_file_path: str,
+        audio_file_path: str,
+        account: ACCOUNTS= ACCOUNTS.QURAN_2_LISTEN,
+        chapter_text_file_path: str="chapter_text.txt",
+        chapter_translation_file_path: str="chapter_translation.txt",
+        start: int=1,
+        end: int=None,
+        chapter: int=None,
+        start_verse: int=None,
+        end_verse: int=None,
+        background_clips_directory_path: str="Anime_Clips",
+        background_clips_speed: float=1.0,
+        hash_map: dict=None,
+        mode: MODES=MODES.DARK,
+        shadow_opacity: float=0.7,
+        duplicates_allowed: bool=False,
+        codec: str="libx264",
+        dimensions: tuple[int, int]=(576, 1024),
+        x_offset: int=0,
+        y_offset: int=0
+    ):
+    if os.path.isdir(directory_path):
+        if os.path.isfile(os.path.join(directory_path, "timestamps.txt")):
+            timestamps_txt_file_path = os.path.join(directory_path, "timestamps.txt")
+        elif os.path.isfile(os.path.join(directory_path, "Markers.csv")):
+            timestamps_csv_file_path = os.path.join(directory_path, "Markers.csv")
+            create_timestamps_txt_file(timestamps_csv_file_path)
+            timestamps_txt_file_path = timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
+        else:
+            colored_print(Fore.RED, "Markers.csv file not found")
+            return
+    else:
+        colored_print(Fore.RED, "Directory not found")
+        return
+    if codec == "libx264" or codec == "libx265" or codec == "mpeg4":
+        output_file_path = output_file_path + ".mp4"
+    elif codec == "rawvideo" or codec == "png":
+        output_file_path = output_file_path + ".avi"
+    if account == ACCOUNTS.QURAN_2_LISTEN:
+        english_font = "Fonts/Butler_Regular.otf"
+    elif account == ACCOUNTS.QURAN_LOVE77:
+        english_font = "Fonts/Lato-Semibold.ttf"
+    elif account == ACCOUNTS.QURANIC_TIKTOKS:
+        english_font = "Fonts/Fontspring-DEMO-proximanovaexcn-regular.otf"
+        session_id = "8877ca2daba37ca9acea9b798208e9b0"
+    if mode == MODES.DARK:
+        shadow_color = (0, 0, 0)
+        verse_text_color = "rgb(255, 255, 255)"
+        verse_translation_color = "rgb(255, 255, 255)"
+    elif mode == MODES.LIGHT:
+        shadow_color = (255, 255, 255)
+        verse_text_color = "rgb(0, 0, 0)"
+        verse_translation_color = "rgb(0, 0, 0)"
+    if chapter_text_file_path == "chapter_text.txt":
+        with open(chapter_text_file_path, "w", encoding="utf-8") as chapter_text_file:
+            verse_text = Quran.get_verse_text(chapter, start_verse)
+            if verse_text is None:
                 return
+            for current_verse in range(start_verse, end_verse + 1):
+                verse_text = Quran.get_verse_text(chapter, current_verse)
+                if verse_text is not None:
+                    chapter_text_file.write(verse_text + "\n")
+                else:
+                    break
+    else:
+        if not os.path.isfile(chapter_text_file_path):
+            colored_print(Fore.RED, "Chapter text file not found")
+            return
+    if chapter_translation_file_path == "chapter_translation.txt":
+        with open(chapter_translation_file_path, "w", encoding="utf-8") as chapter_translation_file:
+            verse_translation = Quran.get_verse_translation(chapter, start_verse)
+            if verse_translation is None:
+                return
+            for current_verse in range(start_verse, end_verse + 1):
+                verse_translation = Quran.get_verse_translation(chapter, current_verse)
+                if verse_translation is not None:
+                    chapter_translation_file.write(verse_translation + "\n")
+                else:
+                    break
+    else:
+        if not os.path.isfile(chapter_translation_file_path):
+            colored_print(Fore.RED, "Chapter translation file not found")
+            return
+    used_background_clips = []
+    video_clips = []
+    with open(chapter_text_file_path, "r", encoding="utf-8") as chapter_text_file, \
+    open(chapter_translation_file_path, "r", encoding="utf-8") as chapter_translation_file, \
+    open(timestamps_txt_file_path, "r", encoding="utf-8") as timestamps_file:
+        chapter_text_lines = chapter_text_file.readlines()
+        chapter_translation_lines = chapter_translation_file.readlines()
+        timestamps_lines = timestamps_file.readlines()
+        if end is None:
+            end = len(chapter_text_lines) + 1
+        loop_range = range(start, end)
+        for i in loop_range:
+            verse_text = chapter_text_lines[i - 1].strip()
+            verse_translation = chapter_translation_lines[i - 1].strip()
+            audio_start = timestamps_lines[i - 1].strip().split(",")[0]
+            audio_end = timestamps_lines[i].strip().split(",")[0]
+            final_clip_duration = get_time_difference_seconds(audio_start, audio_end)
+            try:
+                text_end = timestamps_lines[i].strip().split(",")[1]
+                text_duration = get_time_difference_seconds(audio_start, text_end)
+            except IndexError:
+                text_duration = final_clip_duration
+            if hash_map is None or (hash_map is not None and i not in hash_map):
+                all_background_clips = [clip for clip in os.listdir(background_clips_directory_path) if clip.endswith(".mp4")]
+                while True:
+                    background_clip = random.choice(all_background_clips)
+                    if hash_map is None or (hash_map is not None and background_clip not in hash_map.values()):
+                        background_clip_path = os.path.join(background_clips_directory_path, background_clip)
+                        background_clip_duration = get_video_duration_seconds(background_clip_path)
+                        if background_clip_duration / background_clips_speed >= final_clip_duration:
+                            if duplicates_allowed or (not duplicates_allowed and background_clip not in used_background_clips):
+                                used_background_clips.append(background_clip)
+                                break
+            else:
+                background_clip_name = hash_map[i]
+                background_clip_path = os.path.join(background_clips_directory_path, background_clip_name)
+                background_clip_duration = get_video_duration_seconds(background_clip_path)
+                if background_clip_duration / background_clips_speed < final_clip_duration:
+                    colored_print(Fore.RED, f"Background clip duration is less than video clip duration for clip {i}")
+                    return
+                else:
+                    used_background_clips.append(background_clip_name)
+                    del hash_map[i]
+            colored_print(Fore.GREEN, f"Creating clip {i}...")
+            text_clips = [
+                Text_Clip(
+                    text=verse_text,
+                    size=dimensions,
+                    color=verse_text_color,
+                    fontsize=45,
+                    font=ARABIC_FONT,
+                    position=(0, -.05),
+                    duration=text_duration
+                ),
+                Text_Clip(
+                    text=verse_translation,
+                    size=(dimensions[0] * .6, None),
+                    color=verse_translation_color,
+                    fontsize=18,
+                    font=english_font,
+                    position=("center", .49),
+                    method="caption",
+                    duration=text_duration
+                )
+            ]
+            shadow_clip = Shadow_Clip(
+                size=dimensions,
+                color=shadow_color,
+                duration=final_clip_duration,
+                opacity=shadow_opacity
+            )
+            video_clip = Video_Clip(
+                background_clip_path=background_clip_path,
+                final_clip_duration=final_clip_duration,
+                dimensions=dimensions,
+                text_clips=text_clips,
+                background_clip_speed=background_clips_speed,
+                x_offset=x_offset,
+                y_offset=y_offset,
+                text_duration=text_duration,
+                shadow_clip=shadow_clip,
+            )
+            video_clips.append(video_clip)
+        final_video_start = timestamps_lines[start - 1].strip().split(",")[0]
+        final_video_end = timestamps_lines[end - 1].strip().split(",")[0]
+        final_video_duration = get_time_difference_seconds(final_video_start, final_video_end)
+        final_video = mpy.concatenate_videoclips(
+            clips=video_clips,
+            method="chain"
+        ).set_audio(
+            mpy.AudioFileClip(audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
+        ).set_duration(
+            final_video_duration - .03
+        )
+        colored_print(Fore.GREEN, "Creating final video...")
+        try:
+            final_video.write_videofile(
+                filename=output_file_path,
+                codec=codec
+            )
+        except Exception as error:
+            colored_print(Fore.RED, f"Error: {error}")
+            return
 
-    def create_timestamps_txt_file(self, timestamps_csv_file_path):
-        with open(timestamps_csv_file_path, "r", encoding="utf-8") as csv_file:
-            lines = csv_file.readlines()[1:]
-            self.timestamps_txt_file_path = timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
-            with open(self.timestamps_txt_file_path, "w", encoding="utf-8") as output_file:
-                i = 0
-                while i < len(lines):
-                    time = lines[i].split("\t")[1]
-                    type = lines[i].split("\t")[4]
-                    if type == "Subclip":
-                        i += 1
-                        time2 = lines[i].split("\t")[1]
-                        output_file.write(f"{time2},{time}\n")
-                    else:
-                        output_file.write(time)
-                        if (i + 1) < len(lines):
-                            output_file.write("\n")
+def create_timestamps_txt_file(timestamps_csv_file_path):
+    with open(timestamps_csv_file_path, "r", encoding="utf-8") as csv_file:
+        lines = csv_file.readlines()[1:]
+        timestamps_txt_file_path = timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
+        with open(timestamps_txt_file_path, "w", encoding="utf-8") as output_file:
+            i = 0
+            while i < len(lines):
+                time = lines[i].split("\t")[1]
+                type = lines[i].split("\t")[4]
+                if type == "Subclip":
                     i += 1
-        colored_print(Fore.GREEN, f"Successfully created '{self.timestamps_txt_file_path}'")
-
-    def create_text_files(self, chapter=1, start_verse=1, end_verse=1):
-        if self.chapter_text_file_path == "chapter_text.txt":
-            with open(self.chapter_text_file_path, "w", encoding="utf-8") as chapter_text_file:
-                verse_text = Quran.get_verse_text(chapter, start_verse)
-                if verse_text is None:
-                    return
-                for current_verse in range(start_verse, end_verse + 1):
-                    verse_text = Quran.get_verse_text(chapter, current_verse)
-                    if verse_text is not None:
-                        chapter_text_file.write(verse_text + "\n")
-                    else:
-                        break
-        if self.chapter_translation_file_path == "chapter_translation.txt":
-            with open(self.chapter_translation_file_path, "w", encoding="utf-8") as chapter_translation_file:
-                verse_translation = Quran.get_verse_translation(chapter, start_verse)
-                if verse_translation is None:
-                    return
-                for current_verse in range(start_verse, end_verse + 1):
-                    verse_translation = Quran.get_verse_translation(chapter, current_verse)
-                    if verse_translation is not None:
-                        chapter_translation_file.write(verse_translation + "\n")
-                    else:
-                        break
+                    time2 = lines[i].split("\t")[1]
+                    output_file.write(f"{time2},{time}\n")
+                else:
+                    output_file.write(time)
+                    if (i + 1) < len(lines):
+                        output_file.write("\n")
+                i += 1
+    colored_print(Fore.GREEN, f"Successfully created '{timestamps_txt_file_path}'")
 
 def Video_Clip(
         background_clip_path: str,
         final_clip_duration: float,
-        dimensions: tuple(int, int),
-        *text_clips: mpy.TextClip,
+        dimensions: tuple[int, int],
+        text_clips: list[mpy.TextClip],
         background_clip_speed: float=1.0,
         x_offset: int=0,
         y_offset: int=0,
@@ -683,10 +727,10 @@ def Video_Clip(
     clips = [
         background_clip,
         shadow_clip,
-        *text_clips
+        text_clips
     ] if shadow_clip is not None else [
         background_clip,
-        *text_clips
+        text_clips
     ]
     final_clip = mpy.CompositeVideoClip(
         clips,
@@ -697,21 +741,18 @@ def Video_Clip(
     return final_clip
 
 def Shadow_Clip(
-        size: tuple(int, int),
-        color: tuple(int, int, int),
-        duration: float=None,
+        size: tuple[int, int],
+        color: tuple[int, int, int],
+        duration: float,
         opacity: float=0.7
     ):
     shadow_clip = mpy.ColorClip(
         size=size,
-        color=color
+        color=color,
+        duration=duration
     ).set_opacity(
         opacity
     )
-    if duration is not None:
-        shadow_clip = shadow_clip.set_duration(
-            duration
-        )
     return shadow_clip
 
 def Text_Clip(
@@ -720,10 +761,10 @@ def Text_Clip(
         color: str, # "rgb(int, int, int)"
         fontsize: int,
         font: str,
-        position: tuple(str or float, str or float),
+        duration: float,
+        position: tuple[str or float, str or float],
         bg_color: str="transparent",
         method: str="label",
-        duration: float=None,
         fade_duration: float=0.5
     ):
     text_clip = mpy.TextClip(
@@ -737,20 +778,29 @@ def Text_Clip(
     ).set_position(
         position,
         relative=True
+    ).set_duration(
+        duration
     ).crossfadein(
         fade_duration
     ).crossfadeout(
         fade_duration
     )
-    if duration is not None:
-        text_clip = text_clip.set_duration(
-            duration
-        )
     return text_clip
 
 class TikToks():
-    def __init__(self, account: TikTok.ACCOUNTS):
+    def __init__(
+            self, 
+            account: ACCOUNTS, 
+            mode: MODES=MODES.DARK,
+            background_clips_directory_path: str="Anime_Clips", 
+            background_clip_speed: float=1.0, 
+            single_frames: bool=False, 
+        ):
         self.account = account
+        self.mode = mode
+        self.background_clips_directory_path = background_clips_directory_path
+        self.background_clip_speed = background_clip_speed
+        self.single_frames = single_frames
 
     def abdul_rahman_mossad_maryam_93_98(self):
         TikTok(
@@ -760,16 +810,24 @@ class TikToks():
             output_file_path=rf"Surahs\Abdul Rahman Mossad - 19 - Maryam\Videos\{self.account}_93-98_{uuid.uuid4()}",
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            single_frames=self.single_frames,
+            mode=self.mode,
         ).create_video()
 
     def abdul_rahman_mossad_al_ankabut_54_62(self):
         TikTok(
-            account=self.account,
-            timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Markers.csv",
-            audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3",
-            output_file_path=rf"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\{self.account}_54-62_{uuid.uuid4()}",
-            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
+            account=self.account, 
+            timestamps_csv_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Markers.csv", 
+            audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3", 
+            output_file_path=rf"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\{self.account}_54-62_{uuid.uuid4()}", 
+            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt", 
+            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt", 
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            single_frames=self.single_frames,
+            mode=self.mode,
         ).create_video()
 
     def abdul_rahman_mossad_al_ankabut_56_57(self):
@@ -780,6 +838,10 @@ class TikToks():
             output_file_path=rf"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\{self.account}_54-62_{uuid.uuid4()}",
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            single_frames=self.single_frames,
+            mode=self.mode,
             start_line=6,
             end_line=9,
         ).create_video()
@@ -792,6 +854,10 @@ class TikToks():
             output_file_path=rf"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\{self.account}_14-18_{uuid.uuid4()}",
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            single_frames=self.single_frames,
+            mode=self.mode,
         ).create_video()
 
     def abdul_rahman_mossd_al_muzzammil_14_15(self):
@@ -802,6 +868,10 @@ class TikToks():
             output_file_path=rf"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\{self.account}_14-18_{uuid.uuid4()}",
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            single_frames=self.single_frames,
+            mode=self.mode,
             start_line=1,
             end_line=3,
         ).create_video()
@@ -814,6 +884,10 @@ class TikToks():
             output_file_path=rf"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\Videos\{self.account}_10-26_{uuid.uuid4()}",
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            single_frames=self.single_frames,
+            mode=self.mode,
         ).create_video()
 
     def fatih_seferagic_ayatul_kursi_255(self):
@@ -824,6 +898,10 @@ class TikToks():
             output_file_path=rf"Surahs\Fatih Seferagic - 2 - Al-Baqarah\Videos\{self.account}_255_{uuid.uuid4()}",
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 2 - Al-Baqarah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 2 - Al-Baqarah\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            single_frames=self.single_frames,
+            mode=self.mode,
         ).create_video()
 
     def fatih_seferagic_al_hujurat_10(self):
@@ -834,6 +912,10 @@ class TikToks():
             output_file_path=rf"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Videos\{self.account}_10_{uuid.uuid4()}",
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            single_frames=self.single_frames,
+            mode=self.mode,
         ).create_video()
 
     def fatih_seferagic_al_hashr_21_24(self):
@@ -844,6 +926,9 @@ class TikToks():
             output_file_path=rf"Surahs\Fatih Seferagic - 59 - Al-Hashr\Videos\{self.account}_21-24_{uuid.uuid4()}",
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            mode=self.mode,
         ).create_video()
 
     def salim_bahanan_al_fatihah_2_7(self):
@@ -854,6 +939,9 @@ class TikToks():
             output_file_path=rf"Surahs\Salim Bahanan - 1 - Al-Fatihah\Videos\{self.account}_2-7_{uuid.uuid4()}",
             chapter_text_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            mode=self.mode,
         ).create_video()
 
     def salim_bahanan_ad_duhaa_1_11(self):
@@ -864,6 +952,9 @@ class TikToks():
             output_file_path=rf"Surahs\Salim Bahanan - 93 - Ad-Duhaa\Videos\{self.account}_1-11_{uuid.uuid4()}",
             chapter_text_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            mode=self.mode,
         ).create_video()
 
     def salim_bahanan_al_qariah_1_11(self):
@@ -874,6 +965,9 @@ class TikToks():
             output_file_path=rf"Surahs\Salim Bahanan - 101 - Al-Qari'ah\Videos\{self.account}_1-11_{uuid.uuid4()}",
             chapter_text_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            mode=self.mode,
         ).create_video()
 
     def unknown_al_ankabut_56_58(self):
@@ -884,6 +978,9 @@ class TikToks():
             output_file_path=rf"Surahs\Unknown - 29 - Al-'Ankabut\Videos\{self.account}_56-58_{uuid.uuid4()}",
             chapter_text_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            mode=self.mode,
         ).create_video()
 
 if __name__ == "__main__":
@@ -927,4 +1024,14 @@ if __name__ == "__main__":
     
     # TikToks(TikTok.ACCOUNTS.QURAN_2_LISTEN).abdul_rahman_mossad_maryam_93_98.create_video()
     # TikToks(TikTok.ACCOUNTS.QURAN_2_LISTEN).salim_bahanan_al_fatihah_2_7()
-    pass
+    # Video(
+    #     directory_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam",
+    #     output_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\Videos\1",
+    #     audio_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\audio.mp3",
+    #     chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
+    #     chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt"
+    # )
+    TikToks(
+        ACCOUNTS.QURAN_2_LISTEN,
+        background_clip_speed=.75
+    ).abdul_rahman_mossad_al_ankabut_56_57()
