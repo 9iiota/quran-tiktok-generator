@@ -22,7 +22,9 @@ def colored_print(color: str, text: str):
         color (str): Colorama color
         text (str): Text to print
     """
-    print(f"{color}{text}{Style.RESET_ALL}")
+
+    current_time = datetime.now().strftime("%H:%M:%S")
+    print(f"{color}[{current_time}] {text}{Style.RESET_ALL}")
 
 def get_time_difference_seconds(time1, time2):
         """
@@ -35,6 +37,7 @@ def get_time_difference_seconds(time1, time2):
         Returns:
             float: The time difference in seconds
         """
+
         # Convert the time strings to timedelta objects
         time_format = "%M:%S.%f"
         time1 = datetime.strptime(time1, time_format)
@@ -953,6 +956,20 @@ class TikToks():
             mode=self.mode,
         ).create_video()
 
+    def muhammad_al_luhaidan_al_anam_27_30(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\Markers.csv",
+            audio_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\audio.mp3",
+            output_file_path=rf"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\Videos\{self.account}_27-30_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            single_frames=self.single_frames,
+            mode=self.mode,
+        ).create_video()
+
     def salim_bahanan_al_fatihah_2_7(self):
         TikTok(
             account=self.account,
@@ -1126,4 +1143,4 @@ if __name__ == "__main__":
     # ).unknown_al_ankabut_56_57()
     TikToks(
         account=ACCOUNTS.QURAN_2_LISTEN
-    ).unknown_al_furqan_72_75()
+    ).muhammad_al_luhaidan_al_anam_27_30()
