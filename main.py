@@ -13,7 +13,6 @@ from pyquran import quran
 from Tiktok_uploader import uploadVideo
 
 ARABIC_FONT = "Fonts/Hafs.ttf"
-# ENGLISH_FONT = "Fonts/Berlingske Serif Bold.otf"
 
 def colored_print(color: str, text: str):
     """
@@ -120,11 +119,13 @@ class TikTok:
         ):
         if account == ACCOUNTS.QURAN_2_LISTEN:
             self.ENGLISH_FONT = "Fonts/Butler_Regular.otf"
-        elif account == ACCOUNTS.QURAN_LOVE77:
+        elif account == ACCOUNTS.LOVE_QURAN77:
             self.ENGLISH_FONT = "Fonts/Lato-Semibold.ttf"
         elif account == ACCOUNTS.QURANIC_TIKTOKS:
             self.ENGLISH_FONT = "Fonts/Fontspring-DEMO-proximanovaexcn-regular.otf"
             self.session_id = "8877ca2daba37ca9acea9b798208e9b0"
+        elif account == "":
+            self.ENGLISH_FONT = "Fonts/Berlingske Serif Bold.otf"
         self.start_line = start_line
         self.end_line = end_line
         if chapter_text_file_path == "chapter_text.txt" and chapter_translation_file_path == "chapter_translation.txt":
@@ -295,15 +296,26 @@ class TikTok:
                 final_video_duration - .03
             )
             colored_print(Fore.GREEN, "Creating final video...")
-            try:
-                final_video.write_videofile(
-                    self.output_file_path,
-                    codec=self.codec,
-                    fps=24,
-                )
-            except Exception as error:
-                colored_print(Fore.RED, f"Error: {error}")
-                return
+            if not self.single_frames:
+                try:
+                    final_video.write_videofile(
+                        self.output_file_path,
+                        codec=self.codec,
+                        fps=24,
+                    )
+                except Exception as error:
+                    colored_print(Fore.RED, f"Error: {error}")
+                    return
+            else:
+                try:
+                    final_video.write_videofile(
+                        self.output_file_path,
+                        codec=self.codec,
+                        fps=60,
+                    )
+                except Exception as error:
+                    colored_print(Fore.RED, f"Error: {error}")
+                    return
             # 'libx264' (default codec for file extension .mp4) makes well-compressed videos (quality tunable using 'bitrate').
             # 'mpeg4' (other codec for extension .mp4) can be an alternative to 'libx264', and produces higher quality videos by default.
             # 'rawvideo' (use file extension .avi) will produce a video of perfect quality, of possibly very huge size.
@@ -330,7 +342,17 @@ class TikTok:
                 background_clip_path
             ).set_duration(
                 background_clip_duration
+            ).set_fps(
+                60
             )
+
+            video_clip = Zoom(
+                video_clip,
+                mode='in',
+                position='center',
+                speed=1.1
+            )
+
         x_offset = random.randint(0, max(0, video_clip.w - self.DIMENSIONS[0])) if x_offset == 0 else x_offset
         y_offset = random.randint(0, max(0, video_clip.h - self.DIMENSIONS[1])) if y_offset == 0 else y_offset
         
@@ -489,7 +511,7 @@ class MODES(Enum):
 
 class ACCOUNTS(Enum):
     QURAN_2_LISTEN = 1 # crazyshocklight@hotmail.com
-    QURAN_LOVE77 = 2 # crazyshocklight2@gmail.com
+    LOVE_QURAN77 = 2 # crazyshocklight2@gmail.com
     QURANIC_TIKTOKS = 3 # crazyshocky@hotmail.com
 
 def Video(
@@ -534,7 +556,7 @@ def Video(
         output_file_path = output_file_path + ".avi"
     if account == ACCOUNTS.QURAN_2_LISTEN:
         english_font = "Fonts/Butler_Regular.otf"
-    elif account == ACCOUNTS.QURAN_LOVE77:
+    elif account == ACCOUNTS.LOVE_QURAN77:
         english_font = "Fonts/Lato-Semibold.ttf"
     elif account == ACCOUNTS.QURANIC_TIKTOKS:
         english_font = "Fonts/Fontspring-DEMO-proximanovaexcn-regular.otf"
@@ -983,6 +1005,65 @@ class TikToks():
             mode=self.mode,
         ).create_video()
 
+    def unknown_al_ankabut_56_57(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\Markers.csv",
+            audio_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\audio.mp3",
+            output_file_path=rf"Surahs\Unknown - 29 - Al-'Ankabut\Videos\{self.account}_56-58_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            single_frames=self.single_frames,
+            mode=self.mode,
+            start_line=1,
+            end_line=4,
+        ).create_video()
+    
+    def unknown_al_furqan_72_75(self):
+        TikTok(
+            account=self.account,
+            timestamps_csv_file_path=r"Surahs\Unknown - 25 - Al-Furqan\Markers.csv",
+            audio_file_path=r"Surahs\Unknown - 25 - Al-Furqan\audio.mp3",
+            output_file_path=rf"Surahs\Unknown - 25 - Al-Furqan\Videos\{self.account}_72-75_{uuid.uuid4()}",
+            chapter_text_file_path=r"Surahs\Unknown - 25 - Al-Furqan\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Unknown - 25 - Al-Furqan\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clip_speed=self.background_clip_speed,
+            single_frames=self.single_frames,
+            mode=self.mode,
+        ).create_video()
+
+import numpy as np
+def Zoom(clip,mode='in',position='center',speed=1):
+    fps = clip.fps
+    duration = clip.duration
+    total_frames = int(duration*fps)
+    def main(getframe,t):
+        frame = getframe(t)
+        h,w = frame.shape[:2]
+        i = t*fps
+        if mode == 'out':
+            i = total_frames-i
+        zoom = 1+(i*((0.1*speed)/total_frames))
+        positions = {
+            'center':[(w-(w*zoom))/2,(h-(h*zoom))/2],
+            'left':[0,(h-(h*zoom))/2],
+            'right':[(w-(w*zoom)),(h-(h*zoom))/2],
+            'top':[(w-(w*zoom))/2,0],
+            'topleft':[0,0],
+            'topright':[(w-(w*zoom)),0],
+            'bottom':[(w-(w*zoom))/2,(h-(h*zoom))],
+            'bottomleft':[0,(h-(h*zoom))],
+            'bottomright':[(w-(w*zoom)),(h-(h*zoom))]
+        }
+        tx,ty = positions[position]
+        M = np.array([[zoom,0,tx], [0,zoom,ty]])
+        frame = cv2.warpAffine(frame,M,(w,h))
+        return frame
+    return clip.fl(main)
+
 if __name__ == "__main__":
     # tiktok = TikTok(
     #     account=TikTok.ACCOUNTS.QURAN_2_LISTEN,
@@ -1031,7 +1112,18 @@ if __name__ == "__main__":
     #     chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
     #     chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt"
     # )
+    # TikToks(
+    #     ACCOUNTS.QURAN_2_LISTEN,
+    #     background_clip_speed=1
+    # ).abdul_rahman_mossad_al_ankabut_56_57()
+    # TikToks(
+    #     account=ACCOUNTS.LOVE_QURAN77,
+    #     background_clips_directory_path="Real_Clips",
+    # ).abdul_rahman_mossd_al_ghashiyah_10_26()
+    # TikToks(
+    #     account=ACCOUNTS.QURANIC_TIKTOKS,
+    #     background_clips_directory_path="Real_Clips",
+    # ).unknown_al_ankabut_56_57()
     TikToks(
-        ACCOUNTS.QURAN_2_LISTEN,
-        background_clip_speed=.75
-    ).abdul_rahman_mossad_al_ankabut_56_57()
+        account=ACCOUNTS.QURAN_2_LISTEN
+    ).unknown_al_furqan_72_75()
