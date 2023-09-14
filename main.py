@@ -16,8 +16,9 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 
 def main() -> None:
     PredefinedTikToks(
-        account=ACCOUNTS.QURAN_2_LISTEN, 
-    ).abdul_rahman_mossad_maryam_93_98()
+        account=ACCOUNTS.QURANIC_TIKTOKS,
+        background_clips_directory_path="Real_Clips",
+    ).abdul_rahman_mossad_al_ghashiyah_10_12()
 
 class MODES(Enum):
     DARK = 1
@@ -265,6 +266,32 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_speed=self.background_clips_speed,
+            hash_map=self.hash_map,
+            mode=self.mode,
+            shadow_opacity=self.shadow_opacity,
+            duplicates_allowed=self.duplicates_allowed,
+            codec=self.codec,
+            dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+        )
+
+    def abdul_rahman_mossad_al_ghashiyah_10_12(self) -> None:
+        """
+        Creates a TikTok video for verses 10-12 of Surah Al-Ghashiyah by Abdul Rahman Mossad
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah",
+            output_file_path=rf"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\Videos\{self.account}_10-26_{uuid.uuid4()}",
+            audio_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\audio.mp3",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
+            start_line=1,
+            end_line=3,
             background_clips_directory_path=self.background_clips_directory_path,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
