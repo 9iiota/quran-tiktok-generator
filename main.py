@@ -20,6 +20,11 @@ def main() -> None:
         background_clips_directory_path="Real_Clips",
     ).abdul_rahman_mossad_al_ghashiyah_10_12()
 
+    # PredefinedTikToks(
+    #     account=ACCOUNTS.LOVE_QURAN77,
+    #     background_clips_directory_path="Real_Clips",
+    # ).abdul_rahman_mossad_maryam_93_98()
+
 class MODES(Enum):
     DARK = 1
     LIGHT = 2
@@ -566,9 +571,7 @@ def create_tiktok(
     """
 
     if os.path.isdir(directory_path):
-        if os.path.isfile(os.path.join(directory_path, "timestamps.txt")):
-            timestamps_txt_file_path = os.path.join(directory_path, "timestamps.txt")
-        elif os.path.isfile(os.path.join(directory_path, "Markers.csv")):
+        if os.path.isfile(os.path.join(directory_path, "Markers.csv")):
             timestamps_csv_file_path = os.path.join(directory_path, "Markers.csv")
             create_timestamps_txt_file(timestamps_csv_file_path)
             timestamps_txt_file_path = timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
@@ -636,8 +639,8 @@ def create_tiktok(
         chapter_translation_lines = chapter_translation_file.readlines()
         timestamps_lines = timestamps_file.readlines()
         if end_line is None:
-            end_line = len(chapter_text_lines) + 1
-        loop_range = range(start_line, end_line)
+            end_line = len(chapter_text_lines)
+        loop_range = range(start_line, end_line + 1)
         for i in loop_range:
             verse_text = chapter_text_lines[i - 1].strip()
             verse_translation = chapter_translation_lines[i - 1].strip()
