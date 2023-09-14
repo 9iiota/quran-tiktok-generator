@@ -18,6 +18,9 @@ def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURANIC_TIKTOKS,
         background_clips_directory_path="Real_Clips",
+        hash_map={
+            
+        }
     ).abdul_rahman_mossad_al_ghashiyah_10_12()
 
     # PredefinedTikToks(
@@ -640,7 +643,8 @@ def create_tiktok(
         timestamps_lines = timestamps_file.readlines()
         if end_line is None:
             end_line = len(chapter_text_lines)
-        loop_range = range(start_line, end_line + 1)
+        end_line += 1
+        loop_range = range(start_line, end_line)
         for i in loop_range:
             verse_text = chapter_text_lines[i - 1].strip()
             verse_translation = chapter_translation_lines[i - 1].strip()
