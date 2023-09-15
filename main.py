@@ -16,17 +16,8 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 
 def main() -> None:
     PredefinedTikToks(
-        account=ACCOUNTS.QURANIC_TIKTOKS,
-        background_clips_directory_path="Real_Clips",
-        hash_map={
-            
-        }
-    ).abdul_rahman_mossad_al_ghashiyah_10_12()
-
-    # PredefinedTikToks(
-    #     account=ACCOUNTS.LOVE_QURAN77,
-    #     background_clips_directory_path="Real_Clips",
-    # ).abdul_rahman_mossad_maryam_93_98()
+        account=ACCOUNTS.QURAN_2_LISTEN,
+    ).muhammad_al_luhaidan_al_furqan_72_77()
 
 class MODES(Enum):
     DARK = 1
@@ -85,7 +76,7 @@ def create_notification(title: str, message: str) -> None:
         )
 
 class Quran:
-    def get_verse_text(self, chapter, verse):
+    def get_verse_text(chapter, verse):
         """
         Gets the text of a verse from the Quran
         """
@@ -96,7 +87,7 @@ class Quran:
             return None
         return verse_text
     
-    def get_verse_translation(self, chapter, verse):
+    def get_verse_translation(chapter, verse):
         """
         Gets the translation of a verse from the Quran
         """
@@ -408,6 +399,28 @@ class PredefinedTikToks():
             y_offset=self.y_offset,
         )
 
+    def muhammad_al_luhaidan_al_furqan_72_77(self) -> None:
+        """
+        Creates a TikTok video for verses 72-77 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan",
+            output_file_path=rf"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\Videos\{self.account}_72-77_{uuid.uuid4()}",
+            audio_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\audio.mp3",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt",
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_speed=self.background_clips_speed,
+            shadow_opacity=self.shadow_opacity,
+            duplicates_allowed=self.duplicates_allowed,
+            codec=self.codec,
+            dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset
+        )
+
     def salim_bahanan_al_fatihah_2_7(self) -> None:
         """
         Creates a TikTok video for verses 2-7 of Surah Al-Fatihah by Salim Bahanan
@@ -633,6 +646,8 @@ def create_tiktok(
         if not os.path.isfile(chapter_translation_file_path):
             colored_print(Fore.RED, "Chapter translation file not found")
             return
+    if chapter_text_file_path == "chapter_text.txt" or chapter_translation_file_path == "chapter_translation.txt":
+        colored_print(Fore.YELLOW, "Appropriately edit text file(s) now...")
     used_background_clips = []
     video_clips = []
     with open(chapter_text_file_path, "r", encoding="utf-8") as chapter_text_file, \
