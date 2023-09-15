@@ -698,7 +698,7 @@ def create_tiktok(
                     text=verse_text,
                     size=dimensions,
                     color=verse_text_color,
-                    fontsize=45,
+                    fontsize=44,
                     font=ARABIC_FONT,
                     position=(0, -.05),
                     duration=text_duration
@@ -707,7 +707,7 @@ def create_tiktok(
                     text=verse_translation,
                     size=(dimensions[0] * .6, None),
                     color=verse_translation_color,
-                    fontsize=18,
+                    fontsize=20,
                     font=english_font,
                     position=("center", .49),
                     method="caption",
