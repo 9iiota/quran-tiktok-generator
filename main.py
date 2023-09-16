@@ -17,6 +17,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
+        still_frames=True,
     ).fatih_seferagic_al_hujurat_10()
 
 class MODES(Enum):
@@ -107,6 +108,7 @@ class PredefinedTikToks():
             self,
             account: ACCOUNTS= ACCOUNTS.QURAN_2_LISTEN,
             background_clips_directory_path: str="Anime_Clips",
+            still_frames: bool=False,
             background_clips_speed: float=1.0,
             hash_map: dict=None,
             mode: MODES=MODES.DARK,
@@ -119,6 +121,7 @@ class PredefinedTikToks():
         ) -> None:
         self.account = account
         self.background_clips_directory_path = background_clips_directory_path
+        self.still_frames = still_frames
         self.background_clips_speed = background_clips_speed
         self.hash_map = hash_map
         self.mode = mode
@@ -142,6 +145,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -166,6 +170,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -192,6 +197,7 @@ class PredefinedTikToks():
             start_line=6,
             end_line=9,
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -216,6 +222,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -242,6 +249,7 @@ class PredefinedTikToks():
             start_line=1,
             end_line=3,
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -266,6 +274,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -292,6 +301,7 @@ class PredefinedTikToks():
             start_line=1,
             end_line=3,
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -316,6 +326,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -340,6 +351,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -364,6 +376,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -388,6 +401,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -412,6 +426,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             duplicates_allowed=self.duplicates_allowed,
@@ -434,6 +449,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -458,6 +474,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
             mode=self.mode,
@@ -482,6 +499,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             duplicates_allowed=self.duplicates_allowed,
@@ -504,6 +522,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Unknown - 25 - Al-Furqan\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Unknown - 25 - Al-Furqan\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             duplicates_allowed=self.duplicates_allowed,
@@ -526,6 +545,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             duplicates_allowed=self.duplicates_allowed,
@@ -550,6 +570,7 @@ class PredefinedTikToks():
             start_line=1,
             end_line=4,
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             duplicates_allowed=self.duplicates_allowed,
@@ -572,6 +593,7 @@ class PredefinedTikToks():
             chapter_text_file_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             duplicates_allowed=self.duplicates_allowed,
@@ -594,6 +616,7 @@ def create_tiktok(
         start_verse: int=None,
         end_verse: int=None,
         background_clips_directory_path: str="Anime_Clips",
+        still_frames: bool=False,
         background_clips_speed: float=1.0,
         hash_map: dict=None,
         mode: MODES=MODES.DARK,
@@ -693,7 +716,11 @@ def create_tiktok(
                 text_duration = get_time_difference_seconds(audio_start, text_end)
             except IndexError:
                 text_duration = final_clip_duration
-            if hash_map is None or (hash_map is not None and i not in hash_map):
+            if still_frames:
+                all_background_clips = [clip for clip in os.listdir(background_clips_directory_path) if clip.endswith(".mp4")]
+                background_clip = random.choice(all_background_clips)
+                background_clip_path = os.path.join(background_clips_directory_path, background_clip)
+            elif hash_map is None or (hash_map is not None and i not in hash_map):
                 all_background_clips = [clip for clip in os.listdir(background_clips_directory_path) if clip.endswith(".mp4")]
                 while True:
                     background_clip = random.choice(all_background_clips)
@@ -747,6 +774,7 @@ def create_tiktok(
                 final_clip_duration=final_clip_duration,
                 dimensions=dimensions,
                 text_clips=text_clips,
+                still_frame=still_frames,
                 background_clip_speed=background_clips_speed,
                 x_offset=x_offset,
                 y_offset=y_offset,
@@ -767,10 +795,17 @@ def create_tiktok(
         )
         colored_print(Fore.GREEN, "Creating final video...")
         try:
-            final_video.write_videofile(
-                filename=output_file_path,
-                codec=codec
-            )
+            if still_frames:
+                final_video.write_videofile(
+                    filename=output_file_path,
+                    codec=codec,
+                    fps=30
+                )
+            else:
+                final_video.write_videofile(
+                    filename=output_file_path,
+                    codec=codec
+                )
         except Exception as error:
             colored_print(Fore.RED, f"Error: {error}")
             return
@@ -780,6 +815,7 @@ def create_video_clip(
         final_clip_duration: float,
         dimensions: tuple[int, int],
         text_clips: list[mpy.TextClip],
+        still_frame: bool=False,
         background_clip_speed: float=1.0,
         x_offset: int=0,
         y_offset: int=0,
@@ -790,20 +826,35 @@ def create_video_clip(
     Creates a video clip
     """
 
-    background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
-    subclip_offset = random.uniform(0, max(0, background_clip.duration - final_clip_duration))
+    if still_frame:
+        background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
+
+        # Get the total number of frames
+        total_frames = int(background_clip.fps * background_clip.duration)
+
+        # Generate a random frame number
+        random_frame_number = random.randint(1, total_frames)
+
+        # Seek to the random frame and capture it as an image
+        random_frame = background_clip.get_frame(random_frame_number / background_clip.fps)
+
+        background_clip = mpy.ImageClip(random_frame)
+    else:
+        background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
+        subclip_offset = random.uniform(0, max(0, background_clip.duration - final_clip_duration))
+        background_clip = background_clip.subclip(
+            t_start=subclip_offset,
+        )
     x_offset = random.randint(0, max(0, (x_offset + background_clip.w - dimensions[0]) % (background_clip.w - dimensions[0])))
     y_offset = random.randint(0, max(0, (y_offset + background_clip.h - dimensions[1]) % (background_clip.h - dimensions[1])))
-    background_clip = background_clip.subclip(
-        t_start=subclip_offset,
-    ).set_duration(
+    background_clip = background_clip.set_duration(
         final_clip_duration
-    ).crop(
-        x1=x_offset,
-        y1=y_offset,
-        x2=x_offset + dimensions[0],
-        y2=y_offset + dimensions[1]
-    )
+        ).crop(
+            x1=x_offset,
+            y1=y_offset,
+            x2=x_offset + dimensions[0],
+            y2=y_offset + dimensions[1]
+        )
     text_duration = text_duration if text_duration is not None else final_clip_duration
     clips = [
         background_clip,
@@ -819,6 +870,13 @@ def create_video_clip(
     ).set_duration(
         final_clip_duration
     )
+
+    if still_frame:
+        final_clip.crossfadein(
+            .1
+        ).crossfadeout(
+            .1
+        )
     return final_clip
 
 def create_shadow_clip(
