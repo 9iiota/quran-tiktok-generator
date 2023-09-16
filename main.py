@@ -799,7 +799,7 @@ def create_tiktok(
                 final_video.write_videofile(
                     filename=output_file_path,
                     codec=codec,
-                    fps=30
+                    fps=60
                 )
             else:
                 final_video.write_videofile(
@@ -809,6 +809,10 @@ def create_tiktok(
         except Exception as error:
             colored_print(Fore.RED, f"Error: {error}")
             return
+        create_notification(
+            title="TikTok Video Created",
+            message=f"Video created for {directory_path}"
+        )
 
 def create_video_clip(
         background_clip_path: str,
@@ -872,10 +876,10 @@ def create_video_clip(
     )
 
     if still_frame:
-        final_clip.crossfadein(
-            .1
-        ).crossfadeout(
-            .1
+        final_clip = final_clip.fadein(
+            final_clip.duration / 8
+        ).fadeout(
+            final_clip.duration / 8
         )
     return final_clip
 
