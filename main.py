@@ -17,7 +17,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-    ).muhammad_al_luhaidan_al_furqan_72_77()
+    ).yasser_al_dosari_al_fath_29()
 
 class MODES(Enum):
     DARK = 1
@@ -549,6 +549,28 @@ class PredefinedTikToks():
             chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
             start_line=1,
             end_line=4,
+            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_speed=self.background_clips_speed,
+            shadow_opacity=self.shadow_opacity,
+            duplicates_allowed=self.duplicates_allowed,
+            codec=self.codec,
+            dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+        )
+
+    def yasser_al_dosari_al_fath_29(self) -> None:
+        """
+        Creates a TikTok video for verse 29 of Surah Al-Fath by Yasser Al-Dosari
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath",
+            output_file_path=rf"Surahs\Yasser Al-Dosari - 48 - Al-Fath\Videos\{self.account}_29_{uuid.uuid4()}",
+            audio_file_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\audio.mp3",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
