@@ -17,7 +17,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-    ).yasser_al_dosari_al_fath_29()
+    ).fatih_seferagic_al_hujurat_10()
 
 class MODES(Enum):
     DARK = 1
@@ -357,12 +357,12 @@ class PredefinedTikToks():
         """
 
         create_tiktok(
-            directory_path=r"Surahs\Fatih Seferagic - 49 - Al-Hashr",
-            output_file_path=rf"Surahs\Fatih Seferagic - 49 - Al-Hashr\Videos\{self.account}_21-24_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hashr\audio.mp3",
+            directory_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr",
+            output_file_path=rf"Surahs\Fatih Seferagic - 59 - Al-Hashr\Videos\{self.account}_21-24_{uuid.uuid4()}",
+            audio_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\audio.mp3",
             account=self.account,
-            chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hashr\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hashr\chapter_translation.txt",
+            chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -791,9 +791,12 @@ def create_video_clip(
     """
 
     background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
+    subclip_offset = random.uniform(0, max(0, background_clip.duration - final_clip_duration))
     x_offset = random.randint(0, max(0, (x_offset + background_clip.w - dimensions[0]) % (background_clip.w - dimensions[0])))
     y_offset = random.randint(0, max(0, (y_offset + background_clip.h - dimensions[1]) % (background_clip.h - dimensions[1])))
-    background_clip = background_clip.set_duration(
+    background_clip = background_clip.subclip(
+        t_start=subclip_offset,
+    ).set_duration(
         final_clip_duration
     ).crop(
         x1=x_offset,
