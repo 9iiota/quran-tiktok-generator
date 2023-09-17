@@ -17,8 +17,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-        still_frames=True,
-    ).fatih_seferagic_al_hujurat_10()
+    ).abdul_rahman_mossad_al_adiyat_1_11()
 
 class MODES(Enum):
     DARK = 1
@@ -300,6 +299,31 @@ class PredefinedTikToks():
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
             start_line=1,
             end_line=3,
+            background_clips_directory_path=self.background_clips_directory_path,
+            still_frames=self.still_frames,
+            background_clips_speed=self.background_clips_speed,
+            hash_map=self.hash_map,
+            mode=self.mode,
+            shadow_opacity=self.shadow_opacity,
+            duplicates_allowed=self.duplicates_allowed,
+            codec=self.codec,
+            dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+        )
+
+    def abdul_rahman_mossad_al_adiyat_1_11(self) -> None:
+        """
+        Creates a TikTok video for verses 1-11 of Surah Al-'Adiyat by Abdul Rahman Mossad
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat",
+            output_file_path=rf"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\Videos\{self.account}_1-11_{uuid.uuid4()}",
+            audio_file_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\audio.mp3",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_translation.txt",
             background_clips_directory_path=self.background_clips_directory_path,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
@@ -693,6 +717,7 @@ def create_tiktok(
             return
     if chapter_text_file_path == "chapter_text.txt" or chapter_translation_file_path == "chapter_translation.txt":
         colored_print(Fore.YELLOW, "Appropriately edit text file(s) now...")
+        input()
     used_background_clips = []
     video_clips = []
     with open(chapter_text_file_path, "r", encoding="utf-8") as chapter_text_file, \
