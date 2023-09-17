@@ -17,6 +17,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
+        background_clips_directory_paths=["Real_Clips", "Anime_Clips"],
     ).abdul_rahman_mossad_al_adiyat_1_11()
 
 class MODES(Enum):
@@ -106,7 +107,7 @@ class PredefinedTikToks():
     def __init__(
             self,
             account: ACCOUNTS= ACCOUNTS.QURAN_2_LISTEN,
-            background_clips_directory_path: str="Anime_Clips",
+            background_clips_directory_paths: list[str]=["Background Clips"],
             still_frames: bool=False,
             background_clips_speed: float=1.0,
             hash_map: dict=None,
@@ -119,7 +120,7 @@ class PredefinedTikToks():
             y_offset: int=0
         ) -> None:
         self.account = account
-        self.background_clips_directory_path = background_clips_directory_path
+        self.background_clips_directory_paths = background_clips_directory_paths
         self.still_frames = still_frames
         self.background_clips_speed = background_clips_speed
         self.hash_map = hash_map
@@ -143,7 +144,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -168,7 +169,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -195,7 +196,7 @@ class PredefinedTikToks():
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
             start_line=6,
             end_line=9,
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -220,7 +221,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -247,7 +248,7 @@ class PredefinedTikToks():
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
             start_line=1,
             end_line=3,
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -272,7 +273,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -299,7 +300,7 @@ class PredefinedTikToks():
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
             start_line=1,
             end_line=3,
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -324,7 +325,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -349,7 +350,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -374,7 +375,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -399,7 +400,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -424,7 +425,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -449,7 +450,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
@@ -472,7 +473,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -497,7 +498,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             hash_map=self.hash_map,
@@ -522,7 +523,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
@@ -545,7 +546,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Unknown - 25 - Al-Furqan\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Unknown - 25 - Al-Furqan\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
@@ -568,7 +569,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
@@ -593,7 +594,7 @@ class PredefinedTikToks():
             chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
             start_line=1,
             end_line=4,
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
@@ -616,7 +617,7 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_translation.txt",
-            background_clips_directory_path=self.background_clips_directory_path,
+            background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
@@ -639,7 +640,7 @@ def create_tiktok(
         chapter: int=None,
         start_verse: int=None,
         end_verse: int=None,
-        background_clips_directory_path: str="Anime_Clips",
+        background_clips_directory_paths: list[str]=["Background Clips"],
         still_frames: bool=False,
         background_clips_speed: float=1.0,
         hash_map: dict=None,
@@ -718,7 +719,7 @@ def create_tiktok(
     if chapter_text_file_path == "chapter_text.txt" or chapter_translation_file_path == "chapter_translation.txt":
         colored_print(Fore.YELLOW, "Appropriately edit text file(s) now...")
         input()
-    used_background_clips = []
+    used_background_clips_paths = []
     video_clips = []
     with open(chapter_text_file_path, "r", encoding="utf-8") as chapter_text_file, \
     open(chapter_translation_file_path, "r", encoding="utf-8") as chapter_translation_file, \
@@ -742,29 +743,26 @@ def create_tiktok(
             except IndexError:
                 text_duration = final_clip_duration
             if still_frames:
-                all_background_clips = [clip for clip in os.listdir(background_clips_directory_path) if clip.endswith(".mp4")]
-                background_clip = random.choice(all_background_clips)
-                background_clip_path = os.path.join(background_clips_directory_path, background_clip)
+                all_background_clips_paths = [os.path.join(path, clip) for path in background_clips_directory_paths for clip in os.listdir(path) if clip.endswith(".mp4")]
+                background_clip_path = random.choice(all_background_clips_paths)
             elif hash_map is None or (hash_map is not None and i not in hash_map):
-                all_background_clips = [clip for clip in os.listdir(background_clips_directory_path) if clip.endswith(".mp4")]
+                all_background_clips_paths = [os.path.join(path, clip) for path in background_clips_directory_paths for clip in os.listdir(path) if clip.endswith(".mp4")]
                 while True:
-                    background_clip = random.choice(all_background_clips)
-                    if hash_map is None or (hash_map is not None and background_clip not in hash_map.values()):
-                        background_clip_path = os.path.join(background_clips_directory_path, background_clip)
+                    background_clip_path = random.choice(all_background_clips_paths)
+                    if hash_map is None or (hash_map is not None and background_clip_path not in hash_map.values()):
                         background_clip_duration = get_video_duration_seconds(background_clip_path)
                         if background_clip_duration / background_clips_speed >= final_clip_duration:
-                            if duplicates_allowed or (not duplicates_allowed and background_clip not in used_background_clips):
-                                used_background_clips.append(background_clip)
+                            if duplicates_allowed or (not duplicates_allowed and background_clip_path not in used_background_clips_paths):
+                                used_background_clips_paths.append(background_clip_path)
                                 break
             else:
-                background_clip_name = hash_map[i]
-                background_clip_path = os.path.join(background_clips_directory_path, background_clip_name)
+                background_clip_path = hash_map[i]
                 background_clip_duration = get_video_duration_seconds(background_clip_path)
                 if background_clip_duration / background_clips_speed < final_clip_duration:
                     colored_print(Fore.RED, f"Background clip duration is less than video clip duration for clip {i}")
                     return
                 else:
-                    used_background_clips.append(background_clip_name)
+                    used_background_clips_paths.append(background_clip_path)
                     del hash_map[i]
             colored_print(Fore.GREEN, f"Creating clip {i}...")
             text_clips = [
