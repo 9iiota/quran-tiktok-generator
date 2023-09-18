@@ -17,8 +17,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-        background_clips_directory_paths=["Real_Clips", "Anime_Clips"],
-    ).abdul_rahman_mossad_al_adiyat_1_11()
+    ).abdul_rahman_mossad_al_ghashiyah_10_12()
 
 class MODES(Enum):
     DARK = 1
@@ -107,7 +106,7 @@ class PredefinedTikToks():
     def __init__(
             self,
             account: ACCOUNTS= ACCOUNTS.QURAN_2_LISTEN,
-            background_clips_directory_paths: list[str]=["Background Clips"],
+            background_clips_directory_paths: list[str]=["Anime_Clips"],
             still_frames: bool=False,
             background_clips_speed: float=1.0,
             hash_map: dict=None,
@@ -640,7 +639,7 @@ def create_tiktok(
         chapter: int=None,
         start_verse: int=None,
         end_verse: int=None,
-        background_clips_directory_paths: list[str]=["Background Clips"],
+        background_clips_directory_paths: list[str]=["Anime_Clips"],
         still_frames: bool=False,
         background_clips_speed: float=1.0,
         hash_map: dict=None,
