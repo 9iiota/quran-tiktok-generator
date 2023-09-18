@@ -14,15 +14,13 @@ from Tiktok_uploader import uploadVideo
 
 ARABIC_FONT = "Fonts/Hafs.ttf"
 
+# TODO: Add support for clips shorter than final clip with still frames
+# TODO: Add support for only 1 background clip
+# TODO: Add ability to allow only long enough clips to be used
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-        hash_map={
-            1: r"C:\Users\Crazy\Desktop\GitHub\quran\Anime_Clips\Garden of Words (116).mp4",
-            2: r"C:\Users\Crazy\Desktop\GitHub\quran\Anime_Clips\Garden of Words (190).mp4",
-            3: r"C:\Users\Crazy\Desktop\GitHub\quran\Anime_Clips\Garden of Words (222).mp4"
-        },
-    ).abdul_rahman_mossad_al_ghashiyah_10_12()
+    ).abdul_rahman_mossad_al_muzzammil_14_18()
 
 class MODES(Enum):
     DARK = 1
@@ -746,18 +744,25 @@ def create_tiktok(
                 text_duration = get_time_difference_seconds(audio_start, text_end)
             except IndexError:
                 text_duration = final_clip_duration
+            background_clip_paths = []
             if still_frames:
                 all_background_clips_paths = [os.path.join(path, clip) for path in background_clips_directory_paths for clip in os.listdir(path) if clip.endswith(".mp4")]
                 background_clip_path = random.choice(all_background_clips_paths)
+                background_clip_paths.append(background_clip_path)
             elif hash_map is None or (hash_map is not None and i not in hash_map):
                 all_background_clips_paths = [os.path.join(path, clip) for path in background_clips_directory_paths for clip in os.listdir(path) if clip.endswith(".mp4")]
+                total_duration = 0
                 while True:
                     background_clip_path = random.choice(all_background_clips_paths)
                     if hash_map is None or (hash_map is not None and background_clip_path not in hash_map.values()):
-                        background_clip_duration = get_video_duration_seconds(background_clip_path)
-                        if background_clip_duration / background_clips_speed >= final_clip_duration:
-                            if duplicates_allowed or (not duplicates_allowed and background_clip_path not in used_background_clips_paths):
-                                used_background_clips_paths.append(background_clip_path)
+                        # background_clip_duration = get_video_duration_seconds(background_clip_path)
+                        # if background_clip_duration / background_clips_speed >= final_clip_duration:
+                        if duplicates_allowed or (not duplicates_allowed and background_clip_path not in used_background_clips_paths):
+                            used_background_clips_paths.append(background_clip_path)
+                            background_clip_paths.append(background_clip_path)
+                            background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clips_speed
+                            total_duration += background_clip_duration
+                            if total_duration >= final_clip_duration:
                                 break
             else:
                 background_clip_path = hash_map[i]
@@ -797,7 +802,7 @@ def create_tiktok(
                 opacity=shadow_opacity
             )
             video_clip = create_video_clip(
-                background_clip_path=background_clip_path,
+                background_clip_paths=background_clip_paths,
                 final_clip_duration=final_clip_duration,
                 dimensions=dimensions,
                 text_clips=text_clips,
@@ -818,7 +823,7 @@ def create_tiktok(
         ).set_audio(
             mpy.AudioFileClip(audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
         ).set_duration(
-            final_video_duration - .03
+            final_video_duration
         )
         colored_print(Fore.GREEN, "Creating final video...")
         try:
@@ -842,7 +847,7 @@ def create_tiktok(
         )
 
 def create_video_clip(
-        background_clip_path: str,
+        background_clip_paths: list[str],
         final_clip_duration: float,
         dimensions: tuple[int, int],
         text_clips: list[mpy.TextClip],
@@ -857,8 +862,9 @@ def create_video_clip(
     Creates a video clip
     """
 
+    background_clips = []
     if still_frame:
-        background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
+        background_clip = mpy.VideoFileClip(background_clip_paths[0]).speedx(background_clip_speed)
 
         # Get the total number of frames
         total_frames = int(background_clip.fps * background_clip.duration)
@@ -871,10 +877,19 @@ def create_video_clip(
 
         background_clip = mpy.ImageClip(random_frame)
     else:
-        background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
-        subclip_offset = random.uniform(0, max(0, background_clip.duration - final_clip_duration))
-        background_clip = background_clip.subclip(
-            t_start=subclip_offset,
+        for background_clip_path in background_clip_paths:
+            background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clip_speed
+            background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
+            subclip_offset = random.uniform(0, max(0, background_clip.duration - final_clip_duration))
+            background_clip = background_clip.subclip(
+                t_start=subclip_offset,
+            ).set_duration(
+                background_clip_duration
+            )
+            background_clips.append(background_clip)
+        background_clip = mpy.concatenate_videoclips(
+            clips=background_clips,
+            method="chain"
         )
     x_offset = x_offset if x_offset < background_clip.w - dimensions[0] else x_offset % (background_clip.w - dimensions[0])
     x_offset = random.randint(x_offset, background_clip.w - dimensions[0])
