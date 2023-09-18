@@ -17,6 +17,11 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
+        hash_map={
+            1: r"C:\Users\Crazy\Desktop\GitHub\quran\Anime_Clips\Garden of Words (116).mp4",
+            2: r"C:\Users\Crazy\Desktop\GitHub\quran\Anime_Clips\Garden of Words (190).mp4",
+            3: r"C:\Users\Crazy\Desktop\GitHub\quran\Anime_Clips\Garden of Words (222).mp4"
+        },
     ).abdul_rahman_mossad_al_ghashiyah_10_12()
 
 class MODES(Enum):
@@ -871,8 +876,10 @@ def create_video_clip(
         background_clip = background_clip.subclip(
             t_start=subclip_offset,
         )
-    x_offset = random.randint(0, max(0, (x_offset + background_clip.w - dimensions[0]) % (background_clip.w - dimensions[0])))
-    y_offset = random.randint(0, max(0, (y_offset + background_clip.h - dimensions[1]) % (background_clip.h - dimensions[1])))
+    x_offset = x_offset if x_offset < background_clip.w - dimensions[0] else x_offset % (background_clip.w - dimensions[0])
+    x_offset = random.randint(x_offset, background_clip.w - dimensions[0])
+    y_offset = y_offset if y_offset < background_clip.h - dimensions[1] else y_offset % (background_clip.h - dimensions[1])
+    y_offset = random.randint(y_offset, background_clip.h - dimensions[1])
     background_clip = background_clip.set_duration(
         final_clip_duration
         ).crop(
