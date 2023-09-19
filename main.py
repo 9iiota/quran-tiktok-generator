@@ -20,7 +20,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-    ).abdul_rahman_mossad_al_muzzammil_14_18()
+    ).muhammad_al_luhaidan_taha_105_108()
 
 class MODES(Enum):
     DARK = 1
@@ -440,6 +440,31 @@ class PredefinedTikToks():
             y_offset=self.y_offset,
         )
 
+    def muhammad_al_luhaidan_taha_105_108(self) -> None:
+        """
+        Creates a TikTok video for verses 105-108 of Surah Taha by Muhammad Al-Luhaidan
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Muhammad Al-Luhaidan - 20 - Taha",
+            output_file_path=rf"Surahs\Muhammad Al-Luhaidan - 20 - Taha\Videos\{self.account}_105-108_{uuid.uuid4()}",
+            audio_file_path=r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\audio.mp3",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_translation.txt",
+            background_clips_directory_paths=self.background_clips_directory_paths,
+            still_frames=self.still_frames,
+            background_clips_speed=self.background_clips_speed,
+            hash_map=self.hash_map,
+            mode=self.mode,
+            shadow_opacity=self.shadow_opacity,
+            duplicates_allowed=self.duplicates_allowed,
+            codec=self.codec,
+            dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+        )
+
     def muhammad_al_luhaidan_al_furqan_72_77(self) -> None:
         """
         Creates a TikTok video for verses 72-77 of Surah Al-Furqan by Muhammad Al-Luhaidan
@@ -755,8 +780,6 @@ def create_tiktok(
                 while True:
                     background_clip_path = random.choice(all_background_clips_paths)
                     if hash_map is None or (hash_map is not None and background_clip_path not in hash_map.values()):
-                        # background_clip_duration = get_video_duration_seconds(background_clip_path)
-                        # if background_clip_duration / background_clips_speed >= final_clip_duration:
                         if duplicates_allowed or (not duplicates_allowed and background_clip_path not in used_background_clips_paths):
                             used_background_clips_paths.append(background_clip_path)
                             background_clip_paths.append(background_clip_path)
