@@ -19,8 +19,9 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 # TODO: Add ability to allow only long enough clips to be used
 def main() -> None:
     PredefinedTikToks(
-        account=ACCOUNTS.QURAN_2_LISTEN,
-    ).muhammad_al_luhaidan_taha_105_108()
+        account=ACCOUNTS.QURANIC_TIKTOKS,
+        background_clips_directory_paths=["2D_Clips", "AI_Clips", "Real_Clips"],
+    ).abdul_rahman_mossad_maryam_93_94()
 
 class MODES(Enum):
     DARK = 1
@@ -146,6 +147,33 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt",
+            background_clips_directory_paths=self.background_clips_directory_paths,
+            still_frames=self.still_frames,
+            background_clips_speed=self.background_clips_speed,
+            hash_map=self.hash_map,
+            mode=self.mode,
+            shadow_opacity=self.shadow_opacity,
+            duplicates_allowed=self.duplicates_allowed,
+            codec=self.codec,
+            dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+        )
+
+    def abdul_rahman_mossad_maryam_93_94(self) -> None:
+        """
+        Creates a TikTok video for verses 93-94 of Surah Maryam by Abdul Rahman Mossad
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam",
+            output_file_path=rf"Surahs\Abdul Rahman Mossad - 19 - Maryam\Videos\{self.account}_93-98_{uuid.uuid4()}",
+            audio_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\audio.mp3",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt",
+            start_line=1,
+            end_line=3,
             background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
@@ -703,7 +731,7 @@ def create_tiktok(
     elif account == ACCOUNTS.LOVE_QURAN77:
         english_font = "Fonts/Lato-Semibold.ttf"
     elif account == ACCOUNTS.QURANIC_TIKTOKS:
-        english_font = "Fonts/Fontspring-DEMO-proximanovaexcn-regular.otf"
+        english_font = "Fonts/FreshStart.otf"
         session_id = "8877ca2daba37ca9acea9b798208e9b0"
     if mode == MODES.DARK:
         shadow_color = (0, 0, 0)
@@ -781,12 +809,13 @@ def create_tiktok(
                     background_clip_path = random.choice(all_background_clips_paths)
                     if hash_map is None or (hash_map is not None and background_clip_path not in hash_map.values()):
                         if duplicates_allowed or (not duplicates_allowed and background_clip_path not in used_background_clips_paths):
-                            used_background_clips_paths.append(background_clip_path)
-                            background_clip_paths.append(background_clip_path)
                             background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clips_speed
-                            total_duration += background_clip_duration
-                            if total_duration >= final_clip_duration:
-                                break
+                            if final_clip_duration - (total_duration + background_clip_duration) > 0.5 or final_clip_duration - (total_duration + background_clip_duration) <= 0:
+                                used_background_clips_paths.append(background_clip_path)
+                                background_clip_paths.append(background_clip_path)
+                                total_duration += background_clip_duration
+                                if total_duration >= final_clip_duration:
+                                    break
             else:
                 background_clip_path = hash_map[i]
                 background_clip_duration = get_video_duration_seconds(background_clip_path)
