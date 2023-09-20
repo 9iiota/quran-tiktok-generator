@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from colorama import Fore, Style
 from datetime import datetime
 from enum import Enum
+from moviepy.video.fx import colorx
 from plyer import notification
 from pyquran import quran
 from Tiktok_uploader import uploadVideo
@@ -19,9 +20,8 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 # TODO: Add ability to allow only long enough clips to be used
 def main() -> None:
     PredefinedTikToks(
-        account=ACCOUNTS.QURANIC_TIKTOKS,
-        background_clips_directory_paths=["2D_Clips", "AI_Clips", "Real_Clips"],
-    ).abdul_rahman_mossad_maryam_93_94()
+        account=ACCOUNTS.QURAN_2_LISTEN,
+    ).ahmed_khedr_taha_14_16()
 
 class MODES(Enum):
     DARK = 1
@@ -358,6 +358,26 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
+            hash_map=self.hash_map,
+            mode=self.mode,
+            shadow_opacity=self.shadow_opacity,
+            duplicates_allowed=self.duplicates_allowed,
+            codec=self.codec,
+            dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+        )
+    
+    def ahmed_khedr_taha_14_16(self) -> None:
+        create_tiktok(
+            directory_path=r"Surahs\Ahmed Khedr - 20 - Taha",
+            output_file_path=rf"Surahs\Ahmed Khedr - 20 - Taha\Videos\{self.account}_14-16_{uuid.uuid4()}",
+            audio_file_path=r"Surahs\Ahmed Khedr - 20 - Taha\audio.mp3",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Ahmed Khedr - 20 - Taha\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Ahmed Khedr - 20 - Taha\chapter_translation.txt",
+            background_clips_directory_paths=self.background_clips_directory_paths,
+            still_frames=self.still_frames,
             hash_map=self.hash_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
@@ -943,6 +963,7 @@ def create_video_clip(
             clips=background_clips,
             method="chain"
         )
+        # background_clip = background_clip.fx(mpy.vfx.colorx, 1.25) # Saturation
     x_offset = x_offset if x_offset < background_clip.w - dimensions[0] else x_offset % (background_clip.w - dimensions[0])
     x_offset = random.randint(x_offset, background_clip.w - dimensions[0])
     y_offset = y_offset if y_offset < background_clip.h - dimensions[1] else y_offset % (background_clip.h - dimensions[1])
