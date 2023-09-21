@@ -21,7 +21,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-    ).ahmed_khedr_taha_14_16()
+    ).yasser_al_dosari_al_muminun_34_39()
 
 class MODES(Enum):
     DARK = 1
@@ -187,14 +187,14 @@ class PredefinedTikToks():
             y_offset=self.y_offset,
         )
 
-    def abdul_rahman_mossad_al_ankabut_54_62(self) -> None:
+    def abdul_rahman_mossad_al_ankabut_54_60(self) -> None:
         """
-        Creates a TikTok video for verses 54-62 of Surah Al-'Ankabut by Abdul Rahman Mossad
+        Creates a TikTok video for verses 54-60 of Surah Al-'Ankabut by Abdul Rahman Mossad
         """
 
         create_tiktok(
             directory_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut",
-            output_file_path=rf"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\{self.account}_54-62_{uuid.uuid4()}",
+            output_file_path=rf"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\{self.account}_54-60_{uuid.uuid4()}",
             audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3",
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
@@ -669,6 +669,29 @@ class PredefinedTikToks():
             chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
             start_line=1,
             end_line=4,
+            background_clips_directory_paths=self.background_clips_directory_paths,
+            still_frames=self.still_frames,
+            background_clips_speed=self.background_clips_speed,
+            shadow_opacity=self.shadow_opacity,
+            duplicates_allowed=self.duplicates_allowed,
+            codec=self.codec,
+            dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+        )
+
+    def yasser_al_dosari_al_muminun_34_39(self) -> None:
+        """
+        Creates a TikTok video for verses 34-39 of Surah Al-Muminun by Yasser Al-Dosari
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun",
+            output_file_path=rf"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\Videos\{self.account}_34-39_{uuid.uuid4()}",
+            audio_file_path=r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\audio.mp3",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_translation.txt",
             background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
