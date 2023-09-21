@@ -21,7 +21,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-    ).yasser_al_dosari_al_muminun_34_39()
+    ).unknown_taha_124_126()
 
 class MODES(Enum):
     DARK = 1
@@ -680,6 +680,29 @@ class PredefinedTikToks():
             y_offset=self.y_offset,
         )
 
+    def unknown_taha_124_126(self) -> None:
+        """
+        Creates a TikTok video for verses 124-126 of Surah Taha by an unknown reciter
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Unknown - 20 - Taha",
+            output_file_path=rf"Surahs\Unknown - 20 - Taha\Videos\{self.account}_124-126_{uuid.uuid4()}",
+            audio_file_path=r"Surahs\Unknown - 20 - Taha\audio.mp3",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Unknown - 20 - Taha\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Unknown - 20 - Taha\chapter_translation.txt",
+            background_clips_directory_paths=self.background_clips_directory_paths,
+            still_frames=self.still_frames,
+            background_clips_speed=self.background_clips_speed,
+            shadow_opacity=self.shadow_opacity,
+            duplicates_allowed=self.duplicates_allowed,
+            codec=self.codec,
+            dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+        )
+
     def yasser_al_dosari_al_muminun_34_39(self) -> None:
         """
         Creates a TikTok video for verses 34-39 of Surah Al-Muminun by Yasser Al-Dosari
@@ -919,9 +942,20 @@ def create_tiktok(
             mpy.AudioFileClip(audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
         ).set_duration(
             final_video_duration
+        ).fadein(
+            .5
+        ).fadeout(
+            .5
         )
+
         colored_print(Fore.GREEN, "Creating final video...")
+
         try:
+            # Create directory for the output path if it doesn't already exist
+            output_directory = "\\".join(output_file_path.split("\\")[:-1])
+            if not os.path.isdir(output_directory):
+                os.makedirs(output_directory)
+
             if still_frames:
                 final_video.write_videofile(
                     filename=output_file_path,
@@ -936,6 +970,8 @@ def create_tiktok(
         except Exception as error:
             colored_print(Fore.RED, f"Error: {error}")
             return
+
+        # Create notification to indicate that the video has been created
         create_notification(
             title="TikTok Video Created",
             message=f"Video created for {directory_path}"
