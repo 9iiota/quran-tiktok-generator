@@ -21,7 +21,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-    ).unknown_taha_124_126()
+    ).muhammad_al_luhaidan_al_haqqah_29_33()
 
 class MODES(Enum):
     DARK = 1
@@ -525,6 +525,29 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt",
+            background_clips_directory_paths=self.background_clips_directory_paths,
+            still_frames=self.still_frames,
+            background_clips_speed=self.background_clips_speed,
+            shadow_opacity=self.shadow_opacity,
+            duplicates_allowed=self.duplicates_allowed,
+            codec=self.codec,
+            dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset
+        )
+
+    def muhammad_al_luhaidan_al_haqqah_29_33(self) -> None:
+        """
+        Creates a TikTok video for verses 29-33 of Surah Al-Haqqah by Muhammad Al-Luhaidan
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah",
+            output_file_path=rf"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\Videos\{self.account}_29-33_{uuid.uuid4()}",
+            audio_file_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\audio.mp3",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_translation.txt",
             background_clips_directory_paths=self.background_clips_directory_paths,
             still_frames=self.still_frames,
             background_clips_speed=self.background_clips_speed,
