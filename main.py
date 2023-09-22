@@ -942,10 +942,6 @@ def create_tiktok(
             mpy.AudioFileClip(audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
         ).set_duration(
             final_video_duration
-        ).fadein(
-            .5
-        ).fadeout(
-            .5
         )
 
         colored_print(Fore.GREEN, "Creating final video...")
