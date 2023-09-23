@@ -18,6 +18,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 # TODO: Add support for clips shorter than final clip with still frames
 # TODO: Add support for only 1 background clip
 # TODO: Add ability to allow only long enough clips to be used
+
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
@@ -31,88 +32,6 @@ class ACCOUNTS(Enum):
     QURAN_2_LISTEN = 1 # crazyshocklight@hotmail.com
     LOVE_QURAN77 = 2 # crazyshocklight2@gmail.com
     QURANIC_TIKTOKS = 3 # crazyshocky@hotmail.com
-
-def colored_print(color: str, text: str) -> None:
-    """
-    Prints text in color
-    """
-
-    current_time = datetime.now().strftime("%H:%M:%S")
-    print(f"{color}[{current_time}] {text}{Style.RESET_ALL}")
-
-def colored_input(color: str, text: str) -> None:
-    """
-    Prints text in color and then waits for user input
-    """
-
-    current_time = datetime.now().strftime("%H:%M:%S")
-    input(f"{color}[{current_time}] {text}{Style.RESET_ALL}")
-
-def get_time_difference_seconds(time1: str, time2: str) -> float:
-        """
-        Calculate the time difference between two time strings in the format "MM:SS.SSS"
-        """
-
-        # Convert the time strings to timedelta objects
-        time_format = "%M:%S.%f"
-        time1 = datetime.strptime(time1, time_format)
-        time2 = datetime.strptime(time2, time_format)
-        
-        # Calculate the time difference (subtraction)
-        time_difference = abs(time2 - time1)
-
-        # Convert the time difference to seconds as a float
-        time_difference_seconds = time_difference.total_seconds()
-
-        return time_difference_seconds
-
-def get_video_duration_seconds(video_path: str) -> float:
-        """
-        Get the duration of a video in seconds.
-        """
-
-        video = cv2.VideoCapture(video_path)
-        duration_seconds = video.get(cv2.CAP_PROP_FRAME_COUNT) / video.get(cv2.CAP_PROP_FPS)
-        return duration_seconds
-
-def create_notification(title: str, message: str) -> None:
-        """
-        Create a notification with the given parameters.
-        """
-
-        notification.notify(
-            title=title,
-            message=message,
-            app_name="Python",
-            timeout=1
-        )
-
-class Quran:
-    def get_verse_text(chapter, verse):
-        """
-        Gets the text of a verse from the Quran
-        """
-
-        verse_text = quran.get_verse(chapter, verse, with_tashkeel=True)
-        if verse_text is None or verse_text == "":
-            colored_print(Fore.RED, f"Verse {verse} not found")
-            return None
-        return verse_text
-    
-    def get_verse_translation(chapter, verse):
-        """
-        Gets the translation of a verse from the Quran
-        """
-
-        try:
-            response = requests.get(f"https://api.quran.com/api/v4/quran/translations/20?verse_key={chapter}:{verse}")
-            translation = response.json()["translations"][0]["text"]
-            soup = BeautifulSoup(translation, "html.parser")
-            clean_text = soup.get_text()
-            return clean_text
-        except Exception as error:
-            colored_print(Fore.RED, f"Error: {error}")
-            return None
 
 class PredefinedTikToks():
     def __init__(
@@ -160,7 +79,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -186,7 +105,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -210,7 +129,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -236,7 +155,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -260,7 +179,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -286,7 +205,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -310,7 +229,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -336,7 +255,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -360,7 +279,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -379,7 +298,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -403,11 +322,11 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
-    
+
     def fatih_seferagic_al_hujurat_10(self) -> None:
         """
         Creates a TikTok video for verse 10 of Surah Al-Hujurat by Fatih Seferagic
@@ -415,8 +334,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat",
-            output_file_path=rf"Surahs\Fatih Seferagic - 49 - Al-Hujurat\Videos\{self.account}_10_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\audio.mp3",
+            output_file_name=f"{self.account.name}_10_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
@@ -427,11 +345,11 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
-    
+
     def fatih_seferagic_al_hashr_21_24(self) -> None:
         """
         Creates a TikTok video for verses 21-24 of Surah Al-Hashr by Fatih Seferagic
@@ -451,7 +369,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -475,7 +393,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -499,7 +417,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -521,7 +439,7 @@ class PredefinedTikToks():
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset
         )
@@ -543,7 +461,7 @@ class PredefinedTikToks():
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset
         )
@@ -567,7 +485,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -591,7 +509,7 @@ class PredefinedTikToks():
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -613,7 +531,7 @@ class PredefinedTikToks():
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -635,7 +553,7 @@ class PredefinedTikToks():
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -657,7 +575,7 @@ class PredefinedTikToks():
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset
         )
@@ -681,7 +599,7 @@ class PredefinedTikToks():
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -703,7 +621,7 @@ class PredefinedTikToks():
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -725,7 +643,7 @@ class PredefinedTikToks():
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
@@ -747,16 +665,17 @@ class PredefinedTikToks():
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
-            dimensions=self.dimensions,
+            video_dimensions=self.dimensions,
             x_offset=self.x_offset,
             y_offset=self.y_offset,
         )
 
 def create_tiktok(
         directory_path: str,
-        output_file_path: str,
-        audio_file_path: str,
-        account: ACCOUNTS= ACCOUNTS.QURAN_2_LISTEN,
+        output_file_name: str=None,
+        output_file_path: str=None,
+        audio_file_path: str=None,
+        account: ACCOUNTS=ACCOUNTS.QURAN_2_LISTEN,
         chapter_text_file_path: str=None,
         chapter_translation_file_path: str=None,
         start_line: int=1,
@@ -771,16 +690,13 @@ def create_tiktok(
         mode: MODES=MODES.DARK,
         shadow_opacity: float=0.7,
         allow_duplicate_background_clips: bool=False,
-        dimensions: tuple[int, int]=(576, 1024),
+        video_dimensions: tuple[int, int]=(576, 1024),
         x_offset: int=0,
         y_offset: int=0
     ) -> None:
     """
     Creates a TikTok video
     """
-
-    # Add .mp4 extension to output file path
-    output_file_path += ".mp4"
 
     # Create timestamps text file if it doesn't exist and populate it with the timestamps or update it if it does exist
     if os.path.isdir(directory_path):
@@ -796,6 +712,24 @@ def create_tiktok(
     else:
         colored_print(Fore.RED, "Directory not found")
         return
+
+    # Create output file path if it doesn't exist
+    if output_file_path is None:
+        if output_file_name is None:
+            output_file_path = os.path.join(directory_path, rf"Videos\{account.name}_{uuid.uuid4()}.mp4")
+        else:
+            output_file_path = os.path.join(directory_path, rf"Videos\{output_file_name}.mp4")
+    else:
+        output_directory = "\\".join(output_file_path.split("\\")[:-1])
+        if os.path.isdir(output_directory):
+            os.makedirs(output_directory, exist_ok=True)
+
+    # Create audio file path if it doesn't exist
+    if audio_file_path is None:
+        for file in os.listdir(directory_path):
+            if file.endswith(".mp3"):
+                audio_file_path = os.path.join(directory_path, file)
+                break
 
     # Change font based on account
     match account:
@@ -898,6 +832,7 @@ def create_tiktok(
                 # Create variables for background clips
                 current_video_clip_background_clip_paths = []
 
+                # Get background clips for video clip if not in pictures mode
                 if not pictures_mode:
                     background_clips_duration = 0
 
@@ -955,7 +890,7 @@ def create_tiktok(
                 text_clips = [
                     create_text_clip(
                         text=verse_text,
-                        size=dimensions,
+                        size=video_dimensions,
                         color=verse_text_color,
                         fontsize=44,
                         font=ARABIC_FONT,
@@ -964,7 +899,7 @@ def create_tiktok(
                     ),
                     create_text_clip(
                         text=verse_translation,
-                        size=(dimensions[0] * .6, None),
+                        size=(video_dimensions[0] * .6, None),
                         color=verse_translation_color,
                         fontsize=20,
                         font=english_font,
@@ -976,7 +911,7 @@ def create_tiktok(
 
                 # Create shadow clip
                 shadow_clip = create_shadow_clip(
-                    size=dimensions,
+                    size=video_dimensions,
                     color=shadow_color,
                     duration=video_clip_duration,
                     opacity=shadow_opacity
@@ -986,7 +921,7 @@ def create_tiktok(
                 video_clip = create_video_clip(
                     background_clip_paths=current_video_clip_background_clip_paths,
                     final_clip_duration=video_clip_duration,
-                    dimensions=dimensions,
+                    dimensions=video_dimensions,
                     text_clips=text_clips,
                     still_frame=pictures_mode,
                     background_clip_speed=background_clips_speed,
@@ -1017,21 +952,16 @@ def create_tiktok(
             colored_print(Fore.GREEN, "Creating final video...")
 
             try:
-                # Create directory for the output path if it doesn't already exist
-                output_directory = "\\".join(output_file_path.split("\\")[:-1])
-                if not os.path.isdir(output_directory):
-                    os.makedirs(output_directory)
-
-                if pictures_mode:
+                if not pictures_mode:
                     final_video.write_videofile(
                         filename=output_file_path,
                         codec="libx264",
-                        fps=60,
                     )
                 else:
                     final_video.write_videofile(
                         filename=output_file_path,
                         codec="libx264",
+                        fps=60,
                     )
             except Exception as error:
                 colored_print(Fore.RED, f"Error: {error}")
@@ -1179,6 +1109,88 @@ def create_text_clip(
         fade_duration
     )
     return text_clip
+
+def colored_print(color: str, text: str) -> None:
+    """
+    Prints text in color
+    """
+
+    current_time = datetime.now().strftime("%H:%M:%S")
+    print(f"{color}[{current_time}] {text}{Style.RESET_ALL}")
+
+def colored_input(color: str, text: str) -> None:
+    """
+    Prints text in color and then waits for user input
+    """
+
+    current_time = datetime.now().strftime("%H:%M:%S")
+    input(f"{color}[{current_time}] {text}{Style.RESET_ALL}")
+
+def get_time_difference_seconds(time1: str, time2: str) -> float:
+        """
+        Calculate the time difference between two time strings in the format "MM:SS.SSS"
+        """
+
+        # Convert the time strings to timedelta objects
+        time_format = "%M:%S.%f"
+        time1 = datetime.strptime(time1, time_format)
+        time2 = datetime.strptime(time2, time_format)
+        
+        # Calculate the time difference (subtraction)
+        time_difference = abs(time2 - time1)
+
+        # Convert the time difference to seconds as a float
+        time_difference_seconds = time_difference.total_seconds()
+
+        return time_difference_seconds
+
+def get_video_duration_seconds(video_path: str) -> float:
+        """
+        Get the duration of a video in seconds.
+        """
+
+        video = cv2.VideoCapture(video_path)
+        duration_seconds = video.get(cv2.CAP_PROP_FRAME_COUNT) / video.get(cv2.CAP_PROP_FPS)
+        return duration_seconds
+
+def create_notification(title: str, message: str) -> None:
+        """
+        Create a notification with the given parameters.
+        """
+
+        notification.notify(
+            title=title,
+            message=message,
+            app_name="Python",
+            timeout=1
+        )
+
+class Quran:
+    def get_verse_text(chapter, verse):
+        """
+        Gets the text of a verse from the Quran
+        """
+
+        verse_text = quran.get_verse(chapter, verse, with_tashkeel=True)
+        if verse_text is None or verse_text == "":
+            colored_print(Fore.RED, f"Verse {verse} not found")
+            return None
+        return verse_text
+    
+    def get_verse_translation(chapter, verse):
+        """
+        Gets the translation of a verse from the Quran
+        """
+
+        try:
+            response = requests.get(f"https://api.quran.com/api/v4/quran/translations/20?verse_key={chapter}:{verse}")
+            translation = response.json()["translations"][0]["text"]
+            soup = BeautifulSoup(translation, "html.parser")
+            clean_text = soup.get_text()
+            return clean_text
+        except Exception as error:
+            colored_print(Fore.RED, f"Error: {error}")
+            return None
 
 def create_timestamps_txt_file(timestamps_csv_file_path: str) -> None:
     """
