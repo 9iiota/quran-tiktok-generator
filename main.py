@@ -22,9 +22,11 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 
 def main() -> None:
     PredefinedTikToks(
-        account=ACCOUNTS.LOVE_QURAN77,
-        background_clips_directory_paths=["2D_Clips", "AI_Clips", "Real_Clips"],
-    ).abdul_rahman_mossad_al_adiyat_1_11()
+        account=ACCOUNTS.QURAN_2_LISTEN,
+        video_map={
+            9: [r"Anime_Clips\Garden of Words (216).mp4"]
+        }
+    ).mansour_as_salimi_maryam_27_33()
 
 class MODES(Enum):
     DARK = 1
@@ -42,7 +44,7 @@ class PredefinedTikToks():
             background_clips_directory_paths: list[str]=["Anime_Clips"],
             still_frames: bool=False,
             background_clips_speed: float=1.0,
-            hash_map: dict=None,
+            video_map: dict=None,
             mode: MODES=MODES.DARK,
             shadow_opacity: float=0.7,
             duplicates_allowed: bool=False,
@@ -54,7 +56,7 @@ class PredefinedTikToks():
         self.background_clips_directory_paths = background_clips_directory_paths
         self.still_frames = still_frames
         self.background_clips_speed = background_clips_speed
-        self.hash_map = hash_map
+        self.video_map = video_map
         self.mode = mode
         self.shadow_opacity = shadow_opacity
         self.duplicates_allowed = duplicates_allowed
@@ -76,7 +78,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -101,7 +103,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -124,7 +126,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -149,7 +151,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -172,7 +174,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -197,7 +199,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -220,7 +222,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -245,7 +247,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -268,7 +270,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -286,7 +288,7 @@ class PredefinedTikToks():
             chapter_translation_file_path=r"Surahs\Ahmed Khedr - 20 - Taha\chapter_translation.txt",
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -309,7 +311,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -332,7 +334,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -355,7 +357,30 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
+            mode=self.mode,
+            shadow_opacity=self.shadow_opacity,
+            allow_duplicate_background_clips=self.duplicates_allowed,
+            video_dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+        )
+
+    def mansour_as_salimi_maryam_27_33(self) -> None:
+        """
+        Creates a TikTok video for verses 27-33 of Surah Maryam by Mansour As Salimi
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Mansour As Salimi - 19 - Maryam",
+            output_file_name=f"{self.account.name}_27-33_{uuid.uuid4()}",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_translation.txt",
+            background_clips_directory_paths=self.background_clips_directory_paths,
+            pictures_mode=self.still_frames,
+            background_clips_speed=self.background_clips_speed,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -378,7 +403,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -401,7 +426,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -466,7 +491,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -489,7 +514,7 @@ class PredefinedTikToks():
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
-            video_map=self.hash_map,
+            video_map=self.video_map,
             mode=self.mode,
             shadow_opacity=self.shadow_opacity,
             allow_duplicate_background_clips=self.duplicates_allowed,
@@ -814,7 +839,7 @@ def create_tiktok(
                     background_clips_duration = 0
 
                     if video_map is None or \
-                    video_map is not None and i not in video_map.keys():
+                    (video_map is not None and i not in video_map.keys()):
                         # Get new background clips until the total duration of the background clips is long enough for the video clip
                         while True:
                             background_clip_path = get_random_background_clip_path(all_background_clips_paths)
@@ -849,13 +874,30 @@ def create_tiktok(
 
                                     if background_clips_duration >= video_clip_duration:
                                         break
+                        
+                        # Delete video map entry
+                        del video_map[i]
 
-                        # Delete video map entry if the background clips are long enough for the video clip
-                        if background_clip_duration >= video_clip_duration:
-                            del video_map[i]
-                        else:
-                            colored_print(Fore.RED, f"Background clips duration is too short for video clip {i}")
-                            return
+                        # Get new background clips until the total duration of the background clips is long enough for the video clip if needed
+                        if background_clips_duration < video_clip_duration:
+                            while True:
+                                background_clip_path = get_random_background_clip_path(all_background_clips_paths)
+
+                                # Check if background clip can be used
+                                if allow_duplicate_background_clips \
+                                or (not allow_duplicate_background_clips and background_clip_path not in used_background_clips_paths):
+                                    background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clips_speed
+                                    
+                                    # Prevent background clip from being used if it will make the next background clip too short
+                                    if video_clip_duration - background_clips_duration - background_clip_duration > .5 \
+                                    or video_clip_duration - background_clips_duration - background_clip_duration <= 0:
+                                        current_video_clip_background_clip_paths.append(background_clip_path)
+                                        used_background_clips_paths.append(background_clip_path)
+
+                                        background_clips_duration += background_clip_duration
+
+                                        if background_clips_duration >= video_clip_duration:
+                                            break
                 else:
                     background_clip_path = get_random_background_clip_path(all_background_clips_paths)
                     current_video_clip_background_clip_paths.append(background_clip_path)
