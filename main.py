@@ -18,11 +18,12 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 # TODO: Add support for clips shorter than final clip with still frames
 # TODO: Add support for only 1 background clip
 # TODO: Add ability to allow only long enough clips to be used
+# TODO: Allow any size background clips
 
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-    ).fatih_seferagic_al_hujurat_10()
+    ).muhammad_al_luhaidan_al_haqqah_29_33()
 
 class MODES(Enum):
     DARK = 1
@@ -67,8 +68,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam",
-            output_file_path=rf"Surahs\Abdul Rahman Mossad - 19 - Maryam\Videos\{self.account}_93-98_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\audio.mp3",
+            output_file_name=f"{self.account.name}_93-98_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt",
@@ -91,8 +91,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam",
-            output_file_path=rf"Surahs\Abdul Rahman Mossad - 19 - Maryam\Videos\{self.account}_93-98_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\audio.mp3",
+            output_file_name=f"{self.account.name}_93-98_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt",
@@ -117,8 +116,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut",
-            output_file_path=rf"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\{self.account}_54-60_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3",
+            output_file_name=f"{self.account.name}_54-60_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
@@ -141,8 +139,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut",
-            output_file_path=rf"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\Videos\{self.account}_56-57_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\audio.mp3",
+            output_file_name=f"{self.account.name}_56-57_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
@@ -167,8 +164,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil",
-            output_file_path=rf"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\{self.account}_14-18_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\audio.mp3",
+            output_file_name=f"{self.account.name}_14-18_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
@@ -191,8 +187,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil",
-            output_file_path=rf"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\Videos\{self.account}_14-15_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\audio.mp3",
+            output_file_name=f"{self.account.name}_14-15_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
@@ -217,8 +212,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah",
-            output_file_path=rf"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\Videos\{self.account}_10-26_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\audio.mp3",
+            output_file_name=f"{self.account.name}_10-26_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
@@ -241,8 +235,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah",
-            output_file_path=rf"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\Videos\{self.account}_10-26_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\audio.mp3",
+            output_file_name=f"{self.account.name}_10-26_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
@@ -267,8 +260,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat",
-            output_file_path=rf"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\Videos\{self.account}_1-11_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\audio.mp3",
+            output_file_name=f"{self.account.name}_1-11_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_translation.txt",
@@ -287,8 +279,7 @@ class PredefinedTikToks():
     def ahmed_khedr_taha_14_16(self) -> None:
         create_tiktok(
             directory_path=r"Surahs\Ahmed Khedr - 20 - Taha",
-            output_file_path=rf"Surahs\Ahmed Khedr - 20 - Taha\Videos\{self.account}_14-16_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Ahmed Khedr - 20 - Taha\audio.mp3",
+            output_file_name=f"{self.account.name}_14-16_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Ahmed Khedr - 20 - Taha\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Ahmed Khedr - 20 - Taha\chapter_translation.txt",
@@ -310,8 +301,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi",
-            output_file_path=rf"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\Videos\{self.account}_255_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\audio.mp3",
+            output_file_name=f"{self.account.name}_255_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_translation.txt",
@@ -357,8 +347,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr",
-            output_file_path=rf"Surahs\Fatih Seferagic - 59 - Al-Hashr\Videos\{self.account}_21-24_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\audio.mp3",
+            output_file_name=f"{self.account.name}_21-24_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
@@ -381,8 +370,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am",
-            output_file_path=rf"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\Videos\{self.account}_27-30_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\audio.mp3",
+            output_file_name=f"{self.account.name}_27-30_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_translation.txt",
@@ -405,8 +393,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Muhammad Al-Luhaidan - 20 - Taha",
-            output_file_path=rf"Surahs\Muhammad Al-Luhaidan - 20 - Taha\Videos\{self.account}_105-108_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\audio.mp3",
+            output_file_name=f"{self.account.name}_105-108_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_translation.txt",
@@ -429,8 +416,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan",
-            output_file_path=rf"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\Videos\{self.account}_72-77_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\audio.mp3",
+            output_file_name=f"{self.account.name}_72-77_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt",
@@ -451,8 +437,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah",
-            output_file_path=rf"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\Videos\{self.account}_29-33_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\audio.mp3",
+            output_file_name=f"{self.account.name}_29-33_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_translation.txt",
@@ -473,8 +458,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah",
-            output_file_path=rf"Surahs\Salim Bahanan - 1 - Al-Fatihah\Videos\{self.account}_2-7_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\audio.mp3",
+            output_file_name=f"{self.account.name}_2-7_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_translation.txt",
@@ -497,8 +481,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa",
-            output_file_path=rf"Surahs\Salim Bahanan - 93 - Ad-Duhaa\Videos\{self.account}_1-11_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\audio.mp3",
+            output_file_name=f"{self.account.name}_1-11_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt",
@@ -521,8 +504,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Salim Bahanan - 101 - Al-Qariah",
-            output_file_path=rf"Surahs\Salim Bahanan - 101 - Al-Qariah\Videos\{self.account}_1-11_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qariah\audio.mp3",
+            output_file_name=f"{self.account.name}_1-11_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_translation.txt",
@@ -543,8 +525,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Unknown - 25 - Al-Furqan",
-            output_file_path=rf"Surahs\Unknown - 25 - Al-Furqan\Videos\{self.account}_72-75_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Unknown - 25 - Al-Furqan\audio.mp3",
+            output_file_name=f"{self.account.name}_72-75_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Unknown - 25 - Al-Furqan\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Unknown - 25 - Al-Furqan\chapter_translation.txt",
@@ -565,8 +546,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Unknown - 29 - Al-'Ankabut",
-            output_file_path=rf"Surahs\Unknown - 29 - Al-'Ankabut\Videos\{self.account}_56-58_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\audio.mp3",
+            output_file_name=f"{self.account.name}_56-58_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
@@ -587,8 +567,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Unknown - 29 - Al-'Ankabut",
-            output_file_path=rf"Surahs\Unknown - 29 - Al-'Ankabut\Videos\{self.account}_56-57_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\audio.mp3",
+            output_file_name=f"{self.account.name}_56-57_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
@@ -611,8 +590,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Unknown - 20 - Taha",
-            output_file_path=rf"Surahs\Unknown - 20 - Taha\Videos\{self.account}_124-126_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Unknown - 20 - Taha\audio.mp3",
+            output_file_name=f"{self.account.name}_124-126_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Unknown - 20 - Taha\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Unknown - 20 - Taha\chapter_translation.txt",
@@ -633,8 +611,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun",
-            output_file_path=rf"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\Videos\{self.account}_34-39_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\audio.mp3",
+            output_file_name=f"{self.account.name}_34-39_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_translation.txt",
@@ -655,8 +632,7 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath",
-            output_file_path=rf"Surahs\Yasser Al-Dosari - 48 - Al-Fath\Videos\{self.account}_29_{uuid.uuid4()}",
-            audio_file_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\audio.mp3",
+            output_file_name=f"{self.account.name}_29_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_translation.txt",
@@ -942,10 +918,10 @@ def create_tiktok(
             final_video = mpy.concatenate_videoclips(
                 clips=video_clips,
                 method="chain"
-            ).set_audio(
-                mpy.AudioFileClip(audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
             ).set_duration(
                 final_video_duration
+            ).set_audio(
+                mpy.AudioFileClip(audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
             )
 
             # Start creating final video
@@ -1019,10 +995,17 @@ def create_video_clip(
             method="chain"
         )
         # background_clip = background_clip.fx(mpy.vfx.colorx, 1.25) # Saturation
-    x_offset = x_offset if x_offset < background_clip.w - dimensions[0] else x_offset % (background_clip.w - dimensions[0])
-    x_offset = random.randint(x_offset, background_clip.w - dimensions[0])
-    y_offset = y_offset if y_offset < background_clip.h - dimensions[1] else y_offset % (background_clip.h - dimensions[1])
-    y_offset = random.randint(y_offset, background_clip.h - dimensions[1])
+    
+    width_difference = background_clip.w - dimensions[0]
+    x_offset = x_offset if x_offset < width_difference else x_offset % (width_difference)
+    if width_difference > 0:
+        x_offset = random.randint(x_offset, width_difference)
+
+    height_difference = background_clip.h - dimensions[1]
+    y_offset = y_offset if y_offset < height_difference else y_offset % (height_difference)
+    if height_difference > 0:
+        y_offset = random.randint(y_offset, height_difference)
+    
     background_clip = background_clip.set_duration(
         final_clip_duration
         ).crop(
