@@ -22,8 +22,9 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 
 def main() -> None:
     PredefinedTikToks(
-        account=ACCOUNTS.QURAN_2_LISTEN,
-    ).muhammad_al_luhaidan_al_haqqah_29_33()
+        account=ACCOUNTS.LOVE_QURAN77,
+        background_clips_directory_paths=["2D_Clips", "AI_Clips", "Real_Clips"],
+    ).abdul_rahman_mossad_al_adiyat_1_11()
 
 class MODES(Enum):
     DARK = 1
@@ -712,7 +713,7 @@ def create_tiktok(
         case ACCOUNTS.QURAN_2_LISTEN:
             english_font = "Fonts/Butler_Regular.otf"
         case ACCOUNTS.LOVE_QURAN77:
-            english_font = "Fonts/Lato-Semibold.ttf"
+            english_font = "Fonts/Sk-Modernist-Regular.otf"
         case ACCOUNTS.QURANIC_TIKTOKS:
             english_font = "Fonts/FreshStart.otf"
 
