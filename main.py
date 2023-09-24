@@ -23,11 +23,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-        video_map={
-            9: [r"Anime_Clips\Garden of Words (216).mp4"],
-            11: [r"Anime_Clips\Weathering With You (188).mp4"],
-        }
-    ).mansour_as_salimi_maryam_27_33()
+    ).fatih_seferagic_al_hujurat_10()
 
 class MODES(Enum):
     DARK = 1
@@ -401,6 +397,29 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_translation.txt",
+            background_clips_directory_paths=self.background_clips_directory_paths,
+            pictures_mode=self.still_frames,
+            background_clips_speed=self.background_clips_speed,
+            video_map=self.video_map,
+            mode=self.mode,
+            shadow_opacity=self.shadow_opacity,
+            allow_duplicate_background_clips=self.duplicates_allowed,
+            video_dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+        )
+
+    def muhammad_al_luhaidan_maryam_85_92(self) -> None:
+        """
+        Creates a TikTok video for verses 85-92 of Surah Maryam by Muhammad Al-Luhaidan
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam",
+            output_file_name=f"{self.account.name}_85-92_{uuid.uuid4()}",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam\chapter_translation.txt",
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
