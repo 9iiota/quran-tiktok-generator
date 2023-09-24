@@ -24,7 +24,8 @@ def main() -> None:
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
         video_map={
-            9: [r"Anime_Clips\Garden of Words (216).mp4"]
+            9: [r"Anime_Clips\Garden of Words (216).mp4"],
+            11: [r"Anime_Clips\Weathering With You (188).mp4"],
         }
     ).mansour_as_salimi_maryam_27_33()
 
