@@ -19,11 +19,55 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 # TODO: Add support for only 1 background clip
 # TODO: Add ability to allow only long enough clips to be used
 # TODO: Allow any size background clips
+# TODO: Add support for background clips disjoint from audio timings
 
 def main() -> None:
+    # background_video = mpy.ColorClip(size=(576, 1024), color=(0, 0, 0), duration=10)
+
+    # text_clip_1 = create_text_clip(
+    #     text="Text 1",
+    #     size=(576, 1024),
+    #     color="rgb(255, 255, 255)",
+    #     fontsize=20,
+    #     font="Fonts/Butler_Regular.otf",
+    #     position=(0, -.05),
+    #     duration=2
+    # )
+
+    # text_clip_2 = create_text_clip(
+    #     text="Text 2",
+    #     size=(576, 1024),
+    #     color="rgb(255, 255, 255)",
+    #     fontsize=20,
+    #     font="Fonts/Butler_Regular.otf",
+    #     position=(0, -.05),
+    #     duration=2
+    # )
+
+    # text_clip_3 = create_text_clip(
+    #     text="Text 3",
+    #     size=(576, 1024),
+    #     color="rgb(255, 255, 255)",
+    #     fontsize=20,
+    #     font="Fonts/Butler_Regular.otf",
+    #     position=(0, -.05),
+    #     duration=2
+    # )
+
+    # final_clip = mpy.CompositeVideoClip(
+    #     [
+    #         background_video,
+    #         text_clip_1.set_start(0),
+    #         text_clip_2.set_start(2),
+    #         text_clip_3.set_start(4),
+    #     ]
+    # )
+
+    # final_clip.write_videofile("test.mp4", fps=30)
+
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-    ).fatih_seferagic_al_hujurat_10()
+    ).fatih_seferagic_an_nisa_155_160()
 
 class MODES(Enum):
     DARK = 1
@@ -305,6 +349,29 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_translation.txt",
+            background_clips_directory_paths=self.background_clips_directory_paths,
+            pictures_mode=self.still_frames,
+            background_clips_speed=self.background_clips_speed,
+            video_map=self.video_map,
+            mode=self.mode,
+            shadow_opacity=self.shadow_opacity,
+            allow_duplicate_background_clips=self.duplicates_allowed,
+            video_dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+        )
+
+    def fatih_seferagic_an_nisa_155_160(self) -> None:
+        """
+        Creates a TikTok video for verses 155-160 of Surah An-Nisa by Fatih Seferagic
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Fatih Seferagic - 4 - An-Nisa",
+            output_file_name=f"{self.account.name}_255_{uuid.uuid4()}",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_translation.txt",
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
