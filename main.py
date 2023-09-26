@@ -67,7 +67,7 @@ def main() -> None:
 
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-    ).fatih_seferagic_an_nur_35()
+    ).muhammad_al_luhaidan_al_insan_20_22()
 
 class MODES(Enum):
     DARK = 1
@@ -577,6 +577,27 @@ class PredefinedTikToks():
             account=self.account,
             chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_translation.txt",
+            background_clips_directory_paths=self.background_clips_directory_paths,
+            pictures_mode=self.still_frames,
+            background_clips_speed=self.background_clips_speed,
+            shadow_opacity=self.shadow_opacity,
+            allow_duplicate_background_clips=self.duplicates_allowed,
+            video_dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset
+        )
+
+    def muhammad_al_luhaidan_al_insan_20_22(self) -> None:
+        """
+        Creates a TikTok video for verses 20-22 of Surah Al-Insan by Muhammad Al-Luhaidan
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan",
+            output_file_name=f"{self.account.name}_20-22_{uuid.uuid4()}",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_translation.txt",
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
