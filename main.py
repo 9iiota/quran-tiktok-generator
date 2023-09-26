@@ -67,7 +67,7 @@ def main() -> None:
 
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-    ).fatih_seferagic_an_nisa_155_160()
+    ).fatih_seferagic_an_nur_35()
 
 class MODES(Enum):
     DARK = 1
@@ -368,10 +368,33 @@ class PredefinedTikToks():
 
         create_tiktok(
             directory_path=r"Surahs\Fatih Seferagic - 4 - An-Nisa",
-            output_file_name=f"{self.account.name}_255_{uuid.uuid4()}",
+            output_file_name=f"{self.account.name}_155_160_{uuid.uuid4()}",
             account=self.account,
             chapter_text_file_path=r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_text.txt",
             chapter_translation_file_path=r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_translation.txt",
+            background_clips_directory_paths=self.background_clips_directory_paths,
+            pictures_mode=self.still_frames,
+            background_clips_speed=self.background_clips_speed,
+            video_map=self.video_map,
+            mode=self.mode,
+            shadow_opacity=self.shadow_opacity,
+            allow_duplicate_background_clips=self.duplicates_allowed,
+            video_dimensions=self.dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+        )
+
+    def fatih_seferagic_an_nur_35(self) -> None:
+        """
+        Creates a TikTok video for verse 35 of Surah An-Nur by Fatih Seferagic
+        """
+
+        create_tiktok(
+            directory_path=r"Surahs\Fatih Seferagic - 24 - An-Nur",
+            output_file_name=f"{self.account.name}_35_{uuid.uuid4()}",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_translation.txt",
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             background_clips_speed=self.background_clips_speed,
@@ -787,21 +810,6 @@ def create_tiktok(
     Creates a TikTok video
     """
 
-    # Create timestamps text file if it doesn't exist and populate it with the timestamps or update it if it does exist
-    if os.path.isdir(directory_path):
-        timestamps_csv_file_path = os.path.join(directory_path, "Markers.csv")
-
-        if os.path.isfile(timestamps_csv_file_path):
-            create_timestamps_txt_file(timestamps_csv_file_path)
-
-            timestamps_txt_file_path = timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
-        else:
-            colored_print(Fore.RED, "Markers.csv file not found")
-            return
-    else:
-        colored_print(Fore.RED, "Directory not found")
-        return
-
     # Create output file path if it doesn't exist
     if output_file_path is None:
         if output_file_name is None:
@@ -879,6 +887,21 @@ def create_tiktok(
     # Await user input to edit text file(s) if they were just created
     if chapter_text_file_path is None or chapter_translation_file_path is None:
         colored_input(Fore.YELLOW, "Appropriately edit text file(s) now...")
+
+    # Create timestamps text file if it doesn't exist and populate it with the timestamps or update it if it does exist
+    if os.path.isdir(directory_path):
+        timestamps_csv_file_path = os.path.join(directory_path, "Markers.csv")
+
+        if os.path.isfile(timestamps_csv_file_path):
+            create_timestamps_txt_file(timestamps_csv_file_path)
+
+            timestamps_txt_file_path = timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
+        else:
+            colored_print(Fore.RED, "Markers.csv file not found")
+            return
+    else:
+        colored_print(Fore.RED, "Directory not found")
+        return
 
     # Read text file(s)
     with open(chapter_text_file_path, "r", encoding="utf-8") as chapter_text_file, \
