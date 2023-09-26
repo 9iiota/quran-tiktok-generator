@@ -831,7 +831,6 @@ def create_tiktok(
         output_file_name: str=None,
         output_file_path: str=None,
         audio_file_path: str=None,
-        account: ACCOUNTS=ACCOUNTS.QURAN_2_LISTEN,
         chapter_text_file_path: str=None,
         chapter_translation_file_path: str=None,
         start_line: int=1,
@@ -840,16 +839,17 @@ def create_tiktok(
         start_verse: int=None,
         end_verse: int=None,
         background_clips_directory_paths: list[str]=["Anime_Clips"],
-        pictures_mode: bool=False,
-        background_clips_speed: float=1.0,
+        single_background_clip: str=None,
         video_map: dict=None,
-        mode: MODES=MODES.DARK,
-        shadow_opacity: float=0.7,
+        pictures_mode: bool=False,
         allow_duplicate_background_clips: bool=False,
         video_dimensions: tuple[int, int]=(576, 1024),
         x_offset: int=0,
         y_offset: int=0,
-        single_background_clip: str=None,
+        background_clips_speed: float=1.0,
+        shadow_opacity: float=0.7,
+        account: ACCOUNTS=ACCOUNTS.QURAN_2_LISTEN,
+        mode: MODES=MODES.DARK,
     ) -> None:
     """
     Creates a TikTok video
@@ -956,6 +956,40 @@ def create_tiktok(
             chapter_translation_lines = chapter_translation_file.readlines()
             timestamps_lines = timestamps_file.readlines()
 
+            if single_background_clip is not None:
+                background_clip = mpy.VideoFileClip(single_background_clip)
+
+                # Specify the target aspect ratio (9:16)
+                target_aspect_ratio = 9 / 16
+
+                # Calculate the dimensions to fit the target aspect ratio without resizing
+                width, height = background_clip.size
+                current_aspect_ratio = width / height
+
+                if current_aspect_ratio > target_aspect_ratio:
+                    # Video is wider than 9:16, so we need to crop the sides
+                    new_width = int(height * target_aspect_ratio)
+                    x_offset = (width - new_width) // 2
+                    background_clip = background_clip.crop(x1=x_offset, x2=x_offset + new_width)
+                    video_dimensions = (new_width, height)
+                else:
+                    # Video is taller than 9:16, so we need to crop the top and bottom
+                    new_height = int(width / target_aspect_ratio)
+                    y_offset = (height - new_height) // 2
+                    background_clip = background_clip.crop(y1=y_offset, y2=y_offset + new_height)
+                    video_dimensions = (width, new_height)
+
+                # Create shadow clip
+                shadow_clip = create_shadow_clip(
+                    size=(width, height),
+                    color=shadow_color,
+                    duration=background_clip.duration,
+                    opacity=shadow_opacity
+                )
+
+                # Overlay shadow clip on video
+                video = mpy.CompositeVideoClip([background_clip, shadow_clip])
+
             # Create the range of lines to loop through
             if end_line is None:
                 end_line = len(chapter_text_lines)
@@ -964,110 +998,14 @@ def create_tiktok(
             loop_range = range(start_line, end_line)
 
             # Create variables
-            if single_background_clip is not None:
-                video = mpy.VideoFileClip(single_background_clip)
-
-                # Specify the target aspect ratio (9:16)
-                target_aspect_ratio = 9 / 16
-
-                # Calculate the dimensions to fit the target aspect ratio without resizing
-                width, height = video.size
-                current_aspect_ratio = width / height
-
-                if current_aspect_ratio > target_aspect_ratio:
-                    # Video is wider than 9:16, so we need to crop the sides
-                    new_width = int(height * target_aspect_ratio)
-                    x_offset = (width - new_width) // 2
-                    video = video.crop(x1=x_offset, x2=x_offset + new_width)
-                    width = new_width
-                else:
-                    # Video is taller than 9:16, so we need to crop the top and bottom
-                    new_height = int(width / target_aspect_ratio)
-                    y_offset = (height - new_height) // 2
-                    video = video.crop(y1=y_offset, y2=y_offset + new_height)
-                    height = new_height
-
-                # Create shadow clip
-                shadow_clip = create_shadow_clip(
-                    size=(width, height),
-                    color=shadow_color,
-                    duration=video.duration,
-                    opacity=shadow_opacity
-                )
-
-                video = mpy.CompositeVideoClip([video, shadow_clip])
-
-                fps = video.fps
-
-                for i in loop_range:
-                    # Get data for video clip
-                    verse_text = chapter_text_lines[i - 1].strip()
-                    verse_translation = chapter_translation_lines[i - 1].strip()
-
-                    audio_start = timestamps_lines[i - 1].strip().split(",")[0]
-                    audio_end = timestamps_lines[i].strip().split(",")[0]
-
-                    video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
-
-                    # Get text duration
-                    try:
-                        text_end = timestamps_lines[i].strip().split(",")[1]
-                        text_duration = get_time_difference_seconds(audio_start, text_end)
-                    except IndexError:
-                        text_duration = video_clip_duration
-
-                    text_clips = [
-                        create_text_clip(
-                            text=verse_text,
-                            size=(width, height),
-                            color=verse_text_color,
-                            fontsize=44,
-                            font=ARABIC_FONT,
-                            position=(0, -.05),
-                            duration=text_duration
-                        ),
-                        create_text_clip(
-                            text=verse_translation,
-                            size=(width * .6, None),
-                            color=verse_translation_color,
-                            fontsize=20,
-                            font=english_font,
-                            position=("center", .49),
-                            method="caption",
-                            duration=text_duration
-                        )
-                    ]
-
-                    # Create video clip
-                    video = mpy.CompositeVideoClip(
-                        [
-                            video,
-                            text_clips[0].set_start(get_time_difference_seconds(audio_start, timestamps_lines[0].strip().split(",")[0])),
-                            text_clips[1].set_start(get_time_difference_seconds(audio_start, timestamps_lines[0].strip().split(",")[0]))
-                        ]
-                    )
-
-                final_video_start = timestamps_lines[start_line - 1].strip().split(",")[0]
-                final_video_end = timestamps_lines[end_line - 1].strip().split(",")[0]
-                final_video_duration = get_time_difference_seconds(final_video_start, final_video_end)
-
-                # Concatenate video clips, add audio, and set duration for final video
-                final_video = video.set_duration(
-                    final_video_duration
-                ).set_audio(
-                    mpy.AudioFileClip(audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
-                )
-
-                final_video = final_video.write_videofile(
-                    output_file_path,
-                    fps=fps,
-                )
-
-                return
-            
             all_background_clips_paths = get_all_background_clips_paths(background_clips_directory_paths)
             used_background_clips_paths = []
             video_clips = []
+
+            # Get data for final video
+            final_video_start = timestamps_lines[start_line - 1].strip().split(",")[0]
+            final_video_end = timestamps_lines[end_line - 1].strip().split(",")[0]
+            final_video_duration = get_time_difference_seconds(final_video_start, final_video_end)
 
             # Create video clips
             for i in loop_range:
@@ -1087,55 +1025,17 @@ def create_tiktok(
                 except IndexError:
                     text_duration = video_clip_duration
 
-                # Create variables for background clips
-                current_video_clip_background_clip_paths = []
+                if not single_background_clip:
+                    # Create variables for background clips
+                    current_video_clip_background_clip_paths = []
 
-                # Get background clips for video clip if not in pictures mode
-                if not pictures_mode:
-                    background_clips_duration = 0
+                    # Get background clips for video clip if not in pictures mode
+                    if not pictures_mode:
+                        background_clips_duration = 0
 
-                    if video_map is None or \
-                    (video_map is not None and i not in video_map.keys()):
-                        # Get new background clips until the total duration of the background clips is long enough for the video clip
-                        while True:
-                            background_clip_path = get_random_background_clip_path(all_background_clips_paths)
-
-                            # Check if background clip can be used
-                            if allow_duplicate_background_clips \
-                            or (not allow_duplicate_background_clips and background_clip_path not in used_background_clips_paths):
-                                background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clips_speed
-                                
-                                # Prevent background clip from being used if it will make the next background clip too short
-                                if video_clip_duration - background_clips_duration - background_clip_duration > .5 \
-                                or video_clip_duration - background_clips_duration - background_clip_duration <= 0:
-                                    current_video_clip_background_clip_paths.append(background_clip_path)
-                                    used_background_clips_paths.append(background_clip_path)
-
-                                    background_clips_duration += background_clip_duration
-
-                                    if background_clips_duration >= video_clip_duration:
-                                        break
-                    else:
-                        # Get background clips from the video map
-                        for background_clip_path in video_map[i]:
-                            background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clips_speed
-
-                            # Prevent background clip from being used if it will make the next background clip too short
-                            if video_clip_duration - background_clips_duration - background_clip_duration > .5 \
-                            or video_clip_duration - background_clips_duration - background_clip_duration <= 0:
-                                    current_video_clip_background_clip_paths.append(background_clip_path)
-                                    used_background_clips_paths.append(background_clip_path)
-
-                                    background_clips_duration += background_clip_duration
-
-                                    if background_clips_duration >= video_clip_duration:
-                                        break
-                        
-                        # Delete video map entry
-                        del video_map[i]
-
-                        # Get new background clips until the total duration of the background clips is long enough for the video clip if needed
-                        if background_clips_duration < video_clip_duration:
+                        if video_map is None or \
+                        (video_map is not None and i not in video_map.keys()):
+                            # Get new background clips until the total duration of the background clips is long enough for the video clip
                             while True:
                                 background_clip_path = get_random_background_clip_path(all_background_clips_paths)
 
@@ -1154,9 +1054,48 @@ def create_tiktok(
 
                                         if background_clips_duration >= video_clip_duration:
                                             break
-                else:
-                    background_clip_path = get_random_background_clip_path(all_background_clips_paths)
-                    current_video_clip_background_clip_paths.append(background_clip_path)
+                        else:
+                            # Get background clips from the video map
+                            for background_clip_path in video_map[i]:
+                                background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clips_speed
+
+                                # Prevent background clip from being used if it will make the next background clip too short
+                                if video_clip_duration - background_clips_duration - background_clip_duration > .5 \
+                                or video_clip_duration - background_clips_duration - background_clip_duration <= 0:
+                                        current_video_clip_background_clip_paths.append(background_clip_path)
+                                        used_background_clips_paths.append(background_clip_path)
+
+                                        background_clips_duration += background_clip_duration
+
+                                        if background_clips_duration >= video_clip_duration:
+                                            break
+                            
+                            # Delete video map entry
+                            del video_map[i]
+
+                            # Get new background clips until the total duration of the background clips is long enough for the video clip if needed
+                            if background_clips_duration < video_clip_duration:
+                                while True:
+                                    background_clip_path = get_random_background_clip_path(all_background_clips_paths)
+
+                                    # Check if background clip can be used
+                                    if allow_duplicate_background_clips \
+                                    or (not allow_duplicate_background_clips and background_clip_path not in used_background_clips_paths):
+                                        background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clips_speed
+                                        
+                                        # Prevent background clip from being used if it will make the next background clip too short
+                                        if video_clip_duration - background_clips_duration - background_clip_duration > .5 \
+                                        or video_clip_duration - background_clips_duration - background_clip_duration <= 0:
+                                            current_video_clip_background_clip_paths.append(background_clip_path)
+                                            used_background_clips_paths.append(background_clip_path)
+
+                                            background_clips_duration += background_clip_duration
+
+                                            if background_clips_duration >= video_clip_duration:
+                                                break
+                    else:
+                        background_clip_path = get_random_background_clip_path(all_background_clips_paths)
+                        current_video_clip_background_clip_paths.append(background_clip_path)
 
                 # Start creating video clip
                 colored_print(Fore.GREEN, f"Creating clip {i}...")
@@ -1184,50 +1123,71 @@ def create_tiktok(
                     )
                 ]
 
-                # Create shadow clip
-                shadow_clip = create_shadow_clip(
-                    size=video_dimensions,
-                    color=shadow_color,
-                    duration=video_clip_duration,
-                    opacity=shadow_opacity
+                if single_background_clip:
+                    # Get start time of text clips
+                    text_start_time = get_time_difference_seconds(audio_start, final_video_start)
+
+                    # Create video clip
+                    video = mpy.CompositeVideoClip(
+                        [
+                            video,
+                            text_clips[0].set_start(text_start_time),
+                            text_clips[1].set_start(text_start_time)
+                        ]
+                    )
+                else:
+                    # Create shadow clip
+                    shadow_clip = create_shadow_clip(
+                        size=video_dimensions,
+                        color=shadow_color,
+                        duration=video_clip_duration,
+                        opacity=shadow_opacity
+                    )
+
+                    # Create video clip
+                    video_clip = create_video_clip(
+                        background_clip_paths=current_video_clip_background_clip_paths,
+                        final_clip_duration=video_clip_duration,
+                        dimensions=video_dimensions,
+                        text_clips=text_clips,
+                        still_frame=pictures_mode,
+                        background_clip_speed=background_clips_speed,
+                        x_offset=x_offset,
+                        y_offset=y_offset,
+                        text_duration=text_duration,
+                        shadow_clip=shadow_clip,
+                    )
+
+                    video_clips.append(video_clip)
+
+            if single_background_clip:
+                # Add audio and set duration for final video
+                final_video = video.set_duration(
+                    final_video_duration
+                ).set_audio(
+                    mpy.AudioFileClip(audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
                 )
-
-                # Create video clip
-                video_clip = create_video_clip(
-                    background_clip_paths=current_video_clip_background_clip_paths,
-                    final_clip_duration=video_clip_duration,
-                    dimensions=video_dimensions,
-                    text_clips=text_clips,
-                    still_frame=pictures_mode,
-                    background_clip_speed=background_clips_speed,
-                    x_offset=x_offset,
-                    y_offset=y_offset,
-                    text_duration=text_duration,
-                    shadow_clip=shadow_clip,
+            else:
+                # Concatenate video clips, add audio, and set duration for final video
+                final_video = mpy.concatenate_videoclips(
+                    clips=video_clips,
+                    method="chain"
+                ).set_duration(
+                    final_video_duration
+                ).set_audio(
+                    mpy.AudioFileClip(audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
                 )
-
-                video_clips.append(video_clip)
-
-            # Get data for final video
-            final_video_start = timestamps_lines[start_line - 1].strip().split(",")[0]
-            final_video_end = timestamps_lines[end_line - 1].strip().split(",")[0]
-            final_video_duration = get_time_difference_seconds(final_video_start, final_video_end)
-
-            # Concatenate video clips, add audio, and set duration for final video
-            final_video = mpy.concatenate_videoclips(
-                clips=video_clips,
-                method="chain"
-            ).set_duration(
-                final_video_duration
-            ).set_audio(
-                mpy.AudioFileClip(audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
-            )
 
             # Start creating final video
             colored_print(Fore.GREEN, "Creating final video...")
 
             try:
-                if not pictures_mode:
+                if single_background_clip:
+                    final_video.write_videofile(
+                        output_file_path,
+                        fps=video.fps,
+                    )
+                elif not pictures_mode:
                     final_video.write_videofile(
                         filename=output_file_path,
                         codec="libx264",
