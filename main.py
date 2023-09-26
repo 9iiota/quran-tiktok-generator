@@ -67,7 +67,7 @@ def main() -> None:
 
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
-    ).muhammad_al_luhaidan_al_insan_20_22()
+    ).test()
 
 class MODES(Enum):
     DARK = 1
@@ -104,6 +104,29 @@ class PredefinedTikToks():
         self.dimensions = dimensions
         self.x_offset = x_offset
         self.y_offset = y_offset
+
+    def test(
+            self,
+            single_background_clip=r"C:\Users\Crazy\Desktop\GitHub\quran\Real_Clips\158384 (1080p).mp4"
+        ) -> None:
+
+        create_tiktok(
+            directory_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat",
+            output_file_name=f"{self.account.name}_10_{uuid.uuid4()}",
+            account=self.account,
+            chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
+            background_clips_directory_paths=self.background_clips_directory_paths,
+            pictures_mode=self.still_frames,
+            video_map=self.video_map,
+            mode=self.mode,
+            shadow_opacity=self.shadow_opacity,
+            allow_duplicate_background_clips=self.duplicates_allowed,
+            video_dimensions=self.dimensions,
+            single_background_clip=single_background_clip,
+        )
+
+        pass
 
     def abdul_rahman_mossad_maryam_93_98(self) -> None:
         """
@@ -825,7 +848,8 @@ def create_tiktok(
         allow_duplicate_background_clips: bool=False,
         video_dimensions: tuple[int, int]=(576, 1024),
         x_offset: int=0,
-        y_offset: int=0
+        y_offset: int=0,
+        single_background_clip: str=None,
     ) -> None:
     """
     Creates a TikTok video
@@ -940,6 +964,107 @@ def create_tiktok(
             loop_range = range(start_line, end_line)
 
             # Create variables
+            if single_background_clip is not None:
+                video = mpy.VideoFileClip(single_background_clip)
+
+                # Specify the target aspect ratio (9:16)
+                target_aspect_ratio = 9 / 16
+
+                # Calculate the dimensions to fit the target aspect ratio without resizing
+                width, height = video.size
+                current_aspect_ratio = width / height
+
+                if current_aspect_ratio > target_aspect_ratio:
+                    # Video is wider than 9:16, so we need to crop the sides
+                    new_width = int(height * target_aspect_ratio)
+                    x_offset = (width - new_width) // 2
+                    video = video.crop(x1=x_offset, x2=x_offset + new_width)
+                    width = new_width
+                else:
+                    # Video is taller than 9:16, so we need to crop the top and bottom
+                    new_height = int(width / target_aspect_ratio)
+                    y_offset = (height - new_height) // 2
+                    video = video.crop(y1=y_offset, y2=y_offset + new_height)
+                    height = new_height
+
+                # Create shadow clip
+                shadow_clip = create_shadow_clip(
+                    size=(width, height),
+                    color=shadow_color,
+                    duration=video.duration,
+                    opacity=shadow_opacity
+                )
+
+                video = mpy.CompositeVideoClip([video, shadow_clip])
+
+                fps = video.fps
+
+                for i in loop_range:
+                    # Get data for video clip
+                    verse_text = chapter_text_lines[i - 1].strip()
+                    verse_translation = chapter_translation_lines[i - 1].strip()
+
+                    audio_start = timestamps_lines[i - 1].strip().split(",")[0]
+                    audio_end = timestamps_lines[i].strip().split(",")[0]
+
+                    video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
+
+                    # Get text duration
+                    try:
+                        text_end = timestamps_lines[i].strip().split(",")[1]
+                        text_duration = get_time_difference_seconds(audio_start, text_end)
+                    except IndexError:
+                        text_duration = video_clip_duration
+
+                    text_clips = [
+                        create_text_clip(
+                            text=verse_text,
+                            size=(width, height),
+                            color=verse_text_color,
+                            fontsize=44,
+                            font=ARABIC_FONT,
+                            position=(0, -.05),
+                            duration=text_duration
+                        ),
+                        create_text_clip(
+                            text=verse_translation,
+                            size=(width * .6, None),
+                            color=verse_translation_color,
+                            fontsize=20,
+                            font=english_font,
+                            position=("center", .49),
+                            method="caption",
+                            duration=text_duration
+                        )
+                    ]
+
+                    # Create video clip
+                    video = mpy.CompositeVideoClip(
+                        [
+                            video,
+                            text_clips[0].set_start(get_time_difference_seconds(audio_start, timestamps_lines[0].strip().split(",")[0])),
+                            text_clips[1].set_start(get_time_difference_seconds(audio_start, timestamps_lines[0].strip().split(",")[0]))
+                        ]
+                    )
+
+                final_video_start = timestamps_lines[start_line - 1].strip().split(",")[0]
+                final_video_end = timestamps_lines[end_line - 1].strip().split(",")[0]
+                final_video_duration = get_time_difference_seconds(final_video_start, final_video_end)
+
+                # Concatenate video clips, add audio, and set duration for final video
+                final_video = video.set_duration(
+                    final_video_duration
+                ).set_audio(
+                    mpy.AudioFileClip(audio_file_path).set_start(final_video_start).subclip(final_video_start, final_video_end)
+                )
+
+                final_video = final_video.write_videofile(
+                    output_file_path,
+                    fps=fps,
+                )
+
+                return
+            
             all_background_clips_paths = get_all_background_clips_paths(background_clips_directory_paths)
             used_background_clips_paths = []
             video_clips = []
