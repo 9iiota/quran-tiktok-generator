@@ -8,7 +8,6 @@ from bs4 import BeautifulSoup
 from colorama import Fore, Style
 from datetime import datetime
 from enum import Enum
-from moviepy.video.fx import colorx
 from plyer import notification
 from pyquran import quran
 from Tiktok_uploader import uploadVideo
@@ -22,49 +21,6 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 # TODO: Add support for background clips disjoint from audio timings
 
 def main() -> None:
-    # background_video = mpy.ColorClip(size=(576, 1024), color=(0, 0, 0), duration=10)
-
-    # text_clip_1 = create_text_clip(
-    #     text="Text 1",
-    #     size=(576, 1024),
-    #     color="rgb(255, 255, 255)",
-    #     fontsize=20,
-    #     font="Fonts/Butler_Regular.otf",
-    #     position=(0, -.05),
-    #     duration=2
-    # )
-
-    # text_clip_2 = create_text_clip(
-    #     text="Text 2",
-    #     size=(576, 1024),
-    #     color="rgb(255, 255, 255)",
-    #     fontsize=20,
-    #     font="Fonts/Butler_Regular.otf",
-    #     position=(0, -.05),
-    #     duration=2
-    # )
-
-    # text_clip_3 = create_text_clip(
-    #     text="Text 3",
-    #     size=(576, 1024),
-    #     color="rgb(255, 255, 255)",
-    #     fontsize=20,
-    #     font="Fonts/Butler_Regular.otf",
-    #     position=(0, -.05),
-    #     duration=2
-    # )
-
-    # final_clip = mpy.CompositeVideoClip(
-    #     [
-    #         background_video,
-    #         text_clip_1.set_start(0),
-    #         text_clip_2.set_start(2),
-    #         text_clip_3.set_start(4),
-    #     ]
-    # )
-
-    # final_clip.write_videofile("test.mp4", fps=30)
-
     PredefinedTikToks(
         account=ACCOUNTS.QURAN_2_LISTEN,
     ).test()
@@ -107,15 +63,15 @@ class PredefinedTikToks():
 
     def test(
             self,
-            single_background_clip=r"C:\Users\Crazy\Desktop\GitHub\quran\Real_Clips\158384 (1080p).mp4"
+            single_background_clip=r"C:\Users\Crazy\Desktop\GitHub\quran\Surahs\Fatih Seferagic - 59 - Al-Hashr\video.mp4"
         ) -> None:
 
         create_tiktok(
-            directory_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat",
-            output_file_name=f"{self.account.name}_10_{uuid.uuid4()}",
+            directory_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr",
+            output_file_name=f"{self.account.name}_21-24_{uuid.uuid4()}",
             account=self.account,
-            chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
+            chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
+            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
             background_clips_directory_paths=self.background_clips_directory_paths,
             pictures_mode=self.still_frames,
             video_map=self.video_map,
@@ -850,6 +806,7 @@ def create_tiktok(
         shadow_opacity: float=0.7,
         account: ACCOUNTS=ACCOUNTS.QURAN_2_LISTEN,
         mode: MODES=MODES.DARK,
+        new_clip_on_text_change: bool=False,
     ) -> None:
     """
     Creates a TikTok video
@@ -956,8 +913,20 @@ def create_tiktok(
             chapter_translation_lines = chapter_translation_file.readlines()
             timestamps_lines = timestamps_file.readlines()
 
+            # Create the range of lines to loop through
+            if end_line is None:
+                end_line = len(chapter_text_lines)
+
+            end_line += 1
+            loop_range = range(start_line, end_line)
+
+            # Get data for final video
+            final_video_start = timestamps_lines[start_line - 1].strip().split(",")[0]
+            final_video_end = timestamps_lines[end_line - 1].strip().split(",")[0]
+            final_video_duration = get_time_difference_seconds(final_video_start, final_video_end)
+
             if single_background_clip is not None:
-                background_clip = mpy.VideoFileClip(single_background_clip)
+                background_clip = mpy.VideoFileClip(single_background_clip).subclip(final_video_start)
 
                 # Specify the target aspect ratio (9:16)
                 target_aspect_ratio = 9 / 16
@@ -970,14 +939,12 @@ def create_tiktok(
                     # Video is wider than 9:16, so we need to crop the sides
                     new_width = int(height * target_aspect_ratio)
                     x_offset = (width - new_width) // 2
-                    background_clip = background_clip.crop(x1=x_offset, x2=x_offset + new_width)
-                    video_dimensions = (new_width, height)
+                    background_clip = background_clip.crop(x1=x_offset, x2=x_offset + new_width).resize(video_dimensions)
                 else:
                     # Video is taller than 9:16, so we need to crop the top and bottom
                     new_height = int(width / target_aspect_ratio)
                     y_offset = (height - new_height) // 2
-                    background_clip = background_clip.crop(y1=y_offset, y2=y_offset + new_height)
-                    video_dimensions = (width, new_height)
+                    background_clip = background_clip.crop(y1=y_offset, y2=y_offset + new_height).resize(video_dimensions)
 
                 # Create shadow clip
                 shadow_clip = create_shadow_clip(
@@ -990,22 +957,10 @@ def create_tiktok(
                 # Overlay shadow clip on video
                 video = mpy.CompositeVideoClip([background_clip, shadow_clip])
 
-            # Create the range of lines to loop through
-            if end_line is None:
-                end_line = len(chapter_text_lines)
-
-            end_line += 1
-            loop_range = range(start_line, end_line)
-
             # Create variables
             all_background_clips_paths = get_all_background_clips_paths(background_clips_directory_paths)
             used_background_clips_paths = []
             video_clips = []
-
-            # Get data for final video
-            final_video_start = timestamps_lines[start_line - 1].strip().split(",")[0]
-            final_video_end = timestamps_lines[end_line - 1].strip().split(",")[0]
-            final_video_duration = get_time_difference_seconds(final_video_start, final_video_end)
 
             # Create video clips
             for i in loop_range:
