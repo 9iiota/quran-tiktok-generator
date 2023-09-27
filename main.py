@@ -21,9 +21,9 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 # TODO: Add support for background clips disjoint from audio timings
 
 def main() -> None:
-    PredefinedTikToks(
-        account=ACCOUNTS.QURAN_2_LISTEN,
-    ).test()
+    tiktok = PredefinedTikToks()
+    tiktok.abdul_rahman_mossad_maryam_93_98()
+    tiktok.run()
 
 class MODES(Enum):
     DARK = 1
@@ -37,750 +37,391 @@ class ACCOUNTS(Enum):
 class PredefinedTikToks():
     def __init__(
             self,
-            account: ACCOUNTS= ACCOUNTS.QURAN_2_LISTEN,
+            directory_path: str=None,
+            output_file_name: str=None,
+            chapter_text_file_path: str=None,
+            chapter_translation_file_path: str=None,
+            start_line: int=1,
+            end_line: int=None,
+            start_verse: int=None,
+            end_verse: int=None,
             background_clips_directory_paths: list[str]=["Anime_Clips"],
-            still_frames: bool=False,
-            background_clips_speed: float=1.0,
+            single_background_clip: str=None,
             video_map: dict=None,
-            mode: MODES=MODES.DARK,
-            shadow_opacity: float=0.7,
-            duplicates_allowed: bool=False,
-            dimensions: tuple[int, int]=(576, 1024),
+            pictures_mode: bool=False,
+            allow_duplicate_background_clips: bool=False,
+            video_dimensions: tuple[int, int]=(576, 1024),
             x_offset: int=0,
-            y_offset: int=0
+            y_offset: int=0,
+            background_clips_speed: float=1.0,
+            shadow_opacity: float=0.7,
+            account: ACCOUNTS= ACCOUNTS.QURAN_2_LISTEN,
+            mode: MODES=MODES.DARK,
         ) -> None:
-        self.account = account
+        self.directory_path = directory_path
+        self.output_file_name = output_file_name
+        self.chapter_text_file_path = chapter_text_file_path
+        self.chapter_translation_file_path = chapter_translation_file_path
+        self.start_line = start_line
+        self.end_line = end_line
+        self.start_verse = start_verse
+        self.end_verse = end_verse
         self.background_clips_directory_paths = background_clips_directory_paths
-        self.still_frames = still_frames
-        self.background_clips_speed = background_clips_speed
+        self.single_background_clip = single_background_clip
         self.video_map = video_map
-        self.mode = mode
-        self.shadow_opacity = shadow_opacity
-        self.duplicates_allowed = duplicates_allowed
-        self.dimensions = dimensions
+        self.pictures_mode = pictures_mode
+        self.allow_duplicate_background_clips = allow_duplicate_background_clips
+        self.video_dimensions = video_dimensions
         self.x_offset = x_offset
         self.y_offset = y_offset
+        self.background_clips_speed = background_clips_speed
+        self.shadow_opacity = shadow_opacity
+        self.account = account
+        self.mode = mode
 
-    def test(
-            self,
-            single_background_clip=r"C:\Users\Crazy\Desktop\GitHub\quran\Surahs\Fatih Seferagic - 59 - Al-Hashr\video.mp4"
-        ) -> None:
-
+    def run(self) -> None:
         create_tiktok(
-            directory_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr",
-            output_file_name=f"{self.account.name}_21-24_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
+            directory_path=self.directory_path,
+            output_file_name=self.output_file_name,
+            chapter_text_file_path=self.chapter_text_file_path,
+            chapter_translation_file_path=self.chapter_translation_file_path,
+            start_line=self.start_line,
+            end_line=self.end_line,
+            start_verse=self.start_verse,
+            end_verse=self.end_verse,
             background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
+            single_background_clip=self.single_background_clip,
             video_map=self.video_map,
-            mode=self.mode,
+            pictures_mode=self.pictures_mode,
+            allow_duplicate_background_clips=self.allow_duplicate_background_clips,
+            video_dimensions=self.video_dimensions,
+            x_offset=self.x_offset,
+            y_offset=self.y_offset,
+            background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            single_background_clip=single_background_clip,
+            account=self.account,
+            mode=self.mode,
         )
-
-        pass
 
     def abdul_rahman_mossad_maryam_93_98(self) -> None:
         """
-        Creates a TikTok video for verses 93-98 of Surah Maryam by Abdul Rahman Mossad
+        Modifies the parameters of the class for a TikTok video for verses 93-98 of Surah Maryam by Abdul Rahman Mossad
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam",
-            output_file_name=f"{self.account.name}_93-98_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam"
+        self.output_file_name = f"{self.account.name}_93-98_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt"
 
     def abdul_rahman_mossad_maryam_93_94(self) -> None:
         """
-        Creates a TikTok video for verses 93-94 of Surah Maryam by Abdul Rahman Mossad
+        Modifies the parameters of the class for a TikTok video for verses 93-94 of Surah Maryam by Abdul Rahman Mossad
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam",
-            output_file_name=f"{self.account.name}_93-98_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt",
-            start_line=1,
-            end_line=3,
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam"
+        self.output_file_name = f"{self.account.name}_93-94_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt"
+        self.start_line = 1
+        self.end_line = 3
 
     def abdul_rahman_mossad_al_ankabut_54_60(self) -> None:
         """
-        Creates a TikTok video for verses 54-60 of Surah Al-'Ankabut by Abdul Rahman Mossad
+        Modifies the parameters of the class for a TikTok video for verses 54-60 of Surah Al-'Ankabut by Abdul Rahman Mossad
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut",
-            output_file_name=f"{self.account.name}_54-60_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut"
+        self.output_file_name = f"{self.account.name}_54-60_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt"
+        self.chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt"
 
     def abdul_rahman_mossad_al_ankabut_56_57(self) -> None:
         """
-        Creates a TikTok video for verses 56-57 of Surah Al-'Ankabut by Abdul Rahman Mossad
+        Modifies the parameters of the class for a TikTok video for verses 56-57 of Surah Al-'Ankabut by Abdul Rahman Mossad
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut",
-            output_file_name=f"{self.account.name}_56-57_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt",
-            start_line=6,
-            end_line=9,
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut"
+        self.output_file_name = f"{self.account.name}_56-57_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt"
+        self.chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt"
+        self.start_line = 6
+        self.end_line = 9
 
     def abdul_rahman_mossad_al_muzzammil_14_18(self) -> None:
         """
-        Creates a TikTok video for verses 14-18 of Surah Al-Muzzammil by Abdul Rahman Mossad
+        Modifies the parameters of the class for a TikTok video for verses 14-18 of Surah Al-Muzzammil by Abdul Rahman Mossad
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil",
-            output_file_name=f"{self.account.name}_14-18_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil"
+        self.output_file_name = f"{self.account.name}_14-18_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt"
+        self.chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt"
 
     def abdul_rahman_mossd_al_muzzammil_14_15(self) -> None:
         """
-        Creates a TikTok video for verses 14-15 of Surah Al-Muzzammil by Abdul Rahman Mossad
+        Modifies the parameters of the class for a TikTok video for verses 14-15 of Surah Al-Muzzammil by Abdul Rahman Mossad
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil",
-            output_file_name=f"{self.account.name}_14-15_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt",
-            start_line=1,
-            end_line=3,
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil"
+        self.output_file_name = f"{self.account.name}_14-15_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt"
+        self.chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt"
+        self.start_line = 1
+        self.end_line = 3
 
     def abdul_rahman_mossad_al_ghashiyah_10_26(self) -> None:
         """
-        Creates a TikTok video for verses 10-26 of Surah Al-Ghashiyah by Abdul Rahman Mossad
+        Modifies the parameters of the class for a TikTok video for verses 10-26 of Surah Al-Ghashiyah by Abdul Rahman Mossad
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah",
-            output_file_name=f"{self.account.name}_10-26_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah"
+        self.output_file_name = f"{self.account.name}_10-26_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt"
+        self.chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt"
 
     def abdul_rahman_mossad_al_ghashiyah_10_12(self) -> None:
         """
-        Creates a TikTok video for verses 10-12 of Surah Al-Ghashiyah by Abdul Rahman Mossad
+        Modifies the parameters of the class for a TikTok video for verses 10-12 of Surah Al-Ghashiyah by Abdul Rahman Mossad
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah",
-            output_file_name=f"{self.account.name}_10-26_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt",
-            start_line=1,
-            end_line=3,
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah"
+        self.output_file_name = f"{self.account.name}_10-12_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt"
+        self.chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt"
+        self.start_line = 1
+        self.end_line = 3
 
     def abdul_rahman_mossad_al_adiyat_1_11(self) -> None:
         """
-        Creates a TikTok video for verses 1-11 of Surah Al-'Adiyat by Abdul Rahman Mossad
+        Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Al-'Adiyat by Abdul Rahman Mossad
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat",
-            output_file_name=f"{self.account.name}_1-11_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat"
+        self.output_file_name = f"{self.account.name}_1-11_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_text.txt"
+        self.chapter_translation_file_path=r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_translation.txt"
     
     def ahmed_khedr_taha_14_16(self) -> None:
-        create_tiktok(
-            directory_path=r"Surahs\Ahmed Khedr - 20 - Taha",
-            output_file_name=f"{self.account.name}_14-16_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Ahmed Khedr - 20 - Taha\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Ahmed Khedr - 20 - Taha\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        """
+        Modifies the parameters of the class for a TikTok video for verses 14-16 of Surah Taha by Ahmed Khedr
+        """
+
+        self.directory_path = r"Surahs\Ahmed Khedr - 20 - Taha"
+        self.output_file_name = f"{self.account.name}_14-16_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Ahmed Khedr - 20 - Taha\chapter_text.txt"
+        self.chapter_translation_file_path=r"Surahs\Ahmed Khedr - 20 - Taha\chapter_translation.txt"
 
     def fatih_seferagic_ayatul_kursi_255(self) -> None:
         """
-        Creates a TikTok video for Ayatul Kursi by Fatih Seferagic
+        Modifies the parameters of the class for a TikTok video for verse 255 of Surah Al-Baqarah by Fatih Seferagic
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi",
-            output_file_name=f"{self.account.name}_255_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi"
+        self.output_file_name = f"{self.account.name}_255_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_text.txt"
+        self.chapter_translation_file_path=r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_translation.txt"
 
     def fatih_seferagic_an_nisa_155_160(self) -> None:
         """
-        Creates a TikTok video for verses 155-160 of Surah An-Nisa by Fatih Seferagic
+        Modifies the parameters of the class for a TikTok video for verses 155-160 of Surah An-Nisa by Fatih Seferagic
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Fatih Seferagic - 4 - An-Nisa",
-            output_file_name=f"{self.account.name}_155_160_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Fatih Seferagic - 4 - An-Nisa"
+        self.output_file_name = f"{self.account.name}_155-160_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_translation.txt"
 
     def fatih_seferagic_an_nur_35(self) -> None:
         """
-        Creates a TikTok video for verse 35 of Surah An-Nur by Fatih Seferagic
+        Modifies the parameters of the class for a TikTok video for verse 35 of Surah An-Nur by Fatih Seferagic
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Fatih Seferagic - 24 - An-Nur",
-            output_file_name=f"{self.account.name}_35_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Fatih Seferagic - 24 - An-Nur"
+        self.output_file_name = f"{self.account.name}_35_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_translation.txt"
 
     def fatih_seferagic_al_hujurat_10(self) -> None:
         """
-        Creates a TikTok video for verse 10 of Surah Al-Hujurat by Fatih Seferagic
+        Modifies the parameters of the class for a TikTok video for verse 10 of Surah Al-Hujurat by Fatih Seferagic
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat",
-            output_file_name=f"{self.account.name}_10_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat"
+        self.output_file_name = f"{self.account.name}_10_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt"
 
     def fatih_seferagic_al_hashr_21_24(self) -> None:
         """
-        Creates a TikTok video for verses 21-24 of Surah Al-Hashr by Fatih Seferagic
+        Modifies the parameters of the class for a TikTok video for verses 21-24 of Surah Al-Hashr by Fatih Seferagic
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr",
-            output_file_name=f"{self.account.name}_21-24_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Fatih Seferagic - 59 - Al-Hashr"
+        self.output_file_name = f"{self.account.name}_21-24_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt"
 
     def mansour_as_salimi_maryam_27_33(self) -> None:
         """
-        Creates a TikTok video for verses 27-33 of Surah Maryam by Mansour As Salimi
+        Modifies the parameters of the class for a TikTok video for verses 27-33 of Surah Maryam by Mansour As Salimi
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Mansour As Salimi - 19 - Maryam",
-            output_file_name=f"{self.account.name}_27-33_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Mansour As Salimi - 19 - Maryam"
+        self.output_file_name = f"{self.account.name}_27-33_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_translation.txt"
 
     def muhammad_al_luhaidan_al_anam_27_30(self) -> None:
         """
-        Creates a TikTok video for verses 27-30 of Surah Al-An'am by Muhammad Al-Luhaidan
+        Modifies the parameters of the class for a TikTok video for verses 27-30 of Surah Al-An'am by Muhammad Al-Luhaidan
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am",
-            output_file_name=f"{self.account.name}_27-30_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am"
+        self.output_file_name = f"{self.account.name}_27-30_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_translation.txt"
 
     def muhammad_al_luhaidan_maryam_85_92(self) -> None:
         """
-        Creates a TikTok video for verses 85-92 of Surah Maryam by Muhammad Al-Luhaidan
+        Modifies the parameters of the class for a TikTok video for verses 85-92 of Surah Maryam by Muhammad Al-Luhaidan
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam",
-            output_file_name=f"{self.account.name}_85-92_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam"
+        self.output_file_name = f"{self.account.name}_85-92_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam\chapter_translation.txt"
 
     def muhammad_al_luhaidan_taha_105_108(self) -> None:
         """
-        Creates a TikTok video for verses 105-108 of Surah Taha by Muhammad Al-Luhaidan
+        Modifies the parameters of the class for a TikTok video for verses 105-108 of Surah Taha by Muhammad Al-Luhaidan
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Muhammad Al-Luhaidan - 20 - Taha",
-            output_file_name=f"{self.account.name}_105-108_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha"
+        self.output_file_name = f"{self.account.name}_105-108_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_translation.txt"
 
     def muhammad_al_luhaidan_al_furqan_72_77(self) -> None:
         """
-        Creates a TikTok video for verses 72-77 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        Modifies the parameters of the class for a TikTok video for verses 72-77 of Surah Al-Furqan by Muhammad Al-Luhaidan
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan",
-            output_file_name=f"{self.account.name}_72-77_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset
-        )
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan"
+        self.output_file_name = f"{self.account.name}_72-77_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt"
 
     def muhammad_al_luhaidan_al_haqqah_29_33(self) -> None:
         """
-        Creates a TikTok video for verses 29-33 of Surah Al-Haqqah by Muhammad Al-Luhaidan
+        Modifies the parameters of the class for a TikTok video for verses 29-33 of Surah Al-Haqqah by Muhammad Al-Luhaidan
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah",
-            output_file_name=f"{self.account.name}_29-33_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset
-        )
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah"
+        self.output_file_name = f"{self.account.name}_29-33_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_translation.txt"
 
     def muhammad_al_luhaidan_al_insan_20_22(self) -> None:
         """
-        Creates a TikTok video for verses 20-22 of Surah Al-Insan by Muhammad Al-Luhaidan
+        Modifies the parameters of the class for a TikTok video for verses 20-22 of Surah Al-Insan by Muhammad Al-Luhaidan
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan",
-            output_file_name=f"{self.account.name}_20-22_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset
-        )
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan"
+        self.output_file_name = f"{self.account.name}_20-22_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_translation.txt"
 
     def salim_bahanan_al_fatihah_2_7(self) -> None:
         """
-        Creates a TikTok video for verses 2-7 of Surah Al-Fatihah by Salim Bahanan
+        Modifies the parameters of the class for a TikTok video for verses 2-7 of Surah Al-Fatihah by Salim Bahanan
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah",
-            output_file_name=f"{self.account.name}_2-7_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah"
+        self.output_file_name = f"{self.account.name}_2-7_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_translation.txt"
 
     def salim_bahanan_ad_duhaa_1_11(self) -> None:
         """
-        Creates a TikTok video for verses 1-11 of Surah Ad-Duhaa by Salim Bahanan
+        Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Ad-Duhaa by Salim Bahanan
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa",
-            output_file_name=f"{self.account.name}_1-11_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            video_map=self.video_map,
-            mode=self.mode,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa"
+        self.output_file_name = f"{self.account.name}_1-11_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt"
 
     def salim_bahanan_al_qariah_1_11(self) -> None:
         """
-        Creates a TikTok video for verses 1-11 of Surah Al-Qariah by Salim Bahanan
+        Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Al-Qariah by Salim Bahanan
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Salim Bahanan - 101 - Al-Qariah",
-            output_file_name=f"{self.account.name}_1-11_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Salim Bahanan - 101 - Al-Qariah"
+        self.output_file_name = f"{self.account.name}_1-11_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_translation.txt"
 
     def unknown_al_furqan_72_75(self) -> None:
         """
-        Creates a TikTok video for verses 72-75 of Surah Al-Furqan by an unknown reciter
+        Modifies the parameters of the class for a TikTok video for verses 72-75 of Surah Al-Furqan by an unknown reciter
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Unknown - 25 - Al-Furqan",
-            output_file_name=f"{self.account.name}_72-75_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Unknown - 25 - Al-Furqan\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Unknown - 25 - Al-Furqan\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Unknown - 25 - Al-Furqan"
+        self.output_file_name = f"{self.account.name}_72-75_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Unknown - 25 - Al-Furqan\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Unknown - 25 - Al-Furqan\chapter_translation.txt"
 
     def unknown_al_ankabut_56_58(self) -> None:
         """
-        Creates a TikTok video for verses 56-58 of Surah Al-'Ankabut by an unknown reciter
+        Modifies the parameters of the class for a TikTok video for verses 56-58 of Surah Al-'Ankabut by an unknown reciter
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Unknown - 29 - Al-'Ankabut",
-            output_file_name=f"{self.account.name}_56-58_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset
-        )
+        self.directory_path = r"Surahs\Unknown - 29 - Al-'Ankabut"
+        self.output_file_name = f"{self.account.name}_56-58_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt"
     
     def unknown_al_ankabut_56_57(self) -> None:
         """
-        Creates a TikTok video for verses 56-57 of Surah Al-'Ankabut by an unknown reciter
+        Modifies the parameters of the class for a TikTok video for verses 56-57 of Surah Al-'Ankabut by an unknown reciter
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Unknown - 29 - Al-'Ankabut",
-            output_file_name=f"{self.account.name}_56-57_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt",
-            start_line=1,
-            end_line=4,
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Unknown - 29 - Al-'Ankabut"
+        self.output_file_name = f"{self.account.name}_56-57_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt"
+        self.start_line = 1
+        self.end_line = 4
 
     def unknown_taha_124_126(self) -> None:
         """
-        Creates a TikTok video for verses 124-126 of Surah Taha by an unknown reciter
+        Modifies the parameters of the class for a TikTok video for verses 124-126 of Surah Taha by an unknown reciter
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Unknown - 20 - Taha",
-            output_file_name=f"{self.account.name}_124-126_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Unknown - 20 - Taha\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Unknown - 20 - Taha\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Unknown - 20 - Taha"
+        self.output_file_name = f"{self.account.name}_124-126_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Unknown - 20 - Taha\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Unknown - 20 - Taha\chapter_translation.txt"
 
     def yasser_al_dosari_al_muminun_34_39(self) -> None:
         """
-        Creates a TikTok video for verses 34-39 of Surah Al-Muminun by Yasser Al-Dosari
+        Modifies the parameters of the class for a TikTok video for verses 34-39 of Surah Al-Mu'minun by Yasser Al-Dosari
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun",
-            output_file_name=f"{self.account.name}_34-39_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun"
+        self.output_file_name = f"{self.account.name}_34-39_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_translation.txt"
 
     def yasser_al_dosari_al_fath_29(self) -> None:
         """
-        Creates a TikTok video for verse 29 of Surah Al-Fath by Yasser Al-Dosari
+        Modifies the parameters of the class for a TikTok video for verse 29 of Surah Al-Fath by Yasser Al-Dosari
         """
 
-        create_tiktok(
-            directory_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath",
-            output_file_name=f"{self.account.name}_29_{uuid.uuid4()}",
-            account=self.account,
-            chapter_text_file_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_text.txt",
-            chapter_translation_file_path=r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_translation.txt",
-            background_clips_directory_paths=self.background_clips_directory_paths,
-            pictures_mode=self.still_frames,
-            background_clips_speed=self.background_clips_speed,
-            shadow_opacity=self.shadow_opacity,
-            allow_duplicate_background_clips=self.duplicates_allowed,
-            video_dimensions=self.dimensions,
-            x_offset=self.x_offset,
-            y_offset=self.y_offset,
-        )
+        self.directory_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath"
+        self.output_file_name = f"{self.account.name}_29_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_translation.txt"
 
 def create_tiktok(
         directory_path: str,
