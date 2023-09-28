@@ -22,7 +22,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 
 def main() -> None:
     tiktok = PredefinedTikToks()
-    tiktok.abdul_rahman_mossad_maryam_93_98()
+    tiktok.muhammad_al_luhaidan_al_baqarah_273_274()
     tiktok.run()
 
 class MODES(Enum):
@@ -43,6 +43,7 @@ class PredefinedTikToks():
             chapter_translation_file_path: str=None,
             start_line: int=1,
             end_line: int=None,
+            chapter: int=None,
             start_verse: int=None,
             end_verse: int=None,
             background_clips_directory_paths: list[str]=["Anime_Clips"],
@@ -64,6 +65,7 @@ class PredefinedTikToks():
         self.chapter_translation_file_path = chapter_translation_file_path
         self.start_line = start_line
         self.end_line = end_line
+        self.chapter = chapter
         self.start_verse = start_verse
         self.end_verse = end_verse
         self.background_clips_directory_paths = background_clips_directory_paths
@@ -87,6 +89,7 @@ class PredefinedTikToks():
             chapter_translation_file_path=self.chapter_translation_file_path,
             start_line=self.start_line,
             end_line=self.end_line,
+            chapter=self.chapter,
             start_verse=self.start_verse,
             end_verse=self.end_verse,
             background_clips_directory_paths=self.background_clips_directory_paths,
@@ -270,6 +273,16 @@ class PredefinedTikToks():
         self.output_file_name = f"{self.account.name}_27-33_{uuid.uuid4()}"
         self.chapter_text_file_path = r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_translation.txt"
+
+    def muhammad_al_luhaidan_al_baqarah_273_274(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 273-274 of Surah Al-Baqarah by Muhammad Al-Luhaidan
+        """
+
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 2 - Al-Baqarah"
+        self.output_file_name = f"{self.account.name}_273-274_{uuid.uuid4()}"
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 2 - Al-Baqarah\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 2 - Al-Baqarah\chapter_translation.txt"
 
     def muhammad_al_luhaidan_al_anam_27_30(self) -> None:
         """
