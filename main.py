@@ -22,7 +22,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 # TODO: Add ability to allow only long enough clips to be used
 # TODO: Allow any size background clips
 # TODO: Add support for background clips disjoint from audio timings
-# TODO: Add x_offsets and video timings to json file + implementation
+# TODO: Fix pictures mode
 
 def main() -> None:
     tiktok = PredefinedTikToks(
