@@ -26,14 +26,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 
 
 def main() -> None:
-    tiktok = PredefinedTikToks(
-        video_map={
-            1: [
-                [r"Anime_Clips\Kimi No Nawa (312).mp4", 12, 0],
-                [r"Anime_Clips\Kimi No Nawa (312).mp4", 12, 0],
-            ],
-        }
-    )
+    tiktok = PredefinedTikToks()
     tiktok.fatih_seferagic_al_hujurat_10()
     tiktok.run()
 
@@ -834,8 +827,36 @@ def create_tiktok(
                                     - background_clip_duration
                                     <= 0
                                 ):
+                                    background_clip = mpy.VideoFileClip(
+                                        background_clip_path
+                                    )
+
+                                    # Get time offset
+                                    background_clip_time_offset = random.uniform(
+                                        0,
+                                        max(
+                                            0,
+                                            background_clip_duration
+                                            - video_clip_duration,
+                                        ),
+                                    )
+
+                                    # Get x offset
+                                    width_difference = (
+                                        background_clip.w - video_dimensions[0]
+                                    )
+                                    background_clip_x_offset = (
+                                        random.randint(0, width_difference)
+                                        if width_difference > 0
+                                        else 0
+                                    )
+
                                     current_video_clip_background_clip_paths.append(
-                                        [background_clip_path, None, None]
+                                        [
+                                            background_clip_path,
+                                            background_clip_time_offset,
+                                            background_clip_x_offset,
+                                        ]
                                     )
                                     used_background_clips_paths.append(
                                         background_clip_path
@@ -916,8 +937,36 @@ def create_tiktok(
                                         - background_clip_duration
                                         <= 0
                                     ):
+                                        background_clip = mpy.VideoFileClip(
+                                            background_clip_path
+                                        )
+
+                                        # Get time offset
+                                        background_clip_time_offset = random.uniform(
+                                            0,
+                                            max(
+                                                0,
+                                                background_clip_duration
+                                                - video_clip_duration,
+                                            ),
+                                        )
+
+                                        # Get x offset
+                                        width_difference = (
+                                            background_clip.w - video_dimensions[0]
+                                        )
+                                        background_clip_x_offset = (
+                                            random.randint(0, width_difference)
+                                            if width_difference > 0
+                                            else 0
+                                        )
+
                                         current_video_clip_background_clip_paths.append(
-                                            [background_clip_path, None, None]
+                                            [
+                                                background_clip_path,
+                                                background_clip_time_offset,
+                                                background_clip_x_offset,
+                                            ]
                                         )
                                         used_background_clips_paths.append(
                                             background_clip_path
@@ -939,8 +988,28 @@ def create_tiktok(
                     background_clip_path = get_random_background_clip_path(
                         all_background_clips_paths
                     )
+
+                    background_clip = mpy.VideoFileClip(background_clip_path)
+
+                    # Get time offset
+                    background_clip_time_offset = random.uniform(
+                        0, max(0, background_clip_duration - video_clip_duration)
+                    )
+
+                    # Get x offset
+                    width_difference = background_clip.w - video_dimensions[0]
+                    background_clip_x_offset = (
+                        random.randint(0, width_difference)
+                        if width_difference > 0
+                        else 0
+                    )
+
                     current_video_clip_background_clip_paths.append(
-                        [background_clip_path, None, None]
+                        [
+                            background_clip_path,
+                            background_clip_time_offset,
+                            background_clip_x_offset,
+                        ]
                     )
 
             # Start creating video clip
@@ -1103,30 +1172,20 @@ def create_video_clip(
             background_clip_time_offset = background_clip_info[1]
             background_clip_x_offset = background_clip_info[2]
 
-            # Get time offset
-            if background_clip_time_offset is None:
-                background_clip_time_offset = random.uniform(
-                    0, max(0, background_clip.duration - final_clip_duration)
-                )
-
+            # Adjust time offset if needed
             background_clip_time_offset = (
                 background_clip_time_offset
                 if background_clip_time_offset < background_clip.duration - 0.5
                 else background_clip_time_offset % background_clip.duration
             )
 
-            # Get horzizontal offset
+            # Adjust x offset if needed
             width_difference = background_clip.w - video_dimensions[0]
-            if background_clip_x_offset is None:
-                background_clip_x_offset = (
-                    random.randint(0, width_difference) if width_difference > 0 else 0
-                )
-            else:
-                background_clip_x_offset = (
-                    background_clip_x_offset
-                    if background_clip_x_offset < width_difference
-                    else background_clip_x_offset % width_difference
-                )
+            background_clip_x_offset = (
+                background_clip_x_offset
+                if background_clip_x_offset < width_difference
+                else background_clip_x_offset % width_difference
+            )
 
             # Get vertical offset
             height_difference = background_clip.h - video_dimensions[1]
