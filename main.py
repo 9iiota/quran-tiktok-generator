@@ -1,15 +1,18 @@
-import cv2
-import moviepy.editor as mpy
+import json
 import os
 import random
-import requests
 import uuid
-from bs4 import BeautifulSoup
-from colorama import Fore, Style
 from datetime import datetime
 from enum import Enum
+
+import cv2
+import moviepy.editor as mpy
+import requests
+from bs4 import BeautifulSoup
+from colorama import Fore, Style
 from plyer import notification
 from pyquran import quran
+
 from Tiktok_uploader import uploadVideo
 
 ARABIC_FONT = "Fonts/Hafs.ttf"
@@ -19,10 +22,25 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 # TODO: Add ability to allow only long enough clips to be used
 # TODO: Allow any size background clips
 # TODO: Add support for background clips disjoint from audio timings
+# TODO: Add x_offsets and video timings to json file + implementation
 
 def main() -> None:
-    tiktok = PredefinedTikToks()
-    tiktok.muhammad_al_luhaidan_al_baqarah_273_274()
+    tiktok = PredefinedTikToks(
+        video_map=
+        {
+            1: [r"Anime_Clips\Mirai Fukuin (109).mp4"],
+            2: [r"Anime_Clips\5 Centimeters per Second (257).mp4"],
+            3: [r"Anime_Clips\5 Centimeters per Second (201).mp4"],
+            4: [r"Anime_Clips\_Boku ga Aishita Subete no Kimi e (3).mp4"],
+            5: [r"Anime_Clips\Violet Evergarden - S1E13 (368).mp4", r"Anime_Clips\Kimi No Nawa (124).mp4"],
+            6: [r"Anime_Clips\Fukan Fuukei (105).mp4"],
+            7: [r"Anime_Clips\Garden of Words (69).mp4"],
+            9: [r"Anime_Clips\Summer Ghost (162).mp4"],
+            10: [r"Anime_Clips\Mirai Fukuin (21).mp4", r"Anime_Clips\Garden of Words (195).mp4"],
+            11: [r"Anime_Clips\Violet Evergarden - S1E1 (270).mp4", r"Anime_Clips\Weathering With You (24).mp4"],
+        }
+    )
+    tiktok.muhammad_al_luhaidan_al_insan_20_22()
     tiktok.run()
 
 class MODES(Enum):
@@ -479,9 +497,9 @@ def create_tiktok(
 
     # Create audio file path if it doesn't exist
     if audio_file_path is None:
-        for file in os.listdir(directory_path):
-            if file.endswith(".mp3"):
-                audio_file_path = os.path.join(directory_path, file)
+        for json_file in os.listdir(directory_path):
+            if json_file.endswith(".mp3"):
+                audio_file_path = os.path.join(directory_path, json_file)
                 break
 
     # Change font based on account
@@ -616,6 +634,8 @@ def create_tiktok(
             used_background_clips_paths = []
             video_clips = []
 
+            test = {}
+
             # Create video clips
             for i in loop_range:
                 # Get data for video clip
@@ -658,6 +678,7 @@ def create_tiktok(
                                     or video_clip_duration - background_clips_duration - background_clip_duration <= 0:
                                         current_video_clip_background_clip_paths.append(background_clip_path)
                                         used_background_clips_paths.append(background_clip_path)
+
 
                                         background_clips_duration += background_clip_duration
 
@@ -702,6 +723,8 @@ def create_tiktok(
 
                                             if background_clips_duration >= video_clip_duration:
                                                 break
+
+                        test[i] = current_video_clip_background_clip_paths
                     else:
                         background_clip_path = get_random_background_clip_path(all_background_clips_paths)
                         current_video_clip_background_clip_paths.append(background_clip_path)
@@ -789,6 +812,12 @@ def create_tiktok(
 
             # Start creating final video
             colored_print(Fore.GREEN, "Creating final video...")
+
+            json_output_file_path = output_file_path.replace(".mp4", ".json")
+            # Open the file in write mode
+            with open(json_output_file_path, "w", encoding="utf-8") as json_file:
+                # Write the dictionary to the file
+                json.dump(test, json_file, indent=4)
 
             try:
                 if single_background_clip:
