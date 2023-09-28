@@ -26,8 +26,10 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 
 
 def main() -> None:
-    tiktok = PredefinedTikToks()
-    tiktok.fatih_seferagic_al_hujurat_10()
+    tiktok = PredefinedTikToks(
+        account=ACCOUNTS.LOVE_QURAN77,
+    )
+    tiktok.muhammad_al_luhaidan_taha_105_108()
     tiktok.run()
 
 
@@ -768,6 +770,7 @@ def create_tiktok(
         )
         used_background_clips_paths = []
         video_clips = []
+        video_map = {int(key): value for key, value in video_map.items()} if video_map is not None else None
         video_map_output = {}
 
         # Create video clips
@@ -788,7 +791,7 @@ def create_tiktok(
             except IndexError:
                 text_duration = video_clip_duration
 
-            if not single_background_clip:
+            if single_background_clip is None:
                 # Create variables for background clips
                 current_video_clip_background_clip_paths = []
 
@@ -1168,9 +1171,16 @@ def create_video_clip(
         for background_clip_info in background_clip_paths:
             # Create variables
             background_clip_path = background_clip_info[0]
-            background_clip = mpy.VideoFileClip(background_clip_path)
+            background_clip = mpy.VideoFileClip(background_clip_path).speedx(
+                background_clip_speed
+            )
             background_clip_time_offset = background_clip_info[1]
             background_clip_x_offset = background_clip_info[2]
+
+            if background_clip.h < video_dimensions[1]:
+                raise Exception(
+                    f"Background clip ({background_clip_path}) height ({background_clip.h}) is less than the video height ({video_dimensions[1]})"
+                )
 
             # Adjust time offset if needed
             background_clip_time_offset = (
@@ -1200,9 +1210,6 @@ def create_video_clip(
             # Create background clip with the correct speed
             background_clip_duration = (
                 get_video_duration_seconds(background_clip_path) / background_clip_speed
-            )
-            background_clip = mpy.VideoFileClip(background_clip_path).speedx(
-                background_clip_speed
             )
 
             # Crop, trim and set duration for background clip
