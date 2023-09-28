@@ -28,19 +28,18 @@ def main() -> None:
     tiktok = PredefinedTikToks(
         video_map=
         {
-            1: [r"Anime_Clips\Mirai Fukuin (109).mp4"],
-            2: [r"Anime_Clips\5 Centimeters per Second (257).mp4"],
-            3: [r"Anime_Clips\5 Centimeters per Second (201).mp4"],
-            4: [r"Anime_Clips\_Boku ga Aishita Subete no Kimi e (3).mp4"],
-            5: [r"Anime_Clips\Violet Evergarden - S1E13 (368).mp4", r"Anime_Clips\Kimi No Nawa (124).mp4"],
-            6: [r"Anime_Clips\Fukan Fuukei (105).mp4"],
-            7: [r"Anime_Clips\Garden of Words (69).mp4"],
-            9: [r"Anime_Clips\Summer Ghost (162).mp4"],
-            10: [r"Anime_Clips\Mirai Fukuin (21).mp4", r"Anime_Clips\Garden of Words (195).mp4"],
-            11: [r"Anime_Clips\Violet Evergarden - S1E1 (270).mp4", r"Anime_Clips\Weathering With You (24).mp4"],
+            1:
+            [
+                [
+                    r"Anime_Clips\Kimi No Nawa (312).mp4", 12, 0
+                ],
+                [
+                    r"Anime_Clips\Kimi No Nawa (312).mp4", 12, 0
+                ]
+            ],
         }
     )
-    tiktok.muhammad_al_luhaidan_al_insan_20_22()
+    tiktok.fatih_seferagic_al_hujurat_10()
     tiktok.run()
 
 class MODES(Enum):
@@ -70,7 +69,6 @@ class PredefinedTikToks():
             pictures_mode: bool=False,
             allow_duplicate_background_clips: bool=False,
             video_dimensions: tuple[int, int]=(576, 1024),
-            x_offset: int=0,
             y_offset: int=0,
             background_clips_speed: float=1.0,
             shadow_opacity: float=0.7,
@@ -92,7 +90,6 @@ class PredefinedTikToks():
         self.pictures_mode = pictures_mode
         self.allow_duplicate_background_clips = allow_duplicate_background_clips
         self.video_dimensions = video_dimensions
-        self.x_offset = x_offset
         self.y_offset = y_offset
         self.background_clips_speed = background_clips_speed
         self.shadow_opacity = shadow_opacity
@@ -116,7 +113,6 @@ class PredefinedTikToks():
             pictures_mode=self.pictures_mode,
             allow_duplicate_background_clips=self.allow_duplicate_background_clips,
             video_dimensions=self.video_dimensions,
-            x_offset=self.x_offset,
             y_offset=self.y_offset,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
@@ -472,7 +468,6 @@ def create_tiktok(
         pictures_mode: bool=False,
         allow_duplicate_background_clips: bool=False,
         video_dimensions: tuple[int, int]=(576, 1024),
-        x_offset: int=0,
         y_offset: int=0,
         background_clips_speed: float=1.0,
         shadow_opacity: float=0.7,
@@ -633,8 +628,7 @@ def create_tiktok(
             all_background_clips_paths = get_all_background_clips_paths(background_clips_directory_paths)
             used_background_clips_paths = []
             video_clips = []
-
-            test = {}
+            video_map_output = {}
 
             # Create video clips
             for i in loop_range:
@@ -676,9 +670,8 @@ def create_tiktok(
                                     # Prevent background clip from being used if it will make the next background clip too short
                                     if video_clip_duration - background_clips_duration - background_clip_duration > .5 \
                                     or video_clip_duration - background_clips_duration - background_clip_duration <= 0:
-                                        current_video_clip_background_clip_paths.append(background_clip_path)
+                                        current_video_clip_background_clip_paths.append([background_clip_path, None, None])
                                         used_background_clips_paths.append(background_clip_path)
-
 
                                         background_clips_duration += background_clip_duration
 
@@ -686,13 +679,17 @@ def create_tiktok(
                                             break
                         else:
                             # Get background clips from the video map
-                            for background_clip_path in video_map[i]:
+                            for background_clip_info in video_map[i]:
+                                background_clip_path = background_clip_info[0]
+                                background_clip_time_offset = background_clip_info[1]
+                                background_clip_x_offset = background_clip_info[2]
+
                                 background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clips_speed
 
                                 # Prevent background clip from being used if it will make the next background clip too short
                                 if video_clip_duration - background_clips_duration - background_clip_duration > .5 \
                                 or video_clip_duration - background_clips_duration - background_clip_duration <= 0:
-                                        current_video_clip_background_clip_paths.append(background_clip_path)
+                                        current_video_clip_background_clip_paths.append([background_clip_path, background_clip_time_offset, background_clip_x_offset])
                                         used_background_clips_paths.append(background_clip_path)
 
                                         background_clips_duration += background_clip_duration
@@ -716,7 +713,7 @@ def create_tiktok(
                                         # Prevent background clip from being used if it will make the next background clip too short
                                         if video_clip_duration - background_clips_duration - background_clip_duration > .5 \
                                         or video_clip_duration - background_clips_duration - background_clip_duration <= 0:
-                                            current_video_clip_background_clip_paths.append(background_clip_path)
+                                            current_video_clip_background_clip_paths.append([background_clip_path, None, None])
                                             used_background_clips_paths.append(background_clip_path)
 
                                             background_clips_duration += background_clip_duration
@@ -724,10 +721,11 @@ def create_tiktok(
                                             if background_clips_duration >= video_clip_duration:
                                                 break
 
-                        test[i] = current_video_clip_background_clip_paths
+                        # Add background clips to video map output
+                        video_map_output[i] = current_video_clip_background_clip_paths
                     else:
                         background_clip_path = get_random_background_clip_path(all_background_clips_paths)
-                        current_video_clip_background_clip_paths.append(background_clip_path)
+                        current_video_clip_background_clip_paths.append([background_clip_path, None, None])
 
                 # Start creating video clip
                 colored_print(Fore.GREEN, f"Creating clip {i}...")
@@ -780,11 +778,10 @@ def create_tiktok(
                     video_clip = create_video_clip(
                         background_clip_paths=current_video_clip_background_clip_paths,
                         final_clip_duration=video_clip_duration,
-                        dimensions=video_dimensions,
+                        video_dimensions=video_dimensions,
                         text_clips=text_clips,
                         still_frame=pictures_mode,
                         background_clip_speed=background_clips_speed,
-                        x_offset=x_offset,
                         y_offset=y_offset,
                         text_duration=text_duration,
                         shadow_clip=shadow_clip,
@@ -813,11 +810,11 @@ def create_tiktok(
             # Start creating final video
             colored_print(Fore.GREEN, "Creating final video...")
 
+            # Create json file and write video map output to it
             json_output_file_path = output_file_path.replace(".mp4", ".json")
-            # Open the file in write mode
+
             with open(json_output_file_path, "w", encoding="utf-8") as json_file:
-                # Write the dictionary to the file
-                json.dump(test, json_file, indent=4)
+                json.dump(video_map_output, json_file, indent=4)
 
             try:
                 if single_background_clip:
@@ -847,13 +844,12 @@ def create_tiktok(
             )
 
 def create_video_clip(
-        background_clip_paths: list[str],
+        background_clip_paths: list[list[str, float or None, int or None]],
         final_clip_duration: float,
-        dimensions: tuple[int, int],
+        video_dimensions: tuple[int, int],
         text_clips: list[mpy.TextClip],
         still_frame: bool=False,
         background_clip_speed: float=1.0,
-        x_offset: int=0,
         y_offset: int=0,
         text_duration: float=None,
         shadow_clip: mpy.ColorClip=None
@@ -864,7 +860,7 @@ def create_video_clip(
 
     background_clips = []
     if still_frame:
-        background_clip = mpy.VideoFileClip(background_clip_paths[0]).speedx(background_clip_speed)
+        background_clip = mpy.VideoFileClip(background_clip_paths[0][0]).speedx(background_clip_speed)
 
         # Get the total number of frames
         total_frames = int(background_clip.fps * background_clip.duration)
@@ -875,52 +871,71 @@ def create_video_clip(
         # Seek to the random frame and capture it as an image
         random_frame = background_clip.get_frame(random_frame_number / background_clip.fps)
 
-        background_clip = mpy.ImageClip(random_frame)
+        video_clip = mpy.ImageClip(random_frame)
     else:
-        for background_clip_path in background_clip_paths:
+        for background_clip_info in background_clip_paths:
+            # Create variables
+            background_clip_path = background_clip_info[0]
+            background_clip = mpy.VideoFileClip(background_clip_path)
+            background_clip_time_offset = background_clip_info[1]
+            background_clip_x_offset = background_clip_info[2]
+
+            # Get time offset
+            if background_clip_time_offset is None:
+                background_clip_time_offset = random.uniform(0, max(0, background_clip.duration - final_clip_duration))
+
+            background_clip_time_offset = background_clip_time_offset \
+                if background_clip_time_offset < background_clip.duration - .5 \
+                else background_clip_time_offset % background_clip.duration
+
+            # Get horzizontal offset
+            width_difference = background_clip.w - video_dimensions[0]
+            if background_clip_x_offset is None:
+                background_clip_x_offset = random.randint(0, width_difference) if width_difference > 0 else 0
+            else:
+                background_clip_x_offset = background_clip_x_offset if background_clip_x_offset < width_difference else background_clip_x_offset % width_difference
+
+            # Get vertical offset
+            height_difference = background_clip.h - video_dimensions[1]
+            y_offset = y_offset if y_offset < height_difference else y_offset % height_difference
+            if height_difference > 0:
+                y_offset = random.randint(y_offset, height_difference)
+
+            # Create background clip with the correct speed
             background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clip_speed
             background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
-            subclip_offset = random.uniform(0, max(0, background_clip.duration - final_clip_duration))
-            background_clip = background_clip.subclip(
-                t_start=subclip_offset,
+
+            # Crop, trim and set duration for background clip
+            background_clip = background_clip.crop(
+                x1=background_clip_x_offset,
+                y1=y_offset,
+                x2=background_clip_x_offset + video_dimensions[0],
+                y2=y_offset + video_dimensions[1]
+            ).subclip(
+                t_start=background_clip_time_offset,
             ).set_duration(
                 background_clip_duration
             )
+
             background_clips.append(background_clip)
-        background_clip = mpy.concatenate_videoclips(
+
+        video_clip = mpy.concatenate_videoclips(
             clips=background_clips,
             method="chain"
         )
         # background_clip = background_clip.fx(mpy.vfx.colorx, 1.25) # Saturation
     
-    width_difference = background_clip.w - dimensions[0]
-    x_offset = x_offset if x_offset < width_difference else x_offset % (width_difference)
-    if width_difference > 0:
-        x_offset = random.randint(x_offset, width_difference)
-
-    height_difference = background_clip.h - dimensions[1]
-    y_offset = y_offset if y_offset < height_difference else y_offset % (height_difference)
-    if height_difference > 0:
-        y_offset = random.randint(y_offset, height_difference)
-    
-    background_clip = background_clip.set_duration(
-        final_clip_duration
-        ).crop(
-            x1=x_offset,
-            y1=y_offset,
-            x2=x_offset + dimensions[0],
-            y2=y_offset + dimensions[1]
-        )
+    video_clip = video_clip.set_duration(final_clip_duration)
     text_duration = text_duration if text_duration is not None else final_clip_duration
     clips = [
-        background_clip,
+        video_clip,
         shadow_clip,
         *text_clips
     ] if shadow_clip is not None else [
-        background_clip,
+        video_clip,
         *text_clips
     ]
-    final_clip = mpy.CompositeVideoClip(
+    final_video_clip = mpy.CompositeVideoClip(
         clips,
         use_bgclip=True
     ).set_duration(
@@ -928,12 +943,13 @@ def create_video_clip(
     )
 
     if still_frame:
-        final_clip = final_clip.fadein(
-            final_clip.duration / 8
+        final_video_clip = final_video_clip.fadein(
+            final_video_clip.duration / 8
         ).fadeout(
-            final_clip.duration / 8
+            final_video_clip.duration / 8
         )
-    return final_clip
+
+    return final_video_clip
 
 def create_shadow_clip(
         size: tuple[int, int],
