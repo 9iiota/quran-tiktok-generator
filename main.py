@@ -27,9 +27,9 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 
 def main() -> None:
     tiktok = PredefinedTikToks(
-        account=ACCOUNTS.LOVE_QURAN77,
+        single_background_clip=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\video.mp4",
     )
-    tiktok.muhammad_al_luhaidan_taha_105_108()
+    tiktok.fatih_seferagic_al_hashr_21_24()
     tiktok.run()
 
 
@@ -770,7 +770,12 @@ def create_tiktok(
         )
         used_background_clips_paths = []
         video_clips = []
-        video_map = {int(key): value for key, value in video_map.items()} if video_map is not None else None
+        text_clips_array = []
+        video_map = (
+            {int(key): value for key, value in video_map.items()}
+            if video_map is not None
+            else None
+        )
         video_map_output = {}
 
         # Create video clips
@@ -1047,14 +1052,10 @@ def create_tiktok(
                     audio_start, final_video_start
                 )
 
-                # Create video clip
-                video = mpy.CompositeVideoClip(
-                    [
-                        video,
-                        text_clips[0].set_start(text_start_time),
-                        text_clips[1].set_start(text_start_time),
-                    ]
-                )
+                text_clips[0] = text_clips[0].set_start(text_start_time)
+                text_clips[1] = text_clips[1].set_start(text_start_time)
+
+                text_clips_array.extend(text_clips)
             else:
                 # Create shadow clip
                 shadow_clip = create_shadow_clip(
@@ -1079,23 +1080,25 @@ def create_tiktok(
 
                 video_clips.append(video_clip)
 
-        if single_background_clip:
-            # Add audio and set duration for final video
-            final_video = video.set_duration(final_video_duration).set_audio(
-                mpy.AudioFileClip(audio_file_path)
+        audio = (
+            mpy.AudioFileClip(audio_file_path)
+            .set_start(final_video_start)
+            .subclip(final_video_start, final_video_end)
+        )
+
+        if single_background_clip is not None:
+            final_video = (
+                mpy.CompositeVideoClip([video, *text_clips_array], use_bgclip=True)
                 .set_start(final_video_start)
-                .subclip(final_video_start, final_video_end)
+                .set_duration(final_video_duration)
+                .set_audio(audio)
             )
         else:
             # Concatenate video clips, add audio, and set duration for final video
             final_video = (
                 mpy.concatenate_videoclips(clips=video_clips, method="chain")
                 .set_duration(final_video_duration)
-                .set_audio(
-                    mpy.AudioFileClip(audio_file_path)
-                    .set_start(final_video_start)
-                    .subclip(final_video_start, final_video_end)
-                )
+                .set_audio(audio)
             )
 
         # Start creating final video
