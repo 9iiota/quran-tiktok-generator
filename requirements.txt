@@ -1,5 +1,6 @@
 beautifulsoup4
 colorama
+compact-json
 moviepy
 opencv-python
 plyer

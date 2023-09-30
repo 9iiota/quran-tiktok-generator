@@ -10,6 +10,7 @@ import moviepy.editor as mpy
 import requests
 from bs4 import BeautifulSoup
 from colorama import Fore, Style
+from compact_json import EolStyle, Formatter
 from plyer import notification
 from pyquran import quran
 
@@ -27,9 +28,8 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 
 def main() -> None:
     tiktok = PredefinedTikToks(
-        single_background_clip=r"Surahs\Fatih Seferagic - 59 - Al-Hashr\video.mp4",
     )
-    tiktok.fatih_seferagic_al_hashr_21_24()
+    tiktok.muhammadloiq_qori_al_ahzab_35()
     tiktok.run()
 
 
@@ -119,7 +119,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam"
-        self.output_file_name = f"{self.account.name}_93-98_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_93-98_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt"
         )
@@ -133,7 +135,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam"
-        self.output_file_name = f"{self.account.name}_93-94_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_93-94_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt"
         )
@@ -149,7 +153,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut"
-        self.output_file_name = f"{self.account.name}_54-60_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_54-60_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt"
         )
@@ -163,7 +169,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut"
-        self.output_file_name = f"{self.account.name}_56-57_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_56-57_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt"
         )
@@ -179,7 +187,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil"
-        self.output_file_name = f"{self.account.name}_14-18_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_14-18_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt"
         )
@@ -193,7 +203,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil"
-        self.output_file_name = f"{self.account.name}_14-15_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_14-15_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt"
         )
@@ -209,7 +221,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah"
-        self.output_file_name = f"{self.account.name}_10-26_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_10-26_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt"
         )
@@ -223,7 +237,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah"
-        self.output_file_name = f"{self.account.name}_10-12_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_10-12_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt"
         )
@@ -239,7 +255,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat"
-        self.output_file_name = f"{self.account.name}_1-11_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_text.txt"
         )
@@ -253,7 +271,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Ahmed Khedr - 20 - Taha"
-        self.output_file_name = f"{self.account.name}_14-16_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_14-16_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = r"Surahs\Ahmed Khedr - 20 - Taha\chapter_text.txt"
         self.chapter_translation_file_path = (
             r"Surahs\Ahmed Khedr - 20 - Taha\chapter_translation.txt"
@@ -265,7 +285,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi"
-        self.output_file_name = f"{self.account.name}_255_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_255_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_text.txt"
         )
@@ -279,7 +301,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Fatih Seferagic - 4 - An-Nisa"
-        self.output_file_name = f"{self.account.name}_155-160_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_155-160_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_text.txt"
         )
@@ -293,7 +317,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Fatih Seferagic - 24 - An-Nur"
-        self.output_file_name = f"{self.account.name}_35_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_35_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_text.txt"
         )
@@ -307,7 +333,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat"
-        self.output_file_name = f"{self.account.name}_10_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_10_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt"
         )
@@ -321,7 +349,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Fatih Seferagic - 59 - Al-Hashr"
-        self.output_file_name = f"{self.account.name}_21-24_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_21-24_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt"
         )
@@ -335,7 +365,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Mansour As Salimi - 19 - Maryam"
-        self.output_file_name = f"{self.account.name}_27-33_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_27-33_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_text.txt"
         )
@@ -349,7 +381,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 2 - Al-Baqarah"
-        self.output_file_name = f"{self.account.name}_273-274_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_273-274_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Muhammad Al-Luhaidan - 2 - Al-Baqarah\chapter_text.txt"
         )
@@ -363,7 +397,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am"
-        self.output_file_name = f"{self.account.name}_27-30_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_27-30_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_text.txt"
         )
@@ -377,7 +413,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam"
-        self.output_file_name = f"{self.account.name}_85-92_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_85-92_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam\chapter_text.txt"
         )
@@ -391,7 +429,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha"
-        self.output_file_name = f"{self.account.name}_105-108_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_105-108_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_text.txt"
         )
@@ -405,7 +445,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan"
-        self.output_file_name = f"{self.account.name}_72-77_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_72-77_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt"
         )
@@ -419,7 +461,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah"
-        self.output_file_name = f"{self.account.name}_29-33_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_29-33_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_text.txt"
         )
@@ -433,12 +477,30 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan"
-        self.output_file_name = f"{self.account.name}_20-22_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_20-22_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_text.txt"
         )
         self.chapter_translation_file_path = (
             r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_translation.txt"
+        )
+
+    def muhammadloiq_qori_al_ahzab_35(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 35 of Surah Al-Ahzab by Muhammadloiq Qori
+        """
+
+        self.directory_path = r"Surahs\Muhammadloiq Qori - 33 - Al-Ahzab"
+        self.output_file_name = (
+            f"{self.account.name}_353_{str(uuid.uuid4()).split('-')[-1]}"
+        )
+        self.chapter_text_file_path = (
+            r"Surahs\Muhammadloiq Qori - 33 - Al-Ahzab\chapter_text.txt"
+        )
+        self.chapter_translation_file_path = (
+            r"Surahs\Muhammadloiq Qori - 33 - Al-Ahzab\chapter_translation.txt"
         )
 
     def salim_bahanan_al_fatihah_2_7(self) -> None:
@@ -447,7 +509,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah"
-        self.output_file_name = f"{self.account.name}_2-7_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_2-7_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt"
         )
@@ -461,7 +525,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa"
-        self.output_file_name = f"{self.account.name}_1-11_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt"
         )
@@ -475,7 +541,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Salim Bahanan - 101 - Al-Qariah"
-        self.output_file_name = f"{self.account.name}_1-11_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_text.txt"
         )
@@ -489,7 +557,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Unknown - 25 - Al-Furqan"
-        self.output_file_name = f"{self.account.name}_72-75_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_72-75_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Unknown - 25 - Al-Furqan\chapter_text.txt"
         )
@@ -503,7 +573,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Unknown - 29 - Al-'Ankabut"
-        self.output_file_name = f"{self.account.name}_56-58_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_56-58_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt"
         )
@@ -517,7 +589,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Unknown - 29 - Al-'Ankabut"
-        self.output_file_name = f"{self.account.name}_56-57_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_56-57_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt"
         )
@@ -533,7 +607,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Unknown - 20 - Taha"
-        self.output_file_name = f"{self.account.name}_124-126_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_124-126_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = r"Surahs\Unknown - 20 - Taha\chapter_text.txt"
         self.chapter_translation_file_path = (
             r"Surahs\Unknown - 20 - Taha\chapter_translation.txt"
@@ -545,7 +621,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun"
-        self.output_file_name = f"{self.account.name}_34-39_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_34-39_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_text.txt"
         )
@@ -559,7 +637,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath"
-        self.output_file_name = f"{self.account.name}_29_{uuid.uuid4()}"
+        self.output_file_name = (
+            f"{self.account.name}_29_{str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = (
             r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_text.txt"
         )
@@ -601,7 +681,8 @@ def create_tiktok(
     if output_file_path is None:
         if output_file_name is None:
             output_file_path = os.path.join(
-                directory_path, rf"Videos\{account.name}_{uuid.uuid4()}.mp4"
+                directory_path,
+                rf"Videos\{account.name}_{str(uuid.uuid4()).split('-')[-1]}.mp4",
             )
         else:
             output_file_path = os.path.join(
@@ -814,10 +895,20 @@ def create_tiktok(
                             )
 
                             # Check if background clip can be used
-                            if allow_duplicate_background_clips or (
-                                not allow_duplicate_background_clips
-                                and background_clip_path
-                                not in used_background_clips_paths
+                            if (
+                                allow_duplicate_background_clips
+                                or (
+                                    not allow_duplicate_background_clips
+                                    and background_clip_path
+                                    not in used_background_clips_paths
+                                )
+                                or (
+                                    video_map is not None
+                                    and background_clip_path
+                                    not in list(
+                                        map(lambda x: x[0][0], video_map.values())
+                                    )
+                                )
                             ):
                                 background_clip_duration = (
                                     get_video_duration_seconds(background_clip_path)
@@ -845,7 +936,8 @@ def create_tiktok(
                                         max(
                                             0,
                                             background_clip_duration
-                                            - video_clip_duration,
+                                            - video_clip_duration
+                                            - 0.5,
                                         ),
                                     )
 
@@ -880,8 +972,70 @@ def create_tiktok(
                         # Get background clips from the video map
                         for background_clip_info in video_map[i]:
                             background_clip_path = background_clip_info[0]
-                            background_clip_time_offset = background_clip_info[1]
-                            background_clip_x_offset = background_clip_info[2]
+                            background_clip = mpy.VideoFileClip(
+                                background_clip_path
+                            ).speedx(background_clips_speed)
+
+                            # Get time offset
+                            try:
+                                if (
+                                    float(background_clip_info[1])
+                                    < background_clip.duration - 0.5
+                                ):
+                                    background_clip_time_offset = float(
+                                        background_clip_info[1]
+                                    )
+                                else:
+                                    background_clip_time_offset = random.uniform(
+                                        0,
+                                        max(
+                                            0,
+                                            background_clip.duration - 0.5,
+                                        ),
+                                    )
+
+                                    colored_print(
+                                        Fore.YELLOW,
+                                        f"Background clip time offset for verse {i} is too large, using {background_clip_time_offset} instead",
+                                    )
+                            except:
+                                background_clip_time_offset = random.uniform(
+                                    0,
+                                    max(
+                                        0,
+                                        background_clip.duration - 0.5,
+                                    ),
+                                )
+
+                                colored_print(
+                                    Fore.YELLOW,
+                                    f"Background clip time offset for verse {i} is invalid, using {background_clip_time_offset} instead",
+                                )
+
+                            # Get x offset
+                            try:
+                                if int(background_clip_info[2]) < background_clip.w:
+                                    background_clip_x_offset = int(
+                                        background_clip_info[2]
+                                    )
+                                else:
+                                    background_clip_x_offset = random.randint(
+                                        0, background_clip.w - video_dimensions[0]
+                                    )
+
+                                    colored_print(
+                                        Fore.YELLOW,
+                                        f"Background clip x offset for verse {i} is too large, using {background_clip_x_offset} instead",
+                                    )
+                            except:
+                                background_clip_x_offset = random.randint(
+                                    0, background_clip.w - video_dimensions[0]
+                                )
+
+                                colored_print(
+                                    Fore.YELLOW,
+                                    f"Background clip x offset for verse {i} is invalid, using {background_clip_x_offset} instead",
+                                )
 
                             background_clip_duration = (
                                 get_video_duration_seconds(background_clip_path)
@@ -1093,6 +1247,8 @@ def create_tiktok(
                 .set_duration(final_video_duration)
                 .set_audio(audio)
             )
+
+            video_map_output = single_background_clip
         else:
             # Concatenate video clips, add audio, and set duration for final video
             final_video = (
@@ -1107,8 +1263,18 @@ def create_tiktok(
         # Create json file and write video map output to it
         json_output_file_path = output_file_path.replace(".mp4", ".json")
 
-        with open(json_output_file_path, "w", encoding="utf-8") as json_file:
-            json.dump(video_map_output, json_file, indent=4)
+        formatter = Formatter()
+        formatter.use_tab_to_indent = True
+        formatter.nested_bracket_padding = False
+        formatter.max_inline_complexity = 10
+        formatter.json_eol_style = EolStyle.LF
+        formatter.dont_justify_numbers = True
+
+        formatter.dump(
+            video_map_output,
+            output_file=json_output_file_path,
+            newline_at_eof=True,
+        )
 
         try:
             if single_background_clip:
