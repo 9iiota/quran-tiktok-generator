@@ -55,7 +55,7 @@ class PredefinedTikToks:
         chapter: int = None,
         start_verse: int = None,
         end_verse: int = None,
-        background_clips_directory_paths: list[str] = ["Anime_Clips"],
+        background_clips_directory_paths: list[str] = ["Anime_Clips", "Anime_Clips_2"],
         single_background_clip: str = None,
         video_map: dict = None,
         pictures_mode: bool = False,
@@ -974,7 +974,7 @@ def create_video_clip(
     background_clips = []
 
     if still_frame:
-        background_clip = mpy.VideoFileClip(background_clip_paths[0][0]).speedx(background_clip_speed)
+        background_clip = mpy.VideoFileClip(background_clip_paths[0][0])
 
         # Get the total number of frames
         total_frames = int(background_clip.fps * background_clip.duration)
@@ -1011,6 +1011,20 @@ def create_video_clip(
                 )
                 .set_duration(background_clip_duration)
             )
+
+            # Specify the target aspect ratio (9:16)
+            target_aspect_ratio = 9 / 16
+
+            # Calculate the dimensions to fit the target aspect ratio
+            current_aspect_ratio = background_clip.w / background_clip.h
+
+            if current_aspect_ratio > target_aspect_ratio:
+                # Video is wider than 9:16, so we need to crop the sides
+                new_width = int(background_clip.h * target_aspect_ratio)
+                horizontal_offset = (background_clip.w - new_width) // 2
+                background_clip = background_clip.crop(x1=horizontal_offset, x2=horizontal_offset + new_width).resize(
+                    video_dimensions
+                )
 
             background_clips.append(background_clip)
 
