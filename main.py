@@ -27,7 +27,41 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 
 
 def main() -> None:
-    tiktok = PredefinedTikToks()
+    tiktok = PredefinedTikToks(
+        video_map={
+            "1": [
+                ["Anime_Clips\\Kimi No Nawa (190).mp4", 0.0, 447],
+                ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 5.412624918270406, 704],
+            ],
+            "2": [["Anime_Clips\\Koe no Katachi (496).mp4", 0.18635014921935836, 980]],
+            "3": [
+                ["Anime_Clips\\Koe no Katachi (437).mp4", 0.0, 966],
+                ["Anime_Clips\\_Hello World (8).mp4", 0.0, 631],
+            ],
+            "5": [
+                ["Anime_Clips\\Horimiya - S01E11 (1).mp4", 0.0, 1245],
+                ["Anime_Clips\\Hell's Paradise - S1 - NCOP1 (28).mp4", 0.0, 1253],
+                ["Anime_Clips\\Garden of Words (104).mp4", 0.0, 675],
+            ],
+            "6": [
+                ["Anime_Clips\\Summer Ghost (13).mp4", 0.0, 487],
+                ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 3.8986081001887234, 916],
+            ],
+            "7": [
+                ["Anime_Clips\\Garden of Words (191).mp4", 0.0, 547],
+                ["Anime_Clips\\Weathering With You (277).mp4", 0.0, 362],
+            ],
+            "8": [
+                ["Anime_Clips\\Garden of Words (155).mp4", 0.0, 940],
+                ["Anime_Clips\\Kimi No Nawa (136).mp4", 0.0, 84],
+            ],
+            "9": [
+                ["Anime_Clips\\Weathering With You (103).mp4", 0.0, 1227],
+                ["Anime_Clips\\Tamako Love Story (888).mp4", 0.0, 340],
+                ["Anime_Clips\\Garden of Words (209).mp4", 0.0, 55],
+            ],
+        }
+    )
     tiktok.salim_bahanan_at_tin_1_8()
     tiktok.run()
 
@@ -690,12 +724,7 @@ def create_tiktok(
                             )
 
                             # Get max time offset
-                            max_time_offset = get_max_time_offset(background_clip_duration)
-                            if max_time_offset < 0:
-                                # Background clip duration is less than 0.5 seconds
-                                raise ValueError(
-                                    f"Verse {i} Background clip {j + 1} duration ({background_clip.duration}) is less than 0.5 seconds"
-                                )
+                            max_time_offset = get_max_time_offset(video_clip_duration, background_clip_duration)
 
                             # Get time offset
                             if (
@@ -764,6 +793,11 @@ def create_tiktok(
 
                                 if background_clips_duration >= video_clip_duration:
                                     break
+                            else:
+                                colored_print(
+                                    Fore.RED,
+                                    f"Verse {i} background clip {j + 1} duration ({background_clip_duration}) is invalid, skipping...",
+                                )
 
                         # Delete video map entry
                         del video_map[i]
@@ -1236,12 +1270,16 @@ def check_background_clip_duration(video_clip_leftover_duration: float, backgrou
     )
 
 
-def get_max_time_offset(background_clip_duration: float) -> float:
+def get_max_time_offset(video_clip_duration: float, background_clip_duration: float) -> float:
     """
     Gets the max time offset for a background clip
     """
 
-    return background_clip_duration - 0.5
+    if check_background_clip_duration(video_clip_duration, background_clip_duration):
+        if background_clip_duration > video_clip_duration:
+            return background_clip_duration - video_clip_duration
+
+    return 0
 
 
 def get_max_horizontal_offset(background_clip_width: int, video_width: int) -> int:
@@ -1280,12 +1318,7 @@ def get_valid_background_clips(
             background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clips_speed
 
             # Get max time offset
-            max_time_offset = get_max_time_offset(background_clip_duration)
-            if max_time_offset < 0:
-                # Background clip duration is less than 0.5 seconds
-                raise ValueError(
-                    f"Verse {i} Background clip {j + 1} duration ({background_clip.duration}) is less than 0.5 seconds"
-                )
+            max_time_offset = get_max_time_offset(video_clip_duration, background_clip_duration)
 
             # Get time offset
             background_clip_time_offset = get_random_time_offset(max_time_offset)
