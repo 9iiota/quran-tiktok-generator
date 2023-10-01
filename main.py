@@ -26,86 +26,10 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 # TODO: FIX VERTICAL OFFSET
 
 
-def test():
-    deez = "Anime_Clips\\Kimi No Nawa (136).mp4"
-
-    joe = {
-        "1": [
-            ["Anime_Clips\\Kimi No Nawa (190).mp4", 0.0, 447],
-            ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 5.412624918270406, 704],
-        ],
-        "2": [["Anime_Clips\\Koe no Katachi (496).mp4", 0.18635014921935836, 980]],
-        "3": [
-            ["Anime_Clips\\Koe no Katachi (437).mp4", 0.0, 966],
-            ["Anime_Clips\\_Hello World (8).mp4", 0.0, 631],
-        ],
-        "5": [
-            ["Anime_Clips\\Horimiya - S01E11 (1).mp4", 0.0, 1245],
-            ["Anime_Clips\\Hell's Paradise - S1 - NCOP1 (28).mp4", 0.0, 1253],
-            ["Anime_Clips\\Garden of Words (104).mp4", 0.0, 675],
-        ],
-        "6": [
-            ["Anime_Clips\\Summer Ghost (13).mp4", 0.0, 487],
-            ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 3.8986081001887234, 916],
-        ],
-        "7": [
-            ["Anime_Clips\\Garden of Words (191).mp4", 0.0, 547],
-            ["Anime_Clips\\Weathering With You (277).mp4", 0.0, 362],
-        ],
-        "8": [
-            ["Anime_Clips\\Garden of Words (155).mp4", 0.0, 940],
-            ["Anime_Clips\\Kimi No Nawa (136).mp4", 0.0, 84],
-        ],
-        "9": [
-            ["Anime_Clips\\Weathering With You (103).mp4", 0.0, 1227],
-            ["Anime_Clips\\Tamako Love Story (888).mp4", 0.0, 340],
-            ["Anime_Clips\\Garden of Words (209).mp4", 0.0, 55],
-        ],
-    }
-    # joe = {int(key): value for key, value in joe.items()}
-
-    print(check_dictionary_for_path(deez, joe))
-
-
 def main() -> None:
-    test()
-    # tiktok = PredefinedTikToks(
-    #     video_map={
-    #         "1": [
-    #             ["Anime_Clips\\Kimi No Nawa (190).mp4", 0.0, 447],
-    #             ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 5.412624918270406, 704],
-    #         ],
-    #         "2": [["Anime_Clips\\Koe no Katachi (496).mp4", 0.18635014921935836, 980]],
-    #         "3": [
-    #             ["Anime_Clips\\Koe no Katachi (437).mp4", 0.0, 966],
-    #             ["Anime_Clips\\_Hello World (8).mp4", 0.0, 631],
-    #         ],
-    #         "5": [
-    #             ["Anime_Clips\\Horimiya - S01E11 (1).mp4", 0.0, 1245],
-    #             ["Anime_Clips\\Hell's Paradise - S1 - NCOP1 (28).mp4", 0.0, 1253],
-    #             ["Anime_Clips\\Garden of Words (104).mp4", 0.0, 675],
-    #         ],
-    #         "6": [
-    #             ["Anime_Clips\\Summer Ghost (13).mp4", 0.0, 487],
-    #             ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 3.8986081001887234, 916],
-    #         ],
-    #         "7": [
-    #             ["Anime_Clips\\Garden of Words (191).mp4", 0.0, 547],
-    #             ["Anime_Clips\\Weathering With You (277).mp4", 0.0, 362],
-    #         ],
-    #         "8": [
-    #             ["Anime_Clips\\Garden of Words (155).mp4", 0.0, 940],
-    #             ["Anime_Clips\\Kimi No Nawa (136).mp4", 0.0, 84],
-    #         ],
-    #         "9": [
-    #             ["Anime_Clips\\Weathering With You (103).mp4", 0.0, 1227],
-    #             ["Anime_Clips\\Tamako Love Story (888).mp4", 0.0, 340],
-    #             ["Anime_Clips\\Garden of Words (209).mp4", 0.0, 55],
-    #         ],
-    #     }
-    # )
-    # tiktok.salim_bahanan_at_tin_1_8()
-    # tiktok.run()
+    tiktok = PredefinedTikToks()
+    tiktok.salim_bahanan_at_tin_1_8()
+    tiktok.run()
 
 
 class MODES(Enum):
@@ -1322,9 +1246,11 @@ def get_max_time_offset(video_clip_duration: float, background_clip_duration: fl
     Gets the max time offset for a background clip
     """
 
-    if check_background_clip_duration(video_clip_duration, background_clip_duration):
-        if background_clip_duration > video_clip_duration:
-            return background_clip_duration - video_clip_duration
+    if (
+        check_background_clip_duration(video_clip_duration, background_clip_duration)
+        and background_clip_duration > video_clip_duration
+    ):
+        return background_clip_duration - video_clip_duration
 
     return 0
 
