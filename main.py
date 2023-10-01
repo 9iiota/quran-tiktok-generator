@@ -26,44 +26,86 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 # TODO: FIX VERTICAL OFFSET
 
 
+def test():
+    deez = "Anime_Clips\\Kimi No Nawa (136).mp4"
+
+    joe = {
+        "1": [
+            ["Anime_Clips\\Kimi No Nawa (190).mp4", 0.0, 447],
+            ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 5.412624918270406, 704],
+        ],
+        "2": [["Anime_Clips\\Koe no Katachi (496).mp4", 0.18635014921935836, 980]],
+        "3": [
+            ["Anime_Clips\\Koe no Katachi (437).mp4", 0.0, 966],
+            ["Anime_Clips\\_Hello World (8).mp4", 0.0, 631],
+        ],
+        "5": [
+            ["Anime_Clips\\Horimiya - S01E11 (1).mp4", 0.0, 1245],
+            ["Anime_Clips\\Hell's Paradise - S1 - NCOP1 (28).mp4", 0.0, 1253],
+            ["Anime_Clips\\Garden of Words (104).mp4", 0.0, 675],
+        ],
+        "6": [
+            ["Anime_Clips\\Summer Ghost (13).mp4", 0.0, 487],
+            ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 3.8986081001887234, 916],
+        ],
+        "7": [
+            ["Anime_Clips\\Garden of Words (191).mp4", 0.0, 547],
+            ["Anime_Clips\\Weathering With You (277).mp4", 0.0, 362],
+        ],
+        "8": [
+            ["Anime_Clips\\Garden of Words (155).mp4", 0.0, 940],
+            ["Anime_Clips\\Kimi No Nawa (136).mp4", 0.0, 84],
+        ],
+        "9": [
+            ["Anime_Clips\\Weathering With You (103).mp4", 0.0, 1227],
+            ["Anime_Clips\\Tamako Love Story (888).mp4", 0.0, 340],
+            ["Anime_Clips\\Garden of Words (209).mp4", 0.0, 55],
+        ],
+    }
+    # joe = {int(key): value for key, value in joe.items()}
+
+    print(check_dictionary_for_path(deez, joe))
+
+
 def main() -> None:
-    tiktok = PredefinedTikToks(
-        video_map={
-            "1": [
-                ["Anime_Clips\\Kimi No Nawa (190).mp4", 0.0, 447],
-                ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 5.412624918270406, 704],
-            ],
-            "2": [["Anime_Clips\\Koe no Katachi (496).mp4", 0.18635014921935836, 980]],
-            "3": [
-                ["Anime_Clips\\Koe no Katachi (437).mp4", 0.0, 966],
-                ["Anime_Clips\\_Hello World (8).mp4", 0.0, 631],
-            ],
-            "5": [
-                ["Anime_Clips\\Horimiya - S01E11 (1).mp4", 0.0, 1245],
-                ["Anime_Clips\\Hell's Paradise - S1 - NCOP1 (28).mp4", 0.0, 1253],
-                ["Anime_Clips\\Garden of Words (104).mp4", 0.0, 675],
-            ],
-            "6": [
-                ["Anime_Clips\\Summer Ghost (13).mp4", 0.0, 487],
-                ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 3.8986081001887234, 916],
-            ],
-            "7": [
-                ["Anime_Clips\\Garden of Words (191).mp4", 0.0, 547],
-                ["Anime_Clips\\Weathering With You (277).mp4", 0.0, 362],
-            ],
-            "8": [
-                ["Anime_Clips\\Garden of Words (155).mp4", 0.0, 940],
-                ["Anime_Clips\\Kimi No Nawa (136).mp4", 0.0, 84],
-            ],
-            "9": [
-                ["Anime_Clips\\Weathering With You (103).mp4", 0.0, 1227],
-                ["Anime_Clips\\Tamako Love Story (888).mp4", 0.0, 340],
-                ["Anime_Clips\\Garden of Words (209).mp4", 0.0, 55],
-            ],
-        }
-    )
-    tiktok.salim_bahanan_at_tin_1_8()
-    tiktok.run()
+    test()
+    # tiktok = PredefinedTikToks(
+    #     video_map={
+    #         "1": [
+    #             ["Anime_Clips\\Kimi No Nawa (190).mp4", 0.0, 447],
+    #             ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 5.412624918270406, 704],
+    #         ],
+    #         "2": [["Anime_Clips\\Koe no Katachi (496).mp4", 0.18635014921935836, 980]],
+    #         "3": [
+    #             ["Anime_Clips\\Koe no Katachi (437).mp4", 0.0, 966],
+    #             ["Anime_Clips\\_Hello World (8).mp4", 0.0, 631],
+    #         ],
+    #         "5": [
+    #             ["Anime_Clips\\Horimiya - S01E11 (1).mp4", 0.0, 1245],
+    #             ["Anime_Clips\\Hell's Paradise - S1 - NCOP1 (28).mp4", 0.0, 1253],
+    #             ["Anime_Clips\\Garden of Words (104).mp4", 0.0, 675],
+    #         ],
+    #         "6": [
+    #             ["Anime_Clips\\Summer Ghost (13).mp4", 0.0, 487],
+    #             ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 3.8986081001887234, 916],
+    #         ],
+    #         "7": [
+    #             ["Anime_Clips\\Garden of Words (191).mp4", 0.0, 547],
+    #             ["Anime_Clips\\Weathering With You (277).mp4", 0.0, 362],
+    #         ],
+    #         "8": [
+    #             ["Anime_Clips\\Garden of Words (155).mp4", 0.0, 940],
+    #             ["Anime_Clips\\Kimi No Nawa (136).mp4", 0.0, 84],
+    #         ],
+    #         "9": [
+    #             ["Anime_Clips\\Weathering With You (103).mp4", 0.0, 1227],
+    #             ["Anime_Clips\\Tamako Love Story (888).mp4", 0.0, 340],
+    #             ["Anime_Clips\\Garden of Words (209).mp4", 0.0, 55],
+    #         ],
+    #     }
+    # )
+    # tiktok.salim_bahanan_at_tin_1_8()
+    # tiktok.run()
 
 
 class MODES(Enum):
@@ -1259,8 +1301,13 @@ def check_dictionary_for_path(clip_path: str, dictionary: dict) -> bool:
     """
     Checks if a clip path is in a dictionary
     """
+    all_strings = list(
+        filter(
+            lambda value: isinstance(value[0], str), [value[0] for values in dictionary.values() for value in values]
+        )
+    )
 
-    return clip_path in list(map(lambda x: x[0][0], dictionary.values()))
+    return clip_path in all_strings
 
 
 def check_background_clip_duration(video_clip_leftover_duration: float, background_clip_duration: float) -> bool:
