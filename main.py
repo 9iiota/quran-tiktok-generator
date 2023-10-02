@@ -24,11 +24,12 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 # TODO: Add support for background clips disjoint from audio timings
 # TODO: Fix pictures mode
 # TODO: FIX VERTICAL OFFSET
+# TODO: FIX TIMINGS ALWAYS 0.0
 
 
 def main() -> None:
     tiktok = PredefinedTikToks()
-    tiktok.salim_bahanan_at_tin_1_8()
+    tiktok.mansour_as_salimi_yusuf_1_5()
     tiktok.run()
 
 
@@ -279,6 +280,16 @@ class PredefinedTikToks:
         self.output_file_name = f"{self.account.name}_27-33_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_translation.txt"
+
+    def mansour_as_salimi_yusuf_1_5(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 1-5 of Surah Yusuf by Mansour As Salimi
+        """
+
+        self.directory_path = r"Surahs\Mansour As Salimi - 12 - Yusuf"
+        self.output_file_name = f"{self.account.name}_1-5_{str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Mansour As Salimi - 12 - Yusuf\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Mansour As Salimi - 12 - Yusuf\chapter_translation.txt"
 
     def muhammad_al_luhaidan_al_baqarah_273_274(self) -> None:
         """
@@ -1224,7 +1235,7 @@ def get_random_time_offset(max_time_offset: float) -> float:
     Returns a random time offset
     """
 
-    return random.uniform(0, max_time_offset / 2)
+    return random.uniform(0, max_time_offset)
 
 
 def get_random_horizontal_offset(max_horizontal_offset: int) -> int:
@@ -1296,9 +1307,10 @@ def get_valid_background_clips(
 
         if allow_duplicate_background_clips or (
             not allow_duplicate_background_clips
+            and background_clip_path not in used_background_clips_paths
             and (
-                (background_clip_path not in used_background_clips_paths)
-                or (video_map is not None and not check_dictionary_for_path(background_clip_path, video_map))
+                (video_map is not None and not check_dictionary_for_path(background_clip_path, video_map))
+                or video_map is None
             )
         ):
             # Background clip is not a duplicate or duplicates are allowed
