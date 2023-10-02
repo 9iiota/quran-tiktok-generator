@@ -29,7 +29,7 @@ ARABIC_FONT = "Fonts/Hafs.ttf"
 
 def main() -> None:
     tiktok = PredefinedTikToks()
-    tiktok.mansour_as_salimi_yusuf_1_5()
+    tiktok.muhammad_al_luhaidan_al_furqan_26_30()
     tiktok.run()
 
 
@@ -331,6 +331,18 @@ class PredefinedTikToks:
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_translation.txt"
 
+    def muhammad_al_luhaidan_al_furqan_26_30(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 25-30 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        """
+
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan - 2"
+        self.output_file_name = f"{self.account.name}_26-30_{str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan - 2\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan - 2\chapter_translation.txt"
+        )
+
     def muhammad_al_luhaidan_al_furqan_72_77(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 72-77 of Surah Al-Furqan by Muhammad Al-Luhaidan
@@ -618,7 +630,6 @@ def create_tiktok(
         video_width, video_height = video_dimensions
         video_start = timestamps_lines[start_line - 1].strip().split(",")[0]
         video_end = timestamps_lines[end_line - 1].strip().split(",")[0]
-        video_duration = get_time_difference_seconds(video_start, video_end)
 
         if single_background_clip is not None:
             background_clip = mpy.VideoFileClip(single_background_clip).subclip(video_start)
@@ -909,18 +920,13 @@ def create_tiktok(
             final_video = (
                 mpy.CompositeVideoClip([video, *text_clips_array], use_bgclip=True)
                 .set_start(video_start)
-                .set_duration(video_duration)
                 .set_audio(audio)
             )
 
             video_map_output = single_background_clip
         else:
             # Concatenate video clips, add audio, and set duration for final video
-            final_video = (
-                mpy.concatenate_videoclips(clips=video_clips, method="chain")
-                .set_duration(video_duration)
-                .set_audio(audio)
-            )
+            final_video = mpy.concatenate_videoclips(clips=video_clips, method="chain").set_audio(audio)
 
         # Start creating final video
         colored_print(Fore.GREEN, "Creating final video...")
