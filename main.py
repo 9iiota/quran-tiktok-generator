@@ -17,14 +17,14 @@ from pyquran import quran
 from Tiktok_uploader import uploadVideo
 
 ARABIC_FONT = "Fonts/Hafs.ttf"
+MINIMAL_CLIP_DURATION = 0.75
+
 # TODO: Add support for clips shorter than final clip with still frames
-# TODO: Add support for only 1 background clip
-# TODO: Add ability to allow only long enough clips to be used
-# TODO: Allow any size background clips
 # TODO: Add support for background clips disjoint from audio timings
 # TODO: Fix pictures mode
 # TODO: FIX VERTICAL OFFSET
 # TODO: FIX TIMINGS ALWAYS 0.0
+# TODO: ADD DURATIONS IN VIDEO MAP AND UNCOMMENT CODE IN GET_VALID_BACKGROUND_CLIPS
 
 
 def main() -> None:
@@ -712,7 +712,7 @@ def create_tiktok(
                             )
 
                             # Get max time offset
-                            max_time_offset = get_max_time_offset(video_clip_duration, background_clip_duration)
+                            max_time_offset = get_max_time_offset(background_clip_duration)
 
                             # Get time offset
                             if (
@@ -1267,23 +1267,19 @@ def check_dictionary_for_path(clip_path: str, dictionary: dict) -> bool:
 
 def check_background_clip_duration(video_clip_leftover_duration: float, background_clip_duration: float) -> bool:
     return (
-        video_clip_leftover_duration - background_clip_duration >= 0.5
+        video_clip_leftover_duration - background_clip_duration >= MINIMAL_CLIP_DURATION
         or video_clip_leftover_duration - background_clip_duration <= 0
     )
 
 
-def get_max_time_offset(video_clip_duration: float, background_clip_duration: float) -> float:
+def get_max_time_offset(background_clip_duration: float) -> float:
     """
     Gets the max time offset for a background clip
     """
 
-    if (
-        check_background_clip_duration(video_clip_duration, background_clip_duration)
-        and background_clip_duration > video_clip_duration
-    ):
-        return background_clip_duration - video_clip_duration
+    get_max_time_offset = background_clip_duration - MINIMAL_CLIP_DURATION
 
-    return 0
+    return max(get_max_time_offset, 0)
 
 
 def get_max_horizontal_offset(background_clip_width: int, video_width: int) -> int:
@@ -1323,13 +1319,21 @@ def get_valid_background_clips(
             background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clips_speed
 
             # Get max time offset
-            max_time_offset = get_max_time_offset(video_clip_duration, background_clip_duration)
+            max_time_offset = get_max_time_offset(background_clip_duration)
 
             # Get time offset
             background_clip_time_offset = get_random_time_offset(max_time_offset)
 
-            # Adjust background clip duration
-            adjusted_background_clip_duration = background_clip_duration - background_clip_time_offset
+            # Get background clip duration starting from the time offset
+            background_clip_leftover_duration = background_clip_duration - background_clip_time_offset
+
+            # TO BE ADDED WHEN DURATION IN VIDEO MAPS IS IMPLEMENTED
+            # # Get a random clip duration between the minimal clip duration and the leftover duration
+            # adjusted_background_clip_duration = max(
+            #     MINIMAL_CLIP_DURATION,
+            #     random.uniform(MINIMAL_CLIP_DURATION, min(background_clip_leftover_duration, video_clip_duration)),
+            # )
+            adjusted_background_clip_duration = min(background_clip_leftover_duration, video_clip_duration)
 
             video_clip_leftover_duration = video_clip_duration - background_clips_duration
             if check_background_clip_duration(video_clip_leftover_duration, adjusted_background_clip_duration):
