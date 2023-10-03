@@ -1,11 +1,9 @@
-import json
 import os
 import random
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
 
-import cv2
 import moviepy.editor as mpy
 import requests
 from bs4 import BeautifulSoup
@@ -28,8 +26,18 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = PredefinedTikToks()
-    tiktok.muhammad_al_luhaidan_al_furqan_26_30()
+    tiktok = PredefinedTikToks(
+        video_map={
+            "8": [["Anime_Clips_2\\Josee to Tora to Sakana-tachi (5).mp4", 1.2380968366427527, 255]],
+            "9": [
+                ["Anime_Clips_2\\Josee to Tora to Sakana-tachi (19).mp4", 1.3739232400180685, 829],
+                ["Anime_Clips_2\\Suzume no Tojimari (16).mp4", 3.162284648523038, 7],
+            ],
+            "10": [["Anime_Clips\\Koe no Katachi (506).mp4", 0.6003239774063217, 1126]],
+            "11": [["Anime_Clips\\Garden of Words (190).mp4", 0.47831678748713324, 220]],
+        }
+    )
+    tiktok.muhammad_al_luhaidan_al_furqan_74()
     tiktok.run()
 
 
@@ -53,6 +61,8 @@ class PredefinedTikToks:
         chapter_translation_file_path: str = None,
         start_line: int = 1,
         end_line: int = None,
+        start_time_modifier: float = 0.0,
+        end_time_modifier: float = 0.0,
         chapter: int = None,
         start_verse: int = None,
         end_verse: int = None,
@@ -74,6 +84,8 @@ class PredefinedTikToks:
         self.chapter_translation_file_path = chapter_translation_file_path
         self.start_line = start_line
         self.end_line = end_line
+        self.start_time_modifier = start_time_modifier
+        self.end_time_modifier = end_time_modifier
         self.chapter = chapter
         self.start_verse = start_verse
         self.end_verse = end_verse
@@ -97,6 +109,8 @@ class PredefinedTikToks:
             chapter_translation_file_path=self.chapter_translation_file_path,
             start_line=self.start_line,
             end_line=self.end_line,
+            start_time_modifier=self.start_time_modifier,
+            end_time_modifier=self.end_time_modifier,
             chapter=self.chapter,
             start_verse=self.start_verse,
             end_verse=self.end_verse,
@@ -331,6 +345,29 @@ class PredefinedTikToks:
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_translation.txt"
 
+    def muhammad_al_luhaidan_al_furqan_74(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 74 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        """
+
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan"
+        self.output_file_name = f"{self.account.name}_72-77_{str(uuid.uuid4()).split('-')[-1]}"
+        self.start_line = 8
+        self.end_line = 11
+        self.start_time_modifier = 0.1
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt"
+
+    def muhammad_al_luhaidan_al_furqan_72_77(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 72-77 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        """
+
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan"
+        self.output_file_name = f"{self.account.name}_72-77_{str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt"
+
     def muhammad_al_luhaidan_al_furqan_26_30(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 25-30 of Surah Al-Furqan by Muhammad Al-Luhaidan
@@ -342,16 +379,6 @@ class PredefinedTikToks:
         self.chapter_translation_file_path = (
             r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan - 2\chapter_translation.txt"
         )
-
-    def muhammad_al_luhaidan_al_furqan_72_77(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 72-77 of Surah Al-Furqan by Muhammad Al-Luhaidan
-        """
-
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan"
-        self.output_file_name = f"{self.account.name}_72-77_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt"
 
     def muhammad_al_luhaidan_al_haqqah_29_33(self) -> None:
         """
@@ -495,6 +522,8 @@ def create_tiktok(
     chapter_translation_file_path: str = None,
     start_line: int = 1,
     end_line: int = None,
+    start_time_modifier: float = 0.0,
+    end_time_modifier: float = 0.0,
     chapter: int = None,
     start_verse: int = None,
     end_verse: int = None,
@@ -628,8 +657,8 @@ def create_tiktok(
 
         # Get data for final video
         video_width, video_height = video_dimensions
-        video_start = timestamps_lines[start_line - 1].strip().split(",")[0]
-        video_end = timestamps_lines[end_line - 1].strip().split(",")[0]
+        video_start = modify_timestamp(timestamps_lines[start_line - 1].strip().split(",")[0], start_time_modifier)
+        video_end = modify_timestamp(timestamps_lines[end_line - 1].strip().split(",")[0], end_time_modifier)
 
         if single_background_clip is not None:
             background_clip = mpy.VideoFileClip(single_background_clip).subclip(video_start)
@@ -679,8 +708,15 @@ def create_tiktok(
             verse_text = chapter_text_lines[i - 1].strip()
             verse_translation = chapter_translation_lines[i - 1].strip()
 
-            audio_start = timestamps_lines[i - 1].strip().split(",")[0]
-            audio_end = timestamps_lines[i].strip().split(",")[0]
+            if i == start_line:
+                audio_start = video_start
+            else:
+                audio_start = timestamps_lines[i - 1].strip().split(",")[0]
+
+            if i == end_line - 1:
+                audio_end = video_end
+            else:
+                audio_end = timestamps_lines[i].strip().split(",")[0]
 
             video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
 
@@ -857,7 +893,7 @@ def create_tiktok(
                     )
 
             # Start creating video clip
-            colored_print(Fore.GREEN, f"Creating clip {i}...")
+            colored_print(Fore.MAGENTA, f"Creating clip {i - start_line + 1}...")
 
             # Create text clips
             text_clips = [
@@ -912,16 +948,18 @@ def create_tiktok(
                     shadow_clip=shadow_clip,
                 )
 
+                colored_print(Fore.CYAN, f"Using background clip(s):")
+                for background_clip_path in video_clip_background_clip_paths:
+                    colored_print(Fore.CYAN, f"- {background_clip_path[0]}")
+
                 video_clips.append(video_clip)
+
+                colored_print(Fore.GREEN, f"Successfully created clip {i - start_line + 1}")
 
         audio = mpy.AudioFileClip(audio_file_path).set_start(video_start).subclip(video_start, video_end)
 
         if single_background_clip is not None:
-            final_video = (
-                mpy.CompositeVideoClip([video, *text_clips_array], use_bgclip=True)
-                .set_start(video_start)
-                .set_audio(audio)
-            )
+            final_video = mpy.CompositeVideoClip([video, *text_clips_array], use_bgclip=True).set_audio(audio)
 
             video_map_output = single_background_clip
         else:
@@ -964,12 +1002,14 @@ def create_tiktok(
                     codec="libx264",
                     fps=60,
                 )
+
+            colored_print(Fore.GREEN, "Successfully created final video")
+
+            # Create notification to indicate that the video has been created
+            create_notification(title="TikTok Video Created", message=f"Video created for {directory_path}")
         except Exception as error:
             colored_print(Fore.RED, f"Error: {error}")
             return
-
-        # Create notification to indicate that the video has been created
-        create_notification(title="TikTok Video Created", message=f"Video created for {directory_path}")
 
 
 def create_video_clip(
@@ -1367,6 +1407,17 @@ def get_valid_background_clips(
                     break
 
     return (used_background_clips_paths, i, video_clip_background_clip_paths, j)
+
+
+def modify_timestamp(timestamp: str, time_in_seconds: int) -> str:
+    # Parse the original time string into a timedelta object
+    minutes, seconds = timestamp.split(":")
+    seconds, milliseconds = seconds.split(".")
+    original_timedelta = timedelta(minutes=int(minutes), seconds=int(seconds), milliseconds=int(milliseconds))
+
+    new_timedelta = original_timedelta + timedelta(seconds=time_in_seconds)
+
+    return str(new_timedelta)[2:]
 
 
 if __name__ == "__main__":
