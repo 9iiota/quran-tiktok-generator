@@ -28,16 +28,30 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = PredefinedTikToks(
         video_map={
-            "8": [["Anime_Clips_2\\Josee to Tora to Sakana-tachi (5).mp4", 1.2380968366427527, 255]],
-            "9": [
-                ["Anime_Clips_2\\Josee to Tora to Sakana-tachi (19).mp4", 1.3739232400180685, 829],
-                ["Anime_Clips_2\\Suzume no Tojimari (16).mp4", 3.162284648523038, 7],
+            "1": [
+                ["Anime_Clips_2\\Kizumonogatari I - Tekketsu-hen (87).mp4", 0, 112],
             ],
-            "10": [["Anime_Clips\\Koe no Katachi (506).mp4", 0.6003239774063217, 1126]],
-            "11": [["Anime_Clips\\Garden of Words (190).mp4", 0.47831678748713324, 220]],
+            "2": [
+                ["Anime_Clips\\Garden of Words (193).mp4", 0.6894804582022803, 216],
+                ["Anime_Clips_2\\Suzume no Tojimari (24).mp4", 1, 1257],
+            ],
+            "3": [["Anime_Clips\\Mirai Fukuin (103).mp4", 1, 1032]],
+            "4": [
+                ["Anime_Clips_2\\Kizumonogatari I - Tekketsu-hen (17).mp4", 0, 676],
+                ["Anime_Clips_2\\Suzume no Tojimari (2).mp4", 0, 1017],
+            ],
+            "5": [["Anime_Clips\\Garden of Words (205).mp4", 3.893633035565734, 403]],
+            "6": [["Anime_Clips\\_Boku ga Aishita Subete no Kimi e (3).mp4", 7.807770851757951, 437]],
+            "7": [["Anime_Clips\\Tamako Love Story (217).mp4", 0.4654804717620653, 156]],
+            "8": [["Anime_Clips_2\\Suzume no Tojimari (22).mp4", 0, 385]],
+            "9": [["Anime_Clips\\Garden of Words (166).mp4", 3, 1308]],
+            "10": [
+                ["Anime_Clips\\_Hello World (10).mp4", 0, 440],
+                ["Anime_Clips\\5 Centimeters per Second (262).mp4", 0, 1164],
+            ],
         }
     )
-    tiktok.muhammad_al_luhaidan_al_furqan_74()
+    tiktok.muhammad_al_luhaidan_ali_imran_16_17()
     tiktok.run()
 
 
@@ -400,6 +414,18 @@ class PredefinedTikToks:
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_translation.txt"
 
+    def muhammad_al_luhaidan_ali_imran_16_17(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 16-17 of Surah Ali 'Imran by Muhammad Al-Luhaidan
+        """
+
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.16-17)"
+        self.output_file_name = f"{self.account.name} Ali 'Imran (3.16-17) {str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.16-17)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.16-17)\chapter_translation.txt"
+        )
+
     def muhammadloiq_qori_al_ahzab_35(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 35 of Surah Al-Ahzab by Muhammadloiq Qori
@@ -450,6 +476,16 @@ class PredefinedTikToks:
         self.chapter_text_file_path = r"Surahs\Salim Bahanan - 95 - At-Tin\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 95 - At-Tin\chapter_translation.txt"
 
+    def unknown_taha_124_126(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 124-126 of Surah Taha by an unknown reciter
+        """
+
+        self.directory_path = r"Surahs\Unknown - 20 - Taha"
+        self.output_file_name = f"{self.account.name}_124-126_{str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Unknown - 20 - Taha\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Unknown - 20 - Taha\chapter_translation.txt"
+
     def unknown_al_furqan_72_75(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 72-75 of Surah Al-Furqan by an unknown reciter
@@ -482,15 +518,15 @@ class PredefinedTikToks:
         self.start_line = 1
         self.end_line = 4
 
-    def unknown_taha_124_126(self) -> None:
+    def unknown_al_hujurat_12(self) -> None:
         """
-        Modifies the parameters of the class for a TikTok video for verses 124-126 of Surah Taha by an unknown reciter
+        Modifies the parameters of the class for a TikTok video for verse 12 of Surah Al-Hujurat by an unknown reciter
         """
 
-        self.directory_path = r"Surahs\Unknown - 20 - Taha"
-        self.output_file_name = f"{self.account.name}_124-126_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Unknown - 20 - Taha\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Unknown - 20 - Taha\chapter_translation.txt"
+        self.directory_path = r"Surahs\Unknown - Al-Hujurat (49.12)"
+        self.output_file_name = f"{self.account.name}_12_{str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Unknown - Al-Hujurat (49.12)\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Unknown - Al-Hujurat (49.12)\chapter_translation.txt"
 
     def yasser_al_dosari_al_muminun_34_39(self) -> None:
         """
@@ -822,9 +858,6 @@ def create_tiktok(
                                     Fore.RED,
                                     f"Verse {i} background clip {j + 1} duration ({background_clip_duration}) is invalid, skipping...",
                                 )
-
-                        # Delete video map entry
-                        del video_map[i]
 
                         video_clip_leftover_duration = video_clip_duration - background_clips_duration
                         if video_clip_leftover_duration > 0:
