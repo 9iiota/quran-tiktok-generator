@@ -30,8 +30,10 @@ def main() -> None:
     #     account=ACCOUNTS.LOVE_QURAN77,
     #     background_clips_directory_paths=["2D_Clips", "AI_Clips", "Real_Clips"],
     # )
-    tiktok = PredefinedTikToks()
-    tiktok.abdul_rahman_mossad_al_ankabut_54_57()
+    tiktok = PredefinedTikToks(
+        single_background_clip=r"Surahs\Unknown - Az-Zumar (39.71-75)\zumar 39.72-73  1.35-3.50.mp4"
+    )
+    tiktok.unknown_az_zumar_71_75()
     tiktok.run()
 
 
@@ -62,6 +64,8 @@ class PredefinedTikToks:
         end_verse: int = None,
         background_clips_directory_paths: list[str] = ["Anime_Clips", "Anime_Clips_2"],
         single_background_clip: str = None,
+        single_background_clip_horizontal_offset: int = None,
+        single_background_clip_vertical_offset: int = None,
         video_map: dict = None,
         pictures_mode: bool = False,
         allow_duplicate_background_clips: bool = False,
@@ -85,6 +89,8 @@ class PredefinedTikToks:
         self.end_verse = end_verse
         self.background_clips_directory_paths = background_clips_directory_paths
         self.single_background_clip = single_background_clip
+        self.single_background_clip_horizontal_offset = single_background_clip_horizontal_offset
+        self.single_background_clip_vertical_offset = single_background_clip_vertical_offset
         self.video_map = video_map
         self.pictures_mode = pictures_mode
         self.allow_duplicate_background_clips = allow_duplicate_background_clips
@@ -110,6 +116,8 @@ class PredefinedTikToks:
             end_verse=self.end_verse,
             background_clips_directory_paths=self.background_clips_directory_paths,
             single_background_clip=self.single_background_clip,
+            single_background_clip_horizontal_offset=self.single_background_clip_horizontal_offset,
+            single_background_clip_vertical_offset=self.single_background_clip_vertical_offset,
             video_map=self.video_map,
             pictures_mode=self.pictures_mode,
             allow_duplicate_background_clips=self.allow_duplicate_background_clips,
@@ -171,6 +179,7 @@ class PredefinedTikToks:
             r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_translation.txt"
         )
         self.end_line = 9
+        self.end_time_modifier = -0.4
 
     def abdul_rahman_mossad_al_ankabut_56_57(self) -> None:
         """
@@ -533,6 +542,18 @@ class PredefinedTikToks:
         self.chapter_text_file_path = r"Surahs\Unknown - Al-Hujurat (49.12)\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Unknown - Al-Hujurat (49.12)\chapter_translation.txt"
 
+    def unknown_az_zumar_71_75(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 71-75 of Surah Az-Zumar by an unknown reciter
+        """
+
+        self.directory_path = r"Surahs\Unknown - Az-Zumar (39.71-75)"
+        self.output_file_name = f"{(self.account.name).lower()} Az-Zumar (39.71-75) {str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Unknown - Az-Zumar (39.71-75)\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Unknown - Az-Zumar (39.71-75)\chapter_translation.txt"
+        self.single_background_clip_horizontal_offset = 750
+        self.shadow_opacity = 0.8
+
     def yasser_al_dosari_al_muminun_34_39(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 34-39 of Surah Al-Mu'minun by Yasser Al-Dosari
@@ -570,6 +591,8 @@ def create_tiktok(
     end_verse: int = None,
     background_clips_directory_paths: list[str] = ["Anime_Clips"],
     single_background_clip: str = None,
+    single_background_clip_horizontal_offset: int = None,
+    single_background_clip_vertical_offset: int = None,
     video_map: dict = None,
     pictures_mode: bool = False,
     allow_duplicate_background_clips: bool = False,
@@ -714,19 +737,28 @@ def create_tiktok(
             if current_aspect_ratio > target_aspect_ratio:
                 # Video is wider than 9:16, so we need to crop the sides
                 new_width = int(background_clip_height * target_aspect_ratio)
-                horizontal_offset = (background_clip_width - new_width) // 2
-                background_clip = background_clip.crop(x1=horizontal_offset, x2=horizontal_offset + new_width).resize(
-                    video_dimensions
-                )
+
+                if single_background_clip_horizontal_offset is None:
+                    single_background_clip_horizontal_offset = (background_clip_width - new_width) // 2
+
+                background_clip = background_clip.crop(
+                    x1=single_background_clip_horizontal_offset,
+                    x2=single_background_clip_horizontal_offset + new_width,
+                ).resize(video_dimensions)
             else:
                 # Video is taller than 9:16, so we need to crop the top and bottom
                 new_height = int(background_clip_width / target_aspect_ratio)
-                y_offset = (background_clip_height - new_height) // 2
-                background_clip = background_clip.crop(y1=y_offset, y2=y_offset + new_height).resize(video_dimensions)
+
+                if single_background_clip_vertical_offset is None:
+                    single_background_clip_vertical_offset = (background_clip_height - new_height) // 2
+
+                background_clip = background_clip.crop(
+                    y1=single_background_clip_vertical_offset, y2=single_background_clip_vertical_offset + new_height
+                ).resize(video_dimensions)
 
             # Create shadow clip
             shadow_clip = create_shadow_clip(
-                size=(background_clip_width, background_clip_height),
+                size=video_dimensions,
                 color=shadow_color,
                 duration=background_clip.duration,
                 opacity=shadow_opacity,
@@ -1211,8 +1243,6 @@ def get_time_difference_seconds(time1: str, time2: str) -> float:
 
     # Convert the time strings to timedelta objects
     time_format = "%M:%S.%f"
-    if time1 == "00:00":
-        time1 = "00:00.000"
 
     time1 = datetime.strptime(time1, time_format)
     time2 = datetime.strptime(time2, time_format)
@@ -1459,7 +1489,11 @@ def modify_timestamp(timestamp: str, time_in_seconds: int) -> str:
 
     new_timedelta = original_timedelta + timedelta(seconds=time_in_seconds)
 
-    return str(new_timedelta)[2:]
+    return "{:02d}:{:02d}.{:03d}".format(
+        new_timedelta.seconds // 60,
+        new_timedelta.seconds % 60,
+        new_timedelta.microseconds // 1000,
+    )
 
 
 if __name__ == "__main__":
