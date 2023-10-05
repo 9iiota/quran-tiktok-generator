@@ -26,8 +26,12 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
+    # tiktok = PredefinedTikToks(
+    #     account=ACCOUNTS.LOVE_QURAN77,
+    #     background_clips_directory_paths=["2D_Clips", "AI_Clips", "Real_Clips"],
+    # )
     tiktok = PredefinedTikToks()
-    tiktok.muhammad_al_luhaidan_ali_imran_16_17()
+    tiktok.abdul_rahman_mossad_al_ankabut_54_57()
     tiktok.run()
 
 
@@ -123,7 +127,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam"
-        self.output_file_name = f"{self.account.name}_93-98_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_93-98_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt"
 
@@ -133,7 +137,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam"
-        self.output_file_name = f"{self.account.name}_93-94_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_93-94_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt"
         self.start_line = 1
@@ -144,20 +148,43 @@ class PredefinedTikToks:
         Modifies the parameters of the class for a TikTok video for verses 54-60 of Surah Al-'Ankabut by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut"
-        self.output_file_name = f"{self.account.name}_54-60_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt"
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)"
+        self.output_file_name = (
+            f"{(self.account.name).lower()} Al-'Ankabut (29.54-60) {str(uuid.uuid4()).split('-')[-1]}"
+        )
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_translation.txt"
+        )
+
+    def abdul_rahman_mossad_al_ankabut_54_57(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 54-60 of Surah Al-'Ankabut by Abdul Rahman Mossad
+        """
+
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)"
+        self.output_file_name = (
+            f"{(self.account.name).lower()} Al-'Ankabut (29.54-57) {str(uuid.uuid4()).split('-')[-1]}"
+        )
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_translation.txt"
+        )
+        self.end_line = 9
 
     def abdul_rahman_mossad_al_ankabut_56_57(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 56-57 of Surah Al-'Ankabut by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut"
-        self.output_file_name = f"{self.account.name}_56-57_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 29 - Al-'Ankabut\chapter_translation.txt"
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)"
+        self.output_file_name = (
+            f"{(self.account.name).lower()} Al-'Ankabut (29.56-57) {str(uuid.uuid4()).split('-')[-1]}"
+        )
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_translation.txt"
+        )
         self.start_line = 6
         self.end_line = 9
 
@@ -167,7 +194,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil"
-        self.output_file_name = f"{self.account.name}_14-18_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_14-18_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt"
 
@@ -177,7 +204,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil"
-        self.output_file_name = f"{self.account.name}_14-15_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_14-15_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt"
         self.start_line = 1
@@ -189,7 +216,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah"
-        self.output_file_name = f"{self.account.name}_10-26_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_10-26_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt"
 
@@ -199,7 +226,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah"
-        self.output_file_name = f"{self.account.name}_10-12_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_10-12_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt"
         self.start_line = 1
@@ -211,7 +238,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat"
-        self.output_file_name = f"{self.account.name}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_translation.txt"
 
@@ -221,7 +248,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Ahmed Khedr - 20 - Taha"
-        self.output_file_name = f"{self.account.name}_14-16_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_14-16_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Ahmed Khedr - 20 - Taha\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Ahmed Khedr - 20 - Taha\chapter_translation.txt"
 
@@ -231,7 +258,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi"
-        self.output_file_name = f"{self.account.name}_255_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_255_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_translation.txt"
 
@@ -241,7 +268,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Fatih Seferagic - 4 - An-Nisa"
-        self.output_file_name = f"{self.account.name}_155-160_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_155-160_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_translation.txt"
 
@@ -251,7 +278,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Fatih Seferagic - 24 - An-Nur"
-        self.output_file_name = f"{self.account.name}_35_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_35_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_translation.txt"
 
@@ -261,7 +288,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat"
-        self.output_file_name = f"{self.account.name}_10_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_10_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt"
 
@@ -271,7 +298,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Fatih Seferagic - 59 - Al-Hashr"
-        self.output_file_name = f"{self.account.name}_21-24_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_21-24_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt"
 
@@ -281,7 +308,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Mansour As Salimi - 19 - Maryam"
-        self.output_file_name = f"{self.account.name}_27-33_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_27-33_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_translation.txt"
 
@@ -291,7 +318,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Mansour As Salimi - 12 - Yusuf"
-        self.output_file_name = f"{self.account.name}_1-5_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_1-5_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Mansour As Salimi - 12 - Yusuf\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Mansour As Salimi - 12 - Yusuf\chapter_translation.txt"
 
@@ -301,7 +328,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 2 - Al-Baqarah"
-        self.output_file_name = f"{self.account.name}_273-274_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_273-274_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 2 - Al-Baqarah\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 2 - Al-Baqarah\chapter_translation.txt"
 
@@ -311,7 +338,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am"
-        self.output_file_name = f"{self.account.name}_27-30_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_27-30_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_translation.txt"
 
@@ -321,7 +348,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam"
-        self.output_file_name = f"{self.account.name}_85-92_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_85-92_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam\chapter_translation.txt"
 
@@ -331,7 +358,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha"
-        self.output_file_name = f"{self.account.name}_105-108_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_105-108_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_translation.txt"
 
@@ -341,7 +368,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan"
-        self.output_file_name = f"{self.account.name}_72-77_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_72-77_{str(uuid.uuid4()).split('-')[-1]}"
         self.start_line = 8
         self.end_line = 11
         self.start_time_modifier = 0.1
@@ -354,7 +381,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan"
-        self.output_file_name = f"{self.account.name}_72-77_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_72-77_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt"
 
@@ -364,7 +391,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan - 2"
-        self.output_file_name = f"{self.account.name}_26-30_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_26-30_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan - 2\chapter_text.txt"
         self.chapter_translation_file_path = (
             r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan - 2\chapter_translation.txt"
@@ -376,7 +403,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah"
-        self.output_file_name = f"{self.account.name}_29-33_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_29-33_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_translation.txt"
 
@@ -386,7 +413,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan"
-        self.output_file_name = f"{self.account.name}_20-22_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_20-22_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_translation.txt"
 
@@ -396,7 +423,9 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.16-17)"
-        self.output_file_name = f"{self.account.name} Ali 'Imran (3.16-17) {str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = (
+            f"{(self.account.name).lower()} Ali 'Imran (3.16-17) {str(uuid.uuid4()).split('-')[-1]}"
+        )
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.16-17)\chapter_text.txt"
         self.chapter_translation_file_path = (
             r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.16-17)\chapter_translation.txt"
@@ -408,7 +437,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Muhammadloiq Qori - 33 - Al-Ahzab"
-        self.output_file_name = f"{self.account.name}_353_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_353_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Muhammadloiq Qori - 33 - Al-Ahzab\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Muhammadloiq Qori - 33 - Al-Ahzab\chapter_translation.txt"
 
@@ -418,7 +447,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah"
-        self.output_file_name = f"{self.account.name}_2-7_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_2-7_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_translation.txt"
 
@@ -428,7 +457,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa"
-        self.output_file_name = f"{self.account.name}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt"
 
@@ -438,7 +467,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Salim Bahanan - 101 - Al-Qariah"
-        self.output_file_name = f"{self.account.name}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_translation.txt"
 
@@ -448,7 +477,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Salim Bahanan - 95 - At-Tin"
-        self.output_file_name = f"{self.account.name}_1-8_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_1-8_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Salim Bahanan - 95 - At-Tin\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 95 - At-Tin\chapter_translation.txt"
 
@@ -457,10 +486,10 @@ class PredefinedTikToks:
         Modifies the parameters of the class for a TikTok video for verses 124-126 of Surah Taha by an unknown reciter
         """
 
-        self.directory_path = r"Surahs\Unknown - 20 - Taha"
-        self.output_file_name = f"{self.account.name}_124-126_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Unknown - 20 - Taha\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Unknown - 20 - Taha\chapter_translation.txt"
+        self.directory_path = r"Surahs\Unknown - Taha (20.124-126)"
+        self.output_file_name = f"{(self.account.name).lower()} Taha (20.124-126) {str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Unknown - Taha (20.124-126)\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Unknown - Taha (20.124-126)\chapter_translation.txt"
 
     def unknown_al_furqan_72_75(self) -> None:
         """
@@ -468,7 +497,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Unknown - 25 - Al-Furqan"
-        self.output_file_name = f"{self.account.name}_72-75_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_72-75_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Unknown - 25 - Al-Furqan\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Unknown - 25 - Al-Furqan\chapter_translation.txt"
 
@@ -478,7 +507,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Unknown - 29 - Al-'Ankabut"
-        self.output_file_name = f"{self.account.name}_56-58_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_56-58_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt"
 
@@ -488,7 +517,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Unknown - 29 - Al-'Ankabut"
-        self.output_file_name = f"{self.account.name}_56-57_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_56-57_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt"
         self.start_line = 1
@@ -500,7 +529,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Unknown - Al-Hujurat (49.12)"
-        self.output_file_name = f"{self.account.name}_12_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_12_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Unknown - Al-Hujurat (49.12)\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Unknown - Al-Hujurat (49.12)\chapter_translation.txt"
 
@@ -510,7 +539,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun"
-        self.output_file_name = f"{self.account.name}_34-39_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_34-39_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_translation.txt"
 
@@ -520,7 +549,7 @@ class PredefinedTikToks:
         """
 
         self.directory_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath"
-        self.output_file_name = f"{self.account.name}_29_{str(uuid.uuid4()).split('-')[-1]}"
+        self.output_file_name = f"{(self.account.name).lower()}_29_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_translation.txt"
 
@@ -908,11 +937,12 @@ def create_tiktok(
             text_clips = [
                 create_text_clip(
                     text=verse_text,
-                    size=video_dimensions,
+                    size=(video_dimensions[0] * 0.9, None),
                     color=verse_text_color,
                     fontsize=44,
                     font=ARABIC_FONT,
-                    position=(0, -0.05),
+                    position=("center", 0.41),
+                    method="caption",
                     duration=text_duration,
                 ),
                 create_text_clip(
@@ -1181,6 +1211,9 @@ def get_time_difference_seconds(time1: str, time2: str) -> float:
 
     # Convert the time strings to timedelta objects
     time_format = "%M:%S.%f"
+    if time1 == "00:00":
+        time1 = "00:00.000"
+
     time1 = datetime.strptime(time1, time_format)
     time2 = datetime.strptime(time2, time_format)
 
