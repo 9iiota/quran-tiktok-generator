@@ -26,31 +26,7 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = PredefinedTikToks(
-        video_map={
-            "1": [
-                ["Anime_Clips_2\\Kizumonogatari I - Tekketsu-hen (87).mp4", 0, 112],
-            ],
-            "2": [
-                ["Anime_Clips\\Garden of Words (193).mp4", 0.6894804582022803, 216],
-                ["Anime_Clips_2\\Suzume no Tojimari (24).mp4", 1, 1257],
-            ],
-            "3": [["Anime_Clips\\Mirai Fukuin (103).mp4", 1, 1032]],
-            "4": [
-                ["Anime_Clips_2\\Kizumonogatari I - Tekketsu-hen (17).mp4", 0, 676],
-                ["Anime_Clips_2\\Suzume no Tojimari (2).mp4", 0, 1017],
-            ],
-            "5": [["Anime_Clips\\Garden of Words (205).mp4", 3.893633035565734, 403]],
-            "6": [["Anime_Clips\\_Boku ga Aishita Subete no Kimi e (3).mp4", 7.807770851757951, 437]],
-            "7": [["Anime_Clips\\Tamako Love Story (217).mp4", 0.4654804717620653, 156]],
-            "8": [["Anime_Clips_2\\Suzume no Tojimari (22).mp4", 0, 385]],
-            "9": [["Anime_Clips\\Garden of Words (166).mp4", 3, 1308]],
-            "10": [
-                ["Anime_Clips\\_Hello World (10).mp4", 0, 440],
-                ["Anime_Clips\\5 Centimeters per Second (262).mp4", 0, 1164],
-            ],
-        }
-    )
+    tiktok = PredefinedTikToks()
     tiktok.muhammad_al_luhaidan_ali_imran_16_17()
     tiktok.run()
 
