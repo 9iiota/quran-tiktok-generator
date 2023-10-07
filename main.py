@@ -26,14 +26,61 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    # tiktok = PredefinedTikToks(
-    #     account=ACCOUNTS.LOVE_QURAN77,
-    #     background_clips_directory_paths=["2D_Clips", "AI_Clips", "Real_Clips"],
-    # )
     tiktok = PredefinedTikToks(
-        single_background_clip=r"Surahs\Unknown - Az-Zumar (39.71-75)\zumar 39.72-73  1.35-3.50.mp4"
+        video_map={
+            "1": [["Anime_Clips_2\\Josee to Tora to Sakana-tachi (23).mp4", 1.7149853916736018, 124]],
+            "2": [
+                ["Anime_Clips_2\\Suzume no Tojimari (6).mp4", 1.0916614503841466, 219],
+                ["Anime_Clips_2\\Josee to Tora to Sakana-tachi (9).mp4", 2.8680512609407813, 143],
+            ],
+            "3": [
+                ["Anime_Clips_2\\Kizumonogatari II - Nekketsu-hen (250).mp4", 0, 1098],
+                ["Anime_Clips_2\\Violet Evergarden Movie (8).mp4", 0, 1144],
+            ],
+            "4": [
+                ["Anime_Clips_2\\Josee to Tora to Sakana-tachi (11).mp4", 5, 488],
+            ],
+            "5": [
+                ["Anime_Clips\\_Boku ga Aishita Subete no Kimi e (7).mp4", 1.4903682944336782, 1001],
+                ["Anime_Clips\\Garden of Words (104).mp4", 0.2371879947598643, 264],
+            ],
+            "6": [
+                ["Anime_Clips\\Mirai Fukuin (21).mp4", 0, 1030],
+                ["Anime_Clips\\_Boku ga Aishita Subete no Kimi e (1).mp4", 0, 476],
+            ],
+            "7": [
+                ["Anime_Clips\\Hell's Paradise - S1 - NCOP1 (28).mp4", 0, 1321],
+                ["Anime_Clips\\Garden of Words (234).mp4", 0, 722],
+            ],
+            "8": [
+                ["Anime_Clips\\5 Centimeters per Second (201).mp4", 1.5, 480],
+                ["Anime_Clips_2\\Suzume no Tojimari (19).mp4", 0, 1066],
+            ],
+            "9": [
+                ["Anime_Clips\\Jujutsu Kaisen - S01E01 (56).mp4", 0, 1033],
+            ],
+            "10": [["Anime_Clips\\Fukan Fuukei (124).mp4", 1.0214674078873964, 44]],
+            "11": [
+                ["Anime_Clips\\Tamako Love Story (557).mp4", 0, 817],
+                ["Anime_Clips_2\\Violet Evergarden Movie (14).mp4", 4.029100686905548, 27],
+                ["Anime_Clips_2\\Violet Evergarden Movie (11).mp4", 0.028015576809664895, 113],
+            ],
+            "12": [["Anime_Clips_2\\Violet Evergarden Movie (6).mp4", 0.18337839169429263, 741]],
+            "13": [
+                ["Anime_Clips\\Mirai Fukuin (110).mp4", 2.5762416183100556, 546],
+                ["Anime_Clips_2\\Suzume no Tojimari (24).mp4", 5.311886441223062, 680],
+                ["Anime_Clips\\Garden of Words (222).mp4", 1.9372245442105542, 919],
+            ],
+            "14": [
+                ["Anime_Clips\\5 Centimeters per Second (257).mp4", 16.47152011210081, 449],
+                ["Anime_Clips\\Tamako Love Story (1219).mp4", 0.8916587240757877, 308],
+            ],
+            "15": [
+                ["Anime_Clips_2\\Suzume no Tojimari (38).mp4", 0, 1294],
+            ],
+        }
     )
-    tiktok.unknown_az_zumar_71_75()
+    tiktok.mostafa_shaibani_al_qiyamah_20_27()
     tiktok.run()
 
 
@@ -55,6 +102,7 @@ class PredefinedTikToks:
         output_file_name: str = None,
         chapter_text_file_path: str = None,
         chapter_translation_file_path: str = None,
+        verse_counter_file_path: str = None,
         start_line: int = 1,
         end_line: int = None,
         start_time_modifier: float = 0.0,
@@ -80,6 +128,7 @@ class PredefinedTikToks:
         self.output_file_name = output_file_name
         self.chapter_text_file_path = chapter_text_file_path
         self.chapter_translation_file_path = chapter_translation_file_path
+        self.verse_counter_file_path = verse_counter_file_path
         self.start_line = start_line
         self.end_line = end_line
         self.start_time_modifier = start_time_modifier
@@ -107,6 +156,7 @@ class PredefinedTikToks:
             output_file_name=self.output_file_name,
             chapter_text_file_path=self.chapter_text_file_path,
             chapter_translation_file_path=self.chapter_translation_file_path,
+            verse_counter_file_path=self.verse_counter_file_path,
             start_line=self.start_line,
             end_line=self.end_line,
             start_time_modifier=self.start_time_modifier,
@@ -300,6 +350,7 @@ class PredefinedTikToks:
         self.output_file_name = f"{(self.account.name).lower()}_10_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt"
+        self.verse_counter_file_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\verse_counter.txt"
 
     def fatih_seferagic_al_hashr_21_24(self) -> None:
         """
@@ -330,6 +381,19 @@ class PredefinedTikToks:
         self.output_file_name = f"{(self.account.name).lower()}_1-5_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Mansour As Salimi - 12 - Yusuf\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Mansour As Salimi - 12 - Yusuf\chapter_translation.txt"
+
+    def mostafa_shaibani_al_qiyamah_20_27(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 20-27 of Surah Al-Qiyamah by Mostafa Shaibani
+        """
+
+        self.directory_path = r"Surahs\Mostafa Shaibani - Al-Qiyamah (75.20-27)"
+        self.output_file_name = (
+            f"{(self.account.name).lower()} Al-Qiyamah (75.20-27) {str(uuid.uuid4()).split('-')[-1]}"
+        )
+        self.chapter_text_file_path = r"Surahs\Mostafa Shaibani - Al-Qiyamah (75.20-27)\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Mostafa Shaibani - Al-Qiyamah (75.20-27)\chapter_translation.txt"
+        self.verse_counter_file_path = r"Surahs\Mostafa Shaibani - Al-Qiyamah (75.20-27)\verse_counter.txt"
 
     def muhammad_al_luhaidan_al_baqarah_273_274(self) -> None:
         """
@@ -552,7 +616,6 @@ class PredefinedTikToks:
         self.chapter_text_file_path = r"Surahs\Unknown - Az-Zumar (39.71-75)\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Unknown - Az-Zumar (39.71-75)\chapter_translation.txt"
         self.single_background_clip_horizontal_offset = 750
-        self.shadow_opacity = 0.8
 
     def yasser_al_dosari_al_muminun_34_39(self) -> None:
         """
@@ -582,6 +645,7 @@ def create_tiktok(
     audio_file_path: str = None,
     chapter_text_file_path: str = None,
     chapter_translation_file_path: str = None,
+    verse_counter_file_path: str = None,
     start_line: int = 1,
     end_line: int = None,
     start_time_modifier: float = 0.0,
@@ -705,11 +769,18 @@ def create_tiktok(
         return
 
     # Read text file(s)
-    with open(chapter_text_file_path, "r", encoding="utf-8") as chapter_text_file, open(
-        chapter_translation_file_path, "r", encoding="utf-8"
-    ) as chapter_translation_file, open(timestamps_txt_file_path, "r", encoding="utf-8") as timestamps_file:
+    verse_counter_lines = None
+    if verse_counter_file_path is not None:
+        with open(verse_counter_file_path, "r", encoding="utf-8") as verse_counter_file:
+            verse_counter_lines = verse_counter_file.readlines()
+
+    with open(chapter_text_file_path, "r", encoding="utf-8") as chapter_text_file:
         chapter_text_lines = chapter_text_file.readlines()
+
+    with open(chapter_translation_file_path, "r", encoding="utf-8") as chapter_translation_file:
         chapter_translation_lines = chapter_translation_file.readlines()
+
+    with open(timestamps_txt_file_path, "r", encoding="utf-8") as timestamps_file:
         timestamps_lines = timestamps_file.readlines()
 
         # Create the range of lines to loop through
@@ -780,6 +851,12 @@ def create_tiktok(
             # Get data for video clip
             verse_text = chapter_text_lines[i - 1].strip()
             verse_translation = chapter_translation_lines[i - 1].strip()
+
+            if verse_counter_lines is not None:
+                try:
+                    verse_counter = verse_counter_lines[i - 1].strip()
+                except:
+                    pass
 
             if i == start_line:
                 audio_start = video_start
@@ -989,12 +1066,29 @@ def create_tiktok(
                 ),
             ]
 
+            if verse_counter is not None and verse_counter != "":
+                text_clips.append(
+                    create_text_clip(
+                        text=verse_counter,
+                        size=(video_dimensions[0] * 0.6, None),
+                        color=verse_translation_color,
+                        fontsize=20,
+                        font=english_font,
+                        position=("center", 0.57),
+                        method="caption",
+                        duration=text_duration,
+                    )
+                )
+
             if single_background_clip:
                 # Get start time of text clips
                 text_start_time = get_time_difference_seconds(audio_start, video_start)
 
                 text_clips[0] = text_clips[0].set_start(text_start_time)
                 text_clips[1] = text_clips[1].set_start(text_start_time)
+
+                if verse_counter is not None:
+                    text_clips[2] = text_clips[2].set_start(text_start_time)
 
                 text_clips_array.extend(text_clips)
             else:
