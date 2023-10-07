@@ -37,9 +37,7 @@ def main() -> None:
                 ["Anime_Clips_2\\Kizumonogatari II - Nekketsu-hen (250).mp4", 0, 1098],
                 ["Anime_Clips_2\\Violet Evergarden Movie (8).mp4", 0, 1144],
             ],
-            "4": [
-                ["Anime_Clips_2\\Josee to Tora to Sakana-tachi (11).mp4", 5, 488],
-            ],
+            "4": [["Anime_Clips_2\\Josee to Tora to Sakana-tachi (11).mp4", 5, 488]],
             "5": [
                 ["Anime_Clips\\_Boku ga Aishita Subete no Kimi e (7).mp4", 1.4903682944336782, 1001],
                 ["Anime_Clips\\Garden of Words (104).mp4", 0.2371879947598643, 264],
@@ -58,6 +56,8 @@ def main() -> None:
             ],
             "9": [
                 ["Anime_Clips\\Jujutsu Kaisen - S01E01 (56).mp4", 0, 1033],
+                ["Anime_Clips_2\\Suzume no Tojimari (25).mp4", 1.3730200785048303, 709],
+                ["Anime_Clips\\Kimi No Nawa (91).mp4", 3.2586526223247017, 779],
             ],
             "10": [["Anime_Clips\\Fukan Fuukei (124).mp4", 1.0214674078873964, 44]],
             "11": [
@@ -75,9 +75,7 @@ def main() -> None:
                 ["Anime_Clips\\5 Centimeters per Second (257).mp4", 16.47152011210081, 449],
                 ["Anime_Clips\\Tamako Love Story (1219).mp4", 0.8916587240757877, 308],
             ],
-            "15": [
-                ["Anime_Clips_2\\Suzume no Tojimari (38).mp4", 0, 1294],
-            ],
+            "15": [["Anime_Clips_2\\Suzume no Tojimari (38).mp4", 0, 1294]],
         }
     )
     tiktok.mostafa_shaibani_al_qiyamah_20_27()
