@@ -26,59 +26,8 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = PredefinedTikToks(
-        video_map={
-            "1": [["Anime_Clips_2\\Josee to Tora to Sakana-tachi (23).mp4", 1.7149853916736018, 124]],
-            "2": [
-                ["Anime_Clips_2\\Suzume no Tojimari (6).mp4", 1.0916614503841466, 219],
-                ["Anime_Clips_2\\Josee to Tora to Sakana-tachi (9).mp4", 2.8680512609407813, 143],
-            ],
-            "3": [
-                ["Anime_Clips_2\\Kizumonogatari II - Nekketsu-hen (250).mp4", 0, 1098],
-                ["Anime_Clips_2\\Violet Evergarden Movie (8).mp4", 0, 1144],
-            ],
-            "4": [["Anime_Clips_2\\Josee to Tora to Sakana-tachi (11).mp4", 5, 488]],
-            "5": [
-                ["Anime_Clips\\_Boku ga Aishita Subete no Kimi e (7).mp4", 1.4903682944336782, 1001],
-                ["Anime_Clips\\Garden of Words (104).mp4", 0.2371879947598643, 264],
-            ],
-            "6": [
-                ["Anime_Clips\\Mirai Fukuin (21).mp4", 0, 1030],
-                ["Anime_Clips\\_Boku ga Aishita Subete no Kimi e (1).mp4", 0, 476],
-            ],
-            "7": [
-                ["Anime_Clips\\Hell's Paradise - S1 - NCOP1 (28).mp4", 0, 1321],
-                ["Anime_Clips\\Garden of Words (234).mp4", 0, 722],
-            ],
-            "8": [
-                ["Anime_Clips\\5 Centimeters per Second (201).mp4", 1.5, 480],
-                ["Anime_Clips_2\\Suzume no Tojimari (19).mp4", 0, 1066],
-            ],
-            "9": [
-                ["Anime_Clips\\Jujutsu Kaisen - S01E01 (56).mp4", 0, 1033],
-                ["Anime_Clips_2\\Suzume no Tojimari (25).mp4", 1.3730200785048303, 709],
-                ["Anime_Clips\\Kimi No Nawa (91).mp4", 3.2586526223247017, 779],
-            ],
-            "10": [["Anime_Clips\\Fukan Fuukei (124).mp4", 1.0214674078873964, 44]],
-            "11": [
-                ["Anime_Clips\\Tamako Love Story (557).mp4", 0, 817],
-                ["Anime_Clips_2\\Violet Evergarden Movie (14).mp4", 4.029100686905548, 27],
-                ["Anime_Clips_2\\Violet Evergarden Movie (11).mp4", 0.028015576809664895, 113],
-            ],
-            "12": [["Anime_Clips_2\\Violet Evergarden Movie (6).mp4", 0.18337839169429263, 741]],
-            "13": [
-                ["Anime_Clips\\Mirai Fukuin (110).mp4", 2.5762416183100556, 546],
-                ["Anime_Clips_2\\Suzume no Tojimari (24).mp4", 5.311886441223062, 680],
-                ["Anime_Clips\\Garden of Words (222).mp4", 1.9372245442105542, 919],
-            ],
-            "14": [
-                ["Anime_Clips\\5 Centimeters per Second (257).mp4", 16.47152011210081, 449],
-                ["Anime_Clips\\Tamako Love Story (1219).mp4", 0.8916587240757877, 308],
-            ],
-            "15": [["Anime_Clips_2\\Suzume no Tojimari (38).mp4", 0, 1294]],
-        }
-    )
-    tiktok.mostafa_shaibani_al_qiyamah_20_27()
+    tiktok = PredefinedTikToks()
+    tiktok.muhammad_al_luhaidan_al_ahzab_23_24()
     tiktok.run()
 
 
@@ -488,6 +437,19 @@ class PredefinedTikToks:
         self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_translation.txt"
 
+    def muhammad_al_luhaidan_al_ahzab_23_24(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 23-24 of Surah Al-Ahzab by Muhammad Al-Luhaidan
+        """
+
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - Al-Ahzab (33.23-24)"
+        self.output_file_name = f"{(self.account.name).lower()} Al-Ahzab (33.23-24) {str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - Al-Ahzab (33.23-24)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Muhammad Al-Luhaidan - Al-Ahzab (33.23-24)\chapter_translation.txt"
+        )
+        self.verse_counter_file_path = r"Surahs\Muhammad Al-Luhaidan - Al-Ahzab (33.23-24)\verse_counter.txt"
+
     def muhammad_al_luhaidan_ali_imran_16_17(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 16-17 of Surah Ali 'Imran by Muhammad Al-Luhaidan
@@ -727,6 +689,24 @@ def create_tiktok(
     else:
         if not os.path.isfile(chapter_text_file_path):
             colored_print(Fore.RED, "Chapter text file not found")
+            return
+
+    # Create chapter translation file if it doesn't exist and populate it with the chapter translation
+    if chapter_translation_file_path is None:
+        new_chapter_translation_file_path = os.path.join(directory_path, "chapter_translation.txt")
+
+        if not os.path.isfile(new_chapter_translation_file_path):
+            with open(new_chapter_translation_file_path, "w", encoding="utf-8") as chapter_translation_file:
+                for verse in range(start_verse, end_verse + 1):
+                    verse_translation = get_verse_translation(chapter, verse)
+
+                    if verse_translation is not None:
+                        chapter_translation_file.write(verse_translation + "\n")
+                    else:
+                        break
+    else:
+        if not os.path.isfile(chapter_translation_file_path):
+            colored_print(Fore.RED, "Chapter translation file not found")
             return
 
     # Create chapter translation file if it doesn't exist and populate it with the chapter translation
