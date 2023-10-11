@@ -27,7 +27,7 @@ MINIMAL_CLIP_DURATION = 0.75
 
 def main() -> None:
     tiktok = PredefinedTikToks()
-    tiktok.muhammad_al_luhaidan_al_ahzab_23_24()
+    tiktok.abdul_rahman_mossad_al_muzzammil_6_13()
     tiktok.run()
 
 
@@ -194,27 +194,56 @@ class PredefinedTikToks:
         self.start_line = 6
         self.end_line = 9
 
+    def abdul_rahman_mossad_al_muzzammil_6_13(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 6-13 of Surah Al-Muzzammil by Abdul Rahman Mossad
+        """
+
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
+        self.output_file_name = (
+            f"{(self.account.name).lower()} Al-Muzzammil (73.6-13) {str(uuid.uuid4()).split('-')[-1]}"
+        )
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_translation.txt"
+        )
+        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\verse_counter.txt"
+        self.start_line = 6
+        self.end_line = 22
+
     def abdul_rahman_mossad_al_muzzammil_14_18(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 14-18 of Surah Al-Muzzammil by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil"
-        self.output_file_name = f"{(self.account.name).lower()}_14-18_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt"
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
+        self.output_file_name = (
+            f"{(self.account.name).lower()} Al-Muzzammil (73.14-18) {str(uuid.uuid4()).split('-')[-1]}"
+        )
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_translation.txt"
+        )
+        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\verse_counter.txt"
+        self.start_line = 23
+        self.end_line = 34
 
-    def abdul_rahman_mossd_al_muzzammil_14_15(self) -> None:
+    def abdul_rahman_mossad_al_muzzammil_14_15(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 14-15 of Surah Al-Muzzammil by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil"
-        self.output_file_name = f"{(self.account.name).lower()}_14-15_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 73 - Al-Muzzammil\chapter_translation.txt"
-        self.start_line = 1
-        self.end_line = 3
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
+        self.output_file_name = (
+            f"{(self.account.name).lower()} Al-Muzzammil (73.14-15) {str(uuid.uuid4()).split('-')[-1]}"
+        )
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_translation.txt"
+        )
+        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\verse_counter.txt"
+        self.start_line = 23
+        self.end_line = 28
 
     def abdul_rahman_mossad_al_ghashiyah_10_26(self) -> None:
         """
@@ -831,10 +860,10 @@ def create_tiktok(
             verse_translation = chapter_translation_lines[i - 1].strip()
 
             if verse_counter_lines is not None:
-                try:
-                    verse_counter = verse_counter_lines[i - 1].strip()
-                except:
-                    pass
+                verse_counter = verse_counter_lines[i - 1].strip()
+
+                if verse_counter == "-":
+                    verse_counter = None
 
             if i == start_line:
                 audio_start = video_start
@@ -1044,7 +1073,7 @@ def create_tiktok(
                 ),
             ]
 
-            if verse_counter is not None and verse_counter != "":
+            if verse_counter_lines is not None and verse_counter is not None:
                 text_clips.append(
                     create_text_clip(
                         text=verse_counter,
@@ -1052,7 +1081,7 @@ def create_tiktok(
                         color=verse_translation_color,
                         fontsize=20,
                         font=english_font,
-                        position=("center", 0.57),
+                        position=("center", 0.75),
                         method="caption",
                         duration=text_duration,
                     )
@@ -1065,7 +1094,7 @@ def create_tiktok(
                 text_clips[0] = text_clips[0].set_start(text_start_time)
                 text_clips[1] = text_clips[1].set_start(text_start_time)
 
-                if verse_counter is not None:
+                if verse_counter_lines is not None and verse_counter is not None:
                     text_clips[2] = text_clips[2].set_start(text_start_time)
 
                 text_clips_array.extend(text_clips)
@@ -1425,7 +1454,7 @@ def get_random_time_offset(max_time_offset: float) -> float:
     Returns a random time offset
     """
 
-    return random.uniform(0, max_time_offset)
+    return random.uniform(0, max_time_offset / 2)
 
 
 def get_random_horizontal_offset(max_horizontal_offset: int) -> int:
