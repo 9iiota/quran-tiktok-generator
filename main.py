@@ -26,7 +26,54 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = PredefinedTikToks()
+    tiktok = TikToks(
+        video_map={
+            "6": [
+                ["Anime_Clips\\Summer Ghost (29).mp4", 0.6939032408941743, 887],
+                ["Anime_Clips\\5 Centimeters per Second (264).mp4", 0.7043610993096714, 1139],
+            ],
+            "7": [["Anime_Clips_2\\Violet Evergarden Movie (11).mp4", 0.339968223698559, 315]],
+            "8": [["Anime_Clips\\Kimi No Nawa (2).mp4", 0.8635393156928998, 772]],
+            "10": [["Anime_Clips\\Garden of Words (72).mp4", 1.3208384340252737, 1237]],
+            "11": [
+                ["Anime_Clips_2\\Violet Evergarden Movie (13).mp4", 0.3771251565954106, 501],
+                ["Anime_Clips\\Garden of Words (99).mp4", 4.710145666301634, 373],
+            ],
+            "12": [
+                ["Anime_Clips\\_Boku ga Aishita Subete no Kimi e (8).mp4", 1.1623788655712308, 679],
+                ["Anime_Clips\\Kimi No Nawa (162).mp4", 0.6666163668411642, 454],
+            ],
+            "15": [
+                ["Anime_Clips_2\\Violet Evergarden Movie (1).mp4", 1.9082231861842738, 1073],
+                ["Anime_Clips\\5 Centimeters per Second (262).mp4", 0.3101521314455989, 691],
+            ],
+            "16": [["Anime_Clips_2\\Violet Evergarden Movie (18).mp4", 1.4506673165872912, 704]],
+            "17": [
+                ["Anime_Clips_2\\Kizumonogatari II - Nekketsu-hen (246).mp4", 0.5712142898835842, 1032],
+                ["Anime_Clips\\Horimiya - S01E11 (1).mp4", 0.950197016599383, 302],
+            ],
+            "18": [["Anime_Clips\\Horimiya - S01E09 (30).mp4", 1.3601299403798524, 1109]],
+            "19": [
+                ["Anime_Clips_2\\Kizumonogatari II - Nekketsu-hen (84).mp4", 0.006370388089155544, 6],
+                ["Anime_Clips\\Violet Evergarden - NCOP1 (4).mp4", 1.954961601532664, 463],
+            ],
+            "20": [["Anime_Clips\\Fukan Fuukei (127).mp4", 2.281625428606218, 303]],
+            "21": [["Anime_Clips\\Garden of Words (1).mp4", 2.6209831594881736, 777]],
+            "22": [["Anime_Clips_2\\Suzume no Tojimari (21).mp4", 0, 231]],
+            "23": [["Anime_Clips_2\\Violet Evergarden Movie (14).mp4", 0.9043577489167233, 691]],
+            "24": [
+                ["Anime_Clips_2\\Violet Evergarden Movie (15).mp4", 0.44532494227347047, 591],
+                ["Anime_Clips\\Koe no Katachi (453).mp4", 1.9654131157315784, 428],
+                ["Anime_Clips\\Violet Evergarden - NCED1 (3).mp4", 0.47720847761163093, 977],
+                ["Anime_Clips\\Summer Ghost (74).mp4", 1.0863584350527453, 1287],
+            ],
+            "25": [
+                ["Anime_Clips_2\\Violet Evergarden Movie (12).mp4", 0.8179701418275678, 1276],
+                ["Anime_Clips\\Violet Evergarden - NCOP1 (10).mp4", 0.588259856475091, 313],
+                ["Anime_Clips_2\\Kizumonogatari I - Tekketsu-hen (87).mp4", 0.6693104397612927, 886],
+            ],
+        }
+    )
     tiktok.abdul_rahman_mossad_al_muzzammil_6_13()
     tiktok.run()
 
@@ -42,7 +89,7 @@ class ACCOUNTS(Enum):
     QURANIC_TIKTOKS = 3  # crazyshocky@hotmail.com
 
 
-class PredefinedTikToks:
+class TikToks:
     def __init__(
         self,
         directory_path: str = None,
@@ -209,7 +256,9 @@ class PredefinedTikToks:
         )
         self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\verse_counter.txt"
         self.start_line = 6
-        self.end_line = 22
+        self.end_line = 25
+        self.start_time_modifier = 0.2
+        self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_muzzammil_14_18(self) -> None:
         """
@@ -225,8 +274,8 @@ class PredefinedTikToks:
             r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_translation.txt"
         )
         self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\verse_counter.txt"
-        self.start_line = 23
-        self.end_line = 34
+        self.start_line = 26
+        self.end_line = 37
 
     def abdul_rahman_mossad_al_muzzammil_14_15(self) -> None:
         """
@@ -242,8 +291,8 @@ class PredefinedTikToks:
             r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_translation.txt"
         )
         self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\verse_counter.txt"
-        self.start_line = 23
-        self.end_line = 28
+        self.start_line = 26
+        self.end_line = 31
 
     def abdul_rahman_mossad_al_ghashiyah_10_26(self) -> None:
         """
