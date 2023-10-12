@@ -28,19 +28,31 @@ MINIMAL_CLIP_DURATION = 0.75
 
 def main() -> None:
     tiktok = TikToks()
-    tiktok.yasser_al_dosari_az_zukhruf_68_73()
+    tiktok.fatih_seferagic_al_hujurat_10()
     tiktok.run()
 
 
+def test():
+    pass
+
+
 class MODES(Enum):
-    DARK = 1
-    LIGHT = 2
+    DARK = {
+        "shadow_color": (0, 0, 0),
+        "verse_text_color": "rgb(255, 255, 255)",
+        "verse_translation_color": "rgb(255, 255, 255)",
+    }
+    LIGHT = {
+        "shadow_color": (255, 255, 255),
+        "verse_text_color": "rgb(0, 0, 0)",
+        "verse_translation_color": "rgb(0, 0, 0)",
+    }
 
 
 class ACCOUNTS(Enum):
-    QURAN_2_LISTEN = 1  # crazyshocklight@hotmail.com
-    LOVE_QURAN77 = 2  # crazyshocklight2@gmail.com
-    QURANIC_TIKTOKS = 3  # crazyshocky@hotmail.com
+    QURAN_2_LISTEN = {"english_font": "Fonts/Butler_Regular.otf"}  # crazyshocklight@hotmail.com
+    LOVE_QURAN77 = {"english_font": "Fonts/Sk-Modernist-Regular.otf"}  # crazyshocklight2@gmail.com
+    QURANIC_TIKTOKS = {"english_font": "Fonts/FreshStart.otf"}  # crazyshocky@hotmail.com
 
 
 class TikToks:
@@ -66,7 +78,6 @@ class TikToks:
         pictures_mode: bool = False,
         allow_duplicate_background_clips: bool = False,
         video_dimensions: tuple[int, int] = (576, 1024),
-        y_offset: int = 0,
         background_clips_speed: float = 1.0,
         shadow_opacity: float = 0.7,
         account: ACCOUNTS = ACCOUNTS.QURAN_2_LISTEN,
@@ -92,7 +103,6 @@ class TikToks:
         self.pictures_mode = pictures_mode
         self.allow_duplicate_background_clips = allow_duplicate_background_clips
         self.video_dimensions = video_dimensions
-        self.y_offset = y_offset
         self.background_clips_speed = background_clips_speed
         self.shadow_opacity = shadow_opacity
         self.account = account
@@ -113,14 +123,13 @@ class TikToks:
             start_verse=self.start_verse,
             end_verse=self.end_verse,
             background_clips_directory_paths=self.background_clips_directory_paths,
-            single_background_clip=self.single_background_clip,
-            single_background_clip_horizontal_offset=self.single_background_clip_horizontal_offset,
-            single_background_clip_vertical_offset=self.single_background_clip_vertical_offset,
+            background_video=self.single_background_clip,
+            background_video_horizontal_offset=self.single_background_clip_horizontal_offset,
+            background_video_vertical_offset=self.single_background_clip_vertical_offset,
             video_map=self.video_map,
             pictures_mode=self.pictures_mode,
             allow_duplicate_background_clips=self.allow_duplicate_background_clips,
             video_dimensions=self.video_dimensions,
-            y_offset=self.y_offset,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
             account=self.account,
@@ -645,7 +654,7 @@ class TikToks:
 
 def create_tiktok(
     directory_path: str,
-    output_file_name: str = None,
+    output_file_name: str,
     output_file_path: str = None,
     audio_file_path: str = None,
     chapter_text_file_path: str = None,
@@ -659,14 +668,13 @@ def create_tiktok(
     start_verse: int = None,
     end_verse: int = None,
     background_clips_directory_paths: list[str] = ["Anime_Clips"],
-    single_background_clip: str = None,
-    single_background_clip_horizontal_offset: int = None,
-    single_background_clip_vertical_offset: int = None,
+    background_video: str = None,
+    background_video_horizontal_offset: int = None,
+    background_video_vertical_offset: int = None,
     video_map: dict = None,
     pictures_mode: bool = False,
     allow_duplicate_background_clips: bool = False,
     video_dimensions: tuple[int, int] = (576, 1024),
-    y_offset: int = 0,
     background_clips_speed: float = 1.0,
     shadow_opacity: float = 0.7,
     account: ACCOUNTS = ACCOUNTS.QURAN_2_LISTEN,
@@ -679,44 +687,40 @@ def create_tiktok(
 
     # Create output file path if it doesn't exist
     if output_file_path is None:
-        if output_file_name is None:
-            output_file_path = os.path.join(
-                directory_path,
-                rf"Videos\{account.name}_{str(uuid.uuid4()).split('-')[-1]}.mp4",
-            )
-        else:
-            output_file_path = os.path.join(directory_path, rf"Videos\{output_file_name}.mp4")
+        # Get the directory path
+        output_file_directory_path = os.path.join(directory_path, "Videos")
+
+        # Create output file path
+        output_file_path = os.path.join(output_file_directory_path, f"{output_file_name}.mp4")
     else:
-        output_directory = "\\".join(output_file_path.split("\\")[:-1])
-        if os.path.isdir(output_directory):
-            os.makedirs(output_directory, exist_ok=True)
+        # Normalize output file path by replacing forward slashes with backslashes
+        output_file_path = output_file_path.replace("/", "\\")
+
+        # Get the directory path
+        output_file_directory_path = os.path.dirname(output_file_path)
+
+    # Create output file directory if it doesn't exist
+    os.makedirs(output_file_directory_path, exist_ok=True)
 
     # Create audio file path if it doesn't exist
     if audio_file_path is None:
-        for json_file in os.listdir(directory_path):
-            if json_file.endswith(".mp3"):
-                audio_file_path = os.path.join(directory_path, json_file)
-                break
+        try:
+            # Get the audio file path
+            audio_file = [file for file in os.listdir(directory_path) if file.endswith(".mp3")][0]
 
-    # Change font based on account
-    match account:
-        case ACCOUNTS.QURAN_2_LISTEN:
-            english_font = "Fonts/Butler_Regular.otf"
-        case ACCOUNTS.LOVE_QURAN77:
-            english_font = "Fonts/Sk-Modernist-Regular.otf"
-        case ACCOUNTS.QURANIC_TIKTOKS:
-            english_font = "Fonts/FreshStart.otf"
+            # Create audio file path
+            audio_file_path = os.path.join(directory_path, audio_file)
+        except IndexError:
+            colored_print(Fore.RED, "Audio file not found")
+            return
 
-    # Change colors based on mode
-    match mode:
-        case MODES.DARK:
-            shadow_color = (0, 0, 0)
-            verse_text_color = "rgb(255, 255, 255)"
-            verse_translation_color = "rgb(255, 255, 255)"
-        case MODES.LIGHT:
-            shadow_color = (255, 255, 255)
-            verse_text_color = "rgb(0, 0, 0)"
-            verse_translation_color = "rgb(0, 0, 0)"
+    # Set the english font
+    english_font = account.value["english_font"]
+
+    # Set the colors
+    shadow_color = mode.value["shadow_color"]
+    verse_text_color = mode.value["verse_text_color"]
+    verse_translation_color = mode.value["verse_translation_color"]
 
     # Create chapter text file if it doesn't exist and populate it with the chapter text
     if chapter_text_file_path is None:
@@ -818,8 +822,8 @@ def create_tiktok(
         video_start = modify_timestamp(timestamps_lines[start_line - 1].strip().split(",")[0], start_time_modifier)
         video_end = modify_timestamp(timestamps_lines[end_line - 1].strip().split(",")[0], end_time_modifier)
 
-        if single_background_clip is not None:
-            background_clip = mpy.VideoFileClip(single_background_clip).subclip(video_start)
+        if background_video is not None:
+            background_clip = mpy.VideoFileClip(background_video).subclip(video_start)
 
             # Specify the target aspect ratio (9:16)
             target_aspect_ratio = 9 / 16
@@ -832,22 +836,22 @@ def create_tiktok(
                 # Video is wider than 9:16, so we need to crop the sides
                 new_width = int(background_clip_height * target_aspect_ratio)
 
-                if single_background_clip_horizontal_offset is None:
-                    single_background_clip_horizontal_offset = (background_clip_width - new_width) // 2
+                if background_video_horizontal_offset is None:
+                    background_video_horizontal_offset = (background_clip_width - new_width) // 2
 
                 background_clip = background_clip.crop(
-                    x1=single_background_clip_horizontal_offset,
-                    x2=single_background_clip_horizontal_offset + new_width,
+                    x1=background_video_horizontal_offset,
+                    x2=background_video_horizontal_offset + new_width,
                 ).resize(video_dimensions)
             else:
                 # Video is taller than 9:16, so we need to crop the top and bottom
                 new_height = int(background_clip_width / target_aspect_ratio)
 
-                if single_background_clip_vertical_offset is None:
-                    single_background_clip_vertical_offset = (background_clip_height - new_height) // 2
+                if background_video_vertical_offset is None:
+                    background_video_vertical_offset = (background_clip_height - new_height) // 2
 
                 background_clip = background_clip.crop(
-                    y1=single_background_clip_vertical_offset, y2=single_background_clip_vertical_offset + new_height
+                    y1=background_video_vertical_offset, y2=background_video_vertical_offset + new_height
                 ).resize(video_dimensions)
 
             # Create shadow clip
@@ -900,7 +904,7 @@ def create_tiktok(
             except IndexError:
                 text_duration = video_clip_duration
 
-            if single_background_clip is None:
+            if background_video is None:
                 # Create variables for background clips
                 video_clip_background_clip_paths = []
 
@@ -1103,7 +1107,7 @@ def create_tiktok(
                     )
                 )
 
-            if single_background_clip:
+            if background_video:
                 # Get start time of text clips
                 text_start_time = get_time_difference_seconds(audio_start, video_start)
 
@@ -1131,7 +1135,6 @@ def create_tiktok(
                     text_clips=text_clips,
                     still_frame=pictures_mode,
                     background_clip_speed=background_clips_speed,
-                    y_offset=y_offset,
                     text_duration=text_duration,
                     shadow_clip=shadow_clip,
                 )
@@ -1146,10 +1149,10 @@ def create_tiktok(
 
         audio = mpy.AudioFileClip(audio_file_path).set_start(video_start).subclip(video_start, video_end)
 
-        if single_background_clip is not None:
+        if background_video is not None:
             final_video = mpy.CompositeVideoClip([video, *text_clips_array], use_bgclip=True).set_audio(audio)
 
-            video_map_output = single_background_clip
+            video_map_output = background_video
         else:
             # Concatenate video clips, add audio, and set duration for final video
             final_video = mpy.concatenate_videoclips(clips=video_clips, method="chain").set_audio(audio)
@@ -1174,7 +1177,7 @@ def create_tiktok(
         )
 
         try:
-            if single_background_clip:
+            if background_video:
                 final_video.write_videofile(
                     output_file_path,
                     fps=video.fps,
@@ -1207,7 +1210,6 @@ def create_video_clip(
     text_clips: list[mpy.TextClip],
     still_frame: bool = False,
     background_clip_speed: float = 1.0,
-    y_offset: int = 0,
     text_duration: float = None,
     shadow_clip: mpy.ColorClip = None,
 ) -> mpy.CompositeVideoClip:
@@ -1247,9 +1249,9 @@ def create_video_clip(
             background_clip = (
                 background_clip.crop(
                     x1=background_clip_horizontal_offset,
-                    y1=y_offset,
+                    y1=0,
                     x2=background_clip_horizontal_offset + video_width,
-                    y2=y_offset + video_height,
+                    y2=video_height,
                 )
                 .subclip(
                     t_start=background_clip_time_offset,
