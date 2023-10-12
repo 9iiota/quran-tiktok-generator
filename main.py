@@ -23,11 +23,12 @@ MINIMAL_CLIP_DURATION = 0.75
 # TODO: FIX VERTICAL OFFSET
 # TODO: FIX TIMINGS ALWAYS 0.0
 # TODO: ADD DURATIONS IN VIDEO MAP AND UNCOMMENT CODE IN GET_VALID_BACKGROUND_CLIPS
+# TODO: ADD AUTOMATIC MARKERS CSV FILE ORDERING
 
 
 def main() -> None:
     tiktok = TikToks()
-    tiktok.abdul_rahman_mossad_al_muzzammil_6_13()
+    tiktok.yasser_al_dosari_az_zukhruf_68_73()
     tiktok.run()
 
 
@@ -627,6 +628,19 @@ class TikToks:
         self.output_file_name = f"{(self.account.name).lower()}_29_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_translation.txt"
+
+    def yasser_al_dosari_az_zukhruf_68_73(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 68-73 of Surah Az-Zukhruf by Yasser Al-Dosari
+        """
+
+        self.directory_path = r"Surahs\Yasser Al-Dosari - Az-Zukhruf (43.1-89)"
+        self.output_file_name = (
+            f"{(self.account.name).lower()} Az-Zukhruf (43.68-73) {str(uuid.uuid4()).split('-')[-1]}"
+        )
+        self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - Az-Zukhruf (43.1-89)\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - Az-Zukhruf (43.1-89)\chapter_translation.txt"
+        self.verse_counter_file_path = r"Surahs\Yasser Al-Dosari - Az-Zukhruf (43.1-89)\verse_counter.txt"
 
 
 def create_tiktok(
