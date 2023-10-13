@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 
 def main() -> None:
     tiktok = TikToks()
-    tiktok.abdul_rahman_mossad_al_ghashiyah_10_26()
+    tiktok.yasser_al_dosari_ar_rahman_26_34()
     tiktok.run()
 
 
@@ -657,6 +657,7 @@ class TikToks:
         self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)\chapter_translation.txt"
         self.verse_counter_file_path = r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)\verse_counter.txt"
+        self.end_time_modifier = -0.3
 
     def yasser_al_dosari_az_zukhruf_68_73(self) -> None:
         """
@@ -744,66 +745,64 @@ def create_tiktok(
 
     # Create chapter text file if it doesn't exist and populate it with the chapter text
     if chapter_text_file_path is None:
+        # Create the chapter text file path
         new_chapter_text_file_path = os.path.join(directory_path, "chapter_text.txt")
 
+        # Populate the chapter text file with the chapter text if it doesn't exist
         if not os.path.isfile(new_chapter_text_file_path):
             with open(new_chapter_text_file_path, "w", encoding="utf-8") as chapter_text_file:
                 for verse in range(start_verse, end_verse + 1):
+                    # Get the verse text
                     verse_text = get_verse_text(chapter, verse)
 
+                    # Write the verse text to the chapter text file
                     if verse_text is not None:
                         chapter_text_file.write(verse_text + "\n")
                     else:
                         break
+
+        colored_input(Fore.GREEN, "Chapter text file created successfully")
     else:
+        # Check if the chapter text file exists
         if not os.path.isfile(chapter_text_file_path):
             colored_print(Fore.RED, "Chapter text file not found")
             return
 
     # Create chapter translation file if it doesn't exist and populate it with the chapter translation
     if chapter_translation_file_path is None:
+        # Create the chapter translation file path
         new_chapter_translation_file_path = os.path.join(directory_path, "chapter_translation.txt")
 
+        # Populate the chapter translation file with the chapter translation if it doesn't exist
         if not os.path.isfile(new_chapter_translation_file_path):
             with open(new_chapter_translation_file_path, "w", encoding="utf-8") as chapter_translation_file:
                 for verse in range(start_verse, end_verse + 1):
+                    # Get the verse translation
                     verse_translation = get_verse_translation(chapter, verse)
 
+                    # Write the verse translation to the chapter translation file
                     if verse_translation is not None:
                         chapter_translation_file.write(verse_translation + "\n")
                     else:
                         break
+
+        colored_input(Fore.GREEN, "Chapter translation file created successfully")
     else:
+        # Check if the chapter translation file exists
         if not os.path.isfile(chapter_translation_file_path):
             colored_print(Fore.RED, "Chapter translation file not found")
             return
 
-    # Create chapter translation file if it doesn't exist and populate it with the chapter translation
-    if chapter_translation_file_path is None:
-        new_chapter_translation_file_path = os.path.join(directory_path, "chapter_translation.txt")
-
-        if not os.path.isfile(new_chapter_translation_file_path):
-            with open(new_chapter_translation_file_path, "w", encoding="utf-8") as chapter_translation_file:
-                for verse in range(start_verse, end_verse + 1):
-                    verse_translation = get_verse_translation(chapter, verse)
-
-                    if verse_translation is not None:
-                        chapter_translation_file.write(verse_translation + "\n")
-                    else:
-                        break
-    else:
-        if not os.path.isfile(chapter_translation_file_path):
-            colored_print(Fore.RED, "Chapter translation file not found")
-            return
-
-    # Await user input to edit text file(s) if they were just created
+    # Exit to allow for editing the chapter text and/or translation files
     if chapter_text_file_path is None or chapter_translation_file_path is None:
-        colored_input(Fore.YELLOW, "Appropriately edit text file(s) now...")
+        return
 
-    # Create timestamps text file if it doesn't exist and populate it with the timestamps or update it if it does exist
+    # Create timestamps text file if it doesn't exist and populate it with the timestamps or update it if it already exists
     if os.path.isdir(directory_path):
+        # Get the timestamps csv file path
         timestamps_csv_file_path = os.path.join(directory_path, "Markers.csv")
 
+        # Populate the timestamps text file with the timestamps if it doesn't exist or update it if it already exists
         if os.path.isfile(timestamps_csv_file_path):
             create_timestamps_txt_file(timestamps_csv_file_path)
 
