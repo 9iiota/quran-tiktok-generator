@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 
 def main() -> None:
     tiktok = TikToks()
-    tiktok.fatih_seferagic_al_hujurat_10()
+    tiktok.abdul_rahman_mossad_al_ghashiyah_10_26()
     tiktok.run()
 
 
@@ -163,13 +163,13 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 54-60 of Surah Al-'Ankabut by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)"
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)"
         self.output_file_name = (
             f"{(self.account.name).lower()} Al-'Ankabut (29.54-60) {str(uuid.uuid4()).split('-')[-1]}"
         )
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_text.txt"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)\chapter_text.txt"
         self.chapter_translation_file_path = (
-            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_translation.txt"
+            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)\chapter_translation.txt"
         )
 
     def abdul_rahman_mossad_al_ankabut_54_57(self) -> None:
@@ -177,13 +177,13 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 54-60 of Surah Al-'Ankabut by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)"
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)"
         self.output_file_name = (
             f"{(self.account.name).lower()} Al-'Ankabut (29.54-57) {str(uuid.uuid4()).split('-')[-1]}"
         )
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_text.txt"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)\chapter_text.txt"
         self.chapter_translation_file_path = (
-            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_translation.txt"
+            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)\chapter_translation.txt"
         )
         self.end_line = 9
         self.end_time_modifier = -0.4
@@ -193,13 +193,13 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 56-57 of Surah Al-'Ankabut by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)"
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)"
         self.output_file_name = (
             f"{(self.account.name).lower()} Al-'Ankabut (29.56-57) {str(uuid.uuid4()).split('-')[-1]}"
         )
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_text.txt"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)\chapter_text.txt"
         self.chapter_translation_file_path = (
-            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.54-60)\chapter_translation.txt"
+            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)\chapter_translation.txt"
         )
         self.start_line = 6
         self.end_line = 9
@@ -262,22 +262,29 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 10-26 of Surah Al-Ghashiyah by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah"
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)"
         self.output_file_name = f"{(self.account.name).lower()}_10-26_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)\chapter_translation.txt"
+        )
+        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)\verse_counter.txt"
+        self.start_line = 14
 
     def abdul_rahman_mossad_al_ghashiyah_10_12(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 10-12 of Surah Al-Ghashiyah by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah"
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)"
         self.output_file_name = f"{(self.account.name).lower()}_10-12_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 88 - Al-Ghashiyah\chapter_translation.txt"
-        self.start_line = 1
-        self.end_line = 3
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)\chapter_translation.txt"
+        )
+        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)\verse_counter.txt"
+        self.start_line = 14
+        self.end_line = 17
 
     def abdul_rahman_mossad_al_adiyat_1_11(self) -> None:
         """
@@ -637,6 +644,19 @@ class TikToks:
         self.output_file_name = f"{(self.account.name).lower()}_29_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_translation.txt"
+
+    def yasser_al_dosari_ar_rahman_26_34(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 26-34 of Surah Ar-Rahman by Yasser Al-Dosari
+        """
+
+        self.directory_path = r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)"
+        self.output_file_name = (
+            f"{(self.account.name).lower()} Ar-Rahman (55.26-34) {str(uuid.uuid4()).split('-')[-1]}"
+        )
+        self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)\chapter_translation.txt"
+        self.verse_counter_file_path = r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)\verse_counter.txt"
 
     def yasser_al_dosari_az_zukhruf_68_73(self) -> None:
         """
