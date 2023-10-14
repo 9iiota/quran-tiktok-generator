@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 
 def main() -> None:
     tiktok = TikToks()
-    tiktok.yasser_al_dosari_ar_rahman_26_34()
+    tiktok.muhammad_al_luhaidan_ali_imran_104_106()
     tiktok.run()
 
 
@@ -512,6 +512,21 @@ class TikToks:
             r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.16-17)\chapter_translation.txt"
         )
 
+    def muhammad_al_luhaidan_ali_imran_104_106(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 104-106 of Surah Ali 'Imran by Muhammad Al-Luhaidan
+        """
+
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.104-106)"
+        self.output_file_name = (
+            f"{(self.account.name).lower()} Ali 'Imran (3.104-106) {str(uuid.uuid4()).split('-')[-1]}"
+        )
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.104-106)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.104-106)\chapter_translation.txt"
+        )
+        self.verse_counter_file_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.104-106)\verse_counter.txt"
+
     def muhammadloiq_qori_al_ahzab_35(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 35 of Surah Al-Ahzab by Muhammadloiq Qori
@@ -761,7 +776,7 @@ def create_tiktok(
                     else:
                         break
 
-        colored_input(Fore.GREEN, "Chapter text file created successfully")
+        colored_print(Fore.GREEN, "Chapter text file created successfully")
     else:
         # Check if the chapter text file exists
         if not os.path.isfile(chapter_text_file_path):
@@ -786,7 +801,7 @@ def create_tiktok(
                     else:
                         break
 
-        colored_input(Fore.GREEN, "Chapter translation file created successfully")
+        colored_print(Fore.GREEN, "Chapter translation file created successfully")
     else:
         # Check if the chapter translation file exists
         if not os.path.isfile(chapter_translation_file_path):
