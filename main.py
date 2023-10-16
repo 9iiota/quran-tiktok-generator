@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 
 def main() -> None:
     tiktok = TikToks()
-    tiktok.muhammad_al_luhaidan_an_naziat_34_41()
+    tiktok.abdul_rahman_mossad_yunus_7_10()
     tiktok.run()
 
 
@@ -298,6 +298,19 @@ class TikToks:
         self.output_file_name = f"{(self.account.name).lower()}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 100 - Al-'Adiyat\chapter_translation.txt"
+
+    def abdul_rahman_mossad_yunus_7_10(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 7-10 of Surah Yunus by Abdul Rahman Mossad
+        """
+
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.1-25)"
+        self.output_file_name = f"{(self.account.name).lower()} Yunus (10.7-10) {str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.1-25)\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.1-25)\chapter_translation.txt"
+        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.1-25)\verse_counter.txt"
+        self.time_modifier = -0.2
+        self.end_time_modifier = -0.2
 
     def ahmed_khedr_taha_14_16(self) -> None:
         """
