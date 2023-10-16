@@ -27,8 +27,28 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks()
-    tiktok.muhammad_al_luhaidan_ali_imran_104_106()
+    tiktok = TikToks(
+        video_map={
+            "2": [
+                ["Anime_Clips\\5 Centimeters per Second (186).mp4", 0, 1015],
+                ["Anime_Clips\\_Hello World (3).mp4", 0, 1327],
+                ["Anime_Clips\\Garden of Words (245).mp4", 2.0891802381708984, 150],
+            ],
+            "3": [["Anime_Clips\\Garden of Words (152).mp4", 1.6839357119789011, 798]],
+            "4": [["Anime_Clips\\Garden of Words (89).mp4", 1.1972713820647811, 498]],
+            "6": [["Anime_Clips\\Tamako Love Story (214).mp4", 1.9100632224846592, 901]],
+            "7": [["Anime_Clips_2\\Kizumonogatari I - Tekketsu-hen (7).mp4", 1.880023939719792, 29]],
+            "8": [
+                ["Anime_Clips\\_Hello World (9).mp4", 1.1398093774742868, 1329],
+                ["Anime_Clips\\Weathering With You (197).mp4", 0.3677715126015953, 610],
+            ],
+            "9": [["Anime_Clips_2\\Josee to Tora to Sakana-tachi (11).mp4", 0.6413146274418289, 936]],
+            "10": [
+                ["Anime_Clips\\Mirai Fukuin - Extra Chorus (45).mp4", 2.3414445467819895, 129],
+            ],
+        }
+    )
+    tiktok.muhammad_al_luhaidan_al_baqarah_214()
     tiktok.run()
 
 
@@ -65,6 +85,7 @@ class TikToks:
         verse_counter_file_path: str = None,
         start_line: int = 1,
         end_line: int = None,
+        time_modifier: float = 0.0,
         start_time_modifier: float = 0.0,
         end_time_modifier: float = 0.0,
         chapter: int = None,
@@ -90,6 +111,7 @@ class TikToks:
         self.verse_counter_file_path = verse_counter_file_path
         self.start_line = start_line
         self.end_line = end_line
+        self.time_modifier = time_modifier
         self.start_time_modifier = start_time_modifier
         self.end_time_modifier = end_time_modifier
         self.chapter = chapter
@@ -117,6 +139,7 @@ class TikToks:
             verse_counter_file_path=self.verse_counter_file_path,
             start_line=self.start_line,
             end_line=self.end_line,
+            time_modifier=self.time_modifier,
             start_time_modifier=self.start_time_modifier,
             end_time_modifier=self.end_time_modifier,
             chapter=self.chapter,
@@ -498,6 +521,20 @@ class TikToks:
         )
         self.verse_counter_file_path = r"Surahs\Muhammad Al-Luhaidan - Al-Ahzab (33.23-24)\verse_counter.txt"
 
+    def muhammad_al_luhaidan_al_baqarah_214(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 214 of Surah Al-Baqarah by Muhammad Al-Luhaidan
+        """
+
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - Al-Baqarah (2.214)"
+        self.output_file_name = f"{(self.account.name).lower()} Al-Baqarah (2.214) {str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - Al-Baqarah (2.214)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Muhammad Al-Luhaidan - Al-Baqarah (2.214)\chapter_translation.txt"
+        )
+        self.verse_counter_file_path = r"Surahs\Muhammad Al-Luhaidan - Al-Baqarah (2.214)\verse_counter.txt"
+        self.time_modifier = -0.2
+
     def muhammad_al_luhaidan_ali_imran_16_17(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 16-17 of Surah Ali 'Imran by Muhammad Al-Luhaidan
@@ -698,6 +735,7 @@ def create_tiktok(
     verse_counter_file_path: str = None,
     start_line: int = 1,
     end_line: int = None,
+    time_modifier: float = 0.0,
     start_time_modifier: float = 0.0,
     end_time_modifier: float = 0.0,
     chapter: int = None,
@@ -822,6 +860,8 @@ def create_tiktok(
             create_timestamps_txt_file(timestamps_csv_file_path)
 
             timestamps_txt_file_path = timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
+
+            sort_timestamps_txt_file(timestamps_txt_file_path)
         else:
             colored_print(Fore.RED, "Markers.csv file not found")
             return
@@ -853,8 +893,15 @@ def create_tiktok(
 
         # Get data for final video
         video_width, video_height = video_dimensions
-        video_start = modify_timestamp(timestamps_lines[start_line - 1].strip().split(",")[0], start_time_modifier)
-        video_end = modify_timestamp(timestamps_lines[end_line - 1].strip().split(",")[0], end_time_modifier)
+        if start_time_modifier != 0.0:
+            video_start = modify_timestamp(timestamps_lines[start_line - 1].strip().split(",")[0], time_modifier)
+        else:
+            video_start = modify_timestamp(timestamps_lines[start_line - 1].strip().split(",")[0], start_time_modifier)
+
+        if end_time_modifier != 0.0:
+            video_end = modify_timestamp(timestamps_lines[end_line - 1].strip().split(",")[0], time_modifier)
+        else:
+            video_end = modify_timestamp(timestamps_lines[end_line - 1].strip().split(",")[0], end_time_modifier)
 
         if background_video is not None:
             background_clip = mpy.VideoFileClip(background_video).subclip(video_start)
@@ -922,18 +969,18 @@ def create_tiktok(
             if i == start_line:
                 audio_start = video_start
             else:
-                audio_start = timestamps_lines[i - 1].strip().split(",")[0]
+                audio_start = modify_timestamp(timestamps_lines[i - 1].strip().split(",")[0], time_modifier)
 
             if i == end_line - 1:
                 audio_end = video_end
             else:
-                audio_end = timestamps_lines[i].strip().split(",")[0]
+                audio_end = modify_timestamp(timestamps_lines[i].strip().split(",")[0], time_modifier)
 
             video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
 
             # Get text duration
             try:
-                text_end = timestamps_lines[i].strip().split(",")[1]
+                text_end = modify_timestamp(timestamps_lines[i].strip().split(",")[1], time_modifier)
                 text_duration = get_time_difference_seconds(audio_start, text_end)
             except IndexError:
                 text_duration = video_clip_duration
@@ -1478,6 +1525,31 @@ def create_timestamps_txt_file(timestamps_csv_file_path: str) -> None:
     colored_print(Fore.GREEN, f"Successfully created '{timestamps_txt_file_path}'")
 
 
+def sort_timestamps_txt_file(timestamps_txt_file_path: str) -> None:
+    """
+    Sorts the timestamps in a timestamps.txt file
+    """
+
+    # Read timestamps from the file
+    with open(timestamps_txt_file_path, "r") as file:
+        timestamps = file.read().splitlines()
+
+    # Convert timestamps to timedelta objects
+    timestamps = [timedelta(minutes=int(time.split(":")[0]), seconds=float(time.split(":")[1])) for time in timestamps]
+
+    # Sort the timestamps
+    timestamps.sort()
+
+    # Convert sorted timestamps back to string format
+    sorted_timestamps = [
+        f"{ts.seconds // 60}:{ts.seconds % 60:02d}.{ts.microseconds // 1000:03d}" for ts in timestamps
+    ]
+
+    # Write the sorted timestamps back to the file
+    with open(timestamps_txt_file_path, "w") as file:
+        file.write("\n".join(sorted_timestamps))
+
+
 def get_all_background_clips_paths(
     background_clips_directory_paths: list[str],
 ) -> list[str]:
@@ -1640,7 +1712,8 @@ def modify_timestamp(timestamp: str, time_in_seconds: int) -> str:
     seconds, milliseconds = seconds.split(".")
     original_timedelta = timedelta(minutes=int(minutes), seconds=int(seconds), milliseconds=int(milliseconds))
 
-    new_timedelta = original_timedelta + timedelta(seconds=time_in_seconds)
+    # Ensure the result remains non-negative
+    new_timedelta = max(original_timedelta + timedelta(seconds=time_in_seconds), timedelta(0))
 
     return "{:02d}:{:02d}.{:03d}".format(
         new_timedelta.seconds // 60,
