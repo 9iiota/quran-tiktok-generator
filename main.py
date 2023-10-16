@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 
 def main() -> None:
     tiktok = TikToks()
-    tiktok.muhammad_al_luhaidan_al_baqarah_214()
+    tiktok.muhammad_al_luhaidan_an_naziat_34_41()
     tiktok.run()
 
 
@@ -543,6 +543,22 @@ class TikToks:
             r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.104-106)\chapter_translation.txt"
         )
         self.verse_counter_file_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.104-106)\verse_counter.txt"
+
+    def muhammad_al_luhaidan_an_naziat_34_41(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 34-41 of Surah An-Nazi'at by Muhammad Al-Luhaidan
+        """
+
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - An-Nazi'at (79.1-46)"
+        self.output_file_name = (
+            f"{(self.account.name).lower()} An-Nazi'at (79.34-41) {str(uuid.uuid4()).split('-')[-1]}"
+        )
+        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - An-Nazi'at (79.1-46)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            r"Surahs\Muhammad Al-Luhaidan - An-Nazi'at (79.1-46)\chapter_translation.txt"
+        )
+        self.verse_counter_file_path = r"Surahs\Muhammad Al-Luhaidan - An-Nazi'at (79.1-46)\verse_counter.txt"
+        self.time_modifier = -0.2
 
     def muhammadloiq_qori_al_ahzab_35(self) -> None:
         """
@@ -1623,6 +1639,9 @@ def get_valid_background_clips(
     while True:
         # Get new background clips until the total duration of the background clips is long enough for the video clip
         background_clip_path = get_random_background_clip_path(all_background_clips_paths)
+
+        if len(used_background_clips_paths) == len(all_background_clips_paths):
+            allow_duplicate_background_clips = True
 
         if allow_duplicate_background_clips or (
             not allow_duplicate_background_clips
