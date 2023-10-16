@@ -27,27 +27,7 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks(
-        video_map={
-            "2": [
-                ["Anime_Clips\\5 Centimeters per Second (186).mp4", 0, 1015],
-                ["Anime_Clips\\_Hello World (3).mp4", 0, 1327],
-                ["Anime_Clips\\Garden of Words (245).mp4", 2.0891802381708984, 150],
-            ],
-            "3": [["Anime_Clips\\Garden of Words (152).mp4", 1.6839357119789011, 798]],
-            "4": [["Anime_Clips\\Garden of Words (89).mp4", 1.1972713820647811, 498]],
-            "6": [["Anime_Clips\\Tamako Love Story (214).mp4", 1.9100632224846592, 901]],
-            "7": [["Anime_Clips_2\\Kizumonogatari I - Tekketsu-hen (7).mp4", 1.880023939719792, 29]],
-            "8": [
-                ["Anime_Clips\\_Hello World (9).mp4", 1.1398093774742868, 1329],
-                ["Anime_Clips\\Weathering With You (197).mp4", 0.3677715126015953, 610],
-            ],
-            "9": [["Anime_Clips_2\\Josee to Tora to Sakana-tachi (11).mp4", 0.6413146274418289, 936]],
-            "10": [
-                ["Anime_Clips\\Mirai Fukuin - Extra Chorus (45).mp4", 2.3414445467819895, 129],
-            ],
-        }
-    )
+    tiktok = TikToks()
     tiktok.muhammad_al_luhaidan_al_baqarah_214()
     tiktok.run()
 
