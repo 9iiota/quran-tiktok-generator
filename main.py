@@ -304,11 +304,28 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 7-10 of Surah Yunus by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.1-25)"
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)"
         self.output_file_name = f"{(self.account.name).lower()} Yunus (10.7-10) {str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.1-25)\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.1-25)\chapter_translation.txt"
-        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.1-25)\verse_counter.txt"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\chapter_translation.txt"
+        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\verse_counter.txt"
+        self.start_line = 5
+        self.end_line = 22
+        self.time_modifier = -0.2
+        self.end_time_modifier = -0.2
+
+    def abdul_rahman_mossad_yunus_17_20(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 17-20 of Surah Yunus by Abdul Rahman Mossad
+        """
+
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)"
+        self.output_file_name = f"{(self.account.name).lower()} Yunus (10.17-20) {str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\chapter_translation.txt"
+        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\verse_counter.txt"
+        self.start_line = 29
+        self.end_line = 50
         self.time_modifier = -0.2
         self.end_time_modifier = -0.2
 
@@ -1544,7 +1561,10 @@ def sort_timestamps_txt_file(timestamps_txt_file_path: str) -> None:
         timestamps = file.read().splitlines()
 
     # Convert timestamps to timedelta objects
-    timestamps = [timedelta(minutes=int(time.split(":")[0]), seconds=float(time.split(":")[1])) for time in timestamps]
+    timestamps = [
+        timedelta(minutes=int((time.split(",")[0]).split(":")[0]), seconds=float((time.split(",")[0]).split(":")[1]))
+        for time in timestamps
+    ]
 
     # Sort the timestamps
     timestamps.sort()
