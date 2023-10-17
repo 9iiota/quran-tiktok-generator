@@ -27,13 +27,26 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks()
-    tiktok.abdul_rahman_mossad_yunus_7_10()
+    tiktok = TikToks(
+        language=LANGUAGES.DUTCH,
+    )
+    tiktok.fatih_seferagic_al_hujurat_10()
     tiktok.run()
 
 
 def test():
     pass
+
+
+class ACCOUNTS(Enum):
+    QURAN_2_LISTEN = {"english_font": "Fonts/Butler_Regular.otf"}  # crazyshocklight@hotmail.com
+    LOVE_QURAN77 = {"english_font": "Fonts/Sk-Modernist-Regular.otf"}  # crazyshocklight2@gmail.com
+    QURANIC_TIKTOKS = {"english_font": "Fonts/FreshStart.otf"}  # crazyshocky@hotmail.com
+
+
+class LANGUAGES(Enum):
+    ENGLISH = "en"
+    DUTCH = "nl"
 
 
 class MODES(Enum):
@@ -47,12 +60,6 @@ class MODES(Enum):
         "verse_text_color": "rgb(0, 0, 0)",
         "verse_translation_color": "rgb(0, 0, 0)",
     }
-
-
-class ACCOUNTS(Enum):
-    QURAN_2_LISTEN = {"english_font": "Fonts/Butler_Regular.otf"}  # crazyshocklight@hotmail.com
-    LOVE_QURAN77 = {"english_font": "Fonts/Sk-Modernist-Regular.otf"}  # crazyshocklight2@gmail.com
-    QURANIC_TIKTOKS = {"english_font": "Fonts/FreshStart.otf"}  # crazyshocky@hotmail.com
 
 
 class TikToks:
@@ -71,6 +78,7 @@ class TikToks:
         chapter: int = None,
         start_verse: int = None,
         end_verse: int = None,
+        language: LANGUAGES = LANGUAGES.ENGLISH,
         background_clips_directory_paths: list[str] = ["Anime_Clips", "Anime_Clips_2"],
         single_background_clip: str = None,
         single_background_clip_horizontal_offset: int = None,
@@ -78,6 +86,7 @@ class TikToks:
         video_map: dict = None,
         pictures_mode: bool = False,
         allow_duplicate_background_clips: bool = False,
+        allow_mirrored_background_clips: bool = False,
         video_dimensions: tuple[int, int] = (576, 1024),
         background_clips_speed: float = 1.0,
         shadow_opacity: float = 0.7,
@@ -97,6 +106,7 @@ class TikToks:
         self.chapter = chapter
         self.start_verse = start_verse
         self.end_verse = end_verse
+        self.language = language
         self.background_clips_directory_paths = background_clips_directory_paths
         self.single_background_clip = single_background_clip
         self.single_background_clip_horizontal_offset = single_background_clip_horizontal_offset
@@ -104,6 +114,7 @@ class TikToks:
         self.video_map = video_map
         self.pictures_mode = pictures_mode
         self.allow_duplicate_background_clips = allow_duplicate_background_clips
+        self.allow_mirrored_background_clips = allow_mirrored_background_clips
         self.video_dimensions = video_dimensions
         self.background_clips_speed = background_clips_speed
         self.shadow_opacity = shadow_opacity
@@ -125,6 +136,7 @@ class TikToks:
             chapter=self.chapter,
             start_verse=self.start_verse,
             end_verse=self.end_verse,
+            language=self.language,
             background_clips_directory_paths=self.background_clips_directory_paths,
             background_video=self.single_background_clip,
             background_video_horizontal_offset=self.single_background_clip_horizontal_offset,
@@ -132,6 +144,7 @@ class TikToks:
             video_map=self.video_map,
             pictures_mode=self.pictures_mode,
             allow_duplicate_background_clips=self.allow_duplicate_background_clips,
+            allow_mirrored_background_clips=self.allow_mirrored_background_clips,
             video_dimensions=self.video_dimensions,
             background_clips_speed=self.background_clips_speed,
             shadow_opacity=self.shadow_opacity,
@@ -374,11 +387,14 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verse 10 of Surah Al-Hujurat by Fatih Seferagic
         """
 
-        self.directory_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat"
-        self.output_file_name = f"{(self.account.name).lower()}_10_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\chapter_translation.txt"
-        self.verse_counter_file_path = r"Surahs\Fatih Seferagic - 49 - Al-Hujurat\verse_counter.txt"
+        self.directory_path = r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)"
+        self.output_file_name = f"{(self.account.name).lower()} Al-Hujurat (49.10) {self.language.value} {str(uuid.uuid4()).split('-')[-1]}"
+        self.chapter_text_file_path = r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\chapter_text.txt"
+        self.chapter_translation_file_path = (
+            rf"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\chapter_translation_{self.language.value}.txt"
+        )
+        self.verse_counter_file_path = r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\verse_counter.txt"
+        self.time_modifier = -0.2
 
     def fatih_seferagic_al_hashr_21_24(self) -> None:
         """
@@ -767,6 +783,7 @@ def create_tiktok(
     chapter: int = None,
     start_verse: int = None,
     end_verse: int = None,
+    language: LANGUAGES = LANGUAGES.ENGLISH,
     background_clips_directory_paths: list[str] = ["Anime_Clips"],
     background_video: str = None,
     background_video_horizontal_offset: int = None,
@@ -774,6 +791,7 @@ def create_tiktok(
     video_map: dict = None,
     pictures_mode: bool = False,
     allow_duplicate_background_clips: bool = False,
+    allow_mirrored_background_clips: bool = False,
     video_dimensions: tuple[int, int] = (576, 1024),
     background_clips_speed: float = 1.0,
     shadow_opacity: float = 0.7,
@@ -850,14 +868,14 @@ def create_tiktok(
     # Create chapter translation file if it doesn't exist and populate it with the chapter translation
     if chapter_translation_file_path is None:
         # Create the chapter translation file path
-        new_chapter_translation_file_path = os.path.join(directory_path, "chapter_translation.txt")
+        new_chapter_translation_file_path = os.path.join(directory_path, f"chapter_translation_{language.value}.txt")
 
         # Populate the chapter translation file with the chapter translation if it doesn't exist
         if not os.path.isfile(new_chapter_translation_file_path):
             with open(new_chapter_translation_file_path, "w", encoding="utf-8") as chapter_translation_file:
                 for verse in range(start_verse, end_verse + 1):
                     # Get the verse translation
-                    verse_translation = get_verse_translation(chapter, verse)
+                    verse_translation = get_verse_translation(chapter, verse, language.value)
 
                     # Write the verse translation to the chapter translation file
                     if verse_translation is not None:
@@ -1080,6 +1098,29 @@ def create_tiktok(
 
                                 background_clip_horizontal_offset = new_background_clip_horizontal_offset
 
+                            # Get background clip mirrored
+                            if (
+                                len(background_clip_info) > 3
+                                and isinstance(background_clip_info[3], (str, bool))
+                                and background_clip_info[3] in ["True", "False", True, False]
+                            ):
+                                # Mirrored entry exists and is a string
+                                background_clip_mirrored = background_clip_info[3]
+                            elif allow_mirrored_background_clips:
+                                background_clip_mirrored = str(random.choice([True, False]))
+
+                                colored_print(
+                                    Fore.YELLOW,
+                                    f"Verse {i} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({background_clip_mirrored}) instead",
+                                )
+                            else:
+                                background_clip_mirrored = "False"
+
+                                colored_print(
+                                    Fore.YELLOW,
+                                    f"Verse {i} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({background_clip_mirrored}) instead",
+                                )
+
                             # Adjust background clip duration
                             adjusted_background_clip_duration = background_clip_duration - background_clip_time_offset
 
@@ -1093,6 +1134,7 @@ def create_tiktok(
                                         background_clip_path,
                                         background_clip_time_offset,
                                         background_clip_horizontal_offset,
+                                        background_clip_mirrored,
                                     ]
                                 )
                                 used_background_clips_paths.append(background_clip_path)
@@ -1117,6 +1159,7 @@ def create_tiktok(
                             ) = get_valid_background_clips(
                                 all_background_clips_paths,
                                 allow_duplicate_background_clips,
+                                allow_mirrored_background_clips,
                                 used_background_clips_paths,
                                 video_map,
                                 background_clips_speed,
@@ -1135,6 +1178,7 @@ def create_tiktok(
                         ) = get_valid_background_clips(
                             all_background_clips_paths,
                             allow_duplicate_background_clips,
+                            allow_mirrored_background_clips,
                             used_background_clips_paths,
                             video_map,
                             background_clips_speed,
@@ -1165,11 +1209,18 @@ def create_tiktok(
                         random.randint(0, width_difference) if width_difference > 0 else 0
                     )
 
+                    # Get background clip mirrored
+                    if allow_mirrored_background_clips:
+                        background_clip_mirrored = str(random.choice([True, False]))
+                    else:
+                        background_clip_mirrored = "False"
+
                     video_clip_background_clip_paths.append(
                         [
                             background_clip_path,
                             background_clip_time_offset,
                             background_clip_horizontal_offset,
+                            background_clip_mirrored,
                         ]
                     )
 
@@ -1343,7 +1394,10 @@ def create_video_clip(
     else:
         for background_clip_info in background_clip_paths:
             background_clip_path = background_clip_info[0]
+            background_mirrored = background_clip_info[3]
             background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
+            if background_mirrored or background_mirrored == "True":
+                background_clip = background_clip.fx(mpy.vfx.mirror_x)
 
             background_clip_time_offset = background_clip_info[1]
             background_clip_horizontal_offset = background_clip_info[2]
@@ -1511,13 +1565,20 @@ def get_verse_text(chapter, verse):
     return verse_text
 
 
-def get_verse_translation(chapter, verse):
+def get_verse_translation(chapter, verse, language="en"):
     """
     Gets the translation of a verse from the Quran
     """
 
+    if language == "en":
+        translation_id = 20
+    elif language == "nl":
+        translation_id = 144
+
     try:
-        response = requests.get(f"https://api.quran.com/api/v4/quran/translations/20?verse_key={chapter}:{verse}")
+        response = requests.get(
+            f"https://api.quran.com/api/v4/quran/translations/{translation_id}?verse_key={chapter}:{verse}"
+        )
         translation = response.json()["translations"][0]["text"]
         soup = BeautifulSoup(translation, "html.parser")
         return soup.get_text()
@@ -1659,6 +1720,7 @@ def get_max_horizontal_offset(background_clip_width: int, video_width: int) -> i
 def get_valid_background_clips(
     all_background_clips_paths,
     allow_duplicate_background_clips,
+    allow_mirrored_background_clips,
     used_background_clips_paths,
     video_map,
     background_clips_speed,
@@ -1720,11 +1782,18 @@ def get_valid_background_clips(
                 # Get horizontal offset
                 background_clip_horizontal_offset = get_random_horizontal_offset(max_horizontal_offset)
 
+                # Get background clip mirrored
+                if allow_mirrored_background_clips:
+                    background_clip_mirrored = str(random.choice([True, False]))
+                else:
+                    background_clip_mirrored = "False"
+
                 video_clip_background_clip_paths.append(
                     [
                         background_clip_path,
                         background_clip_time_offset,
                         background_clip_horizontal_offset,
+                        background_clip_mirrored,
                     ]
                 )
                 used_background_clips_paths.append(background_clip_path)
