@@ -27,10 +27,8 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks(
-        language=LANGUAGES.DUTCH,
-    )
-    tiktok.fatih_seferagic_al_hujurat_10()
+    tiktok = TikToks()
+    tiktok.abdul_rahman_mossad_maryam_93_98()
     tiktok.run()
 
 
@@ -94,7 +92,6 @@ class TikToks:
         mode: MODES = MODES.DARK,
     ) -> None:
         self.directory_path = directory_path
-        self.output_file_name = output_file_name
         self.chapter_text_file_path = chapter_text_file_path
         self.chapter_translation_file_path = chapter_translation_file_path
         self.verse_counter_file_path = verse_counter_file_path
@@ -120,8 +117,16 @@ class TikToks:
         self.shadow_opacity = shadow_opacity
         self.account = account
         self.mode = mode
+        self.output_file_name = f"{output_file_name} {self.language.value} {(self.account.name).lower()} {datetime.now().strftime('%H:%M:%S %d-%m-%Y')}"
 
     def run(self) -> None:
+        if self.chapter is None:
+            self.chapter_text_file_path = rf"{self.directory_path}\chapter_text.txt"
+            self.chapter_translation_file_path = (
+                rf"{self.directory_path}\chapter_translation_{self.language.value}.txt"
+            )
+            self.verse_counter_file_path = rf"{self.directory_path}\verse_counter.txt"
+
         create_tiktok(
             directory_path=self.directory_path,
             output_file_name=self.output_file_name,
@@ -157,22 +162,23 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 93-98 of Surah Maryam by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam"
-        self.output_file_name = f"{(self.account.name).lower()}_93-98_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt"
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Maryam (19.65-98)"
+        self.output_file_name = "Maryam (19.93-98)"
+        self.start_line = 29
+        self.end_line = 45
+        self.time_modifier = -0.2
 
     def abdul_rahman_mossad_maryam_93_94(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 93-94 of Surah Maryam by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam"
-        self.output_file_name = f"{(self.account.name).lower()}_93-94_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - 19 - Maryam\chapter_translation.txt"
-        self.start_line = 1
-        self.end_line = 3
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Maryam (19.65-98)"
+        self.output_file_name = "Maryam (19.93-94)"
+        self.start_line = 29
+        self.end_line = 32
+        self.time_modifier = -0.2
+        self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_ankabut_54_60(self) -> None:
         """
@@ -318,10 +324,7 @@ class TikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)"
-        self.output_file_name = f"{(self.account.name).lower()} Yunus (10.7-10) {str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\chapter_translation.txt"
-        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\verse_counter.txt"
+        self.output_file_name = "Yunus (10.7-10)"
         self.start_line = 5
         self.end_line = 22
         self.time_modifier = -0.2
@@ -333,10 +336,7 @@ class TikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)"
-        self.output_file_name = f"{(self.account.name).lower()} Yunus (10.17-20) {str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\chapter_translation.txt"
-        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\verse_counter.txt"
+        self.output_file_name = "Yunus (10.17-20)"
         self.start_line = 29
         self.end_line = 50
         self.time_modifier = -0.2
@@ -1105,21 +1105,25 @@ def create_tiktok(
                                 and background_clip_info[3] in ["True", "False", True, False]
                             ):
                                 # Mirrored entry exists and is a string
-                                background_clip_mirrored = background_clip_info[3]
+                                background_clip_mirrored = str(background_clip_info[3])
                             elif allow_mirrored_background_clips:
-                                background_clip_mirrored = str(random.choice([True, False]))
+                                new_background_clip_mirrored = str(random.choice([True, False]))
 
                                 colored_print(
                                     Fore.YELLOW,
-                                    f"Verse {i} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({background_clip_mirrored}) instead",
+                                    f"Verse {i} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
                                 )
+
+                                background_clip_mirrored = new_background_clip_mirrored
                             else:
-                                background_clip_mirrored = "False"
+                                new_background_clip_mirrored = "False"
 
                                 colored_print(
                                     Fore.YELLOW,
-                                    f"Verse {i} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({background_clip_mirrored}) instead",
+                                    f"Verse {i} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
                                 )
+
+                                background_clip_mirrored = new_background_clip_mirrored
 
                             # Adjust background clip duration
                             adjusted_background_clip_duration = background_clip_duration - background_clip_time_offset
@@ -1362,7 +1366,7 @@ def create_tiktok(
 
 
 def create_video_clip(
-    background_clip_paths: list[list[str, float or None, int or None]],
+    background_clip_paths: list[list[str, float or None, int or None, str or None]],
     final_clip_duration: float,
     video_dimensions: tuple[int, int],
     text_clips: list[mpy.TextClip],
@@ -1396,7 +1400,7 @@ def create_video_clip(
             background_clip_path = background_clip_info[0]
             background_mirrored = background_clip_info[3]
             background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
-            if background_mirrored or background_mirrored == "True":
+            if background_mirrored == "True":
                 background_clip = background_clip.fx(mpy.vfx.mirror_x)
 
             background_clip_time_offset = background_clip_info[1]
