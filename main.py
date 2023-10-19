@@ -22,26 +22,28 @@ MINIMAL_CLIP_DURATION = 0.75
 # TODO: Add support for background clips disjoint from audio timings
 # TODO: Fix pictures mode
 # TODO: FIX VERTICAL OFFSET
-# TODO: FIX TIMINGS ALWAYS 0.0
 # TODO: ADD DURATIONS IN VIDEO MAP AND UNCOMMENT CODE IN GET_VALID_BACKGROUND_CLIPS
-# TODO: ADD AUTOMATIC MARKERS CSV FILE ORDERING
 
 
 def main() -> None:
-    tiktok = TikToks()
-    tiktok.muhammad_al_luhaidan_an_nisa_27_29()
+    tiktok = TikToks(
+        language=LANGUAGES.DUTCH,
+    )
+    tiktok.abdul_rahman_mossad_yunus_7_10()
     tiktok.run()
 
 
 def test():
-    # Get only the user-defined methods
-    user_defined_methods = [
-        func
-        for func in dir(TikToks)
-        if callable(getattr(TikToks, func)) and not func.startswith("__") and not "run" in func
-    ]
+    pass
 
-    return user_defined_methods
+    # # Get only the user-defined methods
+    # user_defined_methods = [
+    #     func
+    #     for func in dir(TikToks)
+    #     if callable(getattr(TikToks, func)) and not func.startswith("__") and not "run" in func
+    # ]
+
+    # return user_defined_methods
 
 
 class ACCOUNTS(Enum):
@@ -824,9 +826,9 @@ def create_tiktok(
 
         if not os.path.isfile(new_chapter_csv_file_path):
             # Create the chapter csv file path
-            with open(new_chapter_csv_file_path, "w", newline="", encoding="utf-8") as chapter_csv_file:
+            with open(new_chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
                 csvwriter = csv.writer(chapter_csv_file)
-                csvwriter.writerow(["verse", "ar", "en"])
+                csvwriter.writerow(["verse", "ar", language.value])
 
                 for verse in range(start_verse, end_verse + 1):
                     # Get the verse text
@@ -874,8 +876,7 @@ def create_tiktok(
         return
 
     # Read files
-    with open(chapter_csv_file_path, "r", encoding="utf-8") as chapter_csv_file:
-        chapter_csv_lines = chapter_csv_file.readlines()
+    chapter_csv_lines = select_columns(chapter_csv_file_path, ["verse", "ar", language.value])
 
     with open(timestamps_txt_file_path, "r", encoding="utf-8") as timestamps_file:
         timestamps_lines = timestamps_file.readlines()
@@ -952,11 +953,8 @@ def create_tiktok(
         # Create video clips
         for i in loop_range:
             # Get data for video clip
-            line = chapter_csv_lines[i].strip()
-            delimiter = ","
-            verse_counter = line.split(delimiter)[0]
-            verse_text = line.split(delimiter)[1]
-            verse_translation = "".join(line.split(delimiter)[2:])
+            line = chapter_csv_lines[i - 1]
+            verse_counter, verse_text, verse_translation = line
 
             if i == start_line:
                 audio_start = video_start
@@ -1776,13 +1774,26 @@ def modify_timestamp(timestamp: str, time_in_seconds: int) -> str:
 
 
 def remove_empty_rows_in_place(csv_file_path: str) -> None:
-    with open(csv_file_path, mode="r", newline="", encoding="utf-8") as infile:
+    with open(csv_file_path, mode="r", encoding="utf-8") as infile:
         reader = csv.reader(infile)
         rows = [row for row in reader if any(cell.strip() != "" for cell in row)]
 
-    with open(csv_file_path, mode="w", newline="", encoding="utf-8") as outfile:
+    with open(csv_file_path, mode="w", encoding="utf-8") as outfile:
         writer = csv.writer(outfile)
         writer.writerows(rows)
+
+
+def select_columns(csv_file_path: str, columns_to_select: list[str]) -> list[list[str]]:
+    selected_data = []
+
+    with open(csv_file_path, "r", encoding="utf-8") as csv_file:
+        reader = csv.DictReader(csv_file)
+
+        for row in reader:
+            selected_row = [row[column] for column in columns_to_select]
+            selected_data.append(selected_row)
+
+    return selected_data
 
 
 if __name__ == "__main__":
