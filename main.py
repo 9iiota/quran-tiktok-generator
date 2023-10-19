@@ -1,14 +1,15 @@
+import csv
+import moviepy.editor as mpy
 import os
 import random
-import uuid
-from datetime import datetime, timedelta
-from enum import Enum
-
-import moviepy.editor as mpy
 import requests
+import uuid
+
 from bs4 import BeautifulSoup
 from colorama import Fore, Style
 from compact_json import EolStyle, Formatter
+from datetime import datetime, timedelta
+from enum import Enum
 from plyer import notification
 from pyquran import quran
 
@@ -27,13 +28,43 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks()
-    tiktok.abdul_rahman_mossad_maryam_93_98()
-    tiktok.run()
+    test()
+    # tiktok = TikToks()
+    # tiktok.abdul_rahman_mossad_maryam_93_98()
+    # tiktok.run()
 
 
 def test():
-    pass
+    path = r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.27-29)"
+
+    # Create the chapter text file path
+    csv_file_path = os.path.join(path, "info.csv")
+
+    if not os.path.exists(csv_file_path):
+        with open(csv_file_path, "w", newline="", encoding="utf-8") as csvfile:
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerow(["Verse", "Text", "Translation"])
+
+            for verse in range(27, 30):
+                # Get the verse text
+                verse_text = get_verse_text(4, verse)
+                verse_translation = get_verse_translation(4, verse)
+
+                # Write the verse text to the chapter text file
+                if verse_text is not None and verse_translation is not None:
+                    csvwriter.writerow(["", verse_text, verse_translation])
+                else:
+                    break
+
+    # csv_path = "test.csv"
+    # with open(csv_path, "r", encoding="utf-8") as csv_file:
+    #     for line in csv_file.readlines():
+    #         delimiter = ";"
+    #         verse_counter = line.split(delimiter)[0]
+    #         text = line.split(delimiter)[1]
+    #         translation = line.split(delimiter)[2]
+
+    #         print(verse_counter, text, translation)
 
 
 class ACCOUNTS(Enum):
