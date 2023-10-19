@@ -28,11 +28,9 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    joe = r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.27-29)\chapter.csv"
-    remove_empty_rows_in_place(joe)
-    # tiktok = TikToks()
-    # tiktok.muhammad_al_luhaidan_an_nisa_27_29()
-    # tiktok.run()
+    tiktok = TikToks()
+    tiktok.muhammad_al_luhaidan_an_nisa_27_29()
+    tiktok.run()
 
 
 def test():
