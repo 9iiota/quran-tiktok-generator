@@ -28,9 +28,11 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks()
-    tiktok.abdul_rahman_mossad_al_ankabut_54_60()
-    tiktok.run()
+    joe = r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.27-29)\chapter.csv"
+    remove_empty_rows_in_place(joe)
+    # tiktok = TikToks()
+    # tiktok.muhammad_al_luhaidan_an_nisa_27_29()
+    # tiktok.run()
 
 
 def test():
@@ -605,9 +607,6 @@ class TikToks:
         self.directory_path = r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.27-29)"
         self.output_file_name = "An-Nisa (4.27-29)"
         self.time_modifier = -0.2
-        self.chapter = 4
-        self.start_verse = 27
-        self.end_verse = 29
 
     def muhammadloiq_qori_al_ahzab_35(self) -> None:
         """
@@ -776,9 +775,6 @@ def create_tiktok(
     output_file_path: str = None,
     audio_file_path: str = None,
     chapter_csv_file_path: str = None,
-    chapter_text_file_path: str = None,
-    chapter_translation_file_path: str = None,
-    verse_counter_file_path: str = None,
     start_line: int = 1,
     end_line: int = None,
     time_modifier: float = 0.0,
@@ -875,6 +871,9 @@ def create_tiktok(
 
     if chapter_csv_file_path is None:
         return
+
+    # Clear empty rows
+    remove_empty_rows_in_place(chapter_csv_file_path)
 
     # Create timestamps text file if it doesn't exist and populate it with the timestamps or update it if it already exists
     if os.path.isdir(directory_path):
@@ -974,7 +973,7 @@ def create_tiktok(
         # Create video clips
         for i in loop_range:
             # Get data for video clip
-            line = chapter_csv_lines[i - 1].strip()
+            line = chapter_csv_lines[i].strip()
             delimiter = ","
             verse_counter = line.split(delimiter)[0]
             verse_text = line.split(delimiter)[1]
@@ -1795,6 +1794,16 @@ def modify_timestamp(timestamp: str, time_in_seconds: int) -> str:
         new_timedelta.seconds % 60,
         new_timedelta.microseconds // 1000,
     )
+
+
+def remove_empty_rows_in_place(csv_file_path: str) -> None:
+    with open(csv_file_path, mode="r", newline="", encoding="utf-8") as infile:
+        reader = csv.reader(infile)
+        rows = [row for row in reader if any(cell.strip() != "" for cell in row)]
+
+    with open(csv_file_path, mode="w", newline="", encoding="utf-8") as outfile:
+        writer = csv.writer(outfile)
+        writer.writerows(rows)
 
 
 if __name__ == "__main__":
