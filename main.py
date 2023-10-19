@@ -213,21 +213,15 @@ class TikToks:
         self.end_line = 45
         self.time_modifier = -0.2
 
-    ##############################################################
-
     def abdul_rahman_mossad_al_ghashiyah_10_26(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 10-26 of Surah Al-Ghashiyah by Abdul Rahman Mossad
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)"
-        self.output_file_name = f"{(self.account.name).lower()}_10-26_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)\chapter_text.txt"
-        self.chapter_translation_file_path = (
-            r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)\chapter_translation.txt"
-        )
-        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)\verse_counter.txt"
+        self.output_file_name = "Al-Ghashiyah (88.10-26)"
         self.start_line = 14
+        self.time_modifier = -0.2
 
     def abdul_rahman_mossad_al_ghashiyah_10_12(self) -> None:
         """
@@ -235,14 +229,54 @@ class TikToks:
         """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)"
-        self.output_file_name = f"{(self.account.name).lower()}_10-12_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)\chapter_text.txt"
-        self.chapter_translation_file_path = (
-            r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)\chapter_translation.txt"
-        )
-        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)\verse_counter.txt"
+        self.output_file_name = "Al-Ghashiyah (88.10-12)"
         self.start_line = 14
-        self.end_line = 17
+        self.end_line = 16
+        self.time_modifier = -0.2
+        self.end_time_modifier = -0.2
+
+    ######################################################################################################################################################
+    ######################################################################################################################################################
+    ######################################################################################################################################################
+    ######################################################################################################################################################
+    ######################################################################################################################################################
+    ######################################################################################################################################################
+
+    def abdul_rahman_mossad_al_muzzammil_6_13(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 6-13 of Surah Al-Muzzammil by Abdul Rahman Mossad
+        """
+
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
+        self.output_file_name = "Al-Muzzammil (73.6-13)"
+        self.start_line = 6
+        self.end_line = 25
+        self.start_time_modifier = 0.2
+        self.end_time_modifier = -0.2
+
+    def abdul_rahman_mossad_al_muzzammil_14_18(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 14-18 of Surah Al-Muzzammil by Abdul Rahman Mossad
+        """
+
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
+        self.output_file_name = "Al-Muzzammil (73.14-18)"
+        self.start_line = 26
+        self.end_line = 37
+        self.time_modifier = 0.2
+        self.end_time_modifier = -0.2
+
+    def abdul_rahman_mossad_al_muzzammil_14_15(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 14-15 of Surah Al-Muzzammil by Abdul Rahman Mossad
+        """
+
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
+        self.output_file_name = "Al-Muzzammil (73.14-15)"
+        self.start_line = 26
+        self.end_line = 31
+        self.time_modifier = 0.2
+        self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_maryam_93_94(self) -> None:
         """
@@ -255,59 +289,6 @@ class TikToks:
         self.end_line = 32
         self.time_modifier = -0.2
         self.end_time_modifier = -0.2
-
-    def abdul_rahman_mossad_al_muzzammil_6_13(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 6-13 of Surah Al-Muzzammil by Abdul Rahman Mossad
-        """
-
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
-        self.output_file_name = (
-            f"{(self.account.name).lower()} Al-Muzzammil (73.6-13) {str(uuid.uuid4()).split('-')[-1]}"
-        )
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_text.txt"
-        self.chapter_translation_file_path = (
-            r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_translation.txt"
-        )
-        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\verse_counter.txt"
-        self.start_line = 6
-        self.end_line = 25
-        self.start_time_modifier = 0.2
-        self.end_time_modifier = -0.2
-
-    def abdul_rahman_mossad_al_muzzammil_14_18(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 14-18 of Surah Al-Muzzammil by Abdul Rahman Mossad
-        """
-
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
-        self.output_file_name = (
-            f"{(self.account.name).lower()} Al-Muzzammil (73.14-18) {str(uuid.uuid4()).split('-')[-1]}"
-        )
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_text.txt"
-        self.chapter_translation_file_path = (
-            r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_translation.txt"
-        )
-        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\verse_counter.txt"
-        self.start_line = 26
-        self.end_line = 37
-
-    def abdul_rahman_mossad_al_muzzammil_14_15(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 14-15 of Surah Al-Muzzammil by Abdul Rahman Mossad
-        """
-
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
-        self.output_file_name = (
-            f"{(self.account.name).lower()} Al-Muzzammil (73.14-15) {str(uuid.uuid4()).split('-')[-1]}"
-        )
-        self.chapter_text_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_text.txt"
-        self.chapter_translation_file_path = (
-            r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\chapter_translation.txt"
-        )
-        self.verse_counter_file_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)\verse_counter.txt"
-        self.start_line = 26
-        self.end_line = 31
 
     def abdul_rahman_mossad_yunus_7_10(self) -> None:
         """
