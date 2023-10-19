@@ -868,6 +868,8 @@ def create_tiktok(
         if end_line is None:
             end_line = len(chapter_csv_lines)
 
+        end_line += 1
+
         loop_range = range(start_line, end_line)
 
         # Get data for final video
