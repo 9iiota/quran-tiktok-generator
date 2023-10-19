@@ -29,7 +29,7 @@ def main() -> None:
     tiktok = TikToks(
         language=LANGUAGES.DUTCH,
     )
-    tiktok.abdul_rahman_mossad_yunus_7_10()
+    tiktok.abdul_rahman_mossad_al_adiyat_1_11()
     tiktok.run()
 
 
@@ -166,6 +166,9 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Adiyat (100.1-11)"
         self.output_file_name = "Al-'Adiyat (100.1-11)"
+        self.chapter = 100
+        self.start_verse = 1
+        self.end_verse = 11
         self.time_modifier = -0.2
 
     def abdul_rahman_mossad_al_ankabut_54_60(self) -> None:
@@ -238,9 +241,9 @@ class TikToks:
         self.end_time_modifier = -0.2
 
         def abdul_rahman_mossad_al_muzzammil_6_13(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 6-13 of Surah Al-Muzzammil by Abdul Rahman Mossad
-        """
+            """
+            Modifies the parameters of the class for a TikTok video for verses 6-13 of Surah Al-Muzzammil by Abdul Rahman Mossad
+            """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
         self.output_file_name = "Al-Muzzammil (73.6-13)"
@@ -822,39 +825,19 @@ def create_tiktok(
     verse_translation_color = mode.value["verse_translation_color"]
 
     if chapter_csv_file_path is None:
-        new_chapter_csv_file_path = os.path.join(directory_path, "chapter.csv")
+        chapter_csv_file_path = os.path.join(directory_path, "chapter.csv")
 
-        if not os.path.isfile(new_chapter_csv_file_path):
-            # Create the chapter csv file path
-            with open(new_chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
-                csvwriter = csv.writer(chapter_csv_file)
-                csvwriter.writerow(["verse", "ar", language.value])
+    if not os.path.isfile(chapter_csv_file_path):
+        create_csv_file(chapter_csv_file_path, language.value, chapter, start_verse, end_verse)
 
-                for verse in range(start_verse, end_verse + 1):
-                    # Get the verse text
-                    verse_text = get_verse_text(chapter, verse)
-
-                    # Get the verse translation
-                    verse_translation = get_verse_translation(chapter, verse, language.value)
-
-                    # Write the verse text and translation to the chapter csv file
-                    if verse_text is not None and verse_translation is not None:
-                        csvwriter.writerow([verse, verse_text, verse_translation])
-                    else:
-                        break
-
-            colored_print(Fore.GREEN, "Chapter csv file created successfully")
-    else:
-        # Check if the chapter csv file exists
-        if not os.path.isfile(chapter_csv_file_path):
-            colored_print(Fore.RED, "Chapter csv file not found")
-            return
-
-    if chapter_csv_file_path is None:
+        colored_print(Fore.GREEN, "Chapter csv file created successfully")
         return
-
-    # Clear empty rows
-    remove_empty_rows_in_place(chapter_csv_file_path)
+    else:
+        if add_translation_to_existing_csv_file(
+            chapter_csv_file_path, language.value, chapter, start_verse, end_verse
+        ):
+            colored_print(Fore.GREEN, "Chapter csv file updated successfully")
+            return
 
     # Create timestamps text file if it doesn't exist and populate it with the timestamps or update it if it already exists
     if os.path.isdir(directory_path):
@@ -1773,12 +1756,16 @@ def modify_timestamp(timestamp: str, time_in_seconds: int) -> str:
     )
 
 
-def remove_empty_rows_in_place(csv_file_path: str) -> None:
+def remove_empty_rows_from_csv_file(csv_file_path: str) -> None:
     with open(csv_file_path, mode="r", encoding="utf-8") as infile:
         reader = csv.reader(infile)
-        rows = [row for row in reader if any(cell.strip() != "" for cell in row)]
+        rows = [
+            row
+            for row in reader
+            if any(cell.strip() != "" for cell in row) or not all(cell.strip() == "" for cell in row)
+        ]
 
-    with open(csv_file_path, mode="w", encoding="utf-8") as outfile:
+    with open(csv_file_path, mode="w", encoding="utf-8", newline="") as outfile:
         writer = csv.writer(outfile)
         writer.writerows(rows)
 
@@ -1794,6 +1781,57 @@ def select_columns(csv_file_path: str, columns_to_select: list[str]) -> list[lis
             selected_data.append(selected_row)
 
     return selected_data
+
+
+def add_translation_to_existing_csv_file(
+    chapter_csv_file_path: str, language: LANGUAGES, chapter: int, start_verse: int, end_verse: int
+) -> bool:
+    with open(chapter_csv_file_path, "r", encoding="utf-8") as csv_file:
+        reader = csv.DictReader(csv_file)
+        field_names = reader.fieldnames
+
+        if language not in field_names:
+            field_names.append(language)
+            data = list(reader)
+
+            # Loop through verses and add translations to the corresponding rows
+            for verse in range(start_verse, end_verse + 1):
+                row_index = verse - start_verse
+                data[row_index][language] = get_verse_translation(chapter, verse, language)
+
+            # Write the updated data back to the same file
+            with open(chapter_csv_file_path, "w", encoding="utf-8") as csv_file:
+                writer = csv.DictWriter(csv_file, fieldnames=field_names)
+                writer.writeheader()
+                writer.writerows(data)
+
+            remove_empty_rows_from_csv_file(chapter_csv_file_path)
+
+            return True
+
+
+def create_csv_file(
+    chapter_csv_file_path: str, language: LANGUAGES, chapter: int, start_verse: int, end_verse: int
+) -> None:
+    # Create the chapter csv file path
+    with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
+        csvwriter = csv.writer(chapter_csv_file)
+        csvwriter.writerow(["verse", "ar", language])
+
+        for verse in range(start_verse, end_verse + 1):
+            # Get the verse text
+            verse_text = get_verse_text(chapter, verse)
+
+            # Get the verse translation
+            verse_translation = get_verse_translation(chapter, verse, language)
+
+            # Write the verse text and translation to the chapter csv file
+            if verse_text is not None and verse_translation is not None:
+                csvwriter.writerow([verse, verse_text, verse_translation])
+            else:
+                break
+
+    remove_empty_rows_from_csv_file(chapter_csv_file_path)
 
 
 if __name__ == "__main__":
