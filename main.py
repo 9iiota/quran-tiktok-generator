@@ -29,8 +29,12 @@ MINIMAL_CLIP_DURATION = 0.75
 
 def main() -> None:
     tiktok = TikToks()
-    tiktok.abdul_rahman_mossad_maryam_93_98()
-    tiktok.joe()
+    # tiktok.abdul_rahman_mossad_maryam_93_98()
+    methods = test()
+    for method in methods:
+        run = getattr(tiktok, method)
+        run()
+        tiktok.joe()
     # tiktok.run()
 
 
@@ -42,9 +46,7 @@ def test():
         if callable(getattr(TikToks, func)) and not func.startswith("__") and not "run" in func
     ]
 
-    # Print the user-defined methods
-    for method in user_defined_methods:
-        print(method)
+    return user_defined_methods
 
 
 class ACCOUNTS(Enum):
@@ -161,65 +163,70 @@ class TikToks:
         )
 
     def joe(self):
-        deez = os.path.join(self.directory_path, "chapter.csv")
-        with open(deez, "w", newline="", encoding="utf-8") as chapter_csv_file:
-            csvwriter = csv.writer(chapter_csv_file)
-            csvwriter.writerow(["verse", "ar", "en"])
-
-            with open(
-                os.path.join(self.directory_path, "chapter_text.txt"), "r", encoding="utf-8"
-            ) as chapter_text_file:
-                chapter_text_lines = chapter_text_file.readlines()
-
-            try:
-                with open(
-                    os.path.join(self.directory_path, "chapter_translation.txt"), "r", encoding="utf-8"
-                ) as chapter_translation_file:
-                    chapter_translation_lines = chapter_translation_file.readlines()
-            except:
-                try:
-                    with open(
-                        os.path.join(self.directory_path, "chapter_translation_en.txt"), "r", encoding="utf-8"
-                    ) as chapter_translation_file:
-                        chapter_translation_lines = chapter_translation_file.readlines()
-                except:
-                    raise Exception("No chapter translation file found")
-
-            try:
-                with open(
-                    os.path.join(self.directory_path, "verse_counter.txt"), "r", encoding="utf-8"
-                ) as verse_counter_file:
-                    verse_counter_lines = verse_counter_file.readlines()
-            except:
-                verse_counter_lines = None
-
-            for verse in range(len(chapter_text_lines)):
-                if verse_counter_lines is not None and verse_counter_lines[verse].strip() != "-":
-                    a = verse_counter_lines[verse].strip()
-                else:
-                    a = ""
-
-                b = chapter_text_lines[verse].strip()
-                c = chapter_translation_lines[verse].strip()
-
-                csvwriter.writerow([a, b, c])
-
+        # delete
         try:
             os.remove(os.path.join(self.directory_path, "chapter_text.txt"))
         except:
             pass
+
         try:
             os.remove(os.path.join(self.directory_path, "chapter_translation.txt"))
         except:
             pass
+
         try:
             os.remove(os.path.join(self.directory_path, "chapter_translation_en.txt"))
         except:
             pass
+
         try:
             os.remove(os.path.join(self.directory_path, "verse_counter.txt"))
         except:
             pass
+
+        # deez = os.path.join(self.directory_path, "chapter.csv")
+        # if not os.path.isfile(deez):
+        #     with open(deez, "w", newline="", encoding="utf-8") as chapter_csv_file:
+        #         csvwriter = csv.writer(chapter_csv_file)
+        #         csvwriter.writerow(["verse", "ar", "en"])
+
+        #         with open(
+        #             os.path.join(self.directory_path, "chapter_text.txt"), "r", encoding="utf-8"
+        #         ) as chapter_text_file:
+        #             chapter_text_lines = chapter_text_file.readlines()
+
+        #         try:
+        #             with open(
+        #                 os.path.join(self.directory_path, "chapter_translation.txt"), "r", encoding="utf-8"
+        #             ) as chapter_translation_file:
+        #                 chapter_translation_lines = chapter_translation_file.readlines()
+        #         except:
+        #             try:
+        #                 with open(
+        #                     os.path.join(self.directory_path, "chapter_translation_en.txt"), "r", encoding="utf-8"
+        #                 ) as chapter_translation_file:
+        #                     chapter_translation_lines = chapter_translation_file.readlines()
+        #             except:
+        #                 raise Exception("No chapter translation file found")
+
+        #         try:
+        #             with open(
+        #                 os.path.join(self.directory_path, "verse_counter.txt"), "r", encoding="utf-8"
+        #             ) as verse_counter_file:
+        #                 verse_counter_lines = verse_counter_file.readlines()
+        #         except:
+        #             verse_counter_lines = None
+
+        #         for verse in range(len(chapter_text_lines)):
+        #             if verse_counter_lines is not None and verse_counter_lines[verse].strip() != "-":
+        #                 a = verse_counter_lines[verse].strip()
+        #             else:
+        #                 a = ""
+
+        #             b = chapter_text_lines[verse].strip()
+        #             c = chapter_translation_lines[verse].strip()
+
+        #             csvwriter.writerow([a, b, c])
 
     def abdul_rahman_mossad_maryam_93_98(self) -> None:
         """
@@ -714,13 +721,13 @@ class TikToks:
 
     def salim_bahanan_al_qariah_1_11(self) -> None:
         """
-        Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Al-Qariah by Salim Bahanan
+        Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Al-Qari'ah by Salim Bahanan
         """
 
-        self.directory_path = r"Surahs\Salim Bahanan - 101 - Al-Qariah"
+        self.directory_path = r"Surahs\Salim Bahanan - 101 - Al-Qari'ah"
         self.output_file_name = f"{(self.account.name).lower()}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 101 - Al-Qariah\chapter_translation.txt"
+        self.chapter_text_file_path = r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\chapter_text.txt"
+        self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 101 - Al-Qari'ah\chapter_translation.txt"
 
     def salim_bahanan_at_tin_1_8(self) -> None:
         """
