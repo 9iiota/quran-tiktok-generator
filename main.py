@@ -28,43 +28,23 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    test()
-    # tiktok = TikToks()
-    # tiktok.abdul_rahman_mossad_maryam_93_98()
+    tiktok = TikToks()
+    tiktok.abdul_rahman_mossad_maryam_93_98()
+    tiktok.joe()
     # tiktok.run()
 
 
 def test():
-    path = r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.27-29)"
+    # Get only the user-defined methods
+    user_defined_methods = [
+        func
+        for func in dir(TikToks)
+        if callable(getattr(TikToks, func)) and not func.startswith("__") and not "run" in func
+    ]
 
-    # Create the chapter text file path
-    csv_file_path = os.path.join(path, "info.csv")
-
-    if not os.path.exists(csv_file_path):
-        with open(csv_file_path, "w", newline="", encoding="utf-8") as csvfile:
-            csvwriter = csv.writer(csvfile)
-            csvwriter.writerow(["Verse", "Text", "Translation"])
-
-            for verse in range(27, 30):
-                # Get the verse text
-                verse_text = get_verse_text(4, verse)
-                verse_translation = get_verse_translation(4, verse)
-
-                # Write the verse text to the chapter text file
-                if verse_text is not None and verse_translation is not None:
-                    csvwriter.writerow(["", verse_text, verse_translation])
-                else:
-                    break
-
-    # csv_path = "test.csv"
-    # with open(csv_path, "r", encoding="utf-8") as csv_file:
-    #     for line in csv_file.readlines():
-    #         delimiter = ";"
-    #         verse_counter = line.split(delimiter)[0]
-    #         text = line.split(delimiter)[1]
-    #         translation = line.split(delimiter)[2]
-
-    #         print(verse_counter, text, translation)
+    # Print the user-defined methods
+    for method in user_defined_methods:
+        print(method)
 
 
 class ACCOUNTS(Enum):
@@ -96,9 +76,7 @@ class TikToks:
         self,
         directory_path: str = None,
         output_file_name: str = None,
-        chapter_text_file_path: str = None,
-        chapter_translation_file_path: str = None,
-        verse_counter_file_path: str = None,
+        chapter_csv_file_path: str = None,
         start_line: int = 1,
         end_line: int = None,
         time_modifier: float = 0.0,
@@ -123,9 +101,8 @@ class TikToks:
         mode: MODES = MODES.DARK,
     ) -> None:
         self.directory_path = directory_path
-        self.chapter_text_file_path = chapter_text_file_path
-        self.chapter_translation_file_path = chapter_translation_file_path
-        self.verse_counter_file_path = verse_counter_file_path
+        self.output_file_name = output_file_name
+        self.chapter_csv_file_path = chapter_csv_file_path
         self.start_line = start_line
         self.end_line = end_line
         self.time_modifier = time_modifier
@@ -148,22 +125,17 @@ class TikToks:
         self.shadow_opacity = shadow_opacity
         self.account = account
         self.mode = mode
-        self.output_file_name = f"{output_file_name} {self.language.value} {(self.account.name).lower()} {datetime.now().strftime('%H:%M:%S %d-%m-%Y')}"
 
     def run(self) -> None:
         if self.chapter is None:
-            self.chapter_text_file_path = rf"{self.directory_path}\chapter_text.txt"
-            self.chapter_translation_file_path = (
-                rf"{self.directory_path}\chapter_translation_{self.language.value}.txt"
-            )
-            self.verse_counter_file_path = rf"{self.directory_path}\verse_counter.txt"
+            self.chapter_csv_file_path = os.path.join(self.directory_path, "chapter.csv")
+
+        self.output_file_name = f"{self.output_file_name} {self.language.value} {(self.account.name).lower()} {datetime.now().strftime('%H.%M.%S %d-%m-%Y')}"
 
         create_tiktok(
             directory_path=self.directory_path,
             output_file_name=self.output_file_name,
-            chapter_text_file_path=self.chapter_text_file_path,
-            chapter_translation_file_path=self.chapter_translation_file_path,
-            verse_counter_file_path=self.verse_counter_file_path,
+            chapter_csv_file_path=self.chapter_csv_file_path,
             start_line=self.start_line,
             end_line=self.end_line,
             time_modifier=self.time_modifier,
@@ -187,6 +159,67 @@ class TikToks:
             account=self.account,
             mode=self.mode,
         )
+
+    def joe(self):
+        deez = os.path.join(self.directory_path, "chapter.csv")
+        with open(deez, "w", newline="", encoding="utf-8") as chapter_csv_file:
+            csvwriter = csv.writer(chapter_csv_file)
+            csvwriter.writerow(["verse", "ar", "en"])
+
+            with open(
+                os.path.join(self.directory_path, "chapter_text.txt"), "r", encoding="utf-8"
+            ) as chapter_text_file:
+                chapter_text_lines = chapter_text_file.readlines()
+
+            try:
+                with open(
+                    os.path.join(self.directory_path, "chapter_translation.txt"), "r", encoding="utf-8"
+                ) as chapter_translation_file:
+                    chapter_translation_lines = chapter_translation_file.readlines()
+            except:
+                try:
+                    with open(
+                        os.path.join(self.directory_path, "chapter_translation_en.txt"), "r", encoding="utf-8"
+                    ) as chapter_translation_file:
+                        chapter_translation_lines = chapter_translation_file.readlines()
+                except:
+                    raise Exception("No chapter translation file found")
+
+            try:
+                with open(
+                    os.path.join(self.directory_path, "verse_counter.txt"), "r", encoding="utf-8"
+                ) as verse_counter_file:
+                    verse_counter_lines = verse_counter_file.readlines()
+            except:
+                verse_counter_lines = None
+
+            for verse in range(len(chapter_text_lines)):
+                if verse_counter_lines is not None and verse_counter_lines[verse].strip() != "-":
+                    a = verse_counter_lines[verse].strip()
+                else:
+                    a = ""
+
+                b = chapter_text_lines[verse].strip()
+                c = chapter_translation_lines[verse].strip()
+
+                csvwriter.writerow([a, b, c])
+
+        try:
+            os.remove(os.path.join(self.directory_path, "chapter_text.txt"))
+        except:
+            pass
+        try:
+            os.remove(os.path.join(self.directory_path, "chapter_translation.txt"))
+        except:
+            pass
+        try:
+            os.remove(os.path.join(self.directory_path, "chapter_translation_en.txt"))
+        except:
+            pass
+        try:
+            os.remove(os.path.join(self.directory_path, "verse_counter.txt"))
+        except:
+            pass
 
     def abdul_rahman_mossad_maryam_93_98(self) -> None:
         """
@@ -637,6 +670,18 @@ class TikToks:
         self.verse_counter_file_path = r"Surahs\Muhammad Al-Luhaidan - An-Nazi'at (79.1-46)\verse_counter.txt"
         self.time_modifier = -0.2
 
+    def muhammad_al_luhaidan_an_nisa_27_29(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 27-29 of Surah An-Nisa by Muhammad Al-Luhaidan
+        """
+
+        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.27-29)"
+        self.output_file_name = "An-Nisa (4.27-29)"
+        self.time_modifier = -0.2
+        self.chapter = 4
+        self.start_verse = 27
+        self.end_verse = 29
+
     def muhammadloiq_qori_al_ahzab_35(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 35 of Surah Al-Ahzab by Muhammadloiq Qori
@@ -803,6 +848,7 @@ def create_tiktok(
     output_file_name: str,
     output_file_path: str = None,
     audio_file_path: str = None,
+    chapter_csv_file_path: str = None,
     chapter_text_file_path: str = None,
     chapter_translation_file_path: str = None,
     verse_counter_file_path: str = None,
@@ -871,58 +917,36 @@ def create_tiktok(
     verse_text_color = mode.value["verse_text_color"]
     verse_translation_color = mode.value["verse_translation_color"]
 
-    # Create chapter text file if it doesn't exist and populate it with the chapter text
-    if chapter_text_file_path is None:
-        # Create the chapter text file path
-        new_chapter_text_file_path = os.path.join(directory_path, "chapter_text.txt")
+    if chapter_csv_file_path is None:
+        new_chapter_csv_file_path = os.path.join(directory_path, "chapter.csv")
 
-        # Populate the chapter text file with the chapter text if it doesn't exist
-        if not os.path.isfile(new_chapter_text_file_path):
-            with open(new_chapter_text_file_path, "w", encoding="utf-8") as chapter_text_file:
+        if not os.path.isfile(new_chapter_csv_file_path):
+            # Create the chapter csv file path
+            with open(new_chapter_csv_file_path, "w", newline="", encoding="utf-8") as chapter_csv_file:
+                csvwriter = csv.writer(chapter_csv_file)
+                csvwriter.writerow(["verse", "ar", "en"])
+
                 for verse in range(start_verse, end_verse + 1):
                     # Get the verse text
                     verse_text = get_verse_text(chapter, verse)
 
-                    # Write the verse text to the chapter text file
-                    if verse_text is not None:
-                        chapter_text_file.write(verse_text + "\n")
-                    else:
-                        break
-
-        colored_print(Fore.GREEN, "Chapter text file created successfully")
-    else:
-        # Check if the chapter text file exists
-        if not os.path.isfile(chapter_text_file_path):
-            colored_print(Fore.RED, "Chapter text file not found")
-            return
-
-    # Create chapter translation file if it doesn't exist and populate it with the chapter translation
-    if chapter_translation_file_path is None:
-        # Create the chapter translation file path
-        new_chapter_translation_file_path = os.path.join(directory_path, f"chapter_translation_{language.value}.txt")
-
-        # Populate the chapter translation file with the chapter translation if it doesn't exist
-        if not os.path.isfile(new_chapter_translation_file_path):
-            with open(new_chapter_translation_file_path, "w", encoding="utf-8") as chapter_translation_file:
-                for verse in range(start_verse, end_verse + 1):
                     # Get the verse translation
                     verse_translation = get_verse_translation(chapter, verse, language.value)
 
-                    # Write the verse translation to the chapter translation file
-                    if verse_translation is not None:
-                        chapter_translation_file.write(verse_translation + "\n")
+                    # Write the verse text and translation to the chapter csv file
+                    if verse_text is not None and verse_translation is not None:
+                        csvwriter.writerow([verse, verse_text, verse_translation])
                     else:
                         break
 
-        colored_print(Fore.GREEN, "Chapter translation file created successfully")
+            colored_print(Fore.GREEN, "Chapter csv file created successfully")
     else:
-        # Check if the chapter translation file exists
-        if not os.path.isfile(chapter_translation_file_path):
-            colored_print(Fore.RED, "Chapter translation file not found")
+        # Check if the chapter csv file exists
+        if not os.path.isfile(chapter_csv_file_path):
+            colored_print(Fore.RED, "Chapter csv file not found")
             return
 
-    # Exit to allow for editing the chapter text and/or translation files
-    if chapter_text_file_path is None or chapter_translation_file_path is None:
+    if chapter_csv_file_path is None:
         return
 
     # Create timestamps text file if it doesn't exist and populate it with the timestamps or update it if it already exists
@@ -944,26 +968,17 @@ def create_tiktok(
         colored_print(Fore.RED, "Directory not found")
         return
 
-    # Read text file(s)
-    verse_counter_lines = None
-    if verse_counter_file_path is not None:
-        with open(verse_counter_file_path, "r", encoding="utf-8") as verse_counter_file:
-            verse_counter_lines = verse_counter_file.readlines()
-
-    with open(chapter_text_file_path, "r", encoding="utf-8") as chapter_text_file:
-        chapter_text_lines = chapter_text_file.readlines()
-
-    with open(chapter_translation_file_path, "r", encoding="utf-8") as chapter_translation_file:
-        chapter_translation_lines = chapter_translation_file.readlines()
+    # Read files
+    with open(chapter_csv_file_path, "r", encoding="utf-8") as chapter_csv_file:
+        chapter_csv_lines = chapter_csv_file.readlines()
 
     with open(timestamps_txt_file_path, "r", encoding="utf-8") as timestamps_file:
         timestamps_lines = timestamps_file.readlines()
 
         # Create the range of lines to loop through
         if end_line is None:
-            end_line = len(chapter_text_lines)
+            end_line = len(chapter_csv_lines)
 
-        end_line += 1
         loop_range = range(start_line, end_line)
 
         # Get data for final video
@@ -1032,14 +1047,11 @@ def create_tiktok(
         # Create video clips
         for i in loop_range:
             # Get data for video clip
-            verse_text = chapter_text_lines[i - 1].strip()
-            verse_translation = chapter_translation_lines[i - 1].strip()
-
-            if verse_counter_lines is not None:
-                verse_counter = verse_counter_lines[i - 1].strip()
-
-                if verse_counter == "-":
-                    verse_counter = None
+            line = chapter_csv_lines[i - 1].strip()
+            delimiter = ","
+            verse_counter = line.split(delimiter)[0]
+            verse_text = line.split(delimiter)[1]
+            verse_translation = "".join(line.split(delimiter)[2:])
 
             if i == start_line:
                 audio_start = video_start
@@ -1286,7 +1298,7 @@ def create_tiktok(
                 ),
             ]
 
-            if verse_counter_lines is not None and verse_counter is not None:
+            if verse_counter != "":
                 text_clips.append(
                     create_text_clip(
                         text=verse_counter,
@@ -1307,7 +1319,7 @@ def create_tiktok(
                 text_clips[0] = text_clips[0].set_start(text_start_time)
                 text_clips[1] = text_clips[1].set_start(text_start_time)
 
-                if verse_counter_lines is not None and verse_counter is not None:
+                if verse_counter != "":
                     text_clips[2] = text_clips[2].set_start(text_start_time)
 
                 text_clips_array.extend(text_clips)
