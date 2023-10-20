@@ -26,16 +26,13 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    # tiktok = TikToks()
-    # tiktok.abdul_rahman_mossad_al_ankabut_56_57()
-    # tiktok.run()
+    tiktok = TikToks()
+    tiktok.abdul_rahman_mossad_al_ankabut_54_57()
+    tiktok.run()
 
-    folders = os.listdir("Surahs")
-    for folder in folders:
-        files = os.listdir(os.path.join("Surahs", folder))
-        chapter_csv_file_path = os.path.join("Surahs", folder, "chapter.csv")
-        timestamps_csv_file_path = os.path.join("Surahs", folder, "Markers.csv")
-        add_or_update_timestamps_to_chapter_csv_file(chapter_csv_file_path, timestamps_csv_file_path)
+    # folders = os.listdir("Surahs")
+    # for folder in folders:
+    #     files = os.listdir(os.path.join("Surahs", folder))
 
 
 def test():
@@ -183,8 +180,8 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)"
         self.output_file_name = "Al-'Ankabut (29.54-60)"
-        self.start_line = 3
-        self.end_line = 27
+        self.start_line = 2
+        self.end_line = 26
         self.time_modifier = -0.2
         self.end_time_modifier = -0.2
 
@@ -195,10 +192,10 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)"
         self.output_file_name = "Al-'Ankabut (29.54-57)"
-        self.start_line = 3
-        self.end_line = 15
+        self.start_line = 2
+        self.end_line = 14
         self.time_modifier = -0.2
-        self.end_time_modifier = -0.2
+        self.end_time_modifier = -0.3
 
     def abdul_rahman_mossad_al_ankabut_56_57(self) -> None:
         """
@@ -207,10 +204,10 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)"
         self.output_file_name = "Al-'Ankabut (29.56-57)"
-        self.start_line = 10
-        self.end_line = 13
+        self.start_line = 9
+        self.end_line = 12
         self.time_modifier = -0.2
-        self.end_time_modifier = -0.2
+        self.end_time_modifier = -0.4
 
     def abdul_rahman_mossad_al_ghashiyah_10_26(self) -> None:
         """
@@ -833,7 +830,7 @@ def create_tiktok(
         chapter_csv_file_path = os.path.join(directory_path, "chapter.csv")
 
     if not os.path.isfile(chapter_csv_file_path):
-        create_csv_file(chapter_csv_file_path, language.value, chapter, start_verse, end_verse)
+        create_chapter_csv_file(chapter_csv_file_path, language.value, chapter, start_verse, end_verse)
 
         colored_print(Fore.GREEN, "Chapter csv file created successfully")
         return
@@ -851,11 +848,7 @@ def create_tiktok(
 
         # Populate the timestamps text file with the timestamps if it doesn't exist or update it if it already exists
         if os.path.isfile(timestamps_csv_file_path):
-            create_or_update_timestamps_txt_file(timestamps_csv_file_path)
-
-            timestamps_txt_file_path = timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
-
-            sort_timestamps_txt_file(timestamps_txt_file_path)
+            add_or_update_timestamps_to_chapter_csv_file(chapter_csv_file_path, timestamps_csv_file_path)
         else:
             colored_print(Fore.RED, "Markers.csv file not found")
             return
@@ -864,257 +857,238 @@ def create_tiktok(
         return
 
     # Read files
-    chapter_csv_lines = select_columns(chapter_csv_file_path, ["verse", "ar", language.value])
+    chapter_csv_lines = select_columns(chapter_csv_file_path, ["verse", "ar", language.value, "timestamps"])
 
-    with open(timestamps_txt_file_path, "r", encoding="utf-8") as timestamps_file:
-        timestamps_lines = timestamps_file.readlines()
-
-        # Create the range of lines to loop through
-        if end_line is None:
-            end_line = len(chapter_csv_lines)
-
+    # Create the range of lines to loop through
+    if end_line is None:
+        end_line = len(chapter_csv_lines)
+    else:
         end_line += 1
 
-        loop_range = range(start_line, end_line)
+    loop_range = range(start_line, end_line)
 
-        # Get data for final video
-        video_width, video_height = video_dimensions
-        if start_time_modifier != 0.0:
-            video_start = modify_timestamp(timestamps_lines[start_line - 1].strip().split(",")[0], time_modifier)
+    # Get data for final video
+    video_width, video_height = video_dimensions
+    video_start_timestamp = chapter_csv_lines[start_line - 1][3].strip().split(",")[0]
+    video_end_timestamp = chapter_csv_lines[end_line - 1][3].strip().split(",")[0]
+    if start_time_modifier != 0.0:
+        video_start = modify_timestamp(video_start_timestamp, time_modifier)
+    else:
+        video_start = modify_timestamp(video_start_timestamp, start_time_modifier)
+
+    if end_time_modifier != 0.0:
+        video_end = modify_timestamp(video_end_timestamp, time_modifier)
+    else:
+        video_end = modify_timestamp(video_end_timestamp, end_time_modifier)
+
+    if background_video is not None:
+        background_clip = mpy.VideoFileClip(background_video).subclip(video_start)
+
+        # Specify the target aspect ratio (9:16)
+        target_aspect_ratio = 9 / 16
+
+        # Calculate the dimensions to fit the target aspect ratio without resizing
+        background_clip_width, background_clip_height = background_clip.size
+        current_aspect_ratio = background_clip_width / background_clip_height
+
+        if current_aspect_ratio > target_aspect_ratio:
+            # Video is wider than 9:16, so we need to crop the sides
+            new_width = int(background_clip_height * target_aspect_ratio)
+
+            if background_video_horizontal_offset is None:
+                background_video_horizontal_offset = (background_clip_width - new_width) // 2
+
+            background_clip = background_clip.crop(
+                x1=background_video_horizontal_offset,
+                x2=background_video_horizontal_offset + new_width,
+            ).resize(video_dimensions)
         else:
-            video_start = modify_timestamp(timestamps_lines[start_line - 1].strip().split(",")[0], start_time_modifier)
+            # Video is taller than 9:16, so we need to crop the top and bottom
+            new_height = int(background_clip_width / target_aspect_ratio)
 
-        if end_time_modifier != 0.0:
-            video_end = modify_timestamp(timestamps_lines[end_line - 1].strip().split(",")[0], time_modifier)
+            if background_video_vertical_offset is None:
+                background_video_vertical_offset = (background_clip_height - new_height) // 2
+
+            background_clip = background_clip.crop(
+                y1=background_video_vertical_offset, y2=background_video_vertical_offset + new_height
+            ).resize(video_dimensions)
+
+        # Create shadow clip
+        shadow_clip = create_shadow_clip(
+            size=video_dimensions,
+            color=shadow_color,
+            duration=background_clip.duration,
+            opacity=shadow_opacity,
+        )
+
+        # Overlay shadow clip on video
+        video = mpy.CompositeVideoClip([background_clip, shadow_clip])
+
+    # Create variables
+    all_background_clips_paths = get_all_background_clips_paths(background_clips_directory_paths)
+    used_background_clips_paths = []
+    video_clips = []
+    text_clips_array = []
+    video_map = {int(key): value for key, value in video_map.items()} if video_map is not None else None
+    video_map_output = {}
+
+    # Create video clips
+    for i in loop_range:
+        # Get data for video clip
+        current_line = chapter_csv_lines[i - 1]
+        verse_counter, verse_text, verse_translation, timestamp = current_line
+
+        next_line = chapter_csv_lines[i]
+        next_timestamp = next_line[3]
+
+        if i == start_line:
+            audio_start = video_start
         else:
-            video_end = modify_timestamp(timestamps_lines[end_line - 1].strip().split(",")[0], end_time_modifier)
+            audio_start = modify_timestamp(timestamp.strip().split(",")[0], time_modifier)
 
-        if background_video is not None:
-            background_clip = mpy.VideoFileClip(background_video).subclip(video_start)
+        if i == end_line - 1:
+            audio_end = video_end
+        else:
+            audio_end = modify_timestamp(next_timestamp.strip().split(",")[0], time_modifier)
 
-            # Specify the target aspect ratio (9:16)
-            target_aspect_ratio = 9 / 16
+        video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
 
-            # Calculate the dimensions to fit the target aspect ratio without resizing
-            background_clip_width, background_clip_height = background_clip.size
-            current_aspect_ratio = background_clip_width / background_clip_height
+        # Get text duration
+        try:
+            text_end = modify_timestamp(next_timestamp.strip().split(",")[1], time_modifier)
+            text_duration = get_time_difference_seconds(audio_start, text_end)
+        except IndexError:
+            text_duration = video_clip_duration
 
-            if current_aspect_ratio > target_aspect_ratio:
-                # Video is wider than 9:16, so we need to crop the sides
-                new_width = int(background_clip_height * target_aspect_ratio)
+        if background_video is None:
+            # Create variables for background clips
+            video_clip_background_clip_paths = []
 
-                if background_video_horizontal_offset is None:
-                    background_video_horizontal_offset = (background_clip_width - new_width) // 2
+            # Get background clips for video clip if not in pictures mode
+            if not pictures_mode:
+                background_clips_duration = 0
 
-                background_clip = background_clip.crop(
-                    x1=background_video_horizontal_offset,
-                    x2=background_video_horizontal_offset + new_width,
-                ).resize(video_dimensions)
-            else:
-                # Video is taller than 9:16, so we need to crop the top and bottom
-                new_height = int(background_clip_width / target_aspect_ratio)
+                if video_map is not None and i in video_map.keys():
+                    # Get background clips from the video map
+                    for j in range(len(video_map[i])):
+                        background_clip_info = video_map[i][j]
 
-                if background_video_vertical_offset is None:
-                    background_video_vertical_offset = (background_clip_height - new_height) // 2
+                        background_clip_path = background_clip_info[0]
+                        background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clips_speed)
 
-                background_clip = background_clip.crop(
-                    y1=background_video_vertical_offset, y2=background_video_vertical_offset + new_height
-                ).resize(video_dimensions)
+                        background_clip_duration = (
+                            get_video_duration_seconds(background_clip_path) / background_clips_speed
+                        )
 
-            # Create shadow clip
-            shadow_clip = create_shadow_clip(
-                size=video_dimensions,
-                color=shadow_color,
-                duration=background_clip.duration,
-                opacity=shadow_opacity,
-            )
+                        # Get max time offset
+                        max_time_offset = get_max_time_offset(background_clip_duration)
 
-            # Overlay shadow clip on video
-            video = mpy.CompositeVideoClip([background_clip, shadow_clip])
+                        # Get time offset
+                        if (
+                            len(background_clip_info) > 1
+                            and isinstance(background_clip_info[1], (int, float))
+                            and background_clip_info[1] <= max_time_offset
+                        ):
+                            # Time offset entry exists, is either an int or a float and is less than or equal to the max time offset
+                            background_clip_time_offset = background_clip_info[1]
+                        else:
+                            new_background_clip_time_offset = get_random_time_offset(max_time_offset)
 
-        # Create variables
-        all_background_clips_paths = get_all_background_clips_paths(background_clips_directory_paths)
-        used_background_clips_paths = []
-        video_clips = []
-        text_clips_array = []
-        video_map = {int(key): value for key, value in video_map.items()} if video_map is not None else None
-        video_map_output = {}
-
-        # Create video clips
-        for i in loop_range:
-            # Get data for video clip
-            line = chapter_csv_lines[i - 1]
-            verse_counter, verse_text, verse_translation = line
-
-            if i == start_line:
-                audio_start = video_start
-            else:
-                audio_start = modify_timestamp(timestamps_lines[i - 1].strip().split(",")[0], time_modifier)
-
-            if i == end_line - 1:
-                audio_end = video_end
-            else:
-                audio_end = modify_timestamp(timestamps_lines[i].strip().split(",")[0], time_modifier)
-
-            video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
-
-            # Get text duration
-            try:
-                text_end = modify_timestamp(timestamps_lines[i].strip().split(",")[1], time_modifier)
-                text_duration = get_time_difference_seconds(audio_start, text_end)
-            except IndexError:
-                text_duration = video_clip_duration
-
-            if background_video is None:
-                # Create variables for background clips
-                video_clip_background_clip_paths = []
-
-                # Get background clips for video clip if not in pictures mode
-                if not pictures_mode:
-                    background_clips_duration = 0
-
-                    if video_map is not None and i in video_map.keys():
-                        # Get background clips from the video map
-                        for j in range(len(video_map[i])):
-                            background_clip_info = video_map[i][j]
-
-                            background_clip_path = background_clip_info[0]
-                            background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clips_speed)
-
-                            background_clip_duration = (
-                                get_video_duration_seconds(background_clip_path) / background_clips_speed
+                            colored_print(
+                                Fore.YELLOW,
+                                f"Verse {i} background clip {j + 1} time offset ({background_clip_time_offset}) is invalid, using ({new_background_clip_time_offset}) instead",
                             )
 
-                            # Get max time offset
-                            max_time_offset = get_max_time_offset(background_clip_duration)
+                            background_clip_time_offset = new_background_clip_time_offset
 
-                            # Get time offset
-                            if (
-                                len(background_clip_info) > 1
-                                and isinstance(background_clip_info[1], (int, float))
-                                and background_clip_info[1] <= max_time_offset
-                            ):
-                                # Time offset entry exists, is either an int or a float and is less than or equal to the max time offset
-                                background_clip_time_offset = background_clip_info[1]
-                            else:
-                                new_background_clip_time_offset = get_random_time_offset(max_time_offset)
+                        # Get max horizontal offset
+                        max_horizontal_offset = get_max_horizontal_offset(background_clip.w, video_width)
+                        if max_horizontal_offset < 0:
+                            # Background clip width is less than video width
+                            raise ValueError(
+                                f"Verse {i} Background clip {j + 1} width ({background_clip.w}) is less than video width ({video_width})"
+                            )
 
-                                colored_print(
-                                    Fore.YELLOW,
-                                    f"Verse {i} background clip {j + 1} time offset ({background_clip_time_offset}) is invalid, using ({new_background_clip_time_offset}) instead",
-                                )
+                        # Get horizontal offset
+                        if (
+                            len(background_clip_info) > 2
+                            and isinstance(background_clip_info[2], int)
+                            and background_clip_info[2] <= max_horizontal_offset
+                        ):
+                            # Horizontal offset entry exists, is an int and is less than or equal to the max horizontal offset
+                            background_clip_horizontal_offset = background_clip_info[2]
+                        else:
+                            new_background_clip_horizontal_offset = get_random_horizontal_offset(max_horizontal_offset)
 
-                                background_clip_time_offset = new_background_clip_time_offset
+                            colored_print(
+                                Fore.YELLOW,
+                                f"Verse {i} background clip {j + 1} horizontal offset ({background_clip_horizontal_offset}) is invalid, using ({new_background_clip_horizontal_offset}) instead",
+                            )
 
-                            # Get max horizontal offset
-                            max_horizontal_offset = get_max_horizontal_offset(background_clip.w, video_width)
-                            if max_horizontal_offset < 0:
-                                # Background clip width is less than video width
-                                raise ValueError(
-                                    f"Verse {i} Background clip {j + 1} width ({background_clip.w}) is less than video width ({video_width})"
-                                )
+                            background_clip_horizontal_offset = new_background_clip_horizontal_offset
 
-                            # Get horizontal offset
-                            if (
-                                len(background_clip_info) > 2
-                                and isinstance(background_clip_info[2], int)
-                                and background_clip_info[2] <= max_horizontal_offset
-                            ):
-                                # Horizontal offset entry exists, is an int and is less than or equal to the max horizontal offset
-                                background_clip_horizontal_offset = background_clip_info[2]
-                            else:
-                                new_background_clip_horizontal_offset = get_random_horizontal_offset(
-                                    max_horizontal_offset
-                                )
+                        # Get background clip mirrored
+                        if (
+                            len(background_clip_info) > 3
+                            and isinstance(background_clip_info[3], (str, bool))
+                            and background_clip_info[3] in ["True", "False", True, False]
+                        ):
+                            # Mirrored entry exists and is a string
+                            background_clip_mirrored = str(background_clip_info[3])
+                        elif allow_mirrored_background_clips:
+                            new_background_clip_mirrored = str(random.choice([True, False]))
 
-                                colored_print(
-                                    Fore.YELLOW,
-                                    f"Verse {i} background clip {j + 1} horizontal offset ({background_clip_horizontal_offset}) is invalid, using ({new_background_clip_horizontal_offset}) instead",
-                                )
+                            colored_print(
+                                Fore.YELLOW,
+                                f"Verse {i} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
+                            )
 
-                                background_clip_horizontal_offset = new_background_clip_horizontal_offset
+                            background_clip_mirrored = new_background_clip_mirrored
+                        else:
+                            new_background_clip_mirrored = "False"
 
-                            # Get background clip mirrored
-                            if (
-                                len(background_clip_info) > 3
-                                and isinstance(background_clip_info[3], (str, bool))
-                                and background_clip_info[3] in ["True", "False", True, False]
-                            ):
-                                # Mirrored entry exists and is a string
-                                background_clip_mirrored = str(background_clip_info[3])
-                            elif allow_mirrored_background_clips:
-                                new_background_clip_mirrored = str(random.choice([True, False]))
+                            colored_print(
+                                Fore.YELLOW,
+                                f"Verse {i} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
+                            )
 
-                                colored_print(
-                                    Fore.YELLOW,
-                                    f"Verse {i} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
-                                )
+                            background_clip_mirrored = new_background_clip_mirrored
 
-                                background_clip_mirrored = new_background_clip_mirrored
-                            else:
-                                new_background_clip_mirrored = "False"
-
-                                colored_print(
-                                    Fore.YELLOW,
-                                    f"Verse {i} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
-                                )
-
-                                background_clip_mirrored = new_background_clip_mirrored
-
-                            # Adjust background clip duration
-                            adjusted_background_clip_duration = background_clip_duration - background_clip_time_offset
-
-                            video_clip_leftover_duration = video_clip_duration - background_clips_duration
-                            if check_background_clip_duration(
-                                video_clip_leftover_duration, adjusted_background_clip_duration
-                            ):
-                                # Background clip duration is appropriate
-                                video_clip_background_clip_paths.append(
-                                    [
-                                        background_clip_path,
-                                        background_clip_time_offset,
-                                        background_clip_horizontal_offset,
-                                        background_clip_mirrored,
-                                    ]
-                                )
-                                used_background_clips_paths.append(background_clip_path)
-
-                                background_clips_duration += adjusted_background_clip_duration
-
-                                if background_clips_duration >= video_clip_duration:
-                                    break
-                            else:
-                                colored_print(
-                                    Fore.RED,
-                                    f"Verse {i} background clip {j + 1} duration ({background_clip_duration}) is invalid, skipping...",
-                                )
+                        # Adjust background clip duration
+                        adjusted_background_clip_duration = background_clip_duration - background_clip_time_offset
 
                         video_clip_leftover_duration = video_clip_duration - background_clips_duration
-                        if video_clip_leftover_duration > 0:
-                            (
-                                used_background_clips_paths,
-                                i,
-                                video_clip_background_clip_paths,
-                                j,
-                            ) = get_valid_background_clips(
-                                all_background_clips_paths,
-                                allow_duplicate_background_clips,
-                                allow_mirrored_background_clips,
-                                used_background_clips_paths,
-                                video_map,
-                                background_clips_speed,
-                                video_clip_duration,
-                                background_clips_duration,
-                                i,
-                                video_width,
-                                video_clip_background_clip_paths,
-                                j,
+                        if check_background_clip_duration(
+                            video_clip_leftover_duration, adjusted_background_clip_duration
+                        ):
+                            # Background clip duration is appropriate
+                            video_clip_background_clip_paths.append(
+                                [
+                                    background_clip_path,
+                                    background_clip_time_offset,
+                                    background_clip_horizontal_offset,
+                                    background_clip_mirrored,
+                                ]
                             )
-                    else:
+                            used_background_clips_paths.append(background_clip_path)
+
+                            background_clips_duration += adjusted_background_clip_duration
+
+                            if background_clips_duration >= video_clip_duration:
+                                break
+                        else:
+                            colored_print(
+                                Fore.RED,
+                                f"Verse {i} background clip {j + 1} duration ({background_clip_duration}) is invalid, skipping...",
+                            )
+
+                    video_clip_leftover_duration = video_clip_duration - background_clips_duration
+                    if video_clip_leftover_duration > 0:
                         (
                             used_background_clips_paths,
                             i,
                             video_clip_background_clip_paths,
+                            j,
                         ) = get_valid_background_clips(
                             all_background_clips_paths,
                             allow_duplicate_background_clips,
@@ -1127,178 +1101,191 @@ def create_tiktok(
                             i,
                             video_width,
                             video_clip_background_clip_paths,
-                        )[
-                            :3
-                        ]
-
-                    # Add background clips to video map output
-                    video_map_output[i] = video_clip_background_clip_paths
+                            j,
+                        )
                 else:
-                    background_clip_path = get_random_background_clip_path(all_background_clips_paths)
+                    (
+                        used_background_clips_paths,
+                        i,
+                        video_clip_background_clip_paths,
+                    ) = get_valid_background_clips(
+                        all_background_clips_paths,
+                        allow_duplicate_background_clips,
+                        allow_mirrored_background_clips,
+                        used_background_clips_paths,
+                        video_map,
+                        background_clips_speed,
+                        video_clip_duration,
+                        background_clips_duration,
+                        i,
+                        video_width,
+                        video_clip_background_clip_paths,
+                    )[:3]
 
-                    background_clip = mpy.VideoFileClip(background_clip_path)
+                # Add background clips to video map output
+                video_map_output[i] = video_clip_background_clip_paths
+            else:
+                background_clip_path = get_random_background_clip_path(all_background_clips_paths)
 
-                    # Get time offset
-                    background_clip_time_offset = random.uniform(
-                        0, max(0, background_clip_duration - video_clip_duration)
-                    )
+                background_clip = mpy.VideoFileClip(background_clip_path)
 
-                    # Get x offset
-                    width_difference = background_clip.w - video_dimensions[0]
-                    background_clip_horizontal_offset = (
-                        random.randint(0, width_difference) if width_difference > 0 else 0
-                    )
+                # Get time offset
+                background_clip_time_offset = random.uniform(0, max(0, background_clip_duration - video_clip_duration))
 
-                    # Get background clip mirrored
-                    if allow_mirrored_background_clips:
-                        background_clip_mirrored = str(random.choice([True, False]))
-                    else:
-                        background_clip_mirrored = "False"
+                # Get x offset
+                width_difference = background_clip.w - video_dimensions[0]
+                background_clip_horizontal_offset = random.randint(0, width_difference) if width_difference > 0 else 0
 
-                    video_clip_background_clip_paths.append(
-                        [
-                            background_clip_path,
-                            background_clip_time_offset,
-                            background_clip_horizontal_offset,
-                            background_clip_mirrored,
-                        ]
-                    )
+                # Get background clip mirrored
+                if allow_mirrored_background_clips:
+                    background_clip_mirrored = str(random.choice([True, False]))
+                else:
+                    background_clip_mirrored = "False"
 
-            # Start creating video clip
-            colored_print(Fore.MAGENTA, f"Creating clip {i - start_line + 1}...")
+                video_clip_background_clip_paths.append(
+                    [
+                        background_clip_path,
+                        background_clip_time_offset,
+                        background_clip_horizontal_offset,
+                        background_clip_mirrored,
+                    ]
+                )
 
-            # Create text clips
-            text_clips = [
+        # Start creating video clip
+        colored_print(Fore.MAGENTA, f"Creating clip {i - start_line + 1}...")
+
+        # Create text clips
+        text_clips = [
+            create_text_clip(
+                text=verse_text,
+                size=(video_dimensions[0] * 0.9, None),
+                color=verse_text_color,
+                fontsize=44,
+                font=ARABIC_FONT,
+                position=("center", 0.41),
+                method="caption",
+                duration=text_duration,
+            ),
+            create_text_clip(
+                text=verse_translation,
+                size=(video_dimensions[0] * 0.6, None),
+                color=verse_translation_color,
+                fontsize=20,
+                font=english_font,
+                position=("center", 0.49),
+                method="caption",
+                duration=text_duration,
+            ),
+        ]
+
+        if verse_counter != "":
+            text_clips.append(
                 create_text_clip(
-                    text=verse_text,
-                    size=(video_dimensions[0] * 0.9, None),
-                    color=verse_text_color,
-                    fontsize=44,
-                    font=ARABIC_FONT,
-                    position=("center", 0.41),
-                    method="caption",
-                    duration=text_duration,
-                ),
-                create_text_clip(
-                    text=verse_translation,
+                    text=verse_counter,
                     size=(video_dimensions[0] * 0.6, None),
                     color=verse_translation_color,
                     fontsize=20,
                     font=english_font,
-                    position=("center", 0.49),
+                    position=("center", 0.75),
                     method="caption",
                     duration=text_duration,
-                ),
-            ]
+                )
+            )
+
+        if background_video:
+            # Get start time of text clips
+            text_start_time = get_time_difference_seconds(audio_start, video_start)
+
+            text_clips[0] = text_clips[0].set_start(text_start_time)
+            text_clips[1] = text_clips[1].set_start(text_start_time)
 
             if verse_counter != "":
-                text_clips.append(
-                    create_text_clip(
-                        text=verse_counter,
-                        size=(video_dimensions[0] * 0.6, None),
-                        color=verse_translation_color,
-                        fontsize=20,
-                        font=english_font,
-                        position=("center", 0.75),
-                        method="caption",
-                        duration=text_duration,
-                    )
-                )
+                text_clips[2] = text_clips[2].set_start(text_start_time)
 
-            if background_video:
-                # Get start time of text clips
-                text_start_time = get_time_difference_seconds(audio_start, video_start)
-
-                text_clips[0] = text_clips[0].set_start(text_start_time)
-                text_clips[1] = text_clips[1].set_start(text_start_time)
-
-                if verse_counter != "":
-                    text_clips[2] = text_clips[2].set_start(text_start_time)
-
-                text_clips_array.extend(text_clips)
-            else:
-                # Create shadow clip
-                shadow_clip = create_shadow_clip(
-                    size=video_dimensions,
-                    color=shadow_color,
-                    duration=video_clip_duration,
-                    opacity=shadow_opacity,
-                )
-
-                # Create video clip
-                video_clip = create_video_clip(
-                    background_clip_paths=video_clip_background_clip_paths,
-                    final_clip_duration=video_clip_duration,
-                    video_dimensions=video_dimensions,
-                    text_clips=text_clips,
-                    still_frame=pictures_mode,
-                    background_clip_speed=background_clips_speed,
-                    text_duration=text_duration,
-                    shadow_clip=shadow_clip,
-                )
-
-                colored_print(Fore.CYAN, f"Using background clip(s):")
-                for background_clip_path in video_clip_background_clip_paths:
-                    colored_print(Fore.CYAN, f"- {background_clip_path[0]}")
-
-                video_clips.append(video_clip)
-
-                colored_print(Fore.GREEN, f"Successfully created clip {i - start_line + 1}")
-
-        audio = mpy.AudioFileClip(audio_file_path).set_start(video_start).subclip(video_start, video_end)
-
-        if background_video is not None:
-            final_video = mpy.CompositeVideoClip([video, *text_clips_array], use_bgclip=True).set_audio(audio)
-
-            video_map_output = background_video
+            text_clips_array.extend(text_clips)
         else:
-            # Concatenate video clips, add audio, and set duration for final video
-            final_video = mpy.concatenate_videoclips(clips=video_clips, method="chain").set_audio(audio)
+            # Create shadow clip
+            shadow_clip = create_shadow_clip(
+                size=video_dimensions,
+                color=shadow_color,
+                duration=video_clip_duration,
+                opacity=shadow_opacity,
+            )
 
-        # Start creating final video
-        colored_print(Fore.GREEN, "Creating final video...")
+            # Create video clip
+            video_clip = create_video_clip(
+                background_clip_paths=video_clip_background_clip_paths,
+                final_clip_duration=video_clip_duration,
+                video_dimensions=video_dimensions,
+                text_clips=text_clips,
+                still_frame=pictures_mode,
+                background_clip_speed=background_clips_speed,
+                text_duration=text_duration,
+                shadow_clip=shadow_clip,
+            )
 
-        # Create json file and write video map output to it
-        json_output_file_path = output_file_path.replace(".mp4", ".json")
+            colored_print(Fore.CYAN, f"Using background clip(s):")
+            for background_clip_path in video_clip_background_clip_paths:
+                colored_print(Fore.CYAN, f"- {background_clip_path[0]}")
 
-        formatter = Formatter()
-        formatter.use_tab_to_indent = True
-        formatter.nested_bracket_padding = False
-        formatter.max_inline_complexity = 10
-        formatter.json_eol_style = EolStyle.LF
-        formatter.dont_justify_numbers = True
+            video_clips.append(video_clip)
 
-        formatter.dump(
-            video_map_output,
-            output_file=json_output_file_path,
-            newline_at_eof=True,
-        )
+            colored_print(Fore.GREEN, f"Successfully created clip {i - start_line + 1}")
 
-        try:
-            if background_video:
-                final_video.write_videofile(
-                    output_file_path,
-                    fps=video.fps,
-                )
-            elif not pictures_mode:
-                final_video.write_videofile(
-                    filename=output_file_path,
-                    codec="libx264",
-                )
-            else:
-                final_video.write_videofile(
-                    filename=output_file_path,
-                    codec="libx264",
-                    fps=60,
-                )
+    audio = mpy.AudioFileClip(audio_file_path).set_start(video_start).subclip(video_start, video_end)
 
-            colored_print(Fore.GREEN, "Successfully created final video")
+    if background_video is not None:
+        final_video = mpy.CompositeVideoClip([video, *text_clips_array], use_bgclip=True).set_audio(audio)
 
-            # Create notification to indicate that the video has been created
-            create_notification(title="TikTok Video Created", message=f"Video created for {directory_path}")
-        except Exception as error:
-            colored_print(Fore.RED, f"Error: {error}")
-            return
+        video_map_output = background_video
+    else:
+        # Concatenate video clips, add audio, and set duration for final video
+        final_video = mpy.concatenate_videoclips(clips=video_clips, method="chain").set_audio(audio)
+
+    # Start creating final video
+    colored_print(Fore.GREEN, "Creating final video...")
+
+    # Create json file and write video map output to it
+    json_output_file_path = output_file_path.replace(".mp4", ".json")
+
+    formatter = Formatter()
+    formatter.use_tab_to_indent = True
+    formatter.nested_bracket_padding = False
+    formatter.max_inline_complexity = 10
+    formatter.json_eol_style = EolStyle.LF
+    formatter.dont_justify_numbers = True
+
+    formatter.dump(
+        video_map_output,
+        output_file=json_output_file_path,
+        newline_at_eof=True,
+    )
+
+    try:
+        if background_video:
+            final_video.write_videofile(
+                output_file_path,
+                fps=video.fps,
+            )
+        elif not pictures_mode:
+            final_video.write_videofile(
+                filename=output_file_path,
+                codec="libx264",
+            )
+        else:
+            final_video.write_videofile(
+                filename=output_file_path,
+                codec="libx264",
+                fps=60,
+            )
+
+        colored_print(Fore.GREEN, "Successfully created final video")
+
+        # Create notification to indicate that the video has been created
+        create_notification(title="TikTok Video Created", message=f"Video created for {directory_path}")
+    except Exception as error:
+        colored_print(Fore.RED, f"Error: {error}")
+        return
 
 
 def create_video_clip(
@@ -1527,31 +1514,6 @@ def get_verse_translation(chapter, verse, language="en"):
         return None
 
 
-def create_or_update_timestamps_txt_file(timestamps_csv_file_path: str) -> None:
-    """
-    Creates a timestamps.txt file from a Markers.csv file
-    """
-
-    with open(timestamps_csv_file_path, "r", encoding="utf-8") as csv_file:
-        lines = csv_file.readlines()[1:]
-        timestamps_txt_file_path = timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
-        with open(timestamps_txt_file_path, "w", encoding="utf-8") as output_file:
-            i = 0
-            while i < len(lines):
-                marker_time = lines[i].split("\t")[1]
-                marker_type = lines[i].split("\t")[4]
-                if marker_type == "Subclip":
-                    i += 1
-                    time2 = lines[i].split("\t")[1]
-                    output_file.write(f"{time2},{marker_time}\n")
-                else:
-                    output_file.write(marker_time)
-                    if (i + 1) < len(lines):
-                        output_file.write("\n")
-                i += 1
-    colored_print(Fore.GREEN, f"Successfully created '{timestamps_txt_file_path}'")
-
-
 def add_or_update_timestamps_to_chapter_csv_file(chapter_csv_file_path: str, timestamps_csv_file_path: str) -> None:
     with open(timestamps_csv_file_path, "r", encoding="utf-8") as timestamps_csv_file:
         lines = timestamps_csv_file.readlines()[1:]
@@ -1599,34 +1561,6 @@ def add_or_update_timestamps_to_chapter_csv_file(chapter_csv_file_path: str, tim
         remove_empty_rows_from_csv_file(chapter_csv_file_path)
 
     colored_print(Fore.GREEN, f"Successfully added timestamps to '{chapter_csv_file_path}'")
-
-
-def sort_timestamps_txt_file(timestamps_txt_file_path: str) -> None:
-    """
-    Sorts the timestamps in a timestamps.txt file
-    """
-
-    # Read timestamps from the file
-    with open(timestamps_txt_file_path, "r") as file:
-        timestamps = file.read().splitlines()
-
-    # Convert timestamps to timedelta objects
-    timestamps = [
-        timedelta(minutes=int((time.split(",")[0]).split(":")[0]), seconds=float((time.split(",")[0]).split(":")[1]))
-        for time in timestamps
-    ]
-
-    # Sort the timestamps
-    timestamps.sort()
-
-    # Convert sorted timestamps back to string format
-    sorted_timestamps = [
-        f"{ts.seconds // 60}:{ts.seconds % 60:02d}.{ts.microseconds // 1000:03d}" for ts in timestamps
-    ]
-
-    # Write the sorted timestamps back to the file
-    with open(timestamps_txt_file_path, "w") as file:
-        file.write("\n".join(sorted_timestamps))
 
 
 def get_all_background_clips_paths(
@@ -1866,7 +1800,7 @@ def add_translation_to_existing_csv_file(
             return True
 
 
-def create_csv_file(
+def create_chapter_csv_file(
     chapter_csv_file_path: str, language: LANGUAGES, chapter: int, start_verse: int, end_verse: int
 ) -> None:
     # Create the chapter csv file path
@@ -1890,6 +1824,7 @@ def create_csv_file(
     remove_empty_rows_from_csv_file(chapter_csv_file_path)
 
 
+# should be deleted soon idk
 def add_timestamps_to_csv_file(
     chapter_csv_file_path: str, timestamps_txt_file_path: str, field_name: str = "timestamps"
 ) -> bool:
