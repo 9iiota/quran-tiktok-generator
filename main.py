@@ -26,10 +26,8 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks(
-        language=LANGUAGES.DUTCH,
-    )
-    tiktok.abdul_rahman_mossad_al_adiyat_1_11()
+    tiktok = TikToks()
+    tiktok.abdul_rahman_mossad_yunus_17_20()
     tiktok.run()
 
 
@@ -207,17 +205,6 @@ class TikToks:
         self.time_modifier = -0.2
         self.end_time_modifier = -0.2
 
-    def abdul_rahman_mossad_maryam_93_98(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 93-98 of Surah Maryam by Abdul Rahman Mossad
-        """
-
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Maryam (19.65-98)"
-        self.output_file_name = "Maryam (19.93-98)"
-        self.start_line = 29
-        self.end_line = 45
-        self.time_modifier = -0.2
-
     def abdul_rahman_mossad_al_ghashiyah_10_26(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 10-26 of Surah Al-Ghashiyah by Abdul Rahman Mossad
@@ -240,10 +227,10 @@ class TikToks:
         self.time_modifier = -0.2
         self.end_time_modifier = -0.2
 
-        def abdul_rahman_mossad_al_muzzammil_6_13(self) -> None:
-            """
-            Modifies the parameters of the class for a TikTok video for verses 6-13 of Surah Al-Muzzammil by Abdul Rahman Mossad
-            """
+    def abdul_rahman_mossad_al_muzzammil_6_13(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 6-13 of Surah Al-Muzzammil by Abdul Rahman Mossad
+        """
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
         self.output_file_name = "Al-Muzzammil (73.6-13)"
@@ -276,12 +263,16 @@ class TikToks:
         self.time_modifier = -0.2
         self.end_time_modifier = -0.2
 
-    ######################################################################################################################################################
-    ######################################################################################################################################################
-    ######################################################################################################################################################
-    ######################################################################################################################################################
-    ######################################################################################################################################################
-    ######################################################################################################################################################
+    def abdul_rahman_mossad_maryam_93_98(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 93-98 of Surah Maryam by Abdul Rahman Mossad
+        """
+
+        self.directory_path = r"Surahs\Abdul Rahman Mossad - Maryam (19.65-98)"
+        self.output_file_name = "Maryam (19.93-98)"
+        self.start_line = 29
+        self.end_line = 45
+        self.time_modifier = -0.2
 
     def abdul_rahman_mossad_maryam_93_94(self) -> None:
         """
@@ -294,6 +285,13 @@ class TikToks:
         self.end_line = 32
         self.time_modifier = -0.2
         self.end_time_modifier = -0.2
+
+    ######################################################################################################################################################
+    ######################################################################################################################################################
+    ######################################################################################################################################################
+    ######################################################################################################################################################
+    ######################################################################################################################################################
+    ######################################################################################################################################################
 
     def abdul_rahman_mossad_yunus_7_10(self) -> None:
         """
@@ -846,7 +844,7 @@ def create_tiktok(
 
         # Populate the timestamps text file with the timestamps if it doesn't exist or update it if it already exists
         if os.path.isfile(timestamps_csv_file_path):
-            create_timestamps_txt_file(timestamps_csv_file_path)
+            create_or_update_timestamps_txt_file(timestamps_csv_file_path)
 
             timestamps_txt_file_path = timestamps_csv_file_path.replace("Markers.csv", "timestamps.txt")
 
@@ -1522,7 +1520,7 @@ def get_verse_translation(chapter, verse, language="en"):
         return None
 
 
-def create_timestamps_txt_file(timestamps_csv_file_path: str) -> None:
+def create_or_update_timestamps_txt_file(timestamps_csv_file_path: str) -> None:
     """
     Creates a timestamps.txt file from a Markers.csv file
     """
