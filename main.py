@@ -1552,7 +1552,7 @@ def create_or_update_timestamps_txt_file(timestamps_csv_file_path: str) -> None:
     colored_print(Fore.GREEN, f"Successfully created '{timestamps_txt_file_path}'")
 
 
-def add_or_update_timestamps_to_chapter_csv_file(timestamps_csv_file_path: str, chapter_csv_file_path: str) -> None:
+def add_or_update_timestamps_to_chapter_csv_file(chapter_csv_file_path: str, timestamps_csv_file_path: str) -> None:
     with open(timestamps_csv_file_path, "r", encoding="utf-8") as timestamps_csv_file:
         lines = timestamps_csv_file.readlines()[1:]
         timestamps = []
@@ -1568,7 +1568,8 @@ def add_or_update_timestamps_to_chapter_csv_file(timestamps_csv_file_path: str, 
                 timestamps.append(marker_time)
             i += 1
 
-        timestamps = sorted(timestamps)
+        sorted_nested_timestamps = sort_nested_timestamps(timestamps)
+        sorted_timestamps = sorted(sorted_nested_timestamps, key=time_to_seconds)
 
         with open(chapter_csv_file_path, "r", encoding="utf-8") as chapter_csv_file:
             reader = csv.DictReader(chapter_csv_file)
@@ -1579,11 +1580,16 @@ def add_or_update_timestamps_to_chapter_csv_file(timestamps_csv_file_path: str, 
 
             data = list(reader)
 
-            while len(data) < len(timestamps):
-                data.append({"timestamps": timestamps[len(data)].strip()})
+            while len(data) < len(sorted_timestamps):
+                data.append({"timestamps": sorted_timestamps[len(data)].strip()})
 
-            for line in range(len(timestamps)):
-                data[line]["timestamps"] = timestamps[line].strip()
+            for line in range(len(sorted_timestamps)):
+                if isinstance(sorted_timestamps[line], list):
+                    for i in range(len(sorted_timestamps[line])):
+                        sorted_timestamps[line][i] = sorted_timestamps[line][i].strip()
+                    data[line]["timestamps"] = ",".join(sorted_timestamps[line])
+                else:
+                    data[line]["timestamps"] = sorted_timestamps[line].strip()
 
         with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
             writer = csv.DictWriter(chapter_csv_file, fieldnames=field_names)
@@ -1915,6 +1921,21 @@ def add_timestamps_to_csv_file(
             remove_empty_rows_from_csv_file(chapter_csv_file_path)
 
             return True
+
+
+def time_to_seconds(timestamp):
+    if isinstance(timestamp, list):
+        timestamp = timestamp[0]
+    minutes, seconds = timestamp.split(":")
+    seconds, milliseconds = seconds.split(".")
+    return int(minutes) * 60 + int(seconds) + int(milliseconds) / 1000
+
+
+def sort_nested_timestamps(timestamps):
+    for i, timestamp in enumerate(timestamps):
+        if isinstance(timestamp, list):
+            timestamps[i] = sorted(timestamp, key=time_to_seconds, reverse=True)
+    return timestamps
 
 
 if __name__ == "__main__":
