@@ -26,12 +26,17 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks()
-    tiktok.abdul_rahman_mossad_yunus_17_20()
-    tiktok.run()
+    add_timestamps_to_csv_file(
+        r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\chapter.csv",
+        r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\timestamps.txt",
+        "timestamps",
+    )
+    # tiktok = TikToks()
+    # tiktok.abdul_rahman_mossad_yunus_17_20()
+    # tiktok.run()
 
 
-def test():
+def add_timestamps_to_csv_file():
     pass
 
     # # Get only the user-defined methods
@@ -1832,6 +1837,39 @@ def create_csv_file(
                 break
 
     remove_empty_rows_from_csv_file(chapter_csv_file_path)
+
+
+def add_timestamps_to_csv_file(
+    chapter_csv_file_path: str, timestamps_txt_file_path: str, field_name: str = "timestamps"
+) -> bool:
+    with open(chapter_csv_file_path, "r", encoding="utf-8") as csv_file:
+        reader = csv.DictReader(csv_file)
+        field_names = reader.fieldnames
+
+        if field_name not in field_names:
+            field_names.append(field_name)
+            data = list(reader)
+
+            # Loop through verses and add translations to the corresponding rows
+            with open(timestamps_txt_file_path, "r", encoding="utf-8") as timestamps_file:
+                timestamps = timestamps_file.readlines()
+
+            # Ensure that there are enough rows in the data to accommodate timestamps
+            while len(data) < len(timestamps):
+                data.append({field_name: timestamps[len(data)].strip()})
+
+            for line in range(len(timestamps)):
+                data[line][field_name] = timestamps[line].strip()
+
+            # Write the updated data back to the same file
+            with open(chapter_csv_file_path, "w", encoding="utf-8", newline="") as csv_file:
+                writer = csv.DictWriter(csv_file, fieldnames=field_names)
+                writer.writeheader()
+                writer.writerows(data)
+
+            remove_empty_rows_from_csv_file(chapter_csv_file_path)
+
+            return True
 
 
 if __name__ == "__main__":
