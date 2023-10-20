@@ -26,17 +26,19 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    add_timestamps_to_csv_file(
-        r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\chapter.csv",
-        r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)\timestamps.txt",
-        "timestamps",
-    )
     # tiktok = TikToks()
-    # tiktok.abdul_rahman_mossad_yunus_17_20()
+    # tiktok.abdul_rahman_mossad_al_ankabut_56_57()
     # tiktok.run()
 
+    folders = os.listdir("Surahs")
+    for folder in folders:
+        files = os.listdir(os.path.join("Surahs", folder))
+        chapter_csv_file_path = os.path.join("Surahs", folder, "chapter.csv")
+        timestamps_csv_file_path = os.path.join("Surahs", folder, "Markers.csv")
+        add_or_update_timestamps_to_chapter_csv_file(chapter_csv_file_path, timestamps_csv_file_path)
 
-def add_timestamps_to_csv_file():
+
+def test():
     pass
 
     # # Get only the user-defined methods
@@ -1537,8 +1539,8 @@ def create_or_update_timestamps_txt_file(timestamps_csv_file_path: str) -> None:
             i = 0
             while i < len(lines):
                 marker_time = lines[i].split("\t")[1]
-                maker_type = lines[i].split("\t")[4]
-                if maker_type == "Subclip":
+                marker_type = lines[i].split("\t")[4]
+                if marker_type == "Subclip":
                     i += 1
                     time2 = lines[i].split("\t")[1]
                     output_file.write(f"{time2},{marker_time}\n")
@@ -1548,6 +1550,49 @@ def create_or_update_timestamps_txt_file(timestamps_csv_file_path: str) -> None:
                         output_file.write("\n")
                 i += 1
     colored_print(Fore.GREEN, f"Successfully created '{timestamps_txt_file_path}'")
+
+
+def add_or_update_timestamps_to_chapter_csv_file(timestamps_csv_file_path: str, chapter_csv_file_path: str) -> None:
+    with open(timestamps_csv_file_path, "r", encoding="utf-8") as timestamps_csv_file:
+        lines = timestamps_csv_file.readlines()[1:]
+        timestamps = []
+        i = 0
+        while i < len(lines):
+            marker_time = lines[i].split("\t")[1]
+            marker_type = lines[i].split("\t")[4]
+            if marker_type == "Subclip":
+                i += 1
+                time2 = lines[i].split("\t")[1]
+                timestamps.append([time2, marker_time])
+            else:
+                timestamps.append(marker_time)
+            i += 1
+
+        timestamps = sorted(timestamps)
+
+        with open(chapter_csv_file_path, "r", encoding="utf-8") as chapter_csv_file:
+            reader = csv.DictReader(chapter_csv_file)
+            field_names = reader.fieldnames
+
+            if "timestamps" not in field_names:
+                field_names.append("timestamps")
+
+            data = list(reader)
+
+            while len(data) < len(timestamps):
+                data.append({"timestamps": timestamps[len(data)].strip()})
+
+            for line in range(len(timestamps)):
+                data[line]["timestamps"] = timestamps[line].strip()
+
+        with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
+            writer = csv.DictWriter(chapter_csv_file, fieldnames=field_names)
+            writer.writeheader()
+            writer.writerows(data)
+
+        remove_empty_rows_from_csv_file(chapter_csv_file_path)
+
+    colored_print(Fore.GREEN, f"Successfully added timestamps to '{chapter_csv_file_path}'")
 
 
 def sort_timestamps_txt_file(timestamps_txt_file_path: str) -> None:
