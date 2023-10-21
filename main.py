@@ -51,9 +51,9 @@ def test():
 
 
 class ACCOUNTS(Enum):
-    QURAN_2_LISTEN = {"english_font": "Fonts/Butler_Regular.otf"}  # crazyshocklight@hotmail.com
-    LOVE_QURAN77 = {"english_font": "Fonts/Sk-Modernist-Regular.otf"}  # crazyshocklight2@gmail.com
-    QURANIC_TIKTOKS = {"english_font": "Fonts/FreshStart.otf"}  # crazyshocky@hotmail.com
+    QURAN_2_LISTEN = {"english_font": "Fonts/Butler_Regular.otf"}
+    LOVE_QURAN77 = {"english_font": "Fonts/Sk-Modernist-Regular.otf"}
+    QURANIC_TIKTOKS = {"english_font": "Fonts/FreshStart.otf"}
 
 
 class LANGUAGES(Enum):
