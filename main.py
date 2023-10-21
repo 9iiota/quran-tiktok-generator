@@ -26,9 +26,11 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks()
-    tiktok.abdul_rahman_mossad_al_ankabut_54_60()
-    tiktok.run()
+    test()
+    # tiktok = TikToks()
+    # tiktok.change_settings()
+    # tiktok.abdul_rahman_mossad_al_ankabut_54_60()
+    # tiktok.run()
 
     # folders = os.listdir("Surahs")
     # for folder in folders:
@@ -75,57 +77,54 @@ class MODES(Enum):
 class TikToks:
     def __init__(
         self,
-        directory_path: str = None,
-        output_file_name: str = None,
-        chapter_csv_file_path: str = None,
-        start_line: int = 1,
-        end_line: int = None,
-        time_modifier: float = 0.0,
-        start_time_modifier: float = 0.0,
-        end_time_modifier: float = 0.0,
-        chapter: int = None,
-        start_verse: int = None,
-        end_verse: int = None,
         language: LANGUAGES = LANGUAGES.ENGLISH,
+        account: ACCOUNTS = ACCOUNTS.QURAN_2_LISTEN,
+        mode: MODES = MODES.DARK,
         background_clips_directory_paths: list[str] = ["Anime_Clips", "Anime_Clips_2"],
-        single_background_clip: str = None,
-        single_background_clip_horizontal_offset: int = None,
-        single_background_clip_vertical_offset: int = None,
-        video_map: dict = None,
-        pictures_mode: bool = False,
-        allow_duplicate_background_clips: bool = False,
-        allow_mirrored_background_clips: bool = False,
         video_dimensions: tuple[int, int] = (576, 1024),
         background_clips_speed: float = 1.0,
         shadow_opacity: float = 0.7,
-        account: ACCOUNTS = ACCOUNTS.QURAN_2_LISTEN,
-        mode: MODES = MODES.DARK,
+        pictures_mode: bool = False,
+        allow_duplicate_background_clips: bool = False,
+        allow_mirrored_background_clips: bool = False,
     ) -> None:
-        self.directory_path = directory_path
-        self.output_file_name = output_file_name
-        self.chapter_csv_file_path = chapter_csv_file_path
-        self.start_line = start_line
-        self.end_line = end_line
-        self.time_modifier = time_modifier
-        self.start_time_modifier = start_time_modifier
-        self.end_time_modifier = end_time_modifier
-        self.chapter = chapter
-        self.start_verse = start_verse
-        self.end_verse = end_verse
-        self.language = language
+        self.account = account
+        self.allow_duplicate_background_clips = allow_duplicate_background_clips
+        self.allow_mirrored_background_clips = allow_mirrored_background_clips
         self.background_clips_directory_paths = background_clips_directory_paths
+        self.background_clips_speed = background_clips_speed
+        self.chapter = None
+        self.chapter_csv_file_path = None
+        self.directory_path = None
+        self.end_line = None
+        self.end_time_modifier = 0.0
+        self.end_verse = None
+        self.language = language
+        self.mode = mode
+        self.output_file_name = None
+        self.pictures_mode = pictures_mode
+        self.shadow_opacity = shadow_opacity
+        self.single_background_clip = None
+        self.single_background_clip_horizontal_offset = None
+        self.single_background_clip_vertical_offset = None
+        self.start_line = 1
+        self.start_time_modifier = 0.0
+        self.start_verse = None
+        self.time_modifier = 0.0
+        self.video_dimensions = video_dimensions
+        self.video_map = None
+
+    def change_settings(
+        self,
+        single_background_clip: str = None,
+        single_background_clip_horizontal_offset: float = None,
+        single_background_clip_vertical_offset: float = None,
+        video_map: dict[int, tuple[str, float, int]] = None,
+    ) -> None:
         self.single_background_clip = single_background_clip
         self.single_background_clip_horizontal_offset = single_background_clip_horizontal_offset
         self.single_background_clip_vertical_offset = single_background_clip_vertical_offset
         self.video_map = video_map
-        self.pictures_mode = pictures_mode
-        self.allow_duplicate_background_clips = allow_duplicate_background_clips
-        self.allow_mirrored_background_clips = allow_mirrored_background_clips
-        self.video_dimensions = video_dimensions
-        self.background_clips_speed = background_clips_speed
-        self.shadow_opacity = shadow_opacity
-        self.account = account
-        self.mode = mode
 
     def run(self) -> None:
         if self.chapter is None:
@@ -139,9 +138,6 @@ class TikToks:
             chapter_csv_file_path=self.chapter_csv_file_path,
             start_line=self.start_line,
             end_line=self.end_line,
-            time_modifier=self.time_modifier,
-            start_time_modifier=self.start_time_modifier,
-            end_time_modifier=self.end_time_modifier,
             chapter=self.chapter,
             start_verse=self.start_verse,
             end_verse=self.end_verse,
@@ -159,6 +155,9 @@ class TikToks:
             shadow_opacity=self.shadow_opacity,
             account=self.account,
             mode=self.mode,
+            time_modifier=self.time_modifier,
+            start_time_modifier=self.start_time_modifier,
+            end_time_modifier=self.end_time_modifier,
         )
 
     def abdul_rahman_mossad_al_adiyat_1_11(self) -> None:
@@ -793,9 +792,6 @@ def create_tiktok(
     chapter_csv_file_path: str = None,
     start_line: int = 1,
     end_line: int = None,
-    time_modifier: float = 0.0,
-    start_time_modifier: float = 0.0,
-    end_time_modifier: float = 0.0,
     chapter: int = None,
     start_verse: int = None,
     end_verse: int = None,
@@ -813,7 +809,9 @@ def create_tiktok(
     shadow_opacity: float = 0.7,
     account: ACCOUNTS = ACCOUNTS.QURAN_2_LISTEN,
     mode: MODES = MODES.DARK,
-    new_clip_on_text_change: bool = False,
+    time_modifier: float = 0.0,
+    start_time_modifier: float = 0.0,
+    end_time_modifier: float = 0.0,
 ) -> None:
     """
     Creates a TikTok video
@@ -1006,29 +1004,23 @@ def create_tiktok(
                             get_video_duration_seconds(background_clip_path) / background_clips_speed
                         )
 
-                        # Get max time offset
+                        # Get time offset
                         max_time_offset = get_max_time_offset(background_clip_duration)
 
-                        # Get time offset
-                        if (
-                            len(background_clip_info) > 1
-                            and isinstance(background_clip_info[1], (int, float))
-                            and background_clip_info[1] <= max_time_offset
-                        ):
-                            # Time offset entry exists, is either an int or a float and is less than or equal to the max time offset
-                            background_clip_time_offset = background_clip_info[1]
-                        else:
-                            new_background_clip_time_offset = get_random_time_offset(max_time_offset)
+                        background_clip_time_offset_tuple = get_time_offset_tuple(
+                            background_clip_info, max_time_offset
+                        )
+                        background_clip_time_offset = background_clip_time_offset_tuple[0]
 
+                        if not background_clip_time_offset_tuple[1]:
                             colored_print(
                                 Fore.YELLOW,
-                                f"Verse {video_map_index} background clip {j + 1} time offset ({background_clip_time_offset}) is invalid, using ({new_background_clip_time_offset}) instead",
+                                f"Verse {video_map_index} background clip {j + 1} time offset is invalid, using ({background_clip_time_offset}) instead",
                             )
-
-                            background_clip_time_offset = new_background_clip_time_offset
 
                         # Get max horizontal offset
                         max_horizontal_offset = get_max_horizontal_offset(background_clip.w, video_width)
+
                         if max_horizontal_offset < 0:
                             # Background clip width is less than video width
                             raise ValueError(
@@ -1607,6 +1599,20 @@ def get_random_horizontal_offset(max_horizontal_offset: int) -> int:
     """
 
     return random.randint(0, max_horizontal_offset)
+
+
+def get_time_offset_tuple(
+    background_clip_info: list[str, float or None, int or None, str or None], max_time_offset: float
+) -> tuple[float, bool]:
+    if (
+        len(background_clip_info) > 2
+        and isinstance(background_clip_info[2], int)
+        and background_clip_info[2] <= max_time_offset
+    ):
+        # Horizontal offset entry exists, is an int and is less than or equal to the max horizontal offset
+        return (background_clip_info[2], True)
+    else:
+        return (get_random_time_offset(max_time_offset), False)
 
 
 def get_horizontal_offset_tuple(
