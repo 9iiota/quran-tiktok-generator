@@ -28,7 +28,80 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks(
         video_map={
-            "1": [["Anime_Clips\\Koe no Katachi (387).mp4", 0.0]],
+            "1": [["Anime_Clips\\Koe no Katachi (387).mp4", 0.0, 1125, "False"]],
+            "2": [["Anime_Clips\\Kimi No Nawa (312).mp4", 0.20676191795701493, 447, "False"]],
+            "3": [
+                ["Anime_Clips\\Violet Evergarden - NCED1 (3).mp4", 0.7882076758231804, 430, "False"],
+                ["Anime_Clips\\Weathering With You (328).mp4", 2.5201514192105816, 593, "False"],
+                ["Anime_Clips\\Garden of Words (2).mp4", 0.9227822170328358, 801, "False"],
+            ],
+            "4": [
+                ["Anime_Clips\\Garden of Words (135).mp4", 0.3621987666922816, 983, "False"],
+                ["Anime_Clips\\Garden of Words (158).mp4", 1.3062960025580421, 518, "False"],
+            ],
+            "5": [["Anime_Clips_2\\_Suzume no Tojimari (14).mp4", 0.3898402682024035, 319, "False"]],
+            "6": [["Anime_Clips\\5 Centimeters per Second (257).mp4", 3.562563609820863, 173, "False"]],
+            "7": [["Anime_Clips\\Kimi No Nawa (139).mp4", 0.7437089346053459, 1044, "False"]],
+            "8": [
+                ["Anime_Clips\\Heavenly Delusion - S01E1 (40).mp4", 0.8406121209298583, 976, "False"],
+                ["Anime_Clips_2\\_Kizumonogatari I - Tekketsu-hen (26).mp4", 0.5247717438880372, 725, "False"],
+            ],
+            "9": [
+                ["Anime_Clips_2\\_Violet Evergarden Movie (17).mp4", 0.14241178066180302, 1084, "False"],
+                ["Anime_Clips_2\\_Violet Evergarden Movie (19).mp4", 2.6430299777851984, 636, "False"],
+            ],
+            "10": [
+                ["Anime_Clips_2\\_Violet Evergarden Movie (3).mp4", 0, 370, "False"],
+                ["Anime_Clips\\Garden of Words (234).mp4", 1.8465918216648467, 449, "False"],
+            ],
+            "11": [
+                ["Anime_Clips_2\\_Suzume no Tojimari (28).mp4", 2.2987495761971357, 764, "False"],
+                ["Anime_Clips\\Violet Evergarden - OVA (98).mp4", 0.3780708045074269, 122, "False"],
+                ["Anime_Clips\\Weathering With You (103).mp4", 0.35509119229191244, 827, "False"],
+            ],
+            "12": [
+                ["Anime_Clips\\_Kimi wo Aishita Hitori no Boku e (1).mp4", 2.271272263826411, 348, "False"],
+                ["Anime_Clips\\Jujutsu Kaisen - S01E15 (33).mp4", 0.7592942448190841, 1001, "False"],
+            ],
+            "13": [
+                ["Anime_Clips\\Weathering With You (275).mp4", 0.899794280849408, 1039, "False"],
+                ["Anime_Clips\\Kimi No Nawa (166).mp4", 0.27703965042362494, 1019, "False"],
+            ],
+            "14": [["Anime_Clips_2\\_Violet Evergarden Movie (18).mp4", 0.2903229971126018, 1137, "False"]],
+            "15": [["Anime_Clips\\Koe no Katachi (496).mp4", 1.308087676158229, 927, "False"]],
+            "16": [["Anime_Clips_2\\_Suzume no Tojimari (27).mp4", 0.441649217634917, 939, "False"]],
+            "17": [
+                ["Anime_Clips\\_Hello World (3).mp4", 0.1405170922845733, 988, "False"],
+                ["Anime_Clips\\5 Centimeters per Second (213).mp4", 0.4555821526787936, 346, "False"],
+            ],
+            "18": [
+                ["Anime_Clips\\Mirai Fukuin (21).mp4", 0, 826, "False"],
+                ["Anime_Clips_2\\_Kizumonogatari II - Nekketsu-hen (84).mp4", 0.1286809697172318, 174, "False"],
+                ["Anime_Clips_2\\_Violet Evergarden Movie (8).mp4", 1.333481655873083, 248, "False"],
+            ],
+            "19": [
+                ["Anime_Clips_2\\_Kizumonogatari II - Nekketsu-hen (246).mp4", 0.497032966885559, 250, "False"],
+                ["Anime_Clips\\Tamako Love Story (1026).mp4", 0.28957044195141896, 78, "False"],
+            ],
+            "20": [["Anime_Clips\\5 Centimeters per Second (33).mp4", 2.988379386732378, 908, "False"]],
+            "21": [
+                ["Anime_Clips\\_Hello World (4).mp4", 0.6816708765765359, 803, "False"],
+                ["Anime_Clips_2\\_Josee to Tora to Sakana-tachi (4).mp4", 0.20612224917999625, 120, "False"],
+            ],
+            "22": [["Anime_Clips\\Kimi No Nawa (155).mp4", 0, 795, "False"]],
+            "23": [
+                ["Anime_Clips\\Garden of Words (26).mp4", 1.5440185487599951, 846, "False"],
+                ["Anime_Clips\\Weathering With You (364).mp4", 0.8847857951667379, 1300, "False"],
+                ["Anime_Clips_2\\_Suzume no Tojimari (17).mp4", 0.9296023917824732, 994, "False"],
+            ],
+            "24": [
+                ["Anime_Clips_2\\_Violet Evergarden Movie (2).mp4", 0.6793147825251769, 99, "False"],
+                ["Anime_Clips_2\\_Suzume no Tojimari (11).mp4", 2.9908600278955735, 1076, "False"],
+            ],
+            "25": [
+                ["Anime_Clips\\5 Centimeters per Second (253).mp4", 1.2590467593307404, 890, "False"],
+                ["Anime_Clips_2\\_Kizumonogatari I - Tekketsu-hen (87).mp4", 0.19798634406708604, 1137, "False"],
+            ],
         }
     )
     tiktok.abdul_rahman_mossad_al_ankabut_54_60()
@@ -190,7 +263,7 @@ class TikToks:
         self.start_line = 2
         self.end_line = 26
         self.time_modifier = -0.2
-        self.end_time_modifier = -0.2
+        self.end_time_modifier = -0.4
 
     def abdul_rahman_mossad_al_ankabut_54_57(self) -> None:
         """
@@ -205,7 +278,7 @@ class TikToks:
         self.start_line = 2
         self.end_line = 14
         self.time_modifier = -0.2
-        self.end_time_modifier = -0.3
+        self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_ankabut_56_57(self) -> None:
         """
@@ -220,7 +293,7 @@ class TikToks:
         self.start_line = 9
         self.end_line = 12
         self.time_modifier = -0.2
-        self.end_time_modifier = -0.4
+        self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_ghashiyah_10_26(self) -> None:
         """
@@ -903,17 +976,12 @@ def create_tiktok(
 
     # Get data for final video
     video_width, video_height = video_dimensions
+
     video_start_timestamp = chapter_csv_lines[start_line - 1][3].strip().split(",")[0]
     video_end_timestamp = chapter_csv_lines[end_line - 1][3].strip().split(",")[0]
-    if start_time_modifier != 0.0:
-        video_start = modify_timestamp(video_start_timestamp, time_modifier)
-    else:
-        video_start = modify_timestamp(video_start_timestamp, start_time_modifier)
 
-    if end_time_modifier != 0.0:
-        video_end = modify_timestamp(video_end_timestamp, time_modifier)
-    else:
-        video_end = modify_timestamp(video_end_timestamp, end_time_modifier)
+    video_start = modify_timestamp(video_start_timestamp, start_time_modifier)
+    video_end = modify_timestamp(video_end_timestamp, end_time_modifier)
 
     if background_video is not None:
         background_clip = mpy.VideoFileClip(background_video).subclip(video_start)
@@ -1045,7 +1113,7 @@ def create_tiktok(
                             )
 
                         # Get horizontal offset
-                        background_clip_horizontal_offset_tuple = get_horizontal_offset(
+                        background_clip_horizontal_offset_tuple = get_horizontal_offset_tuple(
                             background_clip_info, max_horizontal_offset
                         )
                         background_clip_horizontal_offset = background_clip_horizontal_offset_tuple[0]
@@ -1057,31 +1125,16 @@ def create_tiktok(
                             )
 
                         # Get background clip mirrored
-                        if (
-                            len(background_clip_info) > 3
-                            and isinstance(background_clip_info[3], (str, bool))
-                            and background_clip_info[3] in ["True", "False", True, False]
-                        ):
-                            # Mirrored entry exists and is a string
-                            background_clip_mirrored = str(background_clip_info[3])
-                        elif allow_mirrored_background_clips:
-                            new_background_clip_mirrored = str(random.choice([True, False]))
+                        background_clip_mirrored_tuple = get_mirrored_tuple(
+                            background_clip_info, allow_mirrored_background_clips
+                        )
+                        background_clip_mirrored = background_clip_mirrored_tuple[0]
 
+                        if not background_clip_mirrored_tuple[1]:
                             colored_print(
                                 Fore.YELLOW,
-                                f"Verse {video_map_index} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
+                                f"Verse {video_map_index} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({background_clip_mirrored}) instead",
                             )
-
-                            background_clip_mirrored = new_background_clip_mirrored
-                        else:
-                            new_background_clip_mirrored = "False"
-
-                            colored_print(
-                                Fore.YELLOW,
-                                f"Verse {video_map_index} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
-                            )
-
-                            background_clip_mirrored = new_background_clip_mirrored
 
                         # Adjust background clip duration
                         adjusted_background_clip_duration = background_clip_duration - background_clip_time_offset
@@ -1633,7 +1686,7 @@ def get_random_horizontal_offset(max_horizontal_offset: int) -> int:
     return random.randint(0, max_horizontal_offset)
 
 
-def get_horizontal_offset(
+def get_horizontal_offset_tuple(
     background_clip_info: list[str, float or None, int or None, str or None], max_horizontal_offset: int
 ) -> tuple[int, bool]:
     if (
@@ -1647,7 +1700,7 @@ def get_horizontal_offset(
         return (get_random_horizontal_offset(max_horizontal_offset), False)
 
 
-def get_mirrored(
+def get_mirrored_tuple(
     background_clip_info: list[str, float or None, int or None, str or None], allow_mirrored_background_clips: bool
 ) -> tuple[str, bool]:
     if (
@@ -1659,13 +1712,6 @@ def get_mirrored(
         return (str(background_clip_info[3]), True)
     elif allow_mirrored_background_clips:
         return (str(random.choice([True, False])), False)
-
-        colored_print(
-            Fore.YELLOW,
-            f"Verse {video_map_index} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
-        )
-
-        background_clip_mirrored = new_background_clip_mirrored
     else:
         return ("False", False)
 
