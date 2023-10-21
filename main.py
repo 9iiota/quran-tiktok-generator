@@ -26,8 +26,12 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks()
-    tiktok.abdul_rahman_mossad_al_ankabut_54_57()
+    tiktok = TikToks(
+        video_map={
+            "1": [["Anime_Clips\\Koe no Katachi (387).mp4", 0.0]],
+        }
+    )
+    tiktok.abdul_rahman_mossad_al_ankabut_54_60()
     tiktok.run()
 
     # folders = os.listdir("Surahs")
@@ -180,6 +184,9 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)"
         self.output_file_name = "Al-'Ankabut (29.54-60)"
+        self.chapter = 29
+        self.start_verse = 53
+        self.end_verse = 64
         self.start_line = 2
         self.end_line = 26
         self.time_modifier = -0.2
@@ -192,6 +199,9 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)"
         self.output_file_name = "Al-'Ankabut (29.54-57)"
+        self.chapter = 29
+        self.start_verse = 53
+        self.end_verse = 54
         self.start_line = 2
         self.end_line = 14
         self.time_modifier = -0.2
@@ -204,6 +214,9 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)"
         self.output_file_name = "Al-'Ankabut (29.56-57)"
+        self.chapter = 29
+        self.start_verse = 53
+        self.end_verse = 64
         self.start_line = 9
         self.end_line = 12
         self.time_modifier = -0.2
@@ -216,6 +229,9 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)"
         self.output_file_name = "Al-Ghashiyah (88.10-26)"
+        self.chapter = 88
+        self.start_verse = 1
+        self.end_verse = 26
         self.start_line = 14
         self.time_modifier = -0.2
 
@@ -226,6 +242,9 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)"
         self.output_file_name = "Al-Ghashiyah (88.10-12)"
+        self.chapter = 88
+        self.start_verse = 1
+        self.end_verse = 26
         self.start_line = 14
         self.end_line = 16
         self.time_modifier = -0.2
@@ -238,6 +257,9 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
         self.output_file_name = "Al-Muzzammil (73.6-13)"
+        self.chapter = 73
+        self.start_verse = 1
+        self.end_verse = 20
         self.start_line = 7
         self.end_line = 26
         self.time_modifier = -0.2
@@ -250,6 +272,9 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
         self.output_file_name = "Al-Muzzammil (73.14-18)"
+        self.chapter = 73
+        self.start_verse = 1
+        self.end_verse = 20
         self.start_line = 27
         self.end_line = 38
         self.time_modifier = -0.2
@@ -262,6 +287,9 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
         self.output_file_name = "Al-Muzzammil (73.14-15)"
+        self.chapter = 73
+        self.start_verse = 1
+        self.end_verse = 20
         self.start_line = 27
         self.end_line = 32
         self.time_modifier = -0.2
@@ -274,6 +302,9 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Maryam (19.65-98)"
         self.output_file_name = "Maryam (19.93-98)"
+        self.chapter = 19
+        self.start_verse = 65
+        self.end_verse = 98
         self.start_line = 29
         self.end_line = 45
         self.time_modifier = -0.2
@@ -285,6 +316,9 @@ class TikToks:
 
         self.directory_path = r"Surahs\Abdul Rahman Mossad - Maryam (19.65-98)"
         self.output_file_name = "Maryam (19.93-94)"
+        self.chapter = 19
+        self.start_verse = 65
+        self.end_verse = 98
         self.start_line = 29
         self.end_line = 32
         self.time_modifier = -0.2
@@ -968,10 +1002,11 @@ def create_tiktok(
             if not pictures_mode:
                 background_clips_duration = 0
 
-                if video_map is not None and i in video_map.keys():
+                video_map_index = i - start_line + 1
+                if video_map is not None and video_map_index in video_map.keys():
                     # Get background clips from the video map
-                    for j in range(len(video_map[i])):
-                        background_clip_info = video_map[i][j]
+                    for j in range(len(video_map[video_map_index])):
+                        background_clip_info = video_map[video_map_index][j]
 
                         background_clip_path = background_clip_info[0]
                         background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clips_speed)
@@ -996,7 +1031,7 @@ def create_tiktok(
 
                             colored_print(
                                 Fore.YELLOW,
-                                f"Verse {i} background clip {j + 1} time offset ({background_clip_time_offset}) is invalid, using ({new_background_clip_time_offset}) instead",
+                                f"Verse {video_map_index} background clip {j + 1} time offset ({background_clip_time_offset}) is invalid, using ({new_background_clip_time_offset}) instead",
                             )
 
                             background_clip_time_offset = new_background_clip_time_offset
@@ -1006,26 +1041,20 @@ def create_tiktok(
                         if max_horizontal_offset < 0:
                             # Background clip width is less than video width
                             raise ValueError(
-                                f"Verse {i} Background clip {j + 1} width ({background_clip.w}) is less than video width ({video_width})"
+                                f"Verse {video_map_index} Background clip {j + 1} width ({background_clip.w}) is less than video width ({video_width})"
                             )
 
                         # Get horizontal offset
-                        if (
-                            len(background_clip_info) > 2
-                            and isinstance(background_clip_info[2], int)
-                            and background_clip_info[2] <= max_horizontal_offset
-                        ):
-                            # Horizontal offset entry exists, is an int and is less than or equal to the max horizontal offset
-                            background_clip_horizontal_offset = background_clip_info[2]
-                        else:
-                            new_background_clip_horizontal_offset = get_random_horizontal_offset(max_horizontal_offset)
+                        background_clip_horizontal_offset_tuple = get_horizontal_offset(
+                            background_clip_info, max_horizontal_offset
+                        )
+                        background_clip_horizontal_offset = background_clip_horizontal_offset_tuple[0]
 
+                        if not background_clip_horizontal_offset_tuple[1]:
                             colored_print(
                                 Fore.YELLOW,
-                                f"Verse {i} background clip {j + 1} horizontal offset ({background_clip_horizontal_offset}) is invalid, using ({new_background_clip_horizontal_offset}) instead",
+                                f"Verse {video_map_index} background clip {j + 1} horizontal offset is invalid, using ({background_clip_horizontal_offset}) instead",
                             )
-
-                            background_clip_horizontal_offset = new_background_clip_horizontal_offset
 
                         # Get background clip mirrored
                         if (
@@ -1040,7 +1069,7 @@ def create_tiktok(
 
                             colored_print(
                                 Fore.YELLOW,
-                                f"Verse {i} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
+                                f"Verse {video_map_index} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
                             )
 
                             background_clip_mirrored = new_background_clip_mirrored
@@ -1049,7 +1078,7 @@ def create_tiktok(
 
                             colored_print(
                                 Fore.YELLOW,
-                                f"Verse {i} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
+                                f"Verse {video_map_index} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
                             )
 
                             background_clip_mirrored = new_background_clip_mirrored
@@ -1079,14 +1108,14 @@ def create_tiktok(
                         else:
                             colored_print(
                                 Fore.RED,
-                                f"Verse {i} background clip {j + 1} duration ({background_clip_duration}) is invalid, skipping...",
+                                f"Verse {video_map_index} background clip {j + 1} duration ({background_clip_duration}) is invalid, skipping...",
                             )
 
                     video_clip_leftover_duration = video_clip_duration - background_clips_duration
                     if video_clip_leftover_duration > 0:
                         (
                             used_background_clips_paths,
-                            i,
+                            video_map_index,
                             video_clip_background_clip_paths,
                             j,
                         ) = get_valid_background_clips(
@@ -1098,7 +1127,7 @@ def create_tiktok(
                             background_clips_speed,
                             video_clip_duration,
                             background_clips_duration,
-                            i,
+                            video_map_index,
                             video_width,
                             video_clip_background_clip_paths,
                             j,
@@ -1106,7 +1135,7 @@ def create_tiktok(
                 else:
                     (
                         used_background_clips_paths,
-                        i,
+                        video_map_index,
                         video_clip_background_clip_paths,
                     ) = get_valid_background_clips(
                         all_background_clips_paths,
@@ -1117,13 +1146,15 @@ def create_tiktok(
                         background_clips_speed,
                         video_clip_duration,
                         background_clips_duration,
-                        i,
+                        video_map_index,
                         video_width,
                         video_clip_background_clip_paths,
-                    )[:3]
+                    )[
+                        :3
+                    ]
 
                 # Add background clips to video map output
-                video_map_output[i] = video_clip_background_clip_paths
+                video_map_output[video_map_index] = video_clip_background_clip_paths
             else:
                 background_clip_path = get_random_background_clip_path(all_background_clips_paths)
 
@@ -1600,6 +1631,43 @@ def get_random_horizontal_offset(max_horizontal_offset: int) -> int:
     """
 
     return random.randint(0, max_horizontal_offset)
+
+
+def get_horizontal_offset(
+    background_clip_info: list[str, float or None, int or None, str or None], max_horizontal_offset: int
+) -> tuple[int, bool]:
+    if (
+        len(background_clip_info) > 2
+        and isinstance(background_clip_info[2], int)
+        and background_clip_info[2] <= max_horizontal_offset
+    ):
+        # Horizontal offset entry exists, is an int and is less than or equal to the max horizontal offset
+        return (background_clip_info[2], True)
+    else:
+        return (get_random_horizontal_offset(max_horizontal_offset), False)
+
+
+def get_mirrored(
+    background_clip_info: list[str, float or None, int or None, str or None], allow_mirrored_background_clips: bool
+) -> tuple[str, bool]:
+    if (
+        len(background_clip_info) > 3
+        and isinstance(background_clip_info[3], (str, bool))
+        and background_clip_info[3] in ["True", "False", True, False]
+    ):
+        # Mirrored entry exists and is a string
+        return (str(background_clip_info[3]), True)
+    elif allow_mirrored_background_clips:
+        return (str(random.choice([True, False])), False)
+
+        colored_print(
+            Fore.YELLOW,
+            f"Verse {video_map_index} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({new_background_clip_mirrored}) instead",
+        )
+
+        background_clip_mirrored = new_background_clip_mirrored
+    else:
+        return ("False", False)
 
 
 def check_dictionary_for_path(clip_path: str, dictionary: dict) -> bool:
