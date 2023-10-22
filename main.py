@@ -27,10 +27,9 @@ MINIMAL_CLIP_DURATION = 0.75
 
 # TODO: Timings are always off by a small amount, such as 0.01 instead of 0.0, etc
 def main() -> None:
-    test()
     tiktok = TikToks()
     tiktok.change_settings()
-    tiktok.salim_bahanan_al_qariah_1_11()
+    tiktok.fatih_seferagic_al_hujurat_10()
     tiktok.run()
 
     # folders = os.listdir("Surahs")
@@ -1594,10 +1593,10 @@ def get_random_horizontal_offset(max_horizontal_offset: int) -> int:
 
 def get_random_time_offset(max_time_offset: float) -> float:
     """
-    Returns a random time offset
+    Returns a random time offset rounded to 2 decimal places
     """
 
-    return random.uniform(0, max_time_offset / 2)
+    return round(random.uniform(0, max_time_offset / 2), 2)
 
 
 def get_time_difference_seconds(time1: str, time2: str) -> float:
