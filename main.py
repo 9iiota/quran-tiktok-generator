@@ -29,34 +29,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     test()
     tiktok = TikToks()
-    tiktok.change_settings(
-        video_map={
-            "1": [["Anime_Clips\\Kimi No Nawa (321).mp4", 0.0, 700, "False"]],
-            "2": [["Anime_Clips\\Heavenly Delusion - S01E2 (8).mp4", 0.217965423719865, 1180, "False"]],
-            "3": [
-                ["Anime_Clips\\Weathering With You (3).mp4", 0.31917071835106325, 968, "False"],
-            ],
-            "4": [
-                ["Anime_Clips\\Mirai Fukuin - Extra Chorus (1).mp4", 0.9855500905539022, 108, "False"],
-                ["Anime_Clips\\Mirai Fukuin (122).mp4", 3.3004943614988065, 475, "False"],
-            ],
-            "5": [["Anime_Clips\\Weathering With You (103).mp4", 0.5905868125050502, 283, "False"]],
-            "8": [["Anime_Clips\\Mirai Fukuin (102).mp4", 2.955800542495006, 1268, "False"]],
-            "10": [
-                ["Anime_Clips\\Garden of Words (155).mp4", 0.21489008557793132, 43, "False"],
-                ["Anime_Clips_2\\_Violet Evergarden Movie (9).mp4", 0.10302649099263742, 1102, "False"],
-            ],
-            "11": [["Anime_Clips\\Horimiya - S01E09 (30).mp4", 2.0659652584186703, 1297, "False"]],
-            "12": [
-                ["Anime_Clips\\Garden of Words (193).mp4", 0.6391103184577198, 655, "False"],
-                ["Anime_Clips\\Koe no Katachi (506).mp4", 0.7541788643188285, 1005, "False"],
-            ],
-            "13": [
-                ["Anime_Clips\\5 Centimeters per Second (253).mp4", 1.2404236342465426, 1291, "False"],
-                ["Anime_Clips\\_Hello World (1).mp4", 0.8396439237604064, 847, "False"],
-            ],
-        }
-    )
+    tiktok.change_settings()
     tiktok.salim_bahanan_al_qariah_1_11()
     tiktok.run()
 
@@ -352,11 +325,12 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Al-Qari'ah by Salim Bahanan
         """
 
-        self.directory_path = r"Surahs\Salim Bahanan - 101 - Al-Qari'ah"
+        self.directory_path = r"Surahs\Salim Bahanan - Al-Qari'ah (101.1-11)"
         self.output_file_name = "Al-Qari'ah (101.1-11)"
         self.chapter = 101
         self.start_verse = 1
         self.end_verse = 11
+        self.start_time_modifier = -0.2
         self.time_modifier = -0.2
 
     ######################################################################################################################################################
