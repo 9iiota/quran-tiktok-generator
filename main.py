@@ -161,31 +161,51 @@ class TikToks:
             end_time_modifier=self.end_time_modifier,
         )
 
+    def _set_values(
+        self,
+        directory_path: str,
+        output_file_name: str,
+        chapter: int,
+        start_verse: int,
+        end_verse: int,
+        time_modifier: float = -0.2,
+    ) -> None:
+        self.directory_path = directory_path
+        self.chapter = chapter
+        self.start_verse = start_verse
+        self.end_verse = end_verse
+        self.time_modifier = time_modifier
+        self.output_file_name = (
+            f"{((self.directory_path).split(' - ')[1]).split(' ')[0]} ({self.chapter}.{output_file_name})"
+        )
+
     def abdul_rahman_mossad_al_adiyat_1_11(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Al-'Adiyat by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Adiyat (100.1-11)"
-        self.output_file_name = "Al-'Adiyat (100.1-11)"
-        self.chapter = 100
-        self.start_verse = 1
-        self.end_verse = 11
-        self.time_modifier = -0.2
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Al-'Adiyat (100.1-11)",
+            "1-11",
+            100,
+            1,
+            11,
+        )
 
     def abdul_rahman_mossad_al_ankabut_54_60(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 54-60 of Surah Al-'Ankabut by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)"
-        self.output_file_name = "Al-'Ankabut (29.54-60)"
-        self.chapter = 29
-        self.start_verse = 53
-        self.end_verse = 64
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)",
+            "54-60",
+            29,
+            53,
+            64,
+        )
         self.start_line = 2
         self.end_line = 26
-        self.time_modifier = -0.2
         self.end_time_modifier = -0.4
 
     def abdul_rahman_mossad_al_ankabut_54_57(self) -> None:
@@ -193,14 +213,15 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 54-57 of Surah Al-'Ankabut by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)"
-        self.output_file_name = "Al-'Ankabut (29.54-57)"
-        self.chapter = 29
-        self.start_verse = 53
-        self.end_verse = 54
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)",
+            "54-57",
+            29,
+            53,
+            64,
+        )
         self.start_line = 2
         self.end_line = 14
-        self.time_modifier = -0.2
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_ankabut_56_57(self) -> None:
@@ -208,14 +229,15 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 56-57 of Surah Al-'Ankabut by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)"
-        self.output_file_name = "Al-'Ankabut (29.56-57)"
-        self.chapter = 29
-        self.start_verse = 53
-        self.end_verse = 64
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)",
+            "56-57",
+            29,
+            53,
+            64,
+        )
         self.start_line = 9
         self.end_line = 12
-        self.time_modifier = -0.2
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_ghashiyah_10_26(self) -> None:
@@ -223,27 +245,29 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 10-26 of Surah Al-Ghashiyah by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)"
-        self.output_file_name = "Al-Ghashiyah (88.10-26)"
-        self.chapter = 88
-        self.start_verse = 1
-        self.end_verse = 26
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)",
+            "10-26",
+            88,
+            1,
+            26,
+        )
         self.start_line = 14
-        self.time_modifier = -0.2
 
     def abdul_rahman_mossad_al_ghashiyah_10_12(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 10-12 of Surah Al-Ghashiyah by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)"
-        self.output_file_name = "Al-Ghashiyah (88.10-12)"
-        self.chapter = 88
-        self.start_verse = 1
-        self.end_verse = 26
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)",
+            "10-12",
+            88,
+            1,
+            26,
+        )
         self.start_line = 14
         self.end_line = 16
-        self.time_modifier = -0.2
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_muzzammil_6_13(self) -> None:
@@ -251,14 +275,15 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 6-13 of Surah Al-Muzzammil by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
-        self.output_file_name = "Al-Muzzammil (73.6-13)"
-        self.chapter = 73
-        self.start_verse = 1
-        self.end_verse = 20
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)",
+            "6-13",
+            73,
+            1,
+            20,
+        )
         self.start_line = 7
         self.end_line = 26
-        self.time_modifier = -0.2
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_muzzammil_14_18(self) -> None:
@@ -266,14 +291,15 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 14-18 of Surah Al-Muzzammil by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
-        self.output_file_name = "Al-Muzzammil (73.14-18)"
-        self.chapter = 73
-        self.start_verse = 1
-        self.end_verse = 20
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)",
+            "14-18",
+            73,
+            1,
+            20,
+        )
         self.start_line = 27
         self.end_line = 38
-        self.time_modifier = -0.2
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_muzzammil_14_15(self) -> None:
@@ -281,14 +307,15 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 14-15 of Surah Al-Muzzammil by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)"
-        self.output_file_name = "Al-Muzzammil (73.14-15)"
-        self.chapter = 73
-        self.start_verse = 1
-        self.end_verse = 20
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)",
+            "14-15",
+            73,
+            1,
+            20,
+        )
         self.start_line = 27
         self.end_line = 32
-        self.time_modifier = -0.2
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_maryam_93_98(self) -> None:
@@ -296,28 +323,30 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 93-98 of Surah Maryam by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Maryam (19.65-98)"
-        self.output_file_name = "Maryam (19.93-98)"
-        self.chapter = 19
-        self.start_verse = 65
-        self.end_verse = 98
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Maryam (19.65-98)",
+            "93-98",
+            19,
+            65,
+            98,
+        )
         self.start_line = 29
         self.end_line = 45
-        self.time_modifier = -0.2
 
     def abdul_rahman_mossad_maryam_93_94(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 93-94 of Surah Maryam by Abdul Rahman Mossad
         """
 
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Maryam (19.65-98)"
-        self.output_file_name = "Maryam (19.93-94)"
-        self.chapter = 19
-        self.start_verse = 65
-        self.end_verse = 98
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Maryam (19.65-98)",
+            "93-94",
+            19,
+            65,
+            98,
+        )
         self.start_line = 29
         self.end_line = 32
-        self.time_modifier = -0.2
         self.end_time_modifier = -0.2
 
     def salim_bahanan_al_qariah_1_11(self) -> None:
@@ -325,13 +354,14 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Al-Qari'ah by Salim Bahanan
         """
 
-        self.directory_path = r"Surahs\Salim Bahanan - Al-Qari'ah (101.1-11)"
-        self.output_file_name = "Al-Qari'ah (101.1-11)"
-        self.chapter = 101
-        self.start_verse = 1
-        self.end_verse = 11
+        self._set_values(
+            r"Surahs\Salim Bahanan - Al-Qari'ah (101.1-11)",
+            "1-11",
+            101,
+            1,
+            11,
+        )
         self.start_time_modifier = -0.2
-        self.time_modifier = -0.2
 
     ######################################################################################################################################################
     ######################################################################################################################################################
@@ -835,40 +865,6 @@ def add_or_update_timestamps_to_chapter_csv_file(chapter_csv_file_path: str, tim
         remove_empty_rows_from_csv_file(chapter_csv_file_path)
 
     colored_print(Fore.GREEN, f"Successfully added timestamps to '{chapter_csv_file_path}'")
-
-
-# should be deleted soon idk
-def add_timestamps_to_csv_file(
-    chapter_csv_file_path: str, timestamps_txt_file_path: str, field_name: str = "timestamps"
-) -> bool:
-    with open(chapter_csv_file_path, "r", encoding="utf-8") as csv_file:
-        reader = csv.DictReader(csv_file)
-        field_names = reader.fieldnames
-
-        if field_name not in field_names:
-            field_names.append(field_name)
-            data = list(reader)
-
-            # Loop through verses and add translations to the corresponding rows
-            with open(timestamps_txt_file_path, "r", encoding="utf-8") as timestamps_file:
-                timestamps = timestamps_file.readlines()
-
-            # Ensure that there are enough rows in the data to accommodate timestamps
-            while len(data) < len(timestamps):
-                data.append({field_name: timestamps[len(data)].strip()})
-
-            for line in range(len(timestamps)):
-                data[line][field_name] = timestamps[line].strip()
-
-            # Write the updated data back to the same file
-            with open(chapter_csv_file_path, "w", encoding="utf-8", newline="") as csv_file:
-                writer = csv.DictWriter(csv_file, fieldnames=field_names)
-                writer.writeheader()
-                writer.writerows(data)
-
-            remove_empty_rows_from_csv_file(chapter_csv_file_path)
-
-            return True
 
 
 def add_translation_to_existing_csv_file(
