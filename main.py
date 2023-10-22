@@ -31,6 +31,7 @@ def main() -> None:
     tiktok.change_settings()
     tiktok.fatih_seferagic_al_hujurat_10()
     tiktok.run()
+    # add_translation_to_existing_csv_file(r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\chapter.csv", "nl", 49, 10, 10)
 
     # folders = os.listdir("Surahs")
     # for folder in folders:
@@ -348,6 +349,19 @@ class TikToks:
         self.end_line = 32
         self.end_time_modifier = -0.2
 
+    def fatih_seferagic_al_hujurat_10(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 10 of Surah Al-Hujurat by Fatih Seferagic
+        """
+
+        self._set_values(
+            r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)",
+            "10",
+            49,
+            10,
+            10,
+        )
+
     def salim_bahanan_al_qariah_1_11(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Al-Qari'ah by Salim Bahanan
@@ -432,20 +446,6 @@ class TikToks:
         self.output_file_name = f"{(self.account.name).lower()}_35_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_translation.txt"
-
-    def fatih_seferagic_al_hujurat_10(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verse 10 of Surah Al-Hujurat by Fatih Seferagic
-        """
-
-        self.directory_path = r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)"
-        self.output_file_name = f"{(self.account.name).lower()} Al-Hujurat (49.10) {self.language.value} {str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\chapter_text.txt"
-        self.chapter_translation_file_path = (
-            rf"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\chapter_translation_{self.language.value}.txt"
-        )
-        self.verse_counter_file_path = r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\verse_counter.txt"
-        self.time_modifier = -0.2
 
     def fatih_seferagic_al_hashr_21_24(self) -> None:
         """
@@ -873,24 +873,36 @@ def add_translation_to_existing_csv_file(
         reader = csv.DictReader(csv_file)
         field_names = reader.fieldnames
 
-        if language not in field_names:
-            field_names.append(language)
-            data = list(reader)
+        data = list(reader)
+
+        # If "timestamps" column exists, we insert the new column before it
+        if "timestamps" in field_names:
+            timestamps_index = field_names.index("timestamps")
+            field_names.insert(timestamps_index, language)
 
             # Loop through verses and add translations to the corresponding rows
             for verse in range(start_verse, end_verse + 1):
                 row_index = verse - start_verse
                 data[row_index][language] = get_verse_translation(chapter, verse, language)
 
-            # Write the updated data back to the same file
-            with open(chapter_csv_file_path, "w", encoding="utf-8") as csv_file:
-                writer = csv.DictWriter(csv_file, fieldnames=field_names)
-                writer.writeheader()
-                writer.writerows(data)
+        # If "timestamps" column doesn't exist, we append the new column
+        else:
+            field_names.append(language)
 
-            remove_empty_rows_from_csv_file(chapter_csv_file_path)
+            # Loop through verses and add translations to the corresponding rows
+            for verse in range(start_verse, end_verse + 1):
+                row_index = verse - start_verse
+                data[row_index][language] = get_verse_translation(chapter, verse, language)
 
-            return True
+        # Write the updated data back to the same file
+        with open(chapter_csv_file_path, "w", encoding="utf-8") as csv_file:
+            writer = csv.DictWriter(csv_file, fieldnames=field_names)
+            writer.writeheader()
+            writer.writerows(data)
+
+        remove_empty_rows_from_csv_file(chapter_csv_file_path)
+
+        return True
 
 
 def check_background_clip_duration(video_clip_leftover_duration: float, background_clip_duration: float) -> bool:
