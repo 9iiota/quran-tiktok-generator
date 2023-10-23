@@ -28,8 +28,44 @@ MINIMAL_CLIP_DURATION = 0.75
 # TODO: Timings are always off by a small amount, such as 0.01 instead of 0.0, etc
 def main() -> None:
     tiktok = TikToks()
-    tiktok.change_settings()
-    tiktok.fatih_seferagic_al_hujurat_10()
+    tiktok.change_settings(
+        video_map={
+            "1": [["Anime_Clips\\Heavenly Delusion - S1E08 (22).mp4", 0, 950, "False"]],
+            "2": [
+                ["Anime_Clips\\Violet Evergarden - NCOP1 (10).mp4", 0.75, 600, "False"],
+                ["Anime_Clips_2\\_Suzume no Tojimari (9).mp4", 1.24, 398, "False"],
+            ],
+            "3": [["Anime_Clips\\Kimi No Nawa (133).mp4", 0.77, 97, "False"]],
+            "4": [
+                ["Anime_Clips_2\\_Josee to Tora to Sakana-tachi (25).mp4", 0.74, 1193, "False"],
+                ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 4.68, 1276, "False"],
+            ],
+            "5": [["Anime_Clips\\5 Centimeters per Second (264).mp4", 0.28, 1172, "False"]],
+            "6": [
+                ["Anime_Clips_2\\_Suzume no Tojimari (13).mp4", 3.29, 61, "False"],
+                ["Anime_Clips_2\\_Violet Evergarden Movie (6).mp4", 0.28, 1270, "False"],
+            ],
+            "7": [
+                ["Anime_Clips_2\\_Kizumonogatari I - Tekketsu-hen (81).mp4", 0.06, 974, "False"],
+                ["Anime_Clips\\Heavenly Delusion - S1 - NCOP (1).mp4", 0.2, 0, "False"],
+            ],
+            "8": [["Anime_Clips\\Kimi No Nawa (312).mp4", 8.52, 515, "False"]],
+            "9": [
+                ["Anime_Clips_2\\_Kizumonogatari II - Nekketsu-hen (84).mp4", 0.08, 452, "False"],
+                ["Anime_Clips\\Weathering With You (27).mp4", 0.25, 175, "False"],
+                ["Anime_Clips_2\\_Josee to Tora to Sakana-tachi (3).mp4", 0.55, 1078, "False"],
+            ],
+            "10": [["Anime_Clips\\Garden of Words (78).mp4", 1.36, 448, "False"]],
+            "11": [
+                ["Anime_Clips\\Kimi No Nawa (136).mp4", 0.76, 320, "False"],
+                ["Anime_Clips_2\\_Suzume no Tojimari (35).mp4", 0.25, 651, "False"],
+                ["Anime_Clips\\Kimi No Nawa (13).mp4", 0.65, 333, "False"],
+                ["Anime_Clips_2\\_Violet Evergarden Movie (4).mp4", 2.05, 766, "False"],
+            ],
+            "12": [["Anime_Clips\\Weathering With You (266).mp4", 1.04, 695, "False"]],
+        }
+    )
+    tiktok.abdul_rahman_mossad_al_muzzammil_14_18()
     tiktok.run()
     # add_translation_to_existing_csv_file(r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\chapter.csv", "nl", 49, 10, 10)
 
@@ -282,8 +318,8 @@ class TikToks:
             1,
             20,
         )
-        self.start_line = 7
-        self.end_line = 26
+        self.start_line = 6
+        self.end_line = 25
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_muzzammil_14_18(self) -> None:
@@ -298,8 +334,8 @@ class TikToks:
             1,
             20,
         )
-        self.start_line = 27
-        self.end_line = 38
+        self.start_line = 26
+        self.end_line = 37
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_muzzammil_14_15(self) -> None:
@@ -314,8 +350,8 @@ class TikToks:
             1,
             20,
         )
-        self.start_line = 27
-        self.end_line = 32
+        self.start_line = 26
+        self.end_line = 31
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_maryam_93_98(self) -> None:
@@ -1278,7 +1314,7 @@ def create_tiktok(
                         else:
                             colored_print(
                                 Fore.RED,
-                                f"Verse {video_map_index} background clip {i + 1} duration ({background_clip_duration}) is invalid, skipping...",
+                                f"Verse {video_map_index} background clip {i + 1} duration ({background_clip_duration} : {round((video_clip_leftover_duration - background_clip_duration), 2)}) is invalid, skipping...",
                             )
 
                     video_clip_leftover_duration = video_clip_duration - total_background_clips_duration
@@ -1656,7 +1692,7 @@ def get_time_offset_tuple(
 ) -> tuple[float, bool]:
     if (
         len(background_clip_info) > 1
-        and isinstance(background_clip_info[1], float or int)
+        and (isinstance(background_clip_info[1], float) or isinstance(background_clip_info[1], int))
         and background_clip_info[1] <= max_time_offset
     ):
         # Horizontal offset entry exists, is an int and is less than or equal to the max horizontal offset
