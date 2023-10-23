@@ -362,6 +362,19 @@ class TikToks:
             10,
         )
 
+    def fatih_seferagic_al_baqarah_255(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 255 of Surah Al-Baqarah by Fatih Seferagic
+        """
+
+        self._set_values(
+            r"Surahs\Fatih Seferagic - Al-Baqarah (2.255)",
+            "255",
+            2,
+            255,
+            255,
+        )
+
     def salim_bahanan_al_qariah_1_11(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Al-Qari'ah by Salim Bahanan
@@ -416,16 +429,6 @@ class TikToks:
         self.output_file_name = f"{(self.account.name).lower()}_14-16_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Ahmed Khedr - 20 - Taha\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Ahmed Khedr - 20 - Taha\chapter_translation.txt"
-
-    def fatih_seferagic_ayatul_kursi_255(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verse 255 of Surah Al-Baqarah by Fatih Seferagic
-        """
-
-        self.directory_path = r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi"
-        self.output_file_name = f"{(self.account.name).lower()}_255_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 2 - Ayatul Kursi\chapter_translation.txt"
 
     def fatih_seferagic_an_nisa_155_160(self) -> None:
         """
