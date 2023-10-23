@@ -29,7 +29,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings()
-    tiktok.fatih_seferagic_al_baqarah_255()
+    tiktok.fatih_seferagic_al_hujurat_10()
     tiktok.run()
     # add_translation_to_existing_csv_file(r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\chapter.csv", "nl", 49, 10, 10)
 
@@ -837,7 +837,7 @@ def add_or_update_timestamps_to_chapter_csv_file(chapter_csv_file_path: str, tim
             i += 1
 
         sorted_nested_timestamps = sort_nested_timestamps(timestamps)
-        sorted_timestamps = sorted(sorted_nested_timestamps, key=get_time_to_seconds)
+        sorted_timestamps = sorted(sorted_nested_timestamps, key=get_seconds_from_timestamp)
 
         with open(chapter_csv_file_path, "r", encoding="utf-8") as chapter_csv_file:
             reader = csv.DictReader(chapter_csv_file)
@@ -1142,54 +1142,14 @@ def create_tiktok(
     video_start_timestamp = chapter_csv_lines[start_line - 1][3].strip().split(",")[0]
     video_end_timestamp = chapter_csv_lines[end_line - 1][3].strip().split(",")[0]
 
-    video_start = modify_timestamp(video_start_timestamp, start_time_modifier)
-    video_end = modify_timestamp(video_end_timestamp, end_time_modifier)
-
-    if background_video is not None:
-        background_clip = mpy.VideoFileClip(background_video).subclip(video_start)
-
-        # Specify the target aspect ratio (9:16)
-        target_aspect_ratio = 9 / 16
-
-        # Calculate the dimensions to fit the target aspect ratio without resizing
-        background_clip_width, background_clip_height = background_clip.size
-        current_aspect_ratio = background_clip_width / background_clip_height
-
-        if current_aspect_ratio > target_aspect_ratio:
-            # Video is wider than 9:16, so we need to crop the sides
-            new_width = int(background_clip_height * target_aspect_ratio)
-
-            if background_video_horizontal_offset is None:
-                background_video_horizontal_offset = (background_clip_width - new_width) // 2
-
-            background_clip = background_clip.crop(
-                x1=background_video_horizontal_offset,
-                x2=background_video_horizontal_offset + new_width,
-            ).resize(video_dimensions)
-        else:
-            # Video is taller than 9:16, so we need to crop the top and bottom
-            new_height = int(background_clip_width / target_aspect_ratio)
-
-            if background_video_vertical_offset is None:
-                background_video_vertical_offset = (background_clip_height - new_height) // 2
-
-            background_clip = background_clip.crop(
-                y1=background_video_vertical_offset, y2=background_video_vertical_offset + new_height
-            ).resize(video_dimensions)
-
-        # Create shadow clip
-        shadow_clip = create_shadow_clip(
-            size=video_dimensions,
-            color=shadow_color,
-            duration=background_clip.duration,
-            opacity=shadow_opacity,
-        )
-
-        # Overlay shadow clip on video
-        video = mpy.CompositeVideoClip([background_clip, shadow_clip])
+    if start_time_modifier != 0.0:
+        video_start = offset_timestamp(video_start_timestamp, start_time_modifier)
+    else:
+        video_start = offset_timestamp(video_start_timestamp, time_modifier)
+    video_end = offset_timestamp(video_end_timestamp, end_time_modifier)
 
     # Create variables
-    all_background_clips_paths = get_all_background_clips_paths(background_clips_directory_paths)
+    all_background_clip_paths = get_all_background_clip_paths(background_clips_directory_paths)
     used_background_clips_paths = []
     video_clips = []
     text_clips_array = []
@@ -1197,29 +1157,29 @@ def create_tiktok(
     video_map_output = {}
 
     # Create video clips
-    for i in loop_range:
+    for line in loop_range:
         # Get data for video clip
-        current_line = chapter_csv_lines[i - 1]
+        current_line = chapter_csv_lines[line - 1]
         verse_counter, verse_text, verse_translation, timestamp = current_line
 
-        next_line = chapter_csv_lines[i]
+        next_line = chapter_csv_lines[line]
         next_timestamp = next_line[3]
 
-        if i == start_line:
+        if line == start_line:
             audio_start = video_start
         else:
-            audio_start = modify_timestamp(timestamp.strip().split(",")[0], time_modifier)
+            audio_start = offset_timestamp(get_stripped_timestamp(timestamp)[0], time_modifier)
 
-        if i == end_line - 1:
+        if line == end_line - 1:
             audio_end = video_end
         else:
-            audio_end = modify_timestamp(next_timestamp.strip().split(",")[0], time_modifier)
+            audio_end = offset_timestamp(get_stripped_timestamp(next_timestamp)[0], time_modifier)
 
         video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
 
         # Get text duration
         try:
-            text_end = modify_timestamp(next_timestamp.strip().split(",")[1], time_modifier)
+            text_end = offset_timestamp(get_stripped_timestamp(next_timestamp)[1], time_modifier)
             text_duration = get_time_difference_seconds(audio_start, text_end)
         except IndexError:
             text_duration = video_clip_duration
@@ -1230,19 +1190,20 @@ def create_tiktok(
 
             # Get background clips for video clip if not in pictures mode
             if not pictures_mode:
-                background_clips_duration = 0
+                total_background_clips_duration = 0
 
-                video_map_index = i - start_line + 1
+                video_map_index = line - start_line + 1
                 if video_map is not None and video_map_index in video_map.keys():
                     # Get background clips from the video map
-                    for j in range(len(video_map[video_map_index])):
-                        background_clip_info = video_map[video_map_index][j]
+                    amount_of_background_clips = len(video_map[video_map_index])
+                    for i in range(amount_of_background_clips):
+                        background_clip_info = video_map[video_map_index][i]
 
                         background_clip_path = background_clip_info[0]
                         background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clips_speed)
 
-                        background_clip_duration = (
-                            get_video_duration_seconds(background_clip_path) / background_clips_speed
+                        background_clip_duration = get_background_clip_duration(
+                            background_clip_path, background_clips_speed
                         )
 
                         # Get time offset
@@ -1256,7 +1217,7 @@ def create_tiktok(
                         if not background_clip_time_offset_tuple[1]:
                             colored_print(
                                 Fore.YELLOW,
-                                f"Verse {video_map_index} background clip {j + 1} time offset is invalid, using ({background_clip_time_offset}) instead",
+                                f"Verse {video_map_index} background clip {i + 1} time offset is invalid, using ({background_clip_time_offset}) instead",
                             )
 
                         # Get max horizontal offset
@@ -1265,7 +1226,7 @@ def create_tiktok(
                         if max_horizontal_offset < 0:
                             # Background clip width is less than video width
                             raise ValueError(
-                                f"Verse {video_map_index} Background clip {j + 1} width ({background_clip.w}) is less than video width ({video_width})"
+                                f"Verse {video_map_index} Background clip {i + 1} width ({background_clip.w}) is less than video width ({video_width})"
                             )
 
                         # Get horizontal offset
@@ -1277,7 +1238,7 @@ def create_tiktok(
                         if not background_clip_horizontal_offset_tuple[1]:
                             colored_print(
                                 Fore.YELLOW,
-                                f"Verse {video_map_index} background clip {j + 1} horizontal offset is invalid, using ({background_clip_horizontal_offset}) instead",
+                                f"Verse {video_map_index} background clip {i + 1} horizontal offset is invalid, using ({background_clip_horizontal_offset}) instead",
                             )
 
                         # Get background clip mirrored
@@ -1289,13 +1250,13 @@ def create_tiktok(
                         if not background_clip_mirrored_tuple[1]:
                             colored_print(
                                 Fore.YELLOW,
-                                f"Verse {video_map_index} background clip {j + 1} mirrored ({background_clip_mirrored}) is invalid, using ({background_clip_mirrored}) instead",
+                                f"Verse {video_map_index} background clip {i + 1} mirrored ({background_clip_mirrored}) is invalid, using ({background_clip_mirrored}) instead",
                             )
 
                         # Adjust background clip duration
                         adjusted_background_clip_duration = background_clip_duration - background_clip_time_offset
 
-                        video_clip_leftover_duration = video_clip_duration - background_clips_duration
+                        video_clip_leftover_duration = video_clip_duration - total_background_clips_duration
                         if check_background_clip_duration(
                             video_clip_leftover_duration, adjusted_background_clip_duration
                         ):
@@ -1310,36 +1271,36 @@ def create_tiktok(
                             )
                             used_background_clips_paths.append(background_clip_path)
 
-                            background_clips_duration += adjusted_background_clip_duration
+                            total_background_clips_duration += adjusted_background_clip_duration
 
-                            if background_clips_duration >= video_clip_duration:
+                            if total_background_clips_duration >= video_clip_duration:
                                 break
                         else:
                             colored_print(
                                 Fore.RED,
-                                f"Verse {video_map_index} background clip {j + 1} duration ({background_clip_duration}) is invalid, skipping...",
+                                f"Verse {video_map_index} background clip {i + 1} duration ({background_clip_duration}) is invalid, skipping...",
                             )
 
-                    video_clip_leftover_duration = video_clip_duration - background_clips_duration
+                    video_clip_leftover_duration = video_clip_duration - total_background_clips_duration
                     if video_clip_leftover_duration > 0:
                         (
                             used_background_clips_paths,
                             video_map_index,
                             video_clip_background_clip_paths,
-                            j,
+                            i,
                         ) = get_valid_background_clips(
-                            all_background_clips_paths,
+                            all_background_clip_paths,
                             allow_duplicate_background_clips,
                             allow_mirrored_background_clips,
                             used_background_clips_paths,
                             video_map,
                             background_clips_speed,
                             video_clip_duration,
-                            background_clips_duration,
+                            total_background_clips_duration,
                             video_map_index,
                             video_width,
                             video_clip_background_clip_paths,
-                            j,
+                            i,
                         )
                 else:
                     (
@@ -1347,14 +1308,14 @@ def create_tiktok(
                         video_map_index,
                         video_clip_background_clip_paths,
                     ) = get_valid_background_clips(
-                        all_background_clips_paths,
+                        all_background_clip_paths,
                         allow_duplicate_background_clips,
                         allow_mirrored_background_clips,
                         used_background_clips_paths,
                         video_map,
                         background_clips_speed,
                         video_clip_duration,
-                        background_clips_duration,
+                        total_background_clips_duration,
                         video_map_index,
                         video_width,
                         video_clip_background_clip_paths,
@@ -1365,7 +1326,7 @@ def create_tiktok(
                 # Add background clips to video map output
                 video_map_output[video_map_index] = video_clip_background_clip_paths
             else:
-                background_clip_path = get_random_background_clip_path(all_background_clips_paths)
+                background_clip_path = get_random_background_clip_path(all_background_clip_paths)
 
                 background_clip = mpy.VideoFileClip(background_clip_path)
 
@@ -1392,7 +1353,7 @@ def create_tiktok(
                 )
 
         # Start creating video clip
-        colored_print(Fore.MAGENTA, f"Creating clip {i - start_line + 1}...")
+        colored_print(Fore.MAGENTA, f"Creating clip {line - start_line + 1}...")
 
         # Create text clips
         text_clips = [
@@ -1470,11 +1431,53 @@ def create_tiktok(
 
             video_clips.append(video_clip)
 
-            colored_print(Fore.GREEN, f"Successfully created clip {i - start_line + 1}")
+            colored_print(Fore.GREEN, f"Successfully created clip {line - start_line + 1}")
 
     audio = mpy.AudioFileClip(audio_file_path).set_start(video_start).subclip(video_start, video_end)
 
     if background_video is not None:
+        background_clip = mpy.VideoFileClip(background_video).subclip(video_start)
+
+        # Specify the target aspect ratio (9:16)
+        target_aspect_ratio = 9 / 16
+
+        # Calculate the dimensions to fit the target aspect ratio without resizing
+        background_clip_width, background_clip_height = background_clip.size
+        current_aspect_ratio = background_clip_width / background_clip_height
+
+        if current_aspect_ratio > target_aspect_ratio:
+            # Video is wider than 9:16, so we need to crop the sides
+            new_width = int(background_clip_height * target_aspect_ratio)
+
+            if background_video_horizontal_offset is None:
+                background_video_horizontal_offset = (background_clip_width - new_width) // 2
+
+            background_clip = background_clip.crop(
+                x1=background_video_horizontal_offset,
+                x2=background_video_horizontal_offset + new_width,
+            ).resize(video_dimensions)
+        else:
+            # Video is taller than 9:16, so we need to crop the top and bottom
+            new_height = int(background_clip_width / target_aspect_ratio)
+
+            if background_video_vertical_offset is None:
+                background_video_vertical_offset = (background_clip_height - new_height) // 2
+
+            background_clip = background_clip.crop(
+                y1=background_video_vertical_offset, y2=background_video_vertical_offset + new_height
+            ).resize(video_dimensions)
+
+        # Create shadow clip
+        shadow_clip = create_shadow_clip(
+            size=video_dimensions,
+            color=shadow_color,
+            duration=background_clip.duration,
+            opacity=shadow_opacity,
+        )
+
+        # Overlay shadow clip on video
+        video = mpy.CompositeVideoClip([background_clip, shadow_clip])
+
         final_video = mpy.CompositeVideoClip([video, *text_clips_array], use_bgclip=True).set_audio(audio)
 
         video_map_output = background_video
@@ -1528,7 +1531,7 @@ def create_tiktok(
         return
 
 
-def get_all_background_clips_paths(
+def get_all_background_clip_paths(
     background_clips_directory_paths: list[str],
 ) -> list[str]:
     """
@@ -1541,6 +1544,10 @@ def get_all_background_clips_paths(
         for clip in os.listdir(path)
         if clip.endswith(".mp4")
     ]
+
+
+def get_background_clip_duration(background_clip_path: str, background_clip_speed: float) -> float:
+    return get_video_duration_seconds(background_clip_path) / background_clip_speed
 
 
 def get_horizontal_offset_tuple(
@@ -1615,6 +1622,18 @@ def get_random_time_offset(max_time_offset: float) -> float:
     return round(random.uniform(0, max_time_offset / 2), 2)
 
 
+def get_seconds_from_timestamp(timestamp: str) -> float:
+    if isinstance(timestamp, list):
+        timestamp = timestamp[0]
+    minutes, seconds = timestamp.split(":")
+    seconds, milliseconds = seconds.split(".")
+    return int(minutes) * 60 + int(seconds) + int(milliseconds) / 1000
+
+
+def get_stripped_timestamp(timestamp: str) -> str:
+    return timestamp.strip().split(",")
+
+
 def get_time_difference_seconds(time1: str, time2: str) -> float:
     """
     Calculate the time difference between two time strings in the format "MM:SS.SSS"
@@ -1644,14 +1663,6 @@ def get_time_offset_tuple(
         return (background_clip_info[1], True)
     else:
         return (get_random_time_offset(max_time_offset), False)
-
-
-def get_time_to_seconds(timestamp):
-    if isinstance(timestamp, list):
-        timestamp = timestamp[0]
-    minutes, seconds = timestamp.split(":")
-    seconds, milliseconds = seconds.split(".")
-    return int(minutes) * 60 + int(seconds) + int(milliseconds) / 1000
 
 
 def get_valid_background_clips(
@@ -1684,7 +1695,7 @@ def get_valid_background_clips(
             )
         ):
             # Background clip is not a duplicate or duplicates are allowed
-            background_clip_duration = get_video_duration_seconds(background_clip_path) / background_clips_speed
+            background_clip_duration = get_background_clip_duration(background_clip_path, background_clips_speed)
 
             # Get max time offset
             max_time_offset = get_max_time_offset(background_clip_duration)
@@ -1784,20 +1795,16 @@ def get_video_duration_seconds(video_path: str) -> float:
     """
 
     video = mpy.VideoFileClip(video_path)
-    video_duration = video.duration
-    video.close()
-
-    return video_duration
+    return video.duration
 
 
-def modify_timestamp(timestamp: str, time_in_seconds: int) -> str:
+def offset_timestamp(timestamp: str, time_offset_seconds: int) -> str:
     # Parse the original time string into a timedelta object
-    minutes, seconds = timestamp.split(":")
-    seconds, milliseconds = seconds.split(".")
-    original_timedelta = timedelta(minutes=int(minutes), seconds=int(seconds), milliseconds=int(milliseconds))
+    seconds = get_seconds_from_timestamp(timestamp)
+    original_timedelta = timedelta(seconds=seconds)
 
     # Ensure the result remains non-negative
-    new_timedelta = max(original_timedelta + timedelta(seconds=time_in_seconds), timedelta(0))
+    new_timedelta = max(original_timedelta + timedelta(seconds=time_offset_seconds), timedelta(0))
 
     return "{:02d}:{:02d}.{:03d}".format(
         new_timedelta.seconds // 60,
@@ -1836,7 +1843,7 @@ def select_columns(csv_file_path: str, columns_to_select: list[str]) -> list[lis
 def sort_nested_timestamps(timestamps):
     for i, timestamp in enumerate(timestamps):
         if isinstance(timestamp, list):
-            timestamps[i] = sorted(timestamp, key=get_time_to_seconds, reverse=True)
+            timestamps[i] = sorted(timestamp, key=get_seconds_from_timestamp, reverse=True)
     return timestamps
 
 
@@ -1882,8 +1889,8 @@ def create_video_clip(
             background_clip_horizontal_offset = background_clip_info[2]
 
             background_clip_duration = (
-                get_video_duration_seconds(background_clip_path) / background_clip_speed - background_clip_time_offset
-            )
+                get_background_clip_duration(background_clip_path, background_clip_speed)
+            ) - background_clip_time_offset
 
             # Crop, trim and set duration for background clip
             background_clip = (
