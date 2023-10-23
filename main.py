@@ -29,7 +29,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings()
-    tiktok.fatih_seferagic_al_hujurat_10()
+    tiktok.fatih_seferagic_al_baqarah_255()
     tiktok.run()
     # add_translation_to_existing_csv_file(r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\chapter.csv", "nl", 49, 10, 10)
 
@@ -876,36 +876,37 @@ def add_translation_to_existing_csv_file(
         reader = csv.DictReader(csv_file)
         field_names = reader.fieldnames
 
-        data = list(reader)
+        if language not in field_names:
+            data = list(reader)
 
-        # If "timestamps" column exists, we insert the new column before it
-        if "timestamps" in field_names:
-            timestamps_index = field_names.index("timestamps")
-            field_names.insert(timestamps_index, language)
+            # If "timestamps" column exists, we insert the new column before it
+            if "timestamps" in field_names:
+                timestamps_index = field_names.index("timestamps")
+                field_names.insert(timestamps_index, language)
 
-            # Loop through verses and add translations to the corresponding rows
-            for verse in range(start_verse, end_verse + 1):
-                row_index = verse - start_verse
-                data[row_index][language] = get_verse_translation(chapter, verse, language)
+                # Loop through verses and add translations to the corresponding rows
+                for verse in range(start_verse, end_verse + 1):
+                    row_index = verse - start_verse
+                    data[row_index][language] = get_verse_translation(chapter, verse, language)
 
-        # If "timestamps" column doesn't exist, we append the new column
-        else:
-            field_names.append(language)
+            # If "timestamps" column doesn't exist, we append the new column
+            else:
+                field_names.append(language)
 
-            # Loop through verses and add translations to the corresponding rows
-            for verse in range(start_verse, end_verse + 1):
-                row_index = verse - start_verse
-                data[row_index][language] = get_verse_translation(chapter, verse, language)
+                # Loop through verses and add translations to the corresponding rows
+                for verse in range(start_verse, end_verse + 1):
+                    row_index = verse - start_verse
+                    data[row_index][language] = get_verse_translation(chapter, verse, language)
 
-        # Write the updated data back to the same file
-        with open(chapter_csv_file_path, "w", encoding="utf-8") as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=field_names)
-            writer.writeheader()
-            writer.writerows(data)
+            # Write the updated data back to the same file
+            with open(chapter_csv_file_path, "w", encoding="utf-8") as csv_file:
+                writer = csv.DictWriter(csv_file, fieldnames=field_names)
+                writer.writeheader()
+                writer.writerows(data)
 
-        remove_empty_rows_from_csv_file(chapter_csv_file_path)
+            remove_empty_rows_from_csv_file(chapter_csv_file_path)
 
-        return True
+            return True
 
 
 def check_background_clip_duration(video_clip_leftover_duration: float, background_clip_duration: float) -> bool:
