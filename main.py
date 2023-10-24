@@ -28,44 +28,44 @@ MINIMAL_CLIP_DURATION = 0.75
 # TODO: Timings are always off by a small amount, such as 0.01 instead of 0.0, etc
 def main() -> None:
     tiktok = TikToks()
-    # tiktok.change_settings(
-    #     video_map={
-    #         "1": [["Anime_Clips\\Heavenly Delusion - S1E08 (22).mp4", 0, 950, "False"]],
-    #         "2": [
-    #             ["Anime_Clips\\Violet Evergarden - NCOP1 (10).mp4", 0.75, 600, "False"],
-    #             ["Anime_Clips_2\\_Suzume no Tojimari (9).mp4", 1.24, 398, "False"],
-    #         ],
-    #         "3": [["Anime_Clips\\Kimi No Nawa (133).mp4", 0.77, 97, "False"]],
-    #         "4": [
-    #             ["Anime_Clips_2\\_Josee to Tora to Sakana-tachi (25).mp4", 0.74, 1193, "False"],
-    #             ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 4.68, 1276, "False"],
-    #         ],
-    #         "5": [["Anime_Clips\\5 Centimeters per Second (264).mp4", 0.28, 1172, "False"]],
-    #         "6": [
-    #             ["Anime_Clips_2\\_Suzume no Tojimari (13).mp4", 3.29, 61, "False"],
-    #             ["Anime_Clips_2\\_Violet Evergarden Movie (6).mp4", 0.28, 1270, "False"],
-    #         ],
-    #         "7": [
-    #             ["Anime_Clips_2\\_Kizumonogatari I - Tekketsu-hen (81).mp4", 0.06, 974, "False"],
-    #             ["Anime_Clips\\Heavenly Delusion - S1 - NCOP (1).mp4", 0.2, 0, "False"],
-    #         ],
-    #         "8": [["Anime_Clips\\Kimi No Nawa (312).mp4", 8.52, 515, "False"]],
-    #         "9": [
-    #             ["Anime_Clips_2\\_Kizumonogatari II - Nekketsu-hen (84).mp4", 0.08, 452, "False"],
-    #             ["Anime_Clips\\Weathering With You (27).mp4", 0.25, 175, "False"],
-    #             ["Anime_Clips_2\\_Josee to Tora to Sakana-tachi (3).mp4", 0.55, 1078, "False"],
-    #         ],
-    #         "10": [["Anime_Clips\\Garden of Words (78).mp4", 1.36, 448, "False"]],
-    #         "11": [
-    #             ["Anime_Clips\\Kimi No Nawa (136).mp4", 0.76, 320, "False"],
-    #             ["Anime_Clips_2\\_Suzume no Tojimari (35).mp4", 0.25, 651, "False"],
-    #             ["Anime_Clips\\Kimi No Nawa (13).mp4", 0.65, 333, "False"],
-    #             ["Anime_Clips_2\\_Violet Evergarden Movie (4).mp4", 2.05, 766, "False"],
-    #         ],
-    #         "12": [["Anime_Clips\\Weathering With You (266).mp4", 1.04, 695, "False"]],
-    #     }
-    # )
-    tiktok.abdul_rahman_mossad_al_muzzammil_14_15()
+    tiktok.change_settings(
+        video_map={
+            "1": [["Anime_Clips\\Heavenly Delusion - S1E08 (22).mp4", 0, 950, "False"]],
+            "2": [
+                ["Anime_Clips\\Violet Evergarden - NCOP1 (10).mp4", 0.75, 600, "False"],
+                ["Anime_Clips_2\\_Suzume no Tojimari (9).mp4", 1.24, 398, "False"],
+            ],
+            "3": [["Anime_Clips\\Kimi No Nawa (133).mp4", 0.77, 97, "False"]],
+            "4": [
+                ["Anime_Clips_2\\_Josee to Tora to Sakana-tachi (25).mp4", 0.74, 1193, "False"],
+                ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 4.68, 1276, "False"],
+            ],
+            "5": [["Anime_Clips\\5 Centimeters per Second (264).mp4", 0.28, 1172, "False"]],
+            "6": [
+                ["Anime_Clips_2\\_Suzume no Tojimari (13).mp4", 3.29, 61, "False"],
+                ["Anime_Clips_2\\_Violet Evergarden Movie (6).mp4", 0.28, 1270, "False"],
+            ],
+            "7": [
+                ["Anime_Clips_2\\_Kizumonogatari I - Tekketsu-hen (81).mp4", 0.06, 974, "False"],
+                ["Anime_Clips\\Heavenly Delusion - S1 - NCOP (1).mp4", 0.2, 0, "False"],
+            ],
+            "8": [["Anime_Clips\\Kimi No Nawa (312).mp4", 8.52, 515, "False"]],
+            "9": [
+                ["Anime_Clips_2\\_Kizumonogatari II - Nekketsu-hen (84).mp4", 0.08, 452, "False"],
+                ["Anime_Clips\\Weathering With You (27).mp4", 0.25, 175, "False"],
+                ["Anime_Clips_2\\_Josee to Tora to Sakana-tachi (3).mp4", 0.55, 1078, "False"],
+            ],
+            "10": [["Anime_Clips\\Garden of Words (78).mp4", 1.36, 448, "False"]],
+            "11": [
+                ["Anime_Clips\\Kimi No Nawa (136).mp4", 0.76, 320, "False"],
+                ["Anime_Clips_2\\_Suzume no Tojimari (35).mp4", 0.25, 651, "False"],
+                ["Anime_Clips\\Kimi No Nawa (13).mp4", 0.65, 333, "False"],
+                ["Anime_Clips_2\\_Violet Evergarden Movie (4).mp4", 2.05, 766, "False"],
+            ],
+            "12": [["Anime_Clips\\Weathering With You (266).mp4", 1.04, 1295, "False"]],
+        }
+    )
+    tiktok.abdul_rahman_mossad_al_muzzammil_14_18()
     tiktok.run()
 
 
@@ -1148,21 +1148,7 @@ def create_tiktok(
 
     # Create the range of lines to loop through
     if start_line is None or end_line is None:
-        # Extract 'start' and 'end' values from the filename
-        verse_range = (output_file_name.split(".")[1]).split(")")[0]
-        start, end = verse_range.split("-") if "-" in verse_range else (verse_range, verse_range)
-
-        # Find the corresponding lines in chapter_csv_lines
-        for i, line in enumerate(chapter_csv_lines):
-            if line[0] == f"{chapter}:{start}":
-                start_line = i + 1
-            if line[0] == f"{chapter}:{end}":
-                j = i + 1
-                while j < len(chapter_csv_lines) and chapter_csv_lines[j][0] == "":
-                    j += 1
-                end_line = j
-
-    loop_range = range(start_line, end_line)
+        loop_range = get_loop_range(output_file_name, chapter_csv_lines, chapter, start_line, end_line)
 
     # Get data for final video
     video_width, video_height = video_dimensions
@@ -1175,6 +1161,8 @@ def create_tiktok(
     else:
         video_start = offset_timestamp(video_start_timestamp, time_modifier)
     video_end = offset_timestamp(video_end_timestamp, end_time_modifier)
+
+    audio = mpy.AudioFileClip(audio_file_path).subclip(video_start, video_end)
 
     # Create variables
     all_background_clip_paths = get_all_background_clip_paths(background_clips_directory_paths)
@@ -1461,8 +1449,6 @@ def create_tiktok(
 
             colored_print(Fore.GREEN, f"Successfully created clip {line - start_line + 1}")
 
-    audio = mpy.AudioFileClip(audio_file_path).set_start(video_start).subclip(video_start, video_end)
-
     if background_video is not None:
         background_clip = mpy.VideoFileClip(background_video).subclip(video_start)
 
@@ -1590,6 +1576,31 @@ def get_horizontal_offset_tuple(
         return (background_clip_info[2], True)
     else:
         return (get_random_horizontal_offset(max_horizontal_offset), False)
+
+
+def get_loop_range(
+    output_file_name: str, chapter_csv_lines: list[list[str]], chapter: int, start_line: int, end_line: int
+):
+    # Extract 'start' and 'end' values from the filename
+    verse_range = (output_file_name.split(".")[1]).split(")")[0]
+    start, end = verse_range.split("-") if "-" in verse_range else (verse_range, verse_range)
+
+    # Find the corresponding lines in chapter_csv_lines
+    for i, line in enumerate(chapter_csv_lines):
+        if line[0] == f"{chapter}:{start}":
+            if start_line is None:
+                start_line = i + 1
+        elif line[0] == f"{chapter}:{end}":
+            j = i + 1
+            while j < len(chapter_csv_lines) and chapter_csv_lines[j][0] == "":
+                j += 1
+            if end_line is None:
+                end_line = j
+
+    if end_line < len(chapter_csv_lines):
+        end_line += 1
+
+    return range(start_line, end_line)
 
 
 def get_max_horizontal_offset(background_clip_width: int, video_width: int) -> int:
