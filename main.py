@@ -1695,7 +1695,7 @@ def get_time_offset_tuple(
 ) -> tuple[float, bool]:
     if (
         len(background_clip_info) > 1
-        and (isinstance(background_clip_info[1], float) or isinstance(background_clip_info[1], int))
+        and (isinstance(background_clip_info[1], (float, int)))
         and background_clip_info[1] <= max_time_offset
     ):
         # Horizontal offset entry exists, is an int and is less than or equal to the max horizontal offset
