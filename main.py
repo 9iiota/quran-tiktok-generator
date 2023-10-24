@@ -28,54 +28,55 @@ MINIMAL_CLIP_DURATION = 0.75
 # TODO: Timings are always off by a small amount, such as 0.01 instead of 0.0, etc
 def main() -> None:
     tiktok = TikToks()
-    tiktok.change_settings(
-        video_map={
-            "1": [["Anime_Clips\\Heavenly Delusion - S1E08 (22).mp4", 0, 950, "False"]],
-            "2": [
-                ["Anime_Clips\\Violet Evergarden - NCOP1 (10).mp4", 0.75, 600, "False"],
-                ["Anime_Clips_2\\_Suzume no Tojimari (9).mp4", 1.24, 398, "False"],
-            ],
-            "3": [["Anime_Clips\\Kimi No Nawa (133).mp4", 0.77, 97, "False"]],
-            "4": [
-                ["Anime_Clips_2\\_Josee to Tora to Sakana-tachi (25).mp4", 0.74, 1193, "False"],
-                ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 4.68, 1276, "False"],
-            ],
-            "5": [["Anime_Clips\\5 Centimeters per Second (264).mp4", 0.28, 1172, "False"]],
-            "6": [
-                ["Anime_Clips_2\\_Suzume no Tojimari (13).mp4", 3.29, 61, "False"],
-                ["Anime_Clips_2\\_Violet Evergarden Movie (6).mp4", 0.28, 1270, "False"],
-            ],
-            "7": [
-                ["Anime_Clips_2\\_Kizumonogatari I - Tekketsu-hen (81).mp4", 0.06, 974, "False"],
-                ["Anime_Clips\\Heavenly Delusion - S1 - NCOP (1).mp4", 0.2, 0, "False"],
-            ],
-            "8": [["Anime_Clips\\Kimi No Nawa (312).mp4", 8.52, 515, "False"]],
-            "9": [
-                ["Anime_Clips_2\\_Kizumonogatari II - Nekketsu-hen (84).mp4", 0.08, 452, "False"],
-                ["Anime_Clips\\Weathering With You (27).mp4", 0.25, 175, "False"],
-                ["Anime_Clips_2\\_Josee to Tora to Sakana-tachi (3).mp4", 0.55, 1078, "False"],
-            ],
-            "10": [["Anime_Clips\\Garden of Words (78).mp4", 1.36, 448, "False"]],
-            "11": [
-                ["Anime_Clips\\Kimi No Nawa (136).mp4", 0.76, 320, "False"],
-                ["Anime_Clips_2\\_Suzume no Tojimari (35).mp4", 0.25, 651, "False"],
-                ["Anime_Clips\\Kimi No Nawa (13).mp4", 0.65, 333, "False"],
-                ["Anime_Clips_2\\_Violet Evergarden Movie (4).mp4", 2.05, 766, "False"],
-            ],
-            "12": [["Anime_Clips\\Weathering With You (266).mp4", 1.04, 695, "False"]],
-        }
-    )
-    tiktok.abdul_rahman_mossad_al_muzzammil_14_18()
+    # tiktok.change_settings(
+    #     video_map={
+    #         "1": [["Anime_Clips\\Heavenly Delusion - S1E08 (22).mp4", 0, 950, "False"]],
+    #         "2": [
+    #             ["Anime_Clips\\Violet Evergarden - NCOP1 (10).mp4", 0.75, 600, "False"],
+    #             ["Anime_Clips_2\\_Suzume no Tojimari (9).mp4", 1.24, 398, "False"],
+    #         ],
+    #         "3": [["Anime_Clips\\Kimi No Nawa (133).mp4", 0.77, 97, "False"]],
+    #         "4": [
+    #             ["Anime_Clips_2\\_Josee to Tora to Sakana-tachi (25).mp4", 0.74, 1193, "False"],
+    #             ["Anime_Clips\\Demon Slayer - S1E2 (81).mp4", 4.68, 1276, "False"],
+    #         ],
+    #         "5": [["Anime_Clips\\5 Centimeters per Second (264).mp4", 0.28, 1172, "False"]],
+    #         "6": [
+    #             ["Anime_Clips_2\\_Suzume no Tojimari (13).mp4", 3.29, 61, "False"],
+    #             ["Anime_Clips_2\\_Violet Evergarden Movie (6).mp4", 0.28, 1270, "False"],
+    #         ],
+    #         "7": [
+    #             ["Anime_Clips_2\\_Kizumonogatari I - Tekketsu-hen (81).mp4", 0.06, 974, "False"],
+    #             ["Anime_Clips\\Heavenly Delusion - S1 - NCOP (1).mp4", 0.2, 0, "False"],
+    #         ],
+    #         "8": [["Anime_Clips\\Kimi No Nawa (312).mp4", 8.52, 515, "False"]],
+    #         "9": [
+    #             ["Anime_Clips_2\\_Kizumonogatari II - Nekketsu-hen (84).mp4", 0.08, 452, "False"],
+    #             ["Anime_Clips\\Weathering With You (27).mp4", 0.25, 175, "False"],
+    #             ["Anime_Clips_2\\_Josee to Tora to Sakana-tachi (3).mp4", 0.55, 1078, "False"],
+    #         ],
+    #         "10": [["Anime_Clips\\Garden of Words (78).mp4", 1.36, 448, "False"]],
+    #         "11": [
+    #             ["Anime_Clips\\Kimi No Nawa (136).mp4", 0.76, 320, "False"],
+    #             ["Anime_Clips_2\\_Suzume no Tojimari (35).mp4", 0.25, 651, "False"],
+    #             ["Anime_Clips\\Kimi No Nawa (13).mp4", 0.65, 333, "False"],
+    #             ["Anime_Clips_2\\_Violet Evergarden Movie (4).mp4", 2.05, 766, "False"],
+    #         ],
+    #         "12": [["Anime_Clips\\Weathering With You (266).mp4", 1.04, 695, "False"]],
+    #     }
+    # )
+    tiktok.abdul_rahman_mossad_al_muzzammil_14_15()
     tiktok.run()
+
+
+def test():
+    pass
+
     # add_translation_to_existing_csv_file(r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\chapter.csv", "nl", 49, 10, 10)
 
     # folders = os.listdir("Surahs")
     # for folder in folders:
     #     files = os.listdir(os.path.join("Surahs", folder))
-
-
-def test():
-    pass
 
     # # Get only the user-defined methods
     # user_defined_methods = [
@@ -144,7 +145,7 @@ class TikToks:
         self.single_background_clip = None
         self.single_background_clip_horizontal_offset = None
         self.single_background_clip_vertical_offset = None
-        self.start_line = 1
+        self.start_line = None
         self.start_time_modifier = 0.0
         self.start_verse = None
         self.time_modifier = 0.0
@@ -240,8 +241,6 @@ class TikToks:
             53,
             64,
         )
-        self.start_line = 2
-        self.end_line = 26
         self.end_time_modifier = -0.4
 
     def abdul_rahman_mossad_al_ankabut_54_57(self) -> None:
@@ -256,8 +255,6 @@ class TikToks:
             53,
             64,
         )
-        self.start_line = 2
-        self.end_line = 14
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_ankabut_56_57(self) -> None:
@@ -272,8 +269,6 @@ class TikToks:
             53,
             64,
         )
-        self.start_line = 9
-        self.end_line = 12
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_ghashiyah_10_26(self) -> None:
@@ -288,7 +283,6 @@ class TikToks:
             1,
             26,
         )
-        self.start_line = 14
 
     def abdul_rahman_mossad_al_ghashiyah_10_12(self) -> None:
         """
@@ -302,8 +296,6 @@ class TikToks:
             1,
             26,
         )
-        self.start_line = 14
-        self.end_line = 16
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_muzzammil_6_13(self) -> None:
@@ -318,8 +310,6 @@ class TikToks:
             1,
             20,
         )
-        self.start_line = 6
-        self.end_line = 25
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_muzzammil_14_18(self) -> None:
@@ -334,8 +324,6 @@ class TikToks:
             1,
             20,
         )
-        self.start_line = 26
-        self.end_line = 37
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_al_muzzammil_14_15(self) -> None:
@@ -350,8 +338,6 @@ class TikToks:
             1,
             20,
         )
-        self.start_line = 26
-        self.end_line = 31
         self.end_time_modifier = -0.2
 
     def abdul_rahman_mossad_maryam_93_98(self) -> None:
@@ -366,8 +352,6 @@ class TikToks:
             65,
             98,
         )
-        self.start_line = 29
-        self.end_line = 45
 
     def abdul_rahman_mossad_maryam_93_94(self) -> None:
         """
@@ -381,8 +365,6 @@ class TikToks:
             65,
             98,
         )
-        self.start_line = 29
-        self.end_line = 32
         self.end_time_modifier = -0.2
 
     def fatih_seferagic_al_hujurat_10(self) -> None:
@@ -902,7 +884,7 @@ def add_or_update_timestamps_to_chapter_csv_file(chapter_csv_file_path: str, tim
 
         remove_empty_rows_from_csv_file(chapter_csv_file_path)
 
-    colored_print(Fore.GREEN, f"Successfully added timestamps to '{chapter_csv_file_path}'")
+    colored_print(Fore.GREEN, f"Successfully added or updated timestamps to '{chapter_csv_file_path}'")
 
 
 def add_translation_to_existing_csv_file(
@@ -1067,7 +1049,7 @@ def create_tiktok(
     output_file_path: str = None,
     audio_file_path: str = None,
     chapter_csv_file_path: str = None,
-    start_line: int = 1,
+    start_line: int = None,
     end_line: int = None,
     chapter: int = None,
     start_verse: int = None,
@@ -1165,10 +1147,20 @@ def create_tiktok(
     chapter_csv_lines = select_columns(chapter_csv_file_path, ["verse", "ar", language.value, "timestamps"])
 
     # Create the range of lines to loop through
-    if end_line is None:
-        end_line = len(chapter_csv_lines)
-    else:
-        end_line += 1
+    if start_line is None or end_line is None:
+        # Extract 'start' and 'end' values from the filename
+        verse_range = (output_file_name.split(".")[1]).split(")")[0]
+        start, end = verse_range.split("-") if "-" in verse_range else (verse_range, verse_range)
+
+        # Find the corresponding lines in chapter_csv_lines
+        for i, line in enumerate(chapter_csv_lines):
+            if line[0] == f"{chapter}:{start}":
+                start_line = i + 1
+            if line[0] == f"{chapter}:{end}":
+                j = i + 1
+                while j < len(chapter_csv_lines) and chapter_csv_lines[j][0] == "":
+                    j += 1
+                end_line = j
 
     loop_range = range(start_line, end_line)
 
