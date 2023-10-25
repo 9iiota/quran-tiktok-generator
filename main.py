@@ -30,26 +30,7 @@ def main() -> None:
     tiktok = TikToks(
         allow_mirrored_background_clips=True,
     )
-    tiktok.change_settings(
-        video_map={
-            "1": [["Anime_Clips\\Horimiya - S01E01 (53).mp4", 0.0, 1250, "True"]],
-            "2": [
-                ["Anime_Clips\\Tamako Love Story (1218).mp4", 0.55, 605, "False"],
-                ["Anime_Clips\\Garden of Words (205).mp4", 0.63, 1123, "False"],
-            ],
-            "3": [["Anime_Clips_2\\_Suzume no Tojimari (17).mp4", 2.38, 198, "True"]],
-            "4": [["Anime_Clips\\5 Centimeters per Second (257).mp4", 7.45, 1052, "True"]],
-            "6": [
-                ["Anime_Clips\\_Hello World (6).mp4", 0.17, 145, "True"],
-                ["Anime_Clips\\Garden of Words (158).mp4", 3.44, 357, "True"],
-            ],
-            "7": [["Anime_Clips\\Summer Ghost (162).mp4", 0.56, 334, "False"]],
-            "10": [["Anime_Clips_2\\_Violet Evergarden Movie (20).mp4", 2.11, 374, "True"]],
-            "13": [["Anime_Clips_2\\_Violet Evergarden Movie (10).mp4", 0.01, 711, "True"]],
-            "18": [["Anime_Clips\\_Boku ga Aishita Subete no Kimi e (1).mp4", 1.29, 292, "True"]],
-            "19": [["Anime_Clips_2\\_Kizumonogatari II - Nekketsu-hen (17).mp4", 0.13, 6, "False"]],
-        }
-    )
+    tiktok.change_settings()
     tiktok.salim_bahanan_ad_duhaa_1_11()
     tiktok.run()
 
