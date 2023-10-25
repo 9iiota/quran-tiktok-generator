@@ -29,11 +29,20 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks(
         allow_mirrored_background_clips=True,
-        background_clips_directory_paths=["Anime_Clips", "Anime_Clips_2", "Real_Clips"],
-        video_mode=False,
     )
-    tiktok.change_settings()
-    tiktok.fatih_seferagic_al_hujurat_10()
+    tiktok.change_settings(
+        video_map={
+            "1": [["Anime_Clips\\Horimiya - S01E01 (53).mp4", 0.0, 1250, "True"]],
+            "2": [
+                ["Anime_Clips\\Tamako Love Story (1218).mp4", 0.55, 605, "False"],
+                ["Anime_Clips\\Garden of Words (205).mp4", 0.63, 1123, "False"],
+            ],
+            "3": [["Anime_Clips_2\\_Suzume no Tojimari (17).mp4", 2.38, 198, "True"]],
+            "16": [["Anime_Clips\\Weathering With You (335).mp4", 2.64, 348, "False"]],
+            "18": [["Anime_Clips\\_Boku ga Aishita Subete no Kimi e (1).mp4", 1.29, 292, "True"]],
+        }
+    )
+    tiktok.salim_bahanan_ad_duhaa_1_11()
     tiktok.run()
 
 
@@ -361,6 +370,19 @@ class TikToks:
             255,
         )
 
+    def salim_bahanan_ad_duhaa_1_11(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Ad-Duhaa by Salim Bahanan
+        """
+
+        self._set_values(
+            r"Surahs\Salim Bahanan - Ad-Duhaa (93.1-11)",
+            "1-11",
+            93,
+            1,
+            11,
+        )
+
     def salim_bahanan_al_qariah_1_11(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Al-Qari'ah by Salim Bahanan
@@ -674,16 +696,6 @@ class TikToks:
         self.output_file_name = f"{(self.account.name).lower()}_2-7_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_translation.txt"
-
-    def salim_bahanan_ad_duhaa_1_11(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Ad-Duhaa by Salim Bahanan
-        """
-
-        self.directory_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa"
-        self.output_file_name = f"{(self.account.name).lower()}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt"
 
     def salim_bahanan_at_tin_1_8(self) -> None:
         """
@@ -1181,22 +1193,87 @@ def create_tiktok(
                     for i in range(amount_of_background_clips):
                         background_clip_info = video_map[video_map_index][i]
 
-                        (
-                            used_background_clip_paths,
-                            video_clip_background_clip_paths,
-                            total_background_clips_duration,
-                        ) = get_background_clips(
-                            background_clips_speed,
-                            i,
-                            video_width,
-                            allow_mirrored_background_clips,
-                            video_clip_duration,
-                            video_clip_background_clip_paths,
-                            used_background_clip_paths,
-                            total_background_clips_duration,
-                            background_clip_info,
-                            video_map_index,
+                        background_clip_path = background_clip_info[0]
+                        background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clips_speed)
+
+                        background_clip_duration = get_background_clip_duration(
+                            background_clip_path, background_clips_speed
                         )
+
+                        # Get time offset
+                        max_time_offset = get_max_time_offset(background_clip_duration)
+
+                        background_clip_time_offset_tuple = get_time_offset_tuple(
+                            background_clip_info, max_time_offset
+                        )
+                        background_clip_time_offset = background_clip_time_offset_tuple[0]
+
+                        if not background_clip_time_offset_tuple[1]:
+                            colored_print(
+                                Fore.YELLOW,
+                                f"Verse {video_map_index} background clip {i + 1} time offset is invalid, using ({background_clip_time_offset}) instead",
+                            )
+
+                        # Get max horizontal offset
+                        max_horizontal_offset = get_max_horizontal_offset(background_clip.w, video_width)
+
+                        if max_horizontal_offset < 0:
+                            # Background clip width is less than video width
+                            raise ValueError(
+                                f"Verse {video_map_index} Background clip {i + 1} width ({background_clip.w}) is less than video width ({video_width})"
+                            )
+
+                        # Get horizontal offset
+                        background_clip_horizontal_offset_tuple = get_horizontal_offset_tuple(
+                            background_clip_info, max_horizontal_offset
+                        )
+                        background_clip_horizontal_offset = background_clip_horizontal_offset_tuple[0]
+
+                        if not background_clip_horizontal_offset_tuple[1]:
+                            colored_print(
+                                Fore.YELLOW,
+                                f"Verse {video_map_index} background clip {i + 1} horizontal offset is invalid, using ({background_clip_horizontal_offset}) instead",
+                            )
+
+                        # Get background clip mirrored
+                        background_clip_mirrored_tuple = get_mirrored_tuple(
+                            background_clip_info, allow_mirrored_background_clips
+                        )
+                        background_clip_mirrored = background_clip_mirrored_tuple[0]
+
+                        if not background_clip_mirrored_tuple[1]:
+                            colored_print(
+                                Fore.YELLOW,
+                                f"Verse {video_map_index} background clip {i + 1} mirrored ({background_clip_mirrored}) is invalid, using ({background_clip_mirrored}) instead",
+                            )
+
+                        # Adjust background clip duration
+                        adjusted_background_clip_duration = background_clip_duration - background_clip_time_offset
+
+                        video_clip_leftover_duration = video_clip_duration - total_background_clips_duration
+                        if check_background_clip_duration(
+                            video_clip_leftover_duration, adjusted_background_clip_duration
+                        ):
+                            # Background clip duration is appropriate
+                            video_clip_background_clip_paths.append(
+                                [
+                                    background_clip_path,
+                                    background_clip_time_offset,
+                                    background_clip_horizontal_offset,
+                                    background_clip_mirrored,
+                                ]
+                            )
+                            used_background_clip_paths.append(background_clip_path)
+
+                            total_background_clips_duration += adjusted_background_clip_duration
+
+                            if total_background_clips_duration >= video_clip_duration:
+                                break
+                        else:
+                            colored_print(
+                                Fore.RED,
+                                f"Verse {video_map_index} background clip {i + 1} duration ({background_clip_duration} : {round((video_clip_leftover_duration - background_clip_duration), 2)}) is invalid, skipping...",
+                            )
 
                     video_clip_leftover_duration = video_clip_duration - total_background_clips_duration
                     if video_clip_leftover_duration > 0:
@@ -1245,34 +1322,29 @@ def create_tiktok(
             else:
                 background_clip_path = get_random_background_clip_path(all_background_clip_paths)
 
-                background_clips = get_background_clips(
-                    background_clips_speed,
-                    0,
-                    video_width,
-                    allow_mirrored_background_clips,
-                    video_clip_duration,
-                    video_clip_background_clip_paths,
-                    used_background_clip_paths,
-                    total_background_clips_duration,
-                    background_clip_path=background_clip_path,
+                background_clip = mpy.VideoFileClip(background_clip_path)
+
+                # Get time offset
+                background_clip_time_offset = random.uniform(0, max(0, background_clip_duration - video_clip_duration))
+
+                # Get x offset
+                width_difference = background_clip.w - video_dimensions[0]
+                background_clip_horizontal_offset = random.randint(0, width_difference) if width_difference > 0 else 0
+
+                # Get background clip mirrored
+                if allow_mirrored_background_clips:
+                    background_clip_mirrored = str(random.choice([True, False]))
+                else:
+                    background_clip_mirrored = "False"
+
+                video_clip_background_clip_paths.append(
+                    [
+                        background_clip_path,
+                        background_clip_time_offset,
+                        background_clip_horizontal_offset,
+                        background_clip_mirrored,
+                    ]
                 )
-                while background_clips is None:
-                    background_clips = get_background_clips(
-                        background_clips_speed,
-                        0,
-                        video_width,
-                        allow_mirrored_background_clips,
-                        video_clip_duration,
-                        video_clip_background_clip_paths,
-                        used_background_clip_paths,
-                        total_background_clips_duration,
-                        background_clip_path=background_clip_path,
-                    )
-                (
-                    used_background_clip_paths,
-                    video_clip_background_clip_paths,
-                    total_background_clips_duration,
-                ) = background_clips
 
         # Start creating video clip
         colored_print(Fore.MAGENTA, f"Creating clip {line - start_line + 1}...")
@@ -1464,120 +1536,6 @@ def get_all_background_clip_paths(
         for clip in os.listdir(path)
         if clip.endswith(".mp4")
     ]
-
-
-def get_background_clips(
-    background_clip_speed: float,
-    i: int,
-    video_width: int,
-    allow_mirrored_background_clips: bool,
-    video_clip_duration: float,
-    video_clip_background_clip_paths: list[list[str, float or int, int, str]],
-    used_background_clips_paths: list[str],
-    total_background_clips_duration: float,
-    background_clip_info: list[str] = None,
-    video_map_index: int = None,
-    background_clip_path: str = None,
-):
-    background_clip_path = background_clip_info[0] if background_clip_path is None else background_clip_path
-    background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
-
-    background_clip_duration = get_background_clip_duration(background_clip_path, background_clip_speed)
-
-    # Get time offset
-    max_time_offset = get_max_time_offset(background_clip_duration)
-
-    background_clip_time_offset_tuple = get_time_offset_tuple(
-        background_clip_info if background_clip_info is not None else background_clip_path, max_time_offset
-    )
-    background_clip_time_offset = background_clip_time_offset_tuple[0]
-
-    if not background_clip_time_offset_tuple[1]:
-        colored_print(
-            Fore.YELLOW,
-            f"Verse {video_map_index} background clip {i + 1} time offset is invalid, using ({background_clip_time_offset}) instead",
-        )
-
-    # Get max horizontal offset
-    max_horizontal_offset = get_max_horizontal_offset(background_clip.w, video_width)
-
-    if max_horizontal_offset < 0:
-        # Background clip width is less than video width
-        raise ValueError(
-            f"Verse {video_map_index} Background clip {i + 1} width ({background_clip.w}) is less than video width ({video_width})"
-        )
-
-    # Get horizontal offset
-    background_clip_horizontal_offset_tuple = get_horizontal_offset_tuple(
-        background_clip_info if background_clip_info is not None else background_clip_path, max_horizontal_offset
-    )
-    background_clip_horizontal_offset = background_clip_horizontal_offset_tuple[0]
-
-    if not background_clip_horizontal_offset_tuple[1]:
-        colored_print(
-            Fore.YELLOW,
-            f"Verse {video_map_index} background clip {i + 1} horizontal offset is invalid, using ({background_clip_horizontal_offset}) instead",
-        )
-
-    # Get background clip mirrored
-    background_clip_mirrored_tuple = get_mirrored_tuple(
-        background_clip_info if background_clip_info is not None else background_clip_path,
-        allow_mirrored_background_clips,
-    )
-    background_clip_mirrored = background_clip_mirrored_tuple[0]
-
-    if not background_clip_mirrored_tuple[1]:
-        colored_print(
-            Fore.YELLOW,
-            f"Verse {video_map_index} background clip {i + 1} mirrored ({background_clip_mirrored}) is invalid, using ({background_clip_mirrored}) instead",
-        )
-
-    if background_clip_info is not None:
-        # Adjust background clip duration
-        adjusted_background_clip_duration = background_clip_duration - background_clip_time_offset
-
-        video_clip_leftover_duration = video_clip_duration - total_background_clips_duration
-        if check_background_clip_duration(video_clip_leftover_duration, adjusted_background_clip_duration):
-            # Background clip duration is appropriate
-            video_clip_background_clip_paths.append(
-                [
-                    background_clip_path,
-                    background_clip_time_offset,
-                    background_clip_horizontal_offset,
-                    background_clip_mirrored,
-                ]
-            )
-            used_background_clips_paths.append(background_clip_path)
-
-            total_background_clips_duration += adjusted_background_clip_duration
-
-            if total_background_clips_duration >= video_clip_duration:
-                return (
-                    used_background_clips_paths,
-                    video_clip_background_clip_paths,
-                    total_background_clips_duration,
-                )
-        else:
-            colored_print(
-                Fore.RED,
-                f"Verse {video_map_index} background clip {i + 1} duration ({background_clip_duration} : {round((video_clip_leftover_duration - background_clip_duration), 2)}) is invalid, skipping...",
-            )
-    else:
-        video_clip_background_clip_paths.append(
-            [
-                background_clip_path,
-                background_clip_time_offset,
-                background_clip_horizontal_offset,
-                background_clip_mirrored,
-            ]
-        )
-        used_background_clips_paths.append(background_clip_path)
-
-        return (
-            used_background_clips_paths,
-            video_clip_background_clip_paths,
-            total_background_clips_duration,
-        )
 
 
 def get_background_clip_duration(background_clip_path: str, background_clip_speed: float) -> float:
