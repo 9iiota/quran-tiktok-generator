@@ -29,10 +29,9 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks(
         allow_mirrored_background_clips=True,
-        background_clips_directory_paths=["Anime_Clips", "Anime_Clips_2", "Real_Clips"],
     )
     tiktok.change_settings()
-    tiktok.fatih_seferagic_al_hujurat_10()
+    tiktok.salim_bahanan_ad_duhaa_1_11()
     tiktok.run()
 
 
@@ -89,7 +88,7 @@ class TikToks:
         video_dimensions: tuple[int, int] = (576, 1024),
         background_clips_speed: float = 1.0,
         shadow_opacity: float = 0.7,
-        pictures_mode: bool = False,
+        video_mode: bool = True,
         allow_duplicate_background_clips: bool = False,
         allow_mirrored_background_clips: bool = False,
     ) -> None:
@@ -107,13 +106,13 @@ class TikToks:
         self.language = language
         self.mode = mode
         self.output_file_name = None
-        self.pictures_mode = pictures_mode
+        self.video_mode = video_mode
         self.shadow_opacity = shadow_opacity
         self.single_background_clip = None
         self.single_background_clip_horizontal_offset = None
         self.single_background_clip_vertical_offset = None
         self.start_line = None
-        self.start_time_modifier = 0.0
+        self.start_time_modifier = None
         self.start_verse = None
         self.time_modifier = 0.0
         self.video_dimensions = video_dimensions
@@ -152,7 +151,7 @@ class TikToks:
             background_video_horizontal_offset=self.single_background_clip_horizontal_offset,
             background_video_vertical_offset=self.single_background_clip_vertical_offset,
             video_map=self.video_map,
-            pictures_mode=self.pictures_mode,
+            video_mode=self.video_mode,
             allow_duplicate_background_clips=self.allow_duplicate_background_clips,
             allow_mirrored_background_clips=self.allow_mirrored_background_clips,
             video_dimensions=self.video_dimensions,
@@ -358,6 +357,19 @@ class TikToks:
             2,
             255,
             255,
+        )
+
+    def salim_bahanan_ad_duhaa_1_11(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Ad-Duhaa by Salim Bahanan
+        """
+
+        self._set_values(
+            r"Surahs\Salim Bahanan - Ad-Duhaa (93.1-11)",
+            "1-11",
+            93,
+            1,
+            11,
         )
 
     def salim_bahanan_al_qariah_1_11(self) -> None:
@@ -674,16 +686,6 @@ class TikToks:
         self.chapter_text_file_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_translation.txt"
 
-    def salim_bahanan_ad_duhaa_1_11(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Ad-Duhaa by Salim Bahanan
-        """
-
-        self.directory_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa"
-        self.output_file_name = f"{(self.account.name).lower()}_1-11_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 93 - Ad-Duhaa\chapter_translation.txt"
-
     def salim_bahanan_at_tin_1_8(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 1-8 of Surah At-Tin by Salim Bahanan
@@ -805,7 +807,7 @@ class TikToks:
         self.verse_counter_file_path = r"Surahs\Yasser Al-Dosari - Az-Zukhruf (43.1-89)\verse_counter.txt"
 
 
-def add_or_update_timestamps_to_chapter_csv_file(chapter_csv_file_path: str, timestamps_csv_file_path: str) -> None:
+def update_timestamps_chapter_csv_file(chapter_csv_file_path: str, timestamps_csv_file_path: str) -> None:
     with open(timestamps_csv_file_path, "r", encoding="utf-8") as timestamps_csv_file:
         lines = timestamps_csv_file.readlines()[1:]
         timestamps = []
@@ -1027,7 +1029,7 @@ def create_tiktok(
     background_video_horizontal_offset: int = None,
     background_video_vertical_offset: int = None,
     video_map: dict = None,
-    pictures_mode: bool = False,
+    video_mode: bool = True,
     allow_duplicate_background_clips: bool = False,
     allow_mirrored_background_clips: bool = False,
     video_dimensions: tuple[int, int] = (576, 1024),
@@ -1036,58 +1038,57 @@ def create_tiktok(
     account: ACCOUNTS = ACCOUNTS.QURAN_2_LISTEN,
     mode: MODES = MODES.DARK,
     time_modifier: float = 0.0,
-    start_time_modifier: float = 0.0,
+    start_time_modifier: float = None,
     end_time_modifier: float = 0.0,
 ) -> None:
     """
     Creates a TikTok video
     """
 
-    # Create output file path if it doesn't exist
+    # Get output file path
     if output_file_path is None:
-        # Get the directory path
         output_file_directory_path = os.path.join(directory_path, "Videos")
 
-        # Create output file path
         output_file_path = os.path.join(output_file_directory_path, f"{output_file_name}.mp4")
+
+    # Get output file directory path
     else:
         # Normalize output file path by replacing forward slashes with backslashes
         output_file_path = output_file_path.replace("/", "\\")
 
-        # Get the directory path
         output_file_directory_path = os.path.dirname(output_file_path)
 
     # Create output file directory if it doesn't exist
     os.makedirs(output_file_directory_path, exist_ok=True)
 
-    # Create audio file path if it doesn't exist
+    # Get audio file path
     if audio_file_path is None:
         try:
-            # Get the audio file path
             audio_file = [file for file in os.listdir(directory_path) if file.endswith(".mp3")][0]
 
-            # Create audio file path
             audio_file_path = os.path.join(directory_path, audio_file)
         except IndexError:
             colored_print(Fore.RED, "Audio file not found")
             return
 
-    # Set the english font
+    # Modify settings
     english_font = account.value["english_font"]
-
-    # Set the colors
     shadow_color = mode.value["shadow_color"]
     verse_text_color = mode.value["verse_text_color"]
     verse_translation_color = mode.value["verse_translation_color"]
 
+    # Get chapter csv file path
     if chapter_csv_file_path is None:
         chapter_csv_file_path = os.path.join(directory_path, "chapter.csv")
 
+    # Create chapter csv file if it doesn't exist and populate it with the chapter text and translation
     if not os.path.isfile(chapter_csv_file_path):
         create_chapter_csv_file(chapter_csv_file_path, language.value, chapter, start_verse, end_verse)
 
         colored_print(Fore.GREEN, "Chapter csv file created successfully")
         return
+
+    # Add translation to existing chapter csv file if needed
     else:
         if add_translation_to_existing_csv_file(
             chapter_csv_file_path, language.value, chapter, start_verse, end_verse
@@ -1095,14 +1096,13 @@ def create_tiktok(
             colored_print(Fore.GREEN, "Chapter csv file updated successfully")
             return
 
-    # Create timestamps text file if it doesn't exist and populate it with the timestamps or update it if it already exists
+    # Check if directory exists
     if os.path.isdir(directory_path):
-        # Get the timestamps csv file path
         timestamps_csv_file_path = os.path.join(directory_path, "Markers.csv")
 
-        # Populate the timestamps text file with the timestamps if it doesn't exist or update it if it already exists
+        # Update timestamps in chapter csv file if timestamps csv file exists
         if os.path.isfile(timestamps_csv_file_path):
-            add_or_update_timestamps_to_chapter_csv_file(chapter_csv_file_path, timestamps_csv_file_path)
+            update_timestamps_chapter_csv_file(chapter_csv_file_path, timestamps_csv_file_path)
         else:
             colored_print(Fore.RED, "Markers.csv file not found")
             return
@@ -1110,40 +1110,40 @@ def create_tiktok(
         colored_print(Fore.RED, "Directory not found")
         return
 
-    # Read files
+    # Get chapters csv columns
     chapter_csv_lines = select_columns(chapter_csv_file_path, ["verse", "ar", language.value, "timestamps"])
 
-    # Create the range of lines to loop through
+    # Get the range of lines to loop through
     if start_line is None or end_line is None:
         start_line, end_line = get_loop_range(output_file_name, chapter_csv_lines, chapter, start_line, end_line)
 
     loop_range = range(start_line, end_line)
 
-    # Get data for final video
+    # Get variables for TikTok video
     video_width, video_height = video_dimensions
 
     video_start_timestamp = chapter_csv_lines[start_line - 1][3].strip().split(",")[0]
-    video_end_timestamp = chapter_csv_lines[end_line - 1][3].strip().split(",")[0]
-
-    if start_time_modifier != 0.0:
-        video_start = offset_timestamp(video_start_timestamp, start_time_modifier)
-    else:
+    if start_time_modifier is None:
         video_start = offset_timestamp(video_start_timestamp, time_modifier)
+    else:
+        video_start = offset_timestamp(video_start_timestamp, start_time_modifier)
+
+    video_end_timestamp = chapter_csv_lines[end_line - 1][3].strip().split(",")[0]
     video_end = offset_timestamp(video_end_timestamp, end_time_modifier)
 
     audio = mpy.AudioFileClip(audio_file_path).subclip(video_start, video_end)
 
-    # Create variables
+    # Get variables for final video
     all_background_clip_paths = get_all_background_clip_paths(background_clips_directory_paths)
-    used_background_clips_paths = []
-    video_clips = []
     text_clips_array = []
+    used_background_clip_paths = []
+    video_clips = []
     video_map = {int(key): value for key, value in video_map.items()} if video_map is not None else None
     video_map_output = {}
 
-    # Create video clips
+    # Loop through lines
     for line in loop_range:
-        # Get data for video clip
+        # Get variables for video clip
         current_line = chapter_csv_lines[line - 1]
         verse_counter, verse_text, verse_translation, timestamp = current_line
 
@@ -1162,7 +1162,6 @@ def create_tiktok(
 
         video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
 
-        # Get text duration
         try:
             text_end = offset_timestamp(get_stripped_timestamp(next_timestamp)[1], time_modifier)
             text_duration = get_time_difference_seconds(audio_start, text_end)
@@ -1172,11 +1171,10 @@ def create_tiktok(
         if background_video is None:
             # Create variables for background clips
             video_clip_background_clip_paths = []
+            total_background_clips_duration = 0
 
             # Get background clips for video clip if not in pictures mode
-            if not pictures_mode:
-                total_background_clips_duration = 0
-
+            if video_mode:
                 video_map_index = line - start_line + 1
                 if video_map is not None and video_map_index in video_map.keys():
                     # Get background clips from the video map
@@ -1254,7 +1252,7 @@ def create_tiktok(
                                     background_clip_mirrored,
                                 ]
                             )
-                            used_background_clips_paths.append(background_clip_path)
+                            used_background_clip_paths.append(background_clip_path)
 
                             total_background_clips_duration += adjusted_background_clip_duration
 
@@ -1269,7 +1267,7 @@ def create_tiktok(
                     video_clip_leftover_duration = video_clip_duration - total_background_clips_duration
                     if video_clip_leftover_duration > 0:
                         (
-                            used_background_clips_paths,
+                            used_background_clip_paths,
                             video_map_index,
                             video_clip_background_clip_paths,
                             i,
@@ -1277,7 +1275,7 @@ def create_tiktok(
                             all_background_clip_paths,
                             allow_duplicate_background_clips,
                             allow_mirrored_background_clips,
-                            used_background_clips_paths,
+                            used_background_clip_paths,
                             video_map,
                             background_clips_speed,
                             video_clip_duration,
@@ -1289,14 +1287,14 @@ def create_tiktok(
                         )
                 else:
                     (
-                        used_background_clips_paths,
+                        used_background_clip_paths,
                         video_map_index,
                         video_clip_background_clip_paths,
                     ) = get_valid_background_clips(
                         all_background_clip_paths,
                         allow_duplicate_background_clips,
                         allow_mirrored_background_clips,
-                        used_background_clips_paths,
+                        used_background_clip_paths,
                         video_map,
                         background_clips_speed,
                         video_clip_duration,
@@ -1378,18 +1376,7 @@ def create_tiktok(
                 )
             )
 
-        if background_video:
-            # Get start time of text clips
-            text_start_time = get_time_difference_seconds(audio_start, video_start)
-
-            text_clips[0] = text_clips[0].set_start(text_start_time)
-            text_clips[1] = text_clips[1].set_start(text_start_time)
-
-            if verse_counter != "":
-                text_clips[2] = text_clips[2].set_start(text_start_time)
-
-            text_clips_array.extend(text_clips)
-        else:
+        if background_video is None:
             # Create shadow clip
             shadow_clip = create_shadow_clip(
                 size=video_dimensions,
@@ -1404,7 +1391,7 @@ def create_tiktok(
                 final_clip_duration=video_clip_duration,
                 video_dimensions=video_dimensions,
                 text_clips=text_clips,
-                still_frame=pictures_mode,
+                video_mode=video_mode,
                 background_clip_speed=background_clips_speed,
                 text_duration=text_duration,
                 shadow_clip=shadow_clip,
@@ -1417,8 +1404,22 @@ def create_tiktok(
             video_clips.append(video_clip)
 
             colored_print(Fore.GREEN, f"Successfully created clip {line - start_line + 1}")
+        else:
+            # Get start time of text clips
+            text_start_time = get_time_difference_seconds(audio_start, video_start)
 
-    if background_video is not None:
+            text_clips[0] = text_clips[0].set_start(text_start_time)
+            text_clips[1] = text_clips[1].set_start(text_start_time)
+
+            if verse_counter != "":
+                text_clips[2] = text_clips[2].set_start(text_start_time)
+
+            text_clips_array.extend(text_clips)
+
+    if background_video is None:
+        # Concatenate video clips, add audio, and set duration for final video
+        final_video = mpy.concatenate_videoclips(clips=video_clips, method="chain").set_audio(audio)
+    else:
         background_clip = mpy.VideoFileClip(background_video).subclip(video_start)
 
         # Specify the target aspect ratio (9:16)
@@ -1464,9 +1465,6 @@ def create_tiktok(
         final_video = mpy.CompositeVideoClip([video, *text_clips_array], use_bgclip=True).set_audio(audio)
 
         video_map_output = background_video
-    else:
-        # Concatenate video clips, add audio, and set duration for final video
-        final_video = mpy.concatenate_videoclips(clips=video_clips, method="chain").set_audio(audio)
 
     # Start creating final video
     colored_print(Fore.GREEN, "Creating final video...")
@@ -1493,7 +1491,7 @@ def create_tiktok(
                 output_file_path,
                 fps=video.fps,
             )
-        elif not pictures_mode:
+        elif video_mode:
             final_video.write_videofile(
                 filename=output_file_path,
                 codec="libx264",
@@ -1859,7 +1857,7 @@ def create_video_clip(
     final_clip_duration: float,
     video_dimensions: tuple[int, int],
     text_clips: list[mpy.TextClip],
-    still_frame: bool = False,
+    video_mode: bool = True,
     background_clip_speed: float = 1.0,
     text_duration: float = None,
     shadow_clip: mpy.ColorClip = None,
@@ -1871,20 +1869,10 @@ def create_video_clip(
     video_width, video_height = video_dimensions
     background_clips = []
 
-    if still_frame:
-        background_clip = mpy.VideoFileClip(background_clip_paths[0][0])
+    # Specify the target aspect ratio (9:16)
+    target_aspect_ratio = 9 / 16
 
-        # Get the total number of frames
-        total_frames = int(background_clip.fps * background_clip.duration)
-
-        # Generate a random frame number
-        random_frame_number = random.randint(1, total_frames)
-
-        # Seek to the random frame and capture it as an image
-        random_frame = background_clip.get_frame(random_frame_number / background_clip.fps)
-
-        video_clip = mpy.ImageClip(random_frame)
-    else:
+    if video_mode:
         for background_clip_info in background_clip_paths:
             background_clip_path = background_clip_info[0]
             background_mirrored = background_clip_info[3]
@@ -1913,9 +1901,6 @@ def create_video_clip(
                 .set_duration(background_clip_duration)
             )
 
-            # Specify the target aspect ratio (9:16)
-            target_aspect_ratio = 9 / 16
-
             # Calculate the dimensions to fit the target aspect ratio
             current_aspect_ratio = background_clip.w / background_clip.h
 
@@ -1931,16 +1916,41 @@ def create_video_clip(
 
         video_clip = mpy.concatenate_videoclips(clips=background_clips, method="chain")
         # background_clip = background_clip.fx(mpy.vfx.colorx, 1.25) # Saturation
+    else:
+        background_clip = mpy.VideoFileClip(background_clip_paths[0][0])
+
+        # Get the total number of frames
+        total_frames = int(background_clip.fps * background_clip.duration)
+
+        # Generate a random frame number
+        random_frame_number = random.randint(1, total_frames)
+
+        # Calculate the dimensions to fit the target aspect ratio
+        current_aspect_ratio = background_clip.w / background_clip.h
+
+        if current_aspect_ratio > target_aspect_ratio:
+            # Video is wider than 9:16, so we need to crop the sides
+            new_width = int(background_clip.h * target_aspect_ratio)
+            horizontal_offset = (background_clip.w - new_width) // 2
+            background_clip = background_clip.crop(x1=horizontal_offset, x2=horizontal_offset + new_width).resize(
+                video_dimensions
+            )
+
+        # Seek to the random frame and capture it as an image
+        random_frame = background_clip.get_frame(random_frame_number / background_clip.fps)
+
+        # Specify the target aspect ratio (9:16)
+        target_aspect_ratio = 9 / 16
+
+        video_clip = mpy.ImageClip(random_frame)
 
     video_clip = video_clip.set_duration(final_clip_duration)
     text_duration = text_duration if text_duration is not None else final_clip_duration
     clips = [video_clip, shadow_clip, *text_clips] if shadow_clip is not None else [video_clip, *text_clips]
     final_video_clip = mpy.CompositeVideoClip(clips, use_bgclip=True).set_duration(final_clip_duration)
 
-    if still_frame:
-        final_video_clip = final_video_clip.fadein(final_video_clip.duration / 8).fadeout(
-            final_video_clip.duration / 8
-        )
+    if not video_mode:
+        final_video_clip = final_video_clip.fadein(0.25).fadeout(0.25)
 
     return final_video_clip
 
