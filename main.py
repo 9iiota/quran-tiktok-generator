@@ -31,7 +31,7 @@ def main() -> None:
         allow_mirrored_background_clips=True,
     )
     tiktok.change_settings()
-    tiktok.fatih_seferagic_al_hashr_21_24()
+    tiktok.abdul_rahman_mossad_al_ghashiyah_10_16()
     tiktok.run()
 
 
@@ -249,6 +249,20 @@ class TikToks:
             1,
             26,
         )
+
+    def abdul_rahman_mossad_al_ghashiyah_10_16(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 10-16 of Surah Al-Ghashiyah by Abdul Rahman Mossad
+        """
+
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)",
+            "10-16",
+            88,
+            1,
+            26,
+        )
+        self.end_time_modifier = -0.6
 
     def abdul_rahman_mossad_al_ghashiyah_10_12(self) -> None:
         """
