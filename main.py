@@ -31,7 +31,7 @@ def main() -> None:
         allow_mirrored_background_clips=True,
     )
     tiktok.change_settings()
-    tiktok.salim_bahanan_ad_duhaa_1_11()
+    tiktok.fatih_seferagic_al_hashr_21_24()
     tiktok.run()
 
 
@@ -359,6 +359,19 @@ class TikToks:
             255,
         )
 
+    def fatih_seferagic_al_hashr_21_24(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 21-24 of Surah Al-Hashr by Fatih Seferagic
+        """
+
+        self._set_values(
+            r"Surahs\Fatih Seferagic - Al-Hashr (59.21-24)",
+            "21-24",
+            59,
+            21,
+            24,
+        )
+
     def salim_bahanan_ad_duhaa_1_11(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Ad-Duhaa by Salim Bahanan
@@ -446,16 +459,6 @@ class TikToks:
         self.output_file_name = f"{(self.account.name).lower()}_35_{str(uuid.uuid4()).split('-')[-1]}"
         self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_text.txt"
         self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_translation.txt"
-
-    def fatih_seferagic_al_hashr_21_24(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 21-24 of Surah Al-Hashr by Fatih Seferagic
-        """
-
-        self.directory_path = r"Surahs\Fatih Seferagic - 59 - Al-Hashr"
-        self.output_file_name = f"{(self.account.name).lower()}_21-24_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 59 - Al-Hashr\chapter_translation.txt"
 
     def mansour_as_salimi_maryam_27_33(self) -> None:
         """
