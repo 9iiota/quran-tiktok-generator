@@ -31,7 +31,7 @@ def main() -> None:
         allow_mirrored_background_clips=True,
     )
     tiktok.change_settings()
-    tiktok.abdul_rahman_mossad_al_ghashiyah_10_16()
+    tiktok.muhammad_al_luhaidan_an_nisa_75_76()
     tiktok.run()
 
 
@@ -384,6 +384,19 @@ class TikToks:
             59,
             21,
             24,
+        )
+
+    def muhammad_al_luhaidan_an_nisa_75_76(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 75-76 of Surah An-Nisa by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.75-76)",
+            "75-76",
+            4,
+            75,
+            76,
         )
 
     def salim_bahanan_ad_duhaa_1_11(self) -> None:
@@ -870,7 +883,7 @@ def update_timestamps_chapter_csv_file(chapter_csv_file_path: str, timestamps_cs
 
         remove_empty_rows_from_csv_file(chapter_csv_file_path)
 
-    colored_print(Fore.GREEN, f"Successfully added or updated timestamps to '{chapter_csv_file_path}'")
+    colored_print(Fore.GREEN, f"Successfully updated timestamps of '{chapter_csv_file_path}'")
 
 
 def add_translation_to_existing_csv_file(
