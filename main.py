@@ -27,11 +27,9 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks(
-        allow_mirrored_background_clips=True,
-    )
+    tiktok = TikToks()
     tiktok.change_settings()
-    tiktok.muhammad_al_luhaidan_an_nisa_75_76()
+    tiktok.salim_bahanan_al_qariah_1_11()
     tiktok.run()
 
 
@@ -55,9 +53,20 @@ def test():
 
 
 class ACCOUNTS(Enum):
-    QURAN_2_LISTEN = {"english_font": "Fonts/Butler_Regular.otf"}
-    LOVE_QURAN77 = {"english_font": "Fonts/Sk-Modernist-Regular.otf"}
-    QURANIC_TIKTOKS = {"english_font": "Fonts/FreshStart.otf"}
+    QURAN_2_LISTEN = {
+        "english_font": "Fonts/Butler_Regular.otf",
+        "background_clips_directory_paths": ["Anime_Clips", "Anime_Clips_2"],
+    }  # crazyshocklight@hotmail.com
+    REFLECT2RECITE = {
+        "english_font": "Fonts/Butler_Regular.otf",
+        "background_clips_directory_paths": ["Real_Clips"],
+        "session_id": "e982b24fb589c45697bb55a2f45dfff0",
+    }  # crazyshocklight2@gmail.com
+    # LOVE_QURAN77 = {"english_font": "Fonts/Sk-Modernist-Regular.otf"}
+    QURANIC_TIKTOKS = {
+        "english_font": "Fonts/FreshStart.otf",
+        "background_clips_directory_paths": ["Real_Clips"],
+    }  # crazyshocky@hotmail.com
 
 
 class LANGUAGES(Enum):
@@ -84,12 +93,12 @@ class TikToks:
         language: LANGUAGES = LANGUAGES.ENGLISH,
         account: ACCOUNTS = ACCOUNTS.QURAN_2_LISTEN,
         mode: MODES = MODES.DARK,
-        background_clips_directory_paths: list[str] = ["Anime_Clips", "Anime_Clips_2"],
+        background_clips_directory_paths: list[str] = None,
         video_dimensions: tuple[int, int] = (576, 1024),
         background_clips_speed: float = 1.0,
         shadow_opacity: float = 0.7,
         video_mode: bool = True,
-        allow_duplicate_background_clips: bool = False,
+        allow_duplicate_background_clips: bool = True,
         allow_mirrored_background_clips: bool = False,
     ) -> None:
         self.account = account
@@ -134,7 +143,7 @@ class TikToks:
         if self.chapter is None:
             self.chapter_csv_file_path = os.path.join(self.directory_path, "chapter.csv")
 
-        self.output_file_name = f"{self.output_file_name} {self.language.value} {(self.account.name).lower()} {datetime.now().strftime('%H.%M.%S %d-%m-%Y')}"
+        self.output_file_name = f"{self.output_file_name} {(self.account.name).lower()} {self.language.value} {datetime.now().strftime('%H.%M.%S %d-%m-%Y')}"
 
         create_tiktok(
             directory_path=self.directory_path,
@@ -1054,14 +1063,14 @@ def create_tiktok(
     start_verse: int = None,
     end_verse: int = None,
     language: LANGUAGES = LANGUAGES.ENGLISH,
-    background_clips_directory_paths: list[str] = ["Anime_Clips"],
+    background_clips_directory_paths: list[str] = None,
     background_video: str = None,
     background_video_horizontal_offset: int = None,
     background_video_vertical_offset: int = None,
     video_map: dict = None,
     video_mode: bool = True,
     allow_duplicate_background_clips: bool = False,
-    allow_mirrored_background_clips: bool = False,
+    allow_mirrored_background_clips: bool = True,
     video_dimensions: tuple[int, int] = (576, 1024),
     background_clips_speed: float = 1.0,
     shadow_opacity: float = 0.7,
@@ -1103,6 +1112,7 @@ def create_tiktok(
 
     # Modify settings
     english_font = account.value["english_font"]
+    background_clips_directory_paths = account.value["background_clips_directory_paths"]
     shadow_color = mode.value["shadow_color"]
     verse_text_color = mode.value["verse_text_color"]
     verse_translation_color = mode.value["verse_translation_color"]
@@ -1542,6 +1552,109 @@ def create_tiktok(
         return
 
 
+def create_video_clip(
+    background_clip_paths: list[list[str, float or int, int, str]],
+    final_clip_duration: float,
+    video_dimensions: tuple[int, int],
+    text_clips: list[mpy.TextClip],
+    video_mode: bool = True,
+    background_clip_speed: float = 1.0,
+    text_duration: float = None,
+    shadow_clip: mpy.ColorClip = None,
+) -> mpy.CompositeVideoClip:
+    """
+    Creates a video clip
+    """
+
+    video_width, video_height = video_dimensions
+    background_clips = []
+
+    # Specify the target aspect ratio (9:16)
+    target_aspect_ratio = 9 / 16
+
+    if video_mode:
+        for background_clip_info in background_clip_paths:
+            background_clip_path = background_clip_info[0]
+            background_mirrored = background_clip_info[3]
+            background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
+            if background_mirrored == "True":
+                background_clip = background_clip.fx(mpy.vfx.mirror_x)
+
+            background_clip_time_offset = background_clip_info[1]
+            background_clip_horizontal_offset = background_clip_info[2]
+
+            background_clip_duration = (
+                get_background_clip_duration(background_clip_path, background_clip_speed)
+            ) - background_clip_time_offset
+
+            # Crop, trim and set duration for background clip
+            background_clip = (
+                background_clip.crop(
+                    x1=background_clip_horizontal_offset,
+                    y1=0,
+                    x2=background_clip_horizontal_offset + video_width,
+                    y2=video_height,
+                )
+                .subclip(
+                    t_start=background_clip_time_offset,
+                )
+                .set_duration(background_clip_duration)
+            )
+
+            # Calculate the dimensions to fit the target aspect ratio
+            current_aspect_ratio = background_clip.w / background_clip.h
+
+            if current_aspect_ratio > target_aspect_ratio:
+                # Video is wider than 9:16, so we need to crop the sides
+                new_width = int(background_clip.h * target_aspect_ratio)
+                horizontal_offset = (background_clip.w - new_width) // 2
+                background_clip = background_clip.crop(x1=horizontal_offset, x2=horizontal_offset + new_width).resize(
+                    video_dimensions
+                )
+
+            background_clips.append(background_clip)
+
+        video_clip = mpy.concatenate_videoclips(clips=background_clips, method="chain")
+        # background_clip = background_clip.fx(mpy.vfx.colorx, 1.25) # Saturation
+    else:
+        background_clip = mpy.VideoFileClip(background_clip_paths[0][0])
+
+        # Get the total number of frames
+        total_frames = int(background_clip.fps * background_clip.duration)
+
+        # Generate a random frame number
+        random_frame_number = random.randint(1, total_frames)
+
+        # Calculate the dimensions to fit the target aspect ratio
+        current_aspect_ratio = background_clip.w / background_clip.h
+
+        if current_aspect_ratio > target_aspect_ratio:
+            # Video is wider than 9:16, so we need to crop the sides
+            new_width = int(background_clip.h * target_aspect_ratio)
+            horizontal_offset = (background_clip.w - new_width) // 2
+            background_clip = background_clip.crop(x1=horizontal_offset, x2=horizontal_offset + new_width).resize(
+                video_dimensions
+            )
+
+        # Seek to the random frame and capture it as an image
+        random_frame = background_clip.get_frame(random_frame_number / background_clip.fps)
+
+        # Specify the target aspect ratio (9:16)
+        target_aspect_ratio = 9 / 16
+
+        video_clip = mpy.ImageClip(random_frame)
+
+    video_clip = video_clip.set_duration(final_clip_duration)
+    text_duration = text_duration if text_duration is not None else final_clip_duration
+    clips = [video_clip, shadow_clip, *text_clips] if shadow_clip is not None else [video_clip, *text_clips]
+    final_video_clip = mpy.CompositeVideoClip(clips, use_bgclip=True).set_duration(final_clip_duration)
+
+    if not video_mode:
+        final_video_clip = final_video_clip.fadein(0.25).fadeout(0.25)
+
+    return final_video_clip
+
+
 def get_all_background_clip_paths(
     background_clips_directory_paths: list[str],
 ) -> list[str]:
@@ -1882,107 +1995,8 @@ def sort_nested_timestamps(timestamps):
     return timestamps
 
 
-def create_video_clip(
-    background_clip_paths: list[list[str, float or int, int, str]],
-    final_clip_duration: float,
-    video_dimensions: tuple[int, int],
-    text_clips: list[mpy.TextClip],
-    video_mode: bool = True,
-    background_clip_speed: float = 1.0,
-    text_duration: float = None,
-    shadow_clip: mpy.ColorClip = None,
-) -> mpy.CompositeVideoClip:
-    """
-    Creates a video clip
-    """
-
-    video_width, video_height = video_dimensions
-    background_clips = []
-
-    # Specify the target aspect ratio (9:16)
-    target_aspect_ratio = 9 / 16
-
-    if video_mode:
-        for background_clip_info in background_clip_paths:
-            background_clip_path = background_clip_info[0]
-            background_mirrored = background_clip_info[3]
-            background_clip = mpy.VideoFileClip(background_clip_path).speedx(background_clip_speed)
-            if background_mirrored == "True":
-                background_clip = background_clip.fx(mpy.vfx.mirror_x)
-
-            background_clip_time_offset = background_clip_info[1]
-            background_clip_horizontal_offset = background_clip_info[2]
-
-            background_clip_duration = (
-                get_background_clip_duration(background_clip_path, background_clip_speed)
-            ) - background_clip_time_offset
-
-            # Crop, trim and set duration for background clip
-            background_clip = (
-                background_clip.crop(
-                    x1=background_clip_horizontal_offset,
-                    y1=0,
-                    x2=background_clip_horizontal_offset + video_width,
-                    y2=video_height,
-                )
-                .subclip(
-                    t_start=background_clip_time_offset,
-                )
-                .set_duration(background_clip_duration)
-            )
-
-            # Calculate the dimensions to fit the target aspect ratio
-            current_aspect_ratio = background_clip.w / background_clip.h
-
-            if current_aspect_ratio > target_aspect_ratio:
-                # Video is wider than 9:16, so we need to crop the sides
-                new_width = int(background_clip.h * target_aspect_ratio)
-                horizontal_offset = (background_clip.w - new_width) // 2
-                background_clip = background_clip.crop(x1=horizontal_offset, x2=horizontal_offset + new_width).resize(
-                    video_dimensions
-                )
-
-            background_clips.append(background_clip)
-
-        video_clip = mpy.concatenate_videoclips(clips=background_clips, method="chain")
-        # background_clip = background_clip.fx(mpy.vfx.colorx, 1.25) # Saturation
-    else:
-        background_clip = mpy.VideoFileClip(background_clip_paths[0][0])
-
-        # Get the total number of frames
-        total_frames = int(background_clip.fps * background_clip.duration)
-
-        # Generate a random frame number
-        random_frame_number = random.randint(1, total_frames)
-
-        # Calculate the dimensions to fit the target aspect ratio
-        current_aspect_ratio = background_clip.w / background_clip.h
-
-        if current_aspect_ratio > target_aspect_ratio:
-            # Video is wider than 9:16, so we need to crop the sides
-            new_width = int(background_clip.h * target_aspect_ratio)
-            horizontal_offset = (background_clip.w - new_width) // 2
-            background_clip = background_clip.crop(x1=horizontal_offset, x2=horizontal_offset + new_width).resize(
-                video_dimensions
-            )
-
-        # Seek to the random frame and capture it as an image
-        random_frame = background_clip.get_frame(random_frame_number / background_clip.fps)
-
-        # Specify the target aspect ratio (9:16)
-        target_aspect_ratio = 9 / 16
-
-        video_clip = mpy.ImageClip(random_frame)
-
-    video_clip = video_clip.set_duration(final_clip_duration)
-    text_duration = text_duration if text_duration is not None else final_clip_duration
-    clips = [video_clip, shadow_clip, *text_clips] if shadow_clip is not None else [video_clip, *text_clips]
-    final_video_clip = mpy.CompositeVideoClip(clips, use_bgclip=True).set_duration(final_clip_duration)
-
-    if not video_mode:
-        final_video_clip = final_video_clip.fadein(0.25).fadeout(0.25)
-
-    return final_video_clip
+def upload_tiktok(account: ACCOUNTS, file_path: str, title: str) -> None:
+    uploadVideo(account["session_id"], file_path, title, [], verbose=True)
 
 
 if __name__ == "__main__":
