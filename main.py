@@ -29,7 +29,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings()
-    tiktok.muhammad_al_luhaidan_an_nisa_75_76()
+    tiktok.abdul_rahman_mossad_yunus_7_10()
     tiktok.run()
 
 
@@ -356,6 +356,34 @@ class TikToks:
         )
         self.end_time_modifier = -0.2
 
+    def abdul_rahman_mossad_yunus_7_10(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 7-10 of Surah Yunus by Abdul Rahman Mossad
+        """
+
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)",
+            "7-10",
+            10,
+            3,
+            25,
+        )
+        self.end_time_modifier = -0.2
+
+    def abdul_rahman_mossad_yunus_17_20(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 17-20 of Surah Yunus by Abdul Rahman Mossad
+        """
+
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)",
+            "17-20",
+            10,
+            3,
+            25,
+        )
+        self.end_time_modifier = -0.2
+
     def fatih_seferagic_al_hujurat_10(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 10 of Surah Al-Hujurat by Fatih Seferagic
@@ -441,30 +469,6 @@ class TikToks:
     ######################################################################################################################################################
     ######################################################################################################################################################
     ######################################################################################################################################################
-
-    def abdul_rahman_mossad_yunus_7_10(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 7-10 of Surah Yunus by Abdul Rahman Mossad
-        """
-
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)"
-        self.output_file_name = "Yunus (10.7-10)"
-        self.start_line = 5
-        self.end_line = 22
-        self.time_modifier = -0.2
-        self.end_time_modifier = -0.2
-
-    def abdul_rahman_mossad_yunus_17_20(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 17-20 of Surah Yunus by Abdul Rahman Mossad
-        """
-
-        self.directory_path = r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)"
-        self.output_file_name = "Yunus (10.17-20)"
-        self.start_line = 29
-        self.end_line = 50
-        self.time_modifier = -0.2
-        self.end_time_modifier = -0.2
 
     def ahmed_khedr_taha_14_16(self) -> None:
         """
