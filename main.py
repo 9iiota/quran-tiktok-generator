@@ -13,8 +13,6 @@ from enum import Enum
 from plyer import notification
 from pyquran import quran
 
-from Tiktok_uploader import uploadVideo
-
 ARABIC_FONT = "Fonts/Hafs.ttf"
 MINIMAL_CLIP_DURATION = 0.75
 
@@ -27,9 +25,12 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks()
+    tiktok = TikToks(
+        account=ACCOUNTS.HEARTFELTRECITATIONS,
+        language=LANGUAGES.DUTCH,
+    )
     tiktok.change_settings()
-    tiktok.abdul_rahman_mossad_yunus_7_10()
+    tiktok.salim_bahanan_al_qariah_1_11()
     tiktok.run()
 
 
@@ -60,8 +61,11 @@ class ACCOUNTS(Enum):
     REFLECT2RECITE = {
         "english_font": "Fonts/Butler_Regular.otf",
         "background_clips_directory_paths": ["Real_Clips"],
-        "session_id": "e982b24fb589c45697bb55a2f45dfff0",
     }  # crazyshocklight2@gmail.com
+    HEARTFELTRECITATIONS = {
+        "english_font": "Fonts/Butler_Regular.otf",
+        "background_clips_directory_paths": ["Anime_Clips", "Anime_Clips_2", "Real_Clips"],
+    }
     # LOVE_QURAN77 = {"english_font": "Fonts/Sk-Modernist-Regular.otf"}
     QURANIC_TIKTOKS = {
         "english_font": "Fonts/FreshStart.otf",
@@ -1947,7 +1951,7 @@ def get_verse_translation(chapter, verse, language="en"):
     if language == "en":
         translation_id = 20
     elif language == "nl":
-        translation_id = 144
+        translation_id = 235
 
     try:
         response = requests.get(
@@ -2017,10 +2021,6 @@ def sort_nested_timestamps(timestamps):
         if isinstance(timestamp, list):
             timestamps[i] = sorted(timestamp, key=get_seconds_from_timestamp, reverse=True)
     return timestamps
-
-
-def upload_tiktok(account: ACCOUNTS, file_path: str, title: str) -> None:
-    uploadVideo(account["session_id"], file_path, title, [], verbose=True)
 
 
 if __name__ == "__main__":
