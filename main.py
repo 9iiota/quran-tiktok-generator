@@ -29,7 +29,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings()
-    tiktok.salim_bahanan_al_qariah_1_11()
+    tiktok.muhammad_al_luhaidan_an_nisa_75_76()
     tiktok.run()
 
 
@@ -1171,10 +1171,13 @@ def create_tiktok(
     video_end_timestamp = chapter_csv_lines[end_line - 1][3].strip().split(",")[0]
     video_end = offset_timestamp(video_end_timestamp, end_time_modifier)
 
+    video_duration = get_time_difference_seconds(video_start, video_end)
+
     audio = mpy.AudioFileClip(audio_file_path).subclip(video_start, video_end)
 
     # Get variables for final video
     all_background_clip_paths = get_all_background_clip_paths(background_clips_directory_paths)
+    reciter_name = (output_file_path.split("\\")[-3]).split(" - ")[0]
     text_clips_array = []
     used_background_clip_paths = []
     video_clips = []
@@ -1416,6 +1419,20 @@ def create_tiktok(
                 )
             )
 
+        if line == start_line:
+            text_clips.append(
+                create_text_clip(
+                    text=reciter_name,
+                    size=(video_dimensions[0] * 0.6, None),
+                    color=verse_translation_color,
+                    fontsize=20,
+                    font=english_font,
+                    position=("center", 0.20),
+                    method="caption",
+                    duration=text_duration,
+                )
+            )
+
         if background_video is None:
             # Create shadow clip
             shadow_clip = create_shadow_clip(
@@ -1453,6 +1470,9 @@ def create_tiktok(
 
             if verse_counter != "":
                 text_clips[2] = text_clips[2].set_start(text_start_time)
+
+            if line == start_line:
+                text_clips[-1] = text_clips[-1].set_start(text_start_time)
 
             text_clips_array.extend(text_clips)
 
