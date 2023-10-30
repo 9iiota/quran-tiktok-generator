@@ -25,12 +25,9 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks(
-        account=ACCOUNTS.HEARTFELTRECITATIONS,
-        language=LANGUAGES.DUTCH,
-    )
+    tiktok = TikToks()
     tiktok.change_settings()
-    tiktok.salim_bahanan_al_qariah_1_11()
+    tiktok.fatih_seferagic_al_qiyamah_1_12()
     tiktok.run()
 
 
@@ -426,6 +423,20 @@ class TikToks:
             21,
             24,
         )
+
+    def fatih_seferagic_al_qiyamah_1_12(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 1-12 of Surah Al-Qiyamah by Fatih Seferagic
+        """
+
+        self._set_values(
+            r"Surahs\Fatih Seferagic - Al-Qiyamah (75.1-40)",
+            "1-12",
+            75,
+            1,
+            40,
+        )
+        self.end_time_modifier = -0.4
 
     def muhammad_al_luhaidan_an_nisa_75_76(self) -> None:
         """
