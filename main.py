@@ -25,9 +25,12 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks()
+    tiktok = TikToks(
+        # account=ACCOUNTS.HEARTFELTRECITATIONS,
+        # language=LANGUAGES.DUTCH,
+    )
     tiktok.change_settings()
-    tiktok.muhammad_al_luhaidan_ali_imran_15()
+    tiktok.abdul_rahman_mossad_yunus_7_10()
     tiktok.run()
 
 
@@ -300,7 +303,7 @@ class TikToks:
             1,
             20,
         )
-        self.end_time_modifier = -0.2
+        self.end_time_modifier = -0.3
 
     def abdul_rahman_mossad_al_muzzammil_14_18(self) -> None:
         """
