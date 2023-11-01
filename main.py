@@ -3,7 +3,6 @@ import moviepy.editor as mpy
 import os
 import random
 import requests
-import uuid
 
 from bs4 import BeautifulSoup
 from colorama import Fore, Style
@@ -35,32 +34,8 @@ def main() -> None:
         # account=ACCOUNTS.HEARTFELTRECITATIONS,
         # language=LANGUAGES.DUTCH,
     )
-    # print_stats = getattr(tiktok, "joe")
-    # methods = test()
-    # for method_name in methods:
-    #     method = getattr(tiktok, method_name)
-    #     method()
-    #     deez = print_stats()
-    #     directory, chapter, start, end = deez
-    #     print(directory)
-    #     arr = []
-    #     for verse in range(start, end + 1):
-    #         arr.append(get_verse_text_2(chapter, verse))
-
-    #     output_csv = os.path.join(directory, "chapter_2.csv")
-    #     # Create or open the 'chapter_2.csv' file and write the 'arr' list
-    #     with open(output_csv, mode="w", newline="", encoding="utf-8") as file:
-    #         writer = csv.writer(file)
-
-    #         # Write the "ar" column header
-    #         writer.writerow(["ar"])
-
-    #         # Write the 'arr' list to the 'ar' column
-    #         for verse_text in arr:
-    #             writer.writerow([verse_text])
-    #     modify_alifs(output_csv)
     tiktok.change_settings()
-    tiktok.ahmed_khedr_taha_14_16()
+    tiktok.unknown_al_furqan_63_70()
     tiktok.run()
 
 
@@ -574,6 +549,19 @@ class TikToks:
             11,
         )
         self.start_time_modifier = -0.2
+
+    def unknown_al_furqan_63_70(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 63-70 of Surah Al-Furqan by an unknown reciter
+        """
+
+        self._set_values(
+            r"Surahs\Unknown - Al-Furqan (25.63-70)",
+            "63-70",
+            25,
+            63,
+            70,
+        )
 
     ######################################################################################################################################################
     ######################################################################################################################################################
@@ -1593,7 +1581,7 @@ def create_tiktok(
                 )
             )
 
-        if line == start_line:
+        if line == start_line and reciter_name.lower() != "unknown":
             text_clips.append(
                 create_text_clip(
                     text=reciter_name,
