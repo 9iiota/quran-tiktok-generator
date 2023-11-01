@@ -27,7 +27,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings()
-    tiktok.fatih_seferagic_al_qiyamah_1_12()
+    tiktok.muhammad_al_luhaidan_ali_imran_15()
     tiktok.run()
 
 
@@ -189,7 +189,7 @@ class TikToks:
         self.end_verse = end_verse
         self.time_modifier = time_modifier
         self.output_file_name = (
-            f"{((self.directory_path).split(' - ')[1]).split(' ')[0]} ({self.chapter}.{output_file_name})"
+            f"{((self.directory_path).split(' - ')[1]).split(' (')[0]} ({self.chapter}.{output_file_name})"
         )
 
     def abdul_rahman_mossad_al_adiyat_1_11(self) -> None:
@@ -437,6 +437,19 @@ class TikToks:
             40,
         )
         self.end_time_modifier = -0.4
+
+    def muhammad_al_luhaidan_ali_imran_15(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 15 of Surah Ali 'Imran by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.15)",
+            "15",
+            3,
+            15,
+            15,
+        )
 
     def muhammad_al_luhaidan_an_nisa_75_76(self) -> None:
         """
@@ -1109,6 +1122,12 @@ def create_tiktok(
 
         output_file_path = os.path.join(output_file_directory_path, f"{output_file_name}.mp4")
 
+        reciter_name = (output_file_path.split("\\")[-3]).split(" - ")[0]
+        output_file_name_split = output_file_name.split(") ")
+        output_file_name = f"{output_file_name_split[0]}) - {reciter_name} {output_file_name_split[1]}"
+
+        output_file_path = os.path.join(output_file_directory_path, f"{output_file_name}.mp4")
+
     # Get output file directory path
     else:
         # Normalize output file path by replacing forward slashes with backslashes
@@ -1196,7 +1215,6 @@ def create_tiktok(
 
     # Get variables for final video
     all_background_clip_paths = get_all_background_clip_paths(background_clips_directory_paths)
-    reciter_name = (output_file_path.split("\\")[-3]).split(" - ")[0]
     text_clips_array = []
     used_background_clip_paths = []
     video_clips = []
