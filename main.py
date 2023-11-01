@@ -29,12 +29,49 @@ def main() -> None:
         # account=ACCOUNTS.HEARTFELTRECITATIONS,
         # language=LANGUAGES.DUTCH,
     )
-    tiktok.change_settings()
-    tiktok.abdul_rahman_mossad_yunus_7_10()
-    tiktok.run()
+    print_stats = getattr(tiktok, "joe")
+    methods = test()
+    for method_name in methods:
+        method = getattr(tiktok, method_name)
+        method()
+        deez = print_stats()
+        directory, chapter, start, end = deez
+        print(directory)
+        arr = []
+        for verse in range(start, end + 1):
+            arr.append(get_verse_text_2(chapter, verse))
+
+        output_csv = os.path.join(directory, "chapter_2.csv")
+        # Create or open the 'chapter_2.csv' file and write the 'arr' list
+        with open(output_csv, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+
+            # Write the "ar" column header
+            writer.writerow(["ar"])
+
+            # Write the 'arr' list to the 'ar' column
+            for verse_text in arr:
+                writer.writerow([verse_text])
+        modify_alifs(output_csv)
+    # tiktok.change_settings()
+    # tiktok.test()
+    # tiktok.run()
 
 
 def test():
+    # Get only the user-defined methods
+    user_defined_methods = [
+        func
+        for func in dir(TikToks)
+        if callable(getattr(TikToks, func))
+        and not func.startswith("__")
+        and not func.startswith("_")
+        and not "run" in func
+        and not "test" in func
+        and not "change_settings" in func
+    ]
+
+    return user_defined_methods
     pass
 
     # add_translation_to_existing_csv_file(r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\chapter.csv", "nl", 49, 10, 10)
@@ -42,15 +79,6 @@ def test():
     # folders = os.listdir("Surahs")
     # for folder in folders:
     #     files = os.listdir(os.path.join("Surahs", folder))
-
-    # # Get only the user-defined methods
-    # user_defined_methods = [
-    #     func
-    #     for func in dir(TikToks)
-    #     if callable(getattr(TikToks, func)) and not func.startswith("__") and not "run" in func
-    # ]
-
-    # return user_defined_methods
 
 
 class ACCOUNTS(Enum):
@@ -131,6 +159,9 @@ class TikToks:
         self.video_dimensions = video_dimensions
         self.video_map = None
 
+    def joe(self):
+        return (self.directory_path, self.chapter, self.start_verse, self.end_verse)
+
     def change_settings(
         self,
         single_background_clip: str = None,
@@ -193,6 +224,15 @@ class TikToks:
         self.time_modifier = time_modifier
         self.output_file_name = (
             f"{((self.directory_path).split(' - ')[1]).split(' (')[0]} ({self.chapter}.{output_file_name})"
+        )
+
+    def test(self):
+        self._set_values(
+            r"Surahs\test - test (1.1)",
+            "1",
+            100,
+            1,
+            11,
         )
 
     def abdul_rahman_mossad_al_adiyat_1_11(self) -> None:
@@ -506,137 +546,168 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 14-16 of Surah Taha by Ahmed Khedr
         """
 
-        self.directory_path = r"Surahs\Ahmed Khedr - 20 - Taha"
-        self.output_file_name = f"{(self.account.name).lower()}_14-16_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Ahmed Khedr - 20 - Taha\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Ahmed Khedr - 20 - Taha\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Ahmed Khedr - Taha (20.14-16)",
+            "14-16",
+            20,
+            14,
+            16,
+        )
 
     def fatih_seferagic_an_nisa_155_160(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 155-160 of Surah An-Nisa by Fatih Seferagic
         """
 
-        self.directory_path = r"Surahs\Fatih Seferagic - 4 - An-Nisa"
-        self.output_file_name = f"{(self.account.name).lower()}_155-160_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 4 - An-Nisa\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Fatih Seferagic - An-Nisa (4.155-160)",
+            "155-160",
+            4,
+            155,
+            176,
+        )
 
     def fatih_seferagic_an_nur_35(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 35 of Surah An-Nur by Fatih Seferagic
         """
 
-        self.directory_path = r"Surahs\Fatih Seferagic - 24 - An-Nur"
-        self.output_file_name = f"{(self.account.name).lower()}_35_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Fatih Seferagic - 24 - An-Nur\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Fatih Seferagic - An-Nur (24.35)",
+            "35",
+            24,
+            35,
+            35,
+        )
 
     def mansour_as_salimi_maryam_27_33(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 27-33 of Surah Maryam by Mansour As Salimi
         """
 
-        self.directory_path = r"Surahs\Mansour As Salimi - 19 - Maryam"
-        self.output_file_name = f"{(self.account.name).lower()}_27-33_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Mansour As Salimi - 19 - Maryam\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Mansour As Salimi - Maryam (19.27-33)",
+            "27-33",
+            19,
+            27,
+            33,
+        )
 
     def mansour_as_salimi_yusuf_1_5(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 1-5 of Surah Yusuf by Mansour As Salimi
         """
 
-        self.directory_path = r"Surahs\Mansour As Salimi - 12 - Yusuf"
-        self.output_file_name = f"{(self.account.name).lower()}_1-5_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Mansour As Salimi - 12 - Yusuf\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Mansour As Salimi - 12 - Yusuf\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Mansour As Salimi - Yusuf (12.1-5)",
+            "1-5",
+            12,
+            1,
+            5,
+        )
 
     def mostafa_shaibani_al_qiyamah_20_27(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 20-27 of Surah Al-Qiyamah by Mostafa Shaibani
         """
 
-        self.directory_path = r"Surahs\Mostafa Shaibani - Al-Qiyamah (75.20-27)"
-        self.output_file_name = (
-            f"{(self.account.name).lower()} Al-Qiyamah (75.20-27) {str(uuid.uuid4()).split('-')[-1]}"
+        self._set_values(
+            r"Surahs\Mostafa Shaibani - Al-Qiyamah (75.20-27)",
+            "20-27",
+            75,
+            20,
+            27,
         )
-        self.chapter_text_file_path = r"Surahs\Mostafa Shaibani - Al-Qiyamah (75.20-27)\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Mostafa Shaibani - Al-Qiyamah (75.20-27)\chapter_translation.txt"
-        self.verse_counter_file_path = r"Surahs\Mostafa Shaibani - Al-Qiyamah (75.20-27)\verse_counter.txt"
 
     def muhammad_al_luhaidan_al_baqarah_273_274(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 273-274 of Surah Al-Baqarah by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 2 - Al-Baqarah"
-        self.output_file_name = f"{(self.account.name).lower()}_273-274_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 2 - Al-Baqarah\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 2 - Al-Baqarah\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Baqarah (2.273-274)",
+            "273-274",
+            2,
+            273,
+            274,
+        )
 
     def muhammad_al_luhaidan_al_anam_27_30(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 27-30 of Surah Al-An'am by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am"
-        self.output_file_name = f"{(self.account.name).lower()}_27-30_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 6 - Al-An'am\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-An'am (6.27-30)",
+            "27-30",
+            6,
+            27,
+            30,
+        )
 
     def muhammad_al_luhaidan_maryam_85_92(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 85-92 of Surah Maryam by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam"
-        self.output_file_name = f"{(self.account.name).lower()}_85-92_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 19 - Maryam\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Maryam (19.85-92)",
+            "85-92",
+            19,
+            85,
+            92,
+        )
 
     def muhammad_al_luhaidan_taha_105_108(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 105-108 of Surah Taha by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha"
-        self.output_file_name = f"{(self.account.name).lower()}_105-108_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 20 - Taha\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Taha (20.105-108)",
+            "105-108",
+            20,
+            105,
+            108,
+        )
 
-    def muhammad_al_luhaidan_al_furqan_74(self) -> None:
+    def muhammad_al_luhaidan_al_furqan_26_30(self) -> None:
         """
-        Modifies the parameters of the class for a TikTok video for verse 74 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        Modifies the parameters of the class for a TikTok video for verses 26-30 of Surah Al-Furqan by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan"
-        self.output_file_name = f"{(self.account.name).lower()}_72-77_{str(uuid.uuid4()).split('-')[-1]}"
-        self.start_line = 8
-        self.end_line = 11
-        self.start_time_modifier = 0.1
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.26-30)",
+            "26-30",
+            25,
+            26,
+            30,
+        )
 
     def muhammad_al_luhaidan_al_furqan_72_77(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 72-77 of Surah Al-Furqan by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan"
-        self.output_file_name = f"{(self.account.name).lower()}_72-77_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.72-77)",
+            "72-77",
+            25,
+            72,
+            77,
+        )
 
-    def muhammad_al_luhaidan_al_furqan_26_30(self) -> None:
+    def muhammad_al_luhaidan_al_furqan_74(self) -> None:
         """
-        Modifies the parameters of the class for a TikTok video for verses 25-30 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        Modifies the parameters of the class for a TikTok video for verse 74 of Surah Al-Furqan by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan - 2"
-        self.output_file_name = f"{(self.account.name).lower()}_26-30_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan - 2\chapter_text.txt"
-        self.chapter_translation_file_path = (
-            r"Surahs\Muhammad Al-Luhaidan - 25 - Al-Furqan - 2\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.72-77)",
+            "74",
+            25,
+            72,
+            77,
         )
 
     def muhammad_al_luhaidan_al_haqqah_29_33(self) -> None:
@@ -644,60 +715,64 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 29-33 of Surah Al-Haqqah by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah"
-        self.output_file_name = f"{(self.account.name).lower()}_29-33_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 69 - Al-Haqqah\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Haqqah (69.29-33)",
+            "29-33",
+            69,
+            29,
+            33,
+        )
 
     def muhammad_al_luhaidan_al_insan_20_22(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 20-22 of Surah Al-Insan by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan"
-        self.output_file_name = f"{(self.account.name).lower()}_20-22_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Muhammad Al-Luhaidan - 76 - Al-Insan\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Insan (76.20-22)",
+            "20-22",
+            76,
+            20,
+            22,
+        )
 
     def muhammad_al_luhaidan_al_ahzab_23_24(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 23-24 of Surah Al-Ahzab by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - Al-Ahzab (33.23-24)"
-        self.output_file_name = f"{(self.account.name).lower()} Al-Ahzab (33.23-24) {str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - Al-Ahzab (33.23-24)\chapter_text.txt"
-        self.chapter_translation_file_path = (
-            r"Surahs\Muhammad Al-Luhaidan - Al-Ahzab (33.23-24)\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Ahzab (33.23-24)",
+            "23-24",
+            33,
+            23,
+            24,
         )
-        self.verse_counter_file_path = r"Surahs\Muhammad Al-Luhaidan - Al-Ahzab (33.23-24)\verse_counter.txt"
 
     def muhammad_al_luhaidan_al_baqarah_214(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 214 of Surah Al-Baqarah by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - Al-Baqarah (2.214)"
-        self.output_file_name = f"{(self.account.name).lower()} Al-Baqarah (2.214) {str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - Al-Baqarah (2.214)\chapter_text.txt"
-        self.chapter_translation_file_path = (
-            r"Surahs\Muhammad Al-Luhaidan - Al-Baqarah (2.214)\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Baqarah (2.214)",
+            "214",
+            2,
+            214,
+            214,
         )
-        self.verse_counter_file_path = r"Surahs\Muhammad Al-Luhaidan - Al-Baqarah (2.214)\verse_counter.txt"
-        self.time_modifier = -0.2
 
     def muhammad_al_luhaidan_ali_imran_16_17(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 16-17 of Surah Ali 'Imran by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.16-17)"
-        self.output_file_name = (
-            f"{(self.account.name).lower()} Ali 'Imran (3.16-17) {str(uuid.uuid4()).split('-')[-1]}"
-        )
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.16-17)\chapter_text.txt"
-        self.chapter_translation_file_path = (
-            r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.16-17)\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.16-17)",
+            "16-17",
+            3,
+            16,
+            17,
         )
 
     def muhammad_al_luhaidan_ali_imran_104_106(self) -> None:
@@ -705,132 +780,156 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 104-106 of Surah Ali 'Imran by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.104-106)"
-        self.output_file_name = (
-            f"{(self.account.name).lower()} Ali 'Imran (3.104-106) {str(uuid.uuid4()).split('-')[-1]}"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.104-106)",
+            "104-106",
+            3,
+            104,
+            106,
         )
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.104-106)\chapter_text.txt"
-        self.chapter_translation_file_path = (
-            r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.104-106)\chapter_translation.txt"
-        )
-        self.verse_counter_file_path = r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.104-106)\verse_counter.txt"
 
     def muhammad_al_luhaidan_an_naziat_34_41(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 34-41 of Surah An-Nazi'at by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - An-Nazi'at (79.1-46)"
-        self.output_file_name = (
-            f"{(self.account.name).lower()} An-Nazi'at (79.34-41) {str(uuid.uuid4()).split('-')[-1]}"
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - An-Nazi'at (79.1-46)",
+            "34-41",
+            79,
+            1,
+            46,
         )
-        self.chapter_text_file_path = r"Surahs\Muhammad Al-Luhaidan - An-Nazi'at (79.1-46)\chapter_text.txt"
-        self.chapter_translation_file_path = (
-            r"Surahs\Muhammad Al-Luhaidan - An-Nazi'at (79.1-46)\chapter_translation.txt"
-        )
-        self.verse_counter_file_path = r"Surahs\Muhammad Al-Luhaidan - An-Nazi'at (79.1-46)\verse_counter.txt"
-        self.time_modifier = -0.2
 
     def muhammad_al_luhaidan_an_nisa_27_29(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 27-29 of Surah An-Nisa by Muhammad Al-Luhaidan
         """
 
-        self.directory_path = r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.27-29)"
-        self.output_file_name = "An-Nisa (4.27-29)"
-        self.time_modifier = -0.2
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.27-29)",
+            "27-29",
+            4,
+            27,
+            29,
+        )
 
     def muhammadloiq_qori_al_ahzab_35(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 35 of Surah Al-Ahzab by Muhammadloiq Qori
         """
 
-        self.directory_path = r"Surahs\Muhammadloiq Qori - 33 - Al-Ahzab"
-        self.output_file_name = f"{(self.account.name).lower()}_353_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Muhammadloiq Qori - 33 - Al-Ahzab\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Muhammadloiq Qori - 33 - Al-Ahzab\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Muhammadloiq Qori - Al-Ahzab (33.35)",
+            "35",
+            33,
+            35,
+            35,
+        )
 
     def salim_bahanan_al_fatihah_2_7(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 2-7 of Surah Al-Fatihah by Salim Bahanan
         """
 
-        self.directory_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah"
-        self.output_file_name = f"{(self.account.name).lower()}_2-7_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 1 - Al-Fatihah\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Salim Bahanan - Al-Fatihah (1.1-7)",
+            "2-7",
+            1,
+            1,
+            7,
+        )
 
     def salim_bahanan_at_tin_1_8(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 1-8 of Surah At-Tin by Salim Bahanan
         """
 
-        self.directory_path = r"Surahs\Salim Bahanan - 95 - At-Tin"
-        self.output_file_name = f"{(self.account.name).lower()}_1-8_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Salim Bahanan - 95 - At-Tin\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Salim Bahanan - 95 - At-Tin\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Salim Bahanan - At-Tin (95.1-8)",
+            "1-8",
+            95,
+            1,
+            8,
+        )
 
     def unknown_taha_124_126(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 124-126 of Surah Taha by an unknown reciter
         """
 
-        self.directory_path = r"Surahs\Unknown - Taha (20.124-126)"
-        self.output_file_name = f"{(self.account.name).lower()} Taha (20.124-126) {str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Unknown - Taha (20.124-126)\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Unknown - Taha (20.124-126)\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Unknown - Taha (20.124-126)",
+            "124-126",
+            20,
+            124,
+            126,
+        )
 
     def unknown_al_furqan_72_75(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 72-75 of Surah Al-Furqan by an unknown reciter
         """
 
-        self.directory_path = r"Surahs\Unknown - 25 - Al-Furqan"
-        self.output_file_name = f"{(self.account.name).lower()}_72-75_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Unknown - 25 - Al-Furqan\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Unknown - 25 - Al-Furqan\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Unknown - Al-Furqan (25.72-77)",
+            "72-75",
+            25,
+            72,
+            77,
+        )
 
     def unknown_al_ankabut_56_58(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 56-58 of Surah Al-'Ankabut by an unknown reciter
         """
 
-        self.directory_path = r"Surahs\Unknown - 29 - Al-'Ankabut"
-        self.output_file_name = f"{(self.account.name).lower()}_56-58_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Unknown - Al-'Ankabut (29.56-58)",
+            "56-58",
+            29,
+            56,
+            58,
+        )
 
     def unknown_al_ankabut_56_57(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 56-57 of Surah Al-'Ankabut by an unknown reciter
         """
 
-        self.directory_path = r"Surahs\Unknown - 29 - Al-'Ankabut"
-        self.output_file_name = f"{(self.account.name).lower()}_56-57_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Unknown - 29 - Al-'Ankabut\chapter_translation.txt"
-        self.start_line = 1
-        self.end_line = 4
+        self._set_values(
+            r"Surahs\Unknown - Al-'Ankabut (29.56-58)",
+            "56-57",
+            29,
+            56,
+            58,
+        )
 
     def unknown_al_hujurat_12(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 12 of Surah Al-Hujurat by an unknown reciter
         """
 
-        self.directory_path = r"Surahs\Unknown - Al-Hujurat (49.12)"
-        self.output_file_name = f"{(self.account.name).lower()}_12_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Unknown - Al-Hujurat (49.12)\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Unknown - Al-Hujurat (49.12)\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Unknown - Al-Hujurat (49.12)",
+            "12",
+            49,
+            12,
+            12,
+        )
 
     def unknown_az_zumar_71_75(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 71-75 of Surah Az-Zumar by an unknown reciter
         """
 
-        self.directory_path = r"Surahs\Unknown - Az-Zumar (39.71-75)"
-        self.output_file_name = f"{(self.account.name).lower()} Az-Zumar (39.71-75) {str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Unknown - Az-Zumar (39.71-75)\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Unknown - Az-Zumar (39.71-75)\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Unknown - Az-Zumar (39.71-75)",
+            "71-75",
+            39,
+            71,
+            75,
+        )
         self.single_background_clip_horizontal_offset = 750
 
     def yasser_al_dosari_al_muminun_34_39(self) -> None:
@@ -838,33 +937,39 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 34-39 of Surah Al-Mu'minun by Yasser Al-Dosari
         """
 
-        self.directory_path = r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun"
-        self.output_file_name = f"{(self.account.name).lower()}_34-39_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - 23 - Al-Mu'minun\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Yasser Al-Dosari - Al-Mu'minun (23.34-39)",
+            "34-39",
+            23,
+            34,
+            39,
+        )
 
     def yasser_al_dosari_al_fath_29(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 29 of Surah Al-Fath by Yasser Al-Dosari
         """
 
-        self.directory_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath"
-        self.output_file_name = f"{(self.account.name).lower()}_29_{str(uuid.uuid4()).split('-')[-1]}"
-        self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - 48 - Al-Fath\chapter_translation.txt"
+        self._set_values(
+            r"Surahs\Yasser Al-Dosari - Al-Fath (48.29)",
+            "29",
+            48,
+            29,
+            29,
+        )
 
     def yasser_al_dosari_ar_rahman_26_34(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 26-34 of Surah Ar-Rahman by Yasser Al-Dosari
         """
 
-        self.directory_path = r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)"
-        self.output_file_name = (
-            f"{(self.account.name).lower()} Ar-Rahman (55.26-34) {str(uuid.uuid4()).split('-')[-1]}"
+        self._set_values(
+            r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)",
+            "26-34",
+            55,
+            1,
+            78,
         )
-        self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)\chapter_translation.txt"
-        self.verse_counter_file_path = r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)\verse_counter.txt"
         self.end_time_modifier = -0.3
 
     def yasser_al_dosari_az_zukhruf_68_73(self) -> None:
@@ -872,13 +977,13 @@ class TikToks:
         Modifies the parameters of the class for a TikTok video for verses 68-73 of Surah Az-Zukhruf by Yasser Al-Dosari
         """
 
-        self.directory_path = r"Surahs\Yasser Al-Dosari - Az-Zukhruf (43.1-89)"
-        self.output_file_name = (
-            f"{(self.account.name).lower()} Az-Zukhruf (43.68-73) {str(uuid.uuid4()).split('-')[-1]}"
+        self._set_values(
+            r"Surahs\Yasser Al-Dosari - Az-Zukhruf (43.1-89)",
+            "68-73",
+            43,
+            1,
+            89,
         )
-        self.chapter_text_file_path = r"Surahs\Yasser Al-Dosari - Az-Zukhruf (43.1-89)\chapter_text.txt"
-        self.chapter_translation_file_path = r"Surahs\Yasser Al-Dosari - Az-Zukhruf (43.1-89)\chapter_translation.txt"
-        self.verse_counter_file_path = r"Surahs\Yasser Al-Dosari - Az-Zukhruf (43.1-89)\verse_counter.txt"
 
 
 def update_timestamps_chapter_csv_file(chapter_csv_file_path: str, timestamps_csv_file_path: str) -> None:
@@ -1030,6 +1135,7 @@ def create_chapter_csv_file(
                 break
 
     remove_empty_rows_from_csv_file(chapter_csv_file_path)
+    modify_alifs(chapter_csv_file_path)
 
 
 def create_notification(title: str, message: str) -> None:
@@ -1975,6 +2081,18 @@ def get_verse_text(chapter, verse):
     return verse_text
 
 
+def get_verse_text_2(chapter, verse):
+    """
+    Gets the text of a verse from the Quran
+    """
+
+    response = requests.get(f"https://api.quran.com/api/v4/quran/verses/uthmani?verse_key={chapter}:{verse}")
+    text = response.json()["verses"][0]["text_uthmani"]
+    soup = BeautifulSoup(text, "html.parser")
+    clean_text = soup.get_text()
+    return clean_text
+
+
 def get_verse_translation(chapter, verse, language="en"):
     """
     Gets the translation of a verse from the Quran
@@ -2004,6 +2122,38 @@ def get_video_duration_seconds(video_path: str) -> float:
 
     video = mpy.VideoFileClip(video_path)
     return video.duration
+
+
+def modify_alifs(csv_file_path: str) -> None:
+    # Define the column to modify
+    column_to_modify = "ar"
+
+    # Define the replacement values
+    old_value = "ا۟"
+    new_value = "ا"
+
+    # Read and modify the CSV file
+    with open(csv_file_path, "r", newline="", encoding="utf-8") as file:
+        csv_reader = csv.DictReader(file)
+        fieldnames = csv_reader.fieldnames
+
+        # Create a list to store modified rows
+        modified_rows = []
+
+        for row in csv_reader:
+            if column_to_modify in row:
+                # Replace the old_value with the new_value in the specified column
+                row[column_to_modify] = row[column_to_modify].replace(old_value, new_value)
+
+            modified_rows.append(row)
+
+    # Write the modified data back to the same file
+    with open(csv_file_path, "w", newline="", encoding="utf-8") as file:
+        csv_writer = csv.DictWriter(file, fieldnames=fieldnames)
+        csv_writer.writeheader()
+        csv_writer.writerows(modified_rows)
+
+    print("Modified alifs successfully")
 
 
 def offset_timestamp(timestamp: str, time_offset_seconds: int) -> str:
