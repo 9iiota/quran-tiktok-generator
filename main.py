@@ -25,53 +25,81 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
+    # time_difference = get_time_difference_seconds("1:56.840", "0:06.650")
+    # change_timestamps(
+    #     r"Surahs\Ahmed Khedr - Taha (20.14-16)\Markers.csv",
+    #     r"Surahs\Ahmed Khedr - Taha (20.14-16)\Markers2.csv",
+    #     time_difference,
+    # )
     tiktok = TikToks(
         # account=ACCOUNTS.HEARTFELTRECITATIONS,
         # language=LANGUAGES.DUTCH,
     )
-    print_stats = getattr(tiktok, "joe")
-    methods = test()
-    for method_name in methods:
-        method = getattr(tiktok, method_name)
-        method()
-        deez = print_stats()
-        directory, chapter, start, end = deez
-        print(directory)
-        arr = []
-        for verse in range(start, end + 1):
-            arr.append(get_verse_text_2(chapter, verse))
+    # print_stats = getattr(tiktok, "joe")
+    # methods = test()
+    # for method_name in methods:
+    #     method = getattr(tiktok, method_name)
+    #     method()
+    #     deez = print_stats()
+    #     directory, chapter, start, end = deez
+    #     print(directory)
+    #     arr = []
+    #     for verse in range(start, end + 1):
+    #         arr.append(get_verse_text_2(chapter, verse))
 
-        output_csv = os.path.join(directory, "chapter_2.csv")
-        # Create or open the 'chapter_2.csv' file and write the 'arr' list
-        with open(output_csv, mode="w", newline="", encoding="utf-8") as file:
-            writer = csv.writer(file)
+    #     output_csv = os.path.join(directory, "chapter_2.csv")
+    #     # Create or open the 'chapter_2.csv' file and write the 'arr' list
+    #     with open(output_csv, mode="w", newline="", encoding="utf-8") as file:
+    #         writer = csv.writer(file)
 
-            # Write the "ar" column header
-            writer.writerow(["ar"])
+    #         # Write the "ar" column header
+    #         writer.writerow(["ar"])
 
-            # Write the 'arr' list to the 'ar' column
-            for verse_text in arr:
-                writer.writerow([verse_text])
-        modify_alifs(output_csv)
-    # tiktok.change_settings()
-    # tiktok.test()
-    # tiktok.run()
+    #         # Write the 'arr' list to the 'ar' column
+    #         for verse_text in arr:
+    #             writer.writerow([verse_text])
+    #     modify_alifs(output_csv)
+    tiktok.change_settings()
+    tiktok.ahmed_khedr_taha_14_16()
+    tiktok.run()
+
+
+def change_timestamps(input_file, output_file, seconds_to_add):
+    try:
+        with open(input_file, "r", encoding="utf-8") as csvfile:
+            reader = csv.DictReader(csvfile, delimiter="\t")
+            fieldnames = reader.fieldnames
+
+            data = list(reader)
+            for line in range(len(data)):
+                data[line]["Start"] = offset_timestamp(data[line]["Start"], seconds_to_add)
+
+            with open(output_file, "w", encoding="utf-8") as output_csvfile:
+                writer = csv.DictWriter(output_csvfile, fieldnames=fieldnames, delimiter="\t")
+                writer.writeheader()
+                writer.writerows(data)
+
+        remove_empty_rows_from_csv_file(output_file)
+
+        print(f"Timestamps modified and saved to {output_file}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 
 def test():
-    # Get only the user-defined methods
-    user_defined_methods = [
-        func
-        for func in dir(TikToks)
-        if callable(getattr(TikToks, func))
-        and not func.startswith("__")
-        and not func.startswith("_")
-        and not "run" in func
-        and not "test" in func
-        and not "change_settings" in func
-    ]
+    # # Get only the user-defined methods
+    # user_defined_methods = [
+    #     func
+    #     for func in dir(TikToks)
+    #     if callable(getattr(TikToks, func))
+    #     and not func.startswith("__")
+    #     and not func.startswith("_")
+    #     and not "run" in func
+    #     and not "test" in func
+    #     and not "change_settings" in func
+    # ]
 
-    return user_defined_methods
+    # return user_defined_methods
     pass
 
     # add_translation_to_existing_csv_file(r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\chapter.csv", "nl", 49, 10, 10)
@@ -428,6 +456,19 @@ class TikToks:
         )
         self.end_time_modifier = -0.2
 
+    def ahmed_khedr_taha_14_16(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 14-16 of Surah Taha by Ahmed Khedr
+        """
+
+        self._set_values(
+            r"Surahs\Ahmed Khedr - Taha (20.1-135)",
+            "14-16",
+            20,
+            1,
+            135,
+        )
+
     def fatih_seferagic_al_hujurat_10(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 10 of Surah Al-Hujurat by Fatih Seferagic
@@ -540,19 +581,6 @@ class TikToks:
     ######################################################################################################################################################
     ######################################################################################################################################################
     ######################################################################################################################################################
-
-    def ahmed_khedr_taha_14_16(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 14-16 of Surah Taha by Ahmed Khedr
-        """
-
-        self._set_values(
-            r"Surahs\Ahmed Khedr - Taha (20.14-16)",
-            "14-16",
-            20,
-            14,
-            16,
-        )
 
     def fatih_seferagic_an_nisa_155_160(self) -> None:
         """
