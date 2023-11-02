@@ -4,5 +4,4 @@ compact-json
 moviepy
 opencv-python
 plyer
-pyquran
 requests

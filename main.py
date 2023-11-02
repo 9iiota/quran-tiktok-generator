@@ -10,7 +10,6 @@ from compact_json import EolStyle, Formatter
 from datetime import datetime, timedelta
 from enum import Enum
 from plyer import notification
-from pyquran import quran
 
 ARABIC_FONT = "Fonts/Hafs.ttf"
 MINIMAL_CLIP_DURATION = 0.75
@@ -24,12 +23,6 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    # time_difference = get_time_difference_seconds("1:56.840", "0:06.650")
-    # change_timestamps(
-    #     r"Surahs\Ahmed Khedr - Taha (20.14-16)\Markers.csv",
-    #     r"Surahs\Ahmed Khedr - Taha (20.14-16)\Markers2.csv",
-    #     time_difference,
-    # )
     tiktok = TikToks(
         # account=ACCOUNTS.HEARTFELTRECITATIONS,
         # language=LANGUAGES.DUTCH,
@@ -62,6 +55,25 @@ def change_timestamps(input_file, output_file, seconds_to_add):
 
 
 def test():
+    t = TikToks()
+    t.unknown_al_furqan_63_70()
+    arr = []
+    for verse in range(t.start_verse, t.end_verse + 1):
+        arr.append(get_verse_text(t.chapter, verse))
+
+    output_csv = os.path.join(t.directory_path, "chapter_2.csv")
+    # Create or open the 'chapter_2.csv' file and write the 'arr' list
+    with open(output_csv, mode="w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+
+        # Write the "ar" column header
+        writer.writerow(["ar"])
+
+        # Write the 'arr' list to the 'ar' column
+        for verse_text in arr:
+            writer.writerow([verse_text])
+    modify_unsupported_arabic_letters(output_csv)
+
     # # Get only the user-defined methods
     # user_defined_methods = [
     #     func
@@ -76,12 +88,6 @@ def test():
 
     # return user_defined_methods
     pass
-
-    # add_translation_to_existing_csv_file(r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)\chapter.csv", "nl", 49, 10, 10)
-
-    # folders = os.listdir("Surahs")
-    # for folder in folders:
-    #     files = os.listdir(os.path.join("Surahs", folder))
 
 
 class ACCOUNTS(Enum):
@@ -1151,7 +1157,7 @@ def create_chapter_csv_file(
                 break
 
     remove_empty_rows_from_csv_file(chapter_csv_file_path)
-    modify_alifs(chapter_csv_file_path)
+    modify_unsupported_arabic_letters(chapter_csv_file_path)
 
 
 def create_notification(title: str, message: str) -> None:
@@ -2090,20 +2096,12 @@ def get_verse_text(chapter, verse):
     Gets the text of a verse from the Quran
     """
 
-    verse_text = quran.get_verse(chapter, verse, with_tashkeel=True)
-    if verse_text is None or verse_text == "":
-        colored_print(Fore.RED, f"Verse {verse} not found")
-        return None
-    return verse_text
-
-
-def get_verse_text_2(chapter, verse):
-    """
-    Gets the text of a verse from the Quran
-    """
-
     response = requests.get(f"https://api.quran.com/api/v4/quran/verses/uthmani?verse_key={chapter}:{verse}")
-    text = response.json()["verses"][0]["text_uthmani"]
+    try:
+        text = response.json()["verses"][0]["text_uthmani"]
+    except Exception as error:
+        colored_print(Fore.RED, f"Error: {error}")
+        return None
     soup = BeautifulSoup(text, "html.parser")
     clean_text = soup.get_text()
     return clean_text
@@ -2140,13 +2138,9 @@ def get_video_duration_seconds(video_path: str) -> float:
     return video.duration
 
 
-def modify_alifs(csv_file_path: str) -> None:
+def modify_unsupported_arabic_letters(csv_file_path: str) -> None:
     # Define the column to modify
     column_to_modify = "ar"
-
-    # Define the replacement values
-    old_value = "ا۟"
-    new_value = "ا"
 
     # Read and modify the CSV file
     with open(csv_file_path, "r", newline="", encoding="utf-8") as file:
@@ -2159,7 +2153,8 @@ def modify_alifs(csv_file_path: str) -> None:
         for row in csv_reader:
             if column_to_modify in row:
                 # Replace the old_value with the new_value in the specified column
-                row[column_to_modify] = row[column_to_modify].replace(old_value, new_value)
+                row[column_to_modify] = row[column_to_modify].replace("ا۟", "ا")
+                row[column_to_modify] = row[column_to_modify].replace("و۟", "و")
 
             modified_rows.append(row)
 
