@@ -2,6 +2,7 @@ import csv
 import moviepy.editor as mpy
 import os
 import random
+import re
 import requests
 
 from bs4 import BeautifulSoup
@@ -28,8 +29,32 @@ def main() -> None:
         # language=LANGUAGES.DUTCH,
     )
     tiktok.change_settings()
-    tiktok.unknown_al_furqan_63_70()
-    tiktok.run()
+    tiktok.abdul_rahman_mossad_al_adiyat_1_11()
+    csv = os.path.join(tiktok.directory_path, "chapter.csv")
+    add_verse_numbers(tiktok.chapter, csv)
+    # tiktok.run()
+
+
+def add_verse_numbers(chapter: int, chapter_csv_file_path: str) -> None:
+    translation = get_chapter_translation(chapter)
+
+    data = []
+
+    with open(chapter_csv_file_path, "r", encoding="utf-8") as csv_file:
+        reader = csv.DictReader(csv_file)
+        field_names = reader.fieldnames
+        for row in reader:
+            if row["en"] != "":
+                verse = f"{chapter}:{translation.index(row['en']) + 1}"
+                verses = [row["verse"] for row in data]
+                if verse not in verses:
+                    row["verse"] = verse
+            data.append(row)
+
+    with open(chapter_csv_file_path, "w", encoding="utf-8", newline="") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=field_names)
+        writer.writeheader()
+        writer.writerows(data)
 
 
 def change_timestamps(input_file, output_file, seconds_to_add):
@@ -1860,6 +1885,30 @@ def get_all_background_clip_paths(
 
 def get_background_clip_duration(background_clip_path: str, background_clip_speed: float) -> float:
     return get_video_duration_seconds(background_clip_path) / background_clip_speed
+
+
+def get_chapter_translation(chapter, language="en"):
+    """
+    Gets the translation of a verse from the Quran
+    """
+
+    if language == "en":
+        translation_id = 20
+    elif language == "nl":
+        translation_id = 235
+
+    try:
+        response = requests.get(
+            f"https://api.quran.com/api/v4/quran/translations/{translation_id}?chapter_number={chapter}"
+        )
+        data = response.json()["translations"]
+        translation = [
+            re.sub("ḥ", "h", re.sub("ā", "a", re.sub(r"<.*?>*<.*?>", "", translation["text"]))) for translation in data
+        ]
+        return translation
+    except Exception as error:
+        colored_print(Fore.RED, f"Error: {error}")
+        return None
 
 
 def get_horizontal_offset_tuple(
