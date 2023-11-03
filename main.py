@@ -29,32 +29,8 @@ def main() -> None:
         # language=LANGUAGES.DUTCH,
     )
     tiktok.change_settings()
-    tiktok.abdul_rahman_mossad_al_adiyat_1_11()
-    csv = os.path.join(tiktok.directory_path, "chapter.csv")
-    add_verse_numbers(tiktok.chapter, csv)
-    # tiktok.run()
-
-
-def add_verse_numbers(chapter: int, chapter_csv_file_path: str) -> None:
-    translation = get_chapter_translation(chapter)
-
-    data = []
-
-    with open(chapter_csv_file_path, "r", encoding="utf-8") as csv_file:
-        reader = csv.DictReader(csv_file)
-        field_names = reader.fieldnames
-        for row in reader:
-            if row["en"] != "":
-                verse = f"{chapter}:{translation.index(row['en']) + 1}"
-                verses = [row["verse"] for row in data]
-                if verse not in verses:
-                    row["verse"] = verse
-            data.append(row)
-
-    with open(chapter_csv_file_path, "w", encoding="utf-8", newline="") as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=field_names)
-        writer.writeheader()
-        writer.writerows(data)
+    tiktok.mansour_as_salimi_maryam_27_33()
+    tiktok.run()
 
 
 def change_timestamps(input_file, output_file, seconds_to_add):
@@ -977,6 +953,22 @@ class TikToks:
             71,
             75,
         )
+        self.single_background_clip = os.path.join(self.directory_path, "video.mp4")
+        self.single_background_clip_horizontal_offset = 750
+
+    def unknown_az_zumar_73_75(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 73-75 of Surah Az-Zumar by an unknown reciter
+        """
+
+        self._set_values(
+            r"Surahs\Unknown - Az-Zumar (39.71-75)",
+            "73-75",
+            39,
+            71,
+            75,
+        )
+        self.single_background_clip = os.path.join(self.directory_path, "video.mp4")
         self.single_background_clip_horizontal_offset = 750
 
     def yasser_al_dosari_al_muminun_34_39(self) -> None:
@@ -1033,7 +1025,47 @@ class TikToks:
         )
 
 
-def update_timestamps_chapter_csv_file(chapter_csv_file_path: str, timestamps_csv_file_path: str) -> None:
+def add_translation_to_existing_csv_file(
+    chapter_csv_file_path: str, language: LANGUAGES, chapter: int, start_verse: int, end_verse: int
+) -> bool:
+    with open(chapter_csv_file_path, "r", encoding="utf-8") as csv_file:
+        reader = csv.DictReader(csv_file)
+        field_names = reader.fieldnames
+
+        if language not in field_names:
+            data = list(reader)
+
+            # If "timestamps" column exists, we insert the new column before it
+            if "timestamps" in field_names:
+                timestamps_index = field_names.index("timestamps")
+                field_names.insert(timestamps_index, language)
+
+                # Loop through verses and add translations to the corresponding rows
+                for verse in range(start_verse, end_verse + 1):
+                    row_index = verse - start_verse
+                    data[row_index][language] = get_verse_translation(chapter, verse, language)
+
+            # If "timestamps" column doesn't exist, we append the new column
+            else:
+                field_names.append(language)
+
+                # Loop through verses and add translations to the corresponding rows
+                for verse in range(start_verse, end_verse + 1):
+                    row_index = verse - start_verse
+                    data[row_index][language] = get_verse_translation(chapter, verse, language)
+
+            # Write the updated data back to the same file
+            with open(chapter_csv_file_path, "w", encoding="utf-8") as csv_file:
+                writer = csv.DictWriter(csv_file, fieldnames=field_names)
+                writer.writeheader()
+                writer.writerows(data)
+
+            remove_empty_rows_from_csv_file(chapter_csv_file_path)
+
+            return True
+
+
+def add_or_update_csv_timestamps(chapter_csv_file_path: str, timestamps_csv_file_path: str) -> None:
     with open(timestamps_csv_file_path, "r", encoding="utf-8") as timestamps_csv_file:
         lines = timestamps_csv_file.readlines()[1:]
         timestamps = []
@@ -1082,44 +1114,43 @@ def update_timestamps_chapter_csv_file(chapter_csv_file_path: str, timestamps_cs
     colored_print(Fore.GREEN, f"Successfully updated timestamps of '{chapter_csv_file_path}'")
 
 
-def add_translation_to_existing_csv_file(
-    chapter_csv_file_path: str, language: LANGUAGES, chapter: int, start_verse: int, end_verse: int
-) -> bool:
+def add_or_update_csv_verse_numbers(
+    chapter_csv_file_path: str, chapter: int, start_verse: int, end_verse: int
+) -> None:
+    translations = get_chapter_translation(chapter)[start_verse - 1 : end_verse]
+    existing_verses = set()
+
     with open(chapter_csv_file_path, "r", encoding="utf-8") as csv_file:
         reader = csv.DictReader(csv_file)
         field_names = reader.fieldnames
 
-        if language not in field_names:
-            data = list(reader)
+        data = []
 
-            # If "timestamps" column exists, we insert the new column before it
-            if "timestamps" in field_names:
-                timestamps_index = field_names.index("timestamps")
-                field_names.insert(timestamps_index, language)
-
-                # Loop through verses and add translations to the corresponding rows
-                for verse in range(start_verse, end_verse + 1):
-                    row_index = verse - start_verse
-                    data[row_index][language] = get_verse_translation(chapter, verse, language)
-
-            # If "timestamps" column doesn't exist, we append the new column
+        for row in reader:
+            if row["en"] == "" and row["timestamps"] != "":
+                data.append(row)
             else:
-                field_names.append(language)
+                verse_added = False
+                for j, translation in enumerate(translations, start=start_verse):
+                    if row["en"] in translation:
+                        verse = f"{chapter}:{j}"
+                        if verse not in existing_verses:
+                            row["verse"] = verse
+                            existing_verses.add(verse)
+                            data.append(row)
+                            verse_added = True
+                            break
 
-                # Loop through verses and add translations to the corresponding rows
-                for verse in range(start_verse, end_verse + 1):
-                    row_index = verse - start_verse
-                    data[row_index][language] = get_verse_translation(chapter, verse, language)
+                if not verse_added:
+                    row["verse"] = ""
+                    data.append(row)
 
-            # Write the updated data back to the same file
-            with open(chapter_csv_file_path, "w", encoding="utf-8") as csv_file:
-                writer = csv.DictWriter(csv_file, fieldnames=field_names)
-                writer.writeheader()
-                writer.writerows(data)
+    with open(chapter_csv_file_path, "w", encoding="utf-8", newline="") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=field_names)
+        writer.writeheader()
+        writer.writerows(data)
 
-            remove_empty_rows_from_csv_file(chapter_csv_file_path)
-
-            return True
+    colored_print(Fore.GREEN, f"Successfully updated verse numbers of '{chapter_csv_file_path}'")
 
 
 def check_background_clip_duration(video_clip_leftover_duration: float, background_clip_duration: float) -> bool:
@@ -1336,7 +1367,8 @@ def create_tiktok(
 
         # Update timestamps in chapter csv file if timestamps csv file exists
         if os.path.isfile(timestamps_csv_file_path):
-            update_timestamps_chapter_csv_file(chapter_csv_file_path, timestamps_csv_file_path)
+            add_or_update_csv_timestamps(chapter_csv_file_path, timestamps_csv_file_path)
+            add_or_update_csv_verse_numbers(chapter_csv_file_path, chapter, start_verse, end_verse)
         else:
             colored_print(Fore.RED, "Markers.csv file not found")
             return
