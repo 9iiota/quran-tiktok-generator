@@ -29,10 +29,21 @@ def main() -> None:
         # account=ACCOUNTS.HEARTFELTRECITATIONS,
         # language=LANGUAGES.DUTCH,
     )
-    test()
-    # tiktok.change_settings()
-    # tiktok.mansour_as_salimi_maryam_27_33()
-    # tiktok.run()
+    tiktok.change_settings(
+        video_map={
+            "1": [["Anime_Clips\\Mirai Fukuin (111).mp4", 0.69, 651, "False"]],
+            "2": [
+                ["Anime_Clips\\Koe no Katachi (95).mp4", 1.1, 16, "False"],
+                ["Anime_Clips\\Kimi No Nawa (321).mp4", 2.46, 465, "False"],
+            ],
+            "3": [
+                ["Anime_Clips\\Garden of Words (216).mp4", 0.16, 313, "False"],
+                ["Anime_Clips\\Violet Evergarden - NCOP1 (3).mp4", 0.64, 280, "False"],
+            ],
+        }
+    )
+    tiktok.abdul_rahman_mossad_yunus_17()
+    tiktok.run()
 
 
 def change_timestamps(input_file, output_file, seconds_to_add):
@@ -58,30 +69,24 @@ def change_timestamps(input_file, output_file, seconds_to_add):
 
 
 def test():
-    folders = os.listdir("Surahs")
-    for folder in folders:
-        files = os.listdir(os.path.join("Surahs", folder))
-        for file in files:
-            if "chapter_2.csv" in file:
-                os.remove(os.path.join("Surahs", folder, file))
-    # t = TikToks()
-    # t.unknown_al_furqan_63_70()
-    # arr = []
-    # for verse in range(t.start_verse, t.end_verse + 1):
-    #     arr.append(get_verse_text(t.chapter, verse))
+    t = TikToks()
+    t.unknown_al_furqan_63_70()
+    arr = []
+    for verse in range(t.start_verse, t.end_verse + 1):
+        arr.append(get_verse_text(t.chapter, verse))
 
-    # output_csv = os.path.join(t.directory_path, "chapter_2.csv")
-    # # Create or open the 'chapter_2.csv' file and write the 'arr' list
-    # with open(output_csv, mode="w", newline="", encoding="utf-8") as file:
-    #     writer = csv.writer(file)
+    output_csv = os.path.join(t.directory_path, "chapter_2.csv")
+    # Create or open the 'chapter_2.csv' file and write the 'arr' list
+    with open(output_csv, mode="w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
 
-    #     # Write the "ar" column header
-    #     writer.writerow(["ar"])
+        # Write the "ar" column header
+        writer.writerow(["ar"])
 
-    #     # Write the 'arr' list to the 'ar' column
-    #     for verse_text in arr:
-    #         writer.writerow([verse_text])
-    # modify_unsupported_arabic_letters(output_csv)
+        # Write the 'arr' list to the 'ar' column
+        for verse_text in arr:
+            writer.writerow([verse_text])
+    modify_unsupported_arabic_letters(output_csv)
 
     # # Get only the user-defined methods
     # user_defined_methods = [
@@ -445,6 +450,20 @@ class TikToks:
             25,
         )
         self.end_time_modifier = -0.2
+
+    def abdul_rahman_mossad_yunus_17(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 17 of Surah Yunus by Abdul Rahman Mossad
+        """
+
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)",
+            "17",
+            10,
+            3,
+            25,
+        )
+        self.end_time_modifier = -0.4
 
     def ahmed_khedr_taha_14_16(self) -> None:
         """
