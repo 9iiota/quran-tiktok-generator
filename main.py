@@ -1,6 +1,7 @@
 import csv
 import moviepy.editor as mpy
 import os
+import pyquran
 import random
 import re
 import requests
@@ -2177,15 +2178,11 @@ def get_verse_text(chapter, verse):
     Gets the text of a verse from the Quran
     """
 
-    response = requests.get(f"https://api.quran.com/api/v4/quran/verses/uthmani?verse_key={chapter}:{verse}")
-    try:
-        text = response.json()["verses"][0]["text_uthmani"]
-    except Exception as error:
-        colored_print(Fore.RED, f"Error: {error}")
+    verse_text = pyquran.get_verse(chapter, verse, with_tashkeel=True)
+    if verse_text is None or verse_text == "":
+        colored_print(Fore.RED, f"Verse {verse} not found")
         return None
-    soup = BeautifulSoup(text, "html.parser")
-    clean_text = soup.get_text()
-    return clean_text
+    return verse_text
 
 
 def get_verse_translation(chapter, verse, language="en"):
