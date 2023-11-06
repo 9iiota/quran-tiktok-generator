@@ -29,9 +29,10 @@ def main() -> None:
         # account=ACCOUNTS.HEARTFELTRECITATIONS,
         # language=LANGUAGES.DUTCH,
     )
-    tiktok.change_settings()
-    tiktok.mansour_as_salimi_maryam_27_33()
-    tiktok.run()
+    test()
+    # tiktok.change_settings()
+    # tiktok.mansour_as_salimi_maryam_27_33()
+    # tiktok.run()
 
 
 def change_timestamps(input_file, output_file, seconds_to_add):
@@ -57,24 +58,30 @@ def change_timestamps(input_file, output_file, seconds_to_add):
 
 
 def test():
-    t = TikToks()
-    t.unknown_al_furqan_63_70()
-    arr = []
-    for verse in range(t.start_verse, t.end_verse + 1):
-        arr.append(get_verse_text(t.chapter, verse))
+    folders = os.listdir("Surahs")
+    for folder in folders:
+        files = os.listdir(os.path.join("Surahs", folder))
+        for file in files:
+            if "chapter_2.csv" in file:
+                os.remove(os.path.join("Surahs", folder, file))
+    # t = TikToks()
+    # t.unknown_al_furqan_63_70()
+    # arr = []
+    # for verse in range(t.start_verse, t.end_verse + 1):
+    #     arr.append(get_verse_text(t.chapter, verse))
 
-    output_csv = os.path.join(t.directory_path, "chapter_2.csv")
-    # Create or open the 'chapter_2.csv' file and write the 'arr' list
-    with open(output_csv, mode="w", newline="", encoding="utf-8") as file:
-        writer = csv.writer(file)
+    # output_csv = os.path.join(t.directory_path, "chapter_2.csv")
+    # # Create or open the 'chapter_2.csv' file and write the 'arr' list
+    # with open(output_csv, mode="w", newline="", encoding="utf-8") as file:
+    #     writer = csv.writer(file)
 
-        # Write the "ar" column header
-        writer.writerow(["ar"])
+    #     # Write the "ar" column header
+    #     writer.writerow(["ar"])
 
-        # Write the 'arr' list to the 'ar' column
-        for verse_text in arr:
-            writer.writerow([verse_text])
-    modify_unsupported_arabic_letters(output_csv)
+    #     # Write the 'arr' list to the 'ar' column
+    #     for verse_text in arr:
+    #         writer.writerow([verse_text])
+    # modify_unsupported_arabic_letters(output_csv)
 
     # # Get only the user-defined methods
     # user_defined_methods = [
