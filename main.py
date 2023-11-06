@@ -463,7 +463,7 @@ class TikToks:
             3,
             25,
         )
-        self.end_time_modifier = -0.4
+        self.end_time_modifier = -0.5
 
     def ahmed_khedr_taha_14_16(self) -> None:
         """
