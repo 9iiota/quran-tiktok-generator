@@ -29,20 +29,8 @@ def main() -> None:
         # account=ACCOUNTS.HEARTFELTRECITATIONS,
         # language=LANGUAGES.DUTCH,
     )
-    tiktok.change_settings(
-        video_map={
-            "1": [["Anime_Clips\\Mirai Fukuin (111).mp4", 0.69, 651, "False"]],
-            "2": [
-                ["Anime_Clips\\Koe no Katachi (95).mp4", 1.1, 16, "False"],
-                ["Anime_Clips\\Kimi No Nawa (321).mp4", 2.46, 465, "False"],
-            ],
-            "3": [
-                ["Anime_Clips\\Garden of Words (216).mp4", 0.16, 313, "False"],
-                ["Anime_Clips\\Violet Evergarden - NCOP1 (3).mp4", 0.64, 280, "False"],
-            ],
-        }
-    )
-    tiktok.abdul_rahman_mossad_yunus_17()
+    tiktok.change_settings(video_map={})
+    tiktok.muhammad_al_luhaidan_an_nisa_27()
     tiktok.run()
 
 
@@ -863,6 +851,20 @@ class TikToks:
             27,
             29,
         )
+
+    def muhammad_al_luhaidan_an_nisa_27(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 27 of Surah An-Nisa by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.27-29)",
+            "27",
+            4,
+            27,
+            29,
+        )
+        self.end_time_modifier = -0.04
 
     def muhammadloiq_qori_al_ahzab_35(self) -> None:
         """
