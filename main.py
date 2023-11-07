@@ -864,7 +864,7 @@ class TikToks:
             27,
             29,
         )
-        self.end_time_modifier = -0.04
+        self.end_time_modifier = -0.4
 
     def muhammadloiq_qori_al_ahzab_35(self) -> None:
         """
