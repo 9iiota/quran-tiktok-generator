@@ -1,7 +1,6 @@
 import csv
 import moviepy.editor as mpy
 import os
-import pyquran
 import random
 import re
 import requests
@@ -12,6 +11,7 @@ from compact_json import EolStyle, Formatter
 from datetime import datetime, timedelta
 from enum import Enum
 from plyer import notification
+from pyquran import quran
 
 ARABIC_FONT = "Fonts/Hafs.ttf"
 MINIMAL_CLIP_DURATION = 0.75
@@ -30,7 +30,7 @@ def main() -> None:
         # language=LANGUAGES.DUTCH,
     )
     tiktok.change_settings(video_map={})
-    tiktok.muhammad_al_luhaidan_an_nisa_27()
+    tiktok.unknown_as_saffat_123_132()
     tiktok.run()
 
 
@@ -583,6 +583,19 @@ class TikToks:
             25,
             63,
             70,
+        )
+
+    def unknown_as_saffat_123_132(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 123-132 of Surah As-Saffat by an unknown reciter
+        """
+
+        self._set_values(
+            r"Surahs\Unknown - As-Saffat (37.123-132)",
+            "123-132",
+            37,
+            123,
+            132,
         )
 
     ######################################################################################################################################################
@@ -2206,7 +2219,7 @@ def get_verse_text(chapter, verse):
     Gets the text of a verse from the Quran
     """
 
-    verse_text = pyquran.get_verse(chapter, verse, with_tashkeel=True)
+    verse_text = quran.get_verse(chapter, verse, with_tashkeel=True)
     if verse_text is None or verse_text == "":
         colored_print(Fore.RED, f"Verse {verse} not found")
         return None
@@ -2270,7 +2283,7 @@ def modify_unsupported_arabic_letters(csv_file_path: str) -> None:
         csv_writer.writeheader()
         csv_writer.writerows(modified_rows)
 
-    print("Modified alifs successfully")
+    colored_print(Fore.GREEN, "Modified alifs successfully")
 
 
 def offset_timestamp(timestamp: str, time_offset_seconds: int) -> str:
