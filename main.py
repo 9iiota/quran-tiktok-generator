@@ -10,6 +10,7 @@ from colorama import Fore, Style
 from compact_json import EolStyle, Formatter
 from datetime import datetime, timedelta
 from enum import Enum
+from fuzzywuzzy import fuzz
 from plyer import notification
 from pyquran import quran
 
@@ -57,25 +58,6 @@ def change_timestamps(input_file, output_file, seconds_to_add):
 
 
 def test():
-    t = TikToks()
-    t.unknown_al_furqan_63_70()
-    arr = []
-    for verse in range(t.start_verse, t.end_verse + 1):
-        arr.append(get_verse_text(t.chapter, verse))
-
-    output_csv = os.path.join(t.directory_path, "chapter_2.csv")
-    # Create or open the 'chapter_2.csv' file and write the 'arr' list
-    with open(output_csv, mode="w", newline="", encoding="utf-8") as file:
-        writer = csv.writer(file)
-
-        # Write the "ar" column header
-        writer.writerow(["ar"])
-
-        # Write the 'arr' list to the 'ar' column
-        for verse_text in arr:
-            writer.writerow([verse_text])
-    modify_unsupported_arabic_letters(output_csv)
-
     # # Get only the user-defined methods
     # user_defined_methods = [
     #     func
@@ -1082,19 +1064,15 @@ def add_translation_to_existing_csv_file(
                 timestamps_index = field_names.index("timestamps")
                 field_names.insert(timestamps_index, language)
 
-                # Loop through verses and add translations to the corresponding rows
-                for verse in range(start_verse, end_verse + 1):
-                    row_index = verse - start_verse
-                    data[row_index][language] = get_verse_translation(chapter, verse, language)
-
             # If "timestamps" column doesn't exist, we append the new column
             else:
                 field_names.append(language)
 
-                # Loop through verses and add translations to the corresponding rows
-                for verse in range(start_verse, end_verse + 1):
-                    row_index = verse - start_verse
-                    data[row_index][language] = get_verse_translation(chapter, verse, language)
+            translations = get_chapter_translation(chapter)[start_verse - 1 : end_verse]
+
+            # Add the translations to the data
+            for row_index, row in enumerate(data):
+                row[language] = translations[row_index]
 
             # Write the updated data back to the same file
             with open(chapter_csv_file_path, "w", encoding="utf-8") as csv_file:
@@ -1174,7 +1152,7 @@ def add_or_update_csv_verse_numbers(
             else:
                 verse_added = False
                 for j, translation in enumerate(translations, start=start_verse):
-                    if row["en"] in translation:
+                    if fuzz.partial_ratio(translation.lower(), row["en"].lower()) >= 80:
                         verse = f"{chapter}:{j}"
                         if verse not in existing_verses:
                             row["verse"] = verse
@@ -1184,6 +1162,8 @@ def add_or_update_csv_verse_numbers(
                             break
 
                 if not verse_added:
+                    # Remove substring from the 'en' column
+                    row["en"] = remove_substring("substring_to_remove", row["en"])
                     row["verse"] = ""
                     data.append(row)
 
@@ -1241,12 +1221,13 @@ def create_chapter_csv_file(
         csvwriter = csv.writer(chapter_csv_file)
         csvwriter.writerow(["verse", "ar", language])
 
-        for verse in range(start_verse, end_verse + 1):
-            # Get the verse text
-            verse_text = get_verse_text(chapter, verse)
+        texts = get_chapter_text(chapter)[start_verse - 1 : end_verse]
+        translations = get_chapter_translation(chapter)[start_verse - 1 : end_verse]
 
-            # Get the verse translation
-            verse_translation = get_verse_translation(chapter, verse, language)
+        for i in range(len(translations)):
+            verse = f"{chapter}:{i + start_verse}"
+            verse_text = texts[i]
+            verse_translation = translations[i]
 
             # Write the verse text and translation to the chapter csv file
             if verse_text is not None and verse_translation is not None:
@@ -1256,6 +1237,7 @@ def create_chapter_csv_file(
 
     remove_empty_rows_from_csv_file(chapter_csv_file_path)
     modify_unsupported_arabic_letters(chapter_csv_file_path)
+    modify_unsupported_english_letters(chapter_csv_file_path)
 
 
 def create_notification(title: str, message: str) -> None:
@@ -1961,9 +1943,17 @@ def get_background_clip_duration(background_clip_path: str, background_clip_spee
     return get_video_duration_seconds(background_clip_path) / background_clip_speed
 
 
+def get_chapter_text(chapter):
+    """
+    Gets the text of a chapter from the Quran
+    """
+
+    return quran.get_sura(chapter, with_tashkeel=True)
+
+
 def get_chapter_translation(chapter, language="en"):
     """
-    Gets the translation of a verse from the Quran
+    Gets the translation of a chapter from the Quran
     """
 
     if language == "en":
@@ -2214,40 +2204,6 @@ def get_valid_background_clips(
     return (used_background_clips_paths, i, video_clip_background_clip_paths, j)
 
 
-def get_verse_text(chapter, verse):
-    """
-    Gets the text of a verse from the Quran
-    """
-
-    verse_text = quran.get_verse(chapter, verse, with_tashkeel=True)
-    if verse_text is None or verse_text == "":
-        colored_print(Fore.RED, f"Verse {verse} not found")
-        return None
-    return verse_text
-
-
-def get_verse_translation(chapter, verse, language="en"):
-    """
-    Gets the translation of a verse from the Quran
-    """
-
-    if language == "en":
-        translation_id = 20
-    elif language == "nl":
-        translation_id = 235
-
-    try:
-        response = requests.get(
-            f"https://api.quran.com/api/v4/quran/translations/{translation_id}?verse_key={chapter}:{verse}"
-        )
-        translation = response.json()["translations"][0]["text"]
-        soup = BeautifulSoup(translation, "html.parser")
-        return soup.get_text()
-    except Exception as error:
-        colored_print(Fore.RED, f"Error: {error}")
-        return None
-
-
 def get_video_duration_seconds(video_path: str) -> float:
     """
     Get the duration of a video in seconds.
@@ -2283,7 +2239,37 @@ def modify_unsupported_arabic_letters(csv_file_path: str) -> None:
         csv_writer.writeheader()
         csv_writer.writerows(modified_rows)
 
-    colored_print(Fore.GREEN, "Modified alifs successfully")
+    colored_print(Fore.GREEN, "Modified unsupported arabic letters successfully")
+
+
+def modify_unsupported_english_letters(csv_file_path: str) -> None:
+    # Define the column to modify
+    column_to_modify = "en"
+
+    # Read and modify the CSV file
+    with open(csv_file_path, "r", newline="", encoding="utf-8") as file:
+        csv_reader = csv.DictReader(file)
+        fieldnames = csv_reader.fieldnames
+
+        # Create a list to store modified rows
+        modified_rows = []
+
+        for row in csv_reader:
+            if column_to_modify in row:
+                # Replace the old_value with the new_value in the specified column
+                row[column_to_modify] = row[column_to_modify].replace("ā", "a")
+                row[column_to_modify] = row[column_to_modify].replace("ḥ", "h")
+                row[column_to_modify] = row[column_to_modify].replace("ʿ", "'")
+
+            modified_rows.append(row)
+
+    # Write the modified data back to the same file
+    with open(csv_file_path, "w", newline="", encoding="utf-8") as file:
+        csv_writer = csv.DictWriter(file, fieldnames=fieldnames)
+        csv_writer.writeheader()
+        csv_writer.writerows(modified_rows)
+
+    colored_print(Fore.GREEN, "Modified unsupported english letters successfully")
 
 
 def offset_timestamp(timestamp: str, time_offset_seconds: int) -> str:
@@ -2313,6 +2299,22 @@ def remove_empty_rows_from_csv_file(csv_file_path: str) -> None:
     with open(csv_file_path, mode="w", encoding="utf-8", newline="") as outfile:
         writer = csv.writer(outfile)
         writer.writerows(rows)
+
+
+def remove_substring(substring, sentence):
+    ratio = fuzz.partial_ratio(substring.lower(), sentence.lower())
+    threshold = 95  # Adjust as needed
+
+    if ratio >= threshold and substring.lower() in sentence.lower():
+        # Get the start and end indices of the matching substring
+        start_index = sentence.lower().find(substring.lower())
+        end_index = start_index + len(substring)
+
+        # Remove the matching substring from the sentence
+        modified_sentence = sentence[:start_index] + sentence[end_index:]
+        return modified_sentence.strip()  # Remove leading/trailing whitespaces
+    else:
+        return sentence
 
 
 def select_columns(csv_file_path: str, columns_to_select: list[str]) -> list[list[str]]:
