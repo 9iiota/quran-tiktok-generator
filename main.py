@@ -31,7 +31,7 @@ def main() -> None:
         # language=LANGUAGES.DUTCH,
     )
     tiktok.change_settings(video_map={})
-    tiktok.unknown_as_saffat_123_132()
+    tiktok.unknown_al_furqan_63_70()
     tiktok.run()
 
 
