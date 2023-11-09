@@ -5,7 +5,6 @@ import random
 import re
 import requests
 
-from bs4 import BeautifulSoup
 from colorama import Fore, Style
 from compact_json import EolStyle, Formatter
 from datetime import datetime, timedelta
