@@ -30,7 +30,7 @@ def main() -> None:
         # language=LANGUAGES.DUTCH,
     )
     tiktok.change_settings(video_map={})
-    tiktok.unknown_al_furqan_63_70()
+    tiktok.yousef_al_soqier_ya_sin_63_65()
     tiktok.run()
 
 
@@ -578,6 +578,20 @@ class TikToks:
             123,
             132,
         )
+
+    def yousef_al_soqier_ya_sin_63_65(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 63-65 of Surah Ya Sin by Yousef Al-Soqier
+        """
+
+        self._set_values(
+            r"Surahs\Yousef Al-Soqier - Ya-Sin (36.55-67)",
+            "63-65",
+            36,
+            55,
+            67,
+        )
+        self.end_time_modifier = -0.2
 
     ######################################################################################################################################################
     ######################################################################################################################################################
