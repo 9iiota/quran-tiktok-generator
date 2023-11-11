@@ -76,7 +76,7 @@ def test():
 class ACCOUNTS(Enum):
     QURAN_2_LISTEN = {
         "english_font": "Fonts/Butler_Regular.otf",
-        "background_clips_directory_paths": ["Anime_Clips", "Anime_Clips_2"],
+        "background_clips_directory_paths": ["Anime_Clips"],
     }  # crazyshocklight@hotmail.com
     REFLECT2RECITE = {
         "english_font": "Fonts/Butler_Regular.otf",
@@ -84,7 +84,7 @@ class ACCOUNTS(Enum):
     }  # crazyshocklight2@gmail.com
     HEARTFELTRECITATIONS = {
         "english_font": "Fonts/Butler_Regular.otf",
-        "background_clips_directory_paths": ["Anime_Clips", "Anime_Clips_2", "Real_Clips"],
+        "background_clips_directory_paths": ["Anime_Clips", "Real_Clips"],
     }
     # LOVE_QURAN77 = {"english_font": "Fonts/Sk-Modernist-Regular.otf"}
     QURANIC_TIKTOKS = {
