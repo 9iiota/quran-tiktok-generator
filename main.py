@@ -30,7 +30,7 @@ def main() -> None:
         # language=LANGUAGES.DUTCH,
     )
     tiktok.change_settings(video_map={})
-    tiktok.yousef_al_soqier_ya_sin_63_65()
+    tiktok.fatih_seferagic_al_qiyamah_13_19()
     tiktok.run()
 
 
@@ -494,6 +494,20 @@ class TikToks:
         self._set_values(
             r"Surahs\Fatih Seferagic - Al-Qiyamah (75.1-40)",
             "1-12",
+            75,
+            1,
+            40,
+        )
+        self.end_time_modifier = -0.4
+
+    def fatih_seferagic_al_qiyamah_13_19(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 13-19 of Surah Al-Qiyamah by Fatih Seferagic
+        """
+
+        self._set_values(
+            r"Surahs\Fatih Seferagic - Al-Qiyamah (75.1-40)",
+            "13-19",
             75,
             1,
             40,
