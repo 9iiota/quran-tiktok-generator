@@ -27,10 +27,10 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks(
         # account=ACCOUNTS.HEARTFELTRECITATIONS,
-        # language=LANGUAGES.DUTCH,
+        language=LANGUAGES.DUTCH,
     )
     tiktok.change_settings(video_map={})
-    tiktok.abdul_rahman_mossad_al_ghashiyah_1_9()
+    tiktok.fatih_seferagic_al_hujurat_10_11()
     tiktok.run()
 
 
@@ -461,18 +461,32 @@ class TikToks:
             135,
         )
 
+    def fatih_seferagic_al_hujurat_10_11(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 10-11 of Surah Al-Hujurat by Fatih Seferagic
+        """
+
+        self._set_values(
+            r"Surahs\Fatih Seferagic - Al-Hujurat (49.10-11)",
+            "10-11",
+            49,
+            10,
+            11,
+        )
+
     def fatih_seferagic_al_hujurat_10(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 10 of Surah Al-Hujurat by Fatih Seferagic
         """
 
         self._set_values(
-            r"Surahs\Fatih Seferagic - Al-Hujurat (49.10)",
+            r"Surahs\Fatih Seferagic - Al-Hujurat (49.10-11)",
             "10",
             49,
             10,
-            10,
+            11,
         )
+        self.end_time_modifier = -0.4
 
     def fatih_seferagic_al_baqarah_255(self) -> None:
         """
@@ -1109,11 +1123,11 @@ def add_translation_to_existing_csv_file(
             else:
                 field_names.append(language)
 
-            translations = get_chapter_translation(chapter)[start_verse - 1 : end_verse]
+            translations = get_chapter_translation(chapter, language)[start_verse - 1 : end_verse]
 
             # Add the translations to the data
-            for row_index, row in enumerate(data):
-                row[language] = translations[row_index]
+            for translation_index, translation in enumerate(translations):
+                data[translation_index][language] = translation
 
             # Write the updated data back to the same file
             with open(chapter_csv_file_path, "w", encoding="utf-8") as csv_file:
@@ -1273,7 +1287,7 @@ def create_chapter_csv_file(
         csvwriter.writerow(["verse", "ar", language])
 
         texts = get_chapter_text(chapter)[start_verse - 1 : end_verse]
-        translations = get_chapter_translation(chapter)[start_verse - 1 : end_verse]
+        translations = get_chapter_translation(chapter, language)[start_verse - 1 : end_verse]
 
         for i in range(len(translations)):
             verse = f"{chapter}:{i + start_verse}"
