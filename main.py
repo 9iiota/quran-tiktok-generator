@@ -30,7 +30,7 @@ def main() -> None:
         # language=LANGUAGES.DUTCH,
     )
     tiktok.change_settings(video_map={})
-    tiktok.fatih_seferagic_al_qiyamah_13_19()
+    tiktok.abdul_rahman_mossad_al_ghashiyah_1_9()
     tiktok.run()
 
 
@@ -281,6 +281,20 @@ class TikToks:
             64,
         )
         self.end_time_modifier = -0.2
+
+    def abdul_rahman_mossad_al_ghashiyah_1_9(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 1-9 of Surah Al-Ghashiyah by Abdul Rahman Mossad
+        """
+
+        self._set_values(
+            r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)",
+            "1-9",
+            88,
+            1,
+            26,
+        )
+        self.end_time_modifier = -0.4
 
     def abdul_rahman_mossad_al_ghashiyah_10_26(self) -> None:
         """
@@ -1177,22 +1191,32 @@ def add_or_update_csv_verse_numbers(
             if row["en"] == "" and row["timestamps"] != "":
                 data.append(row)
             else:
-                verse_added = False
-                for j, translation in enumerate(translations, start=start_verse):
-                    if fuzz.partial_ratio(translation.lower(), row["en"].lower()) >= 80:
-                        verse = f"{chapter}:{j}"
-                        if verse not in existing_verses:
-                            row["verse"] = verse
-                            existing_verses.add(verse)
-                            data.append(row)
-                            verse_added = True
-                            break
+                best_ratio, best_verse_number = (0, None)
+                csv_translation = row["en"]
+                csv_translation_length = len(csv_translation)
 
-                if not verse_added:
-                    # Remove substring from the 'en' column
-                    row["en"] = remove_substring("substring_to_remove", row["en"])
+                for j, translation in enumerate(translations, start=start_verse):
+                    letter_difference = len(translation) - csv_translation_length
+
+                    if letter_difference >= 0:
+                        for k in range(letter_difference + 1):
+                            match = translation[k : csv_translation_length + k]
+                            ratio = fuzz.ratio(csv_translation, match)
+
+                            if ratio > best_ratio:
+                                best_ratio, best_verse_number = (ratio, j)
+
+                            if ratio == 100:
+                                break
+
+                verse = f"{chapter}:{best_verse_number}"
+                if verse not in existing_verses:
+                    row["verse"] = verse
+                    existing_verses.add(verse)
+                else:
                     row["verse"] = ""
-                    data.append(row)
+
+                data.append(row)
 
     with open(chapter_csv_file_path, "w", encoding="utf-8", newline="") as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=field_names)
