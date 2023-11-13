@@ -2352,22 +2352,6 @@ def remove_empty_rows_from_csv_file(csv_file_path: str) -> None:
         writer.writerows(rows)
 
 
-def remove_substring(substring, sentence):
-    ratio = fuzz.partial_ratio(substring.lower(), sentence.lower())
-    threshold = 95  # Adjust as needed
-
-    if ratio >= threshold and substring.lower() in sentence.lower():
-        # Get the start and end indices of the matching substring
-        start_index = sentence.lower().find(substring.lower())
-        end_index = start_index + len(substring)
-
-        # Remove the matching substring from the sentence
-        modified_sentence = sentence[:start_index] + sentence[end_index:]
-        return modified_sentence.strip()  # Remove leading/trailing whitespaces
-    else:
-        return sentence
-
-
 def select_columns(csv_file_path: str, columns_to_select: list[str]) -> list[list[str]]:
     selected_data = []
 
