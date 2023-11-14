@@ -594,6 +594,19 @@ class TikToks:
             5,
         )
 
+    def mostafa_shaibani_al_qiyamah_20_27(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 20-27 of Surah Al-Qiyamah by Mostafa Shaibani
+        """
+
+        self._set_values(
+            r"Surahs\Mostafa Shaibani - Al-Qiyamah (75.20-27)",
+            "20-27",
+            75,
+            20,
+            27,
+        )
+
     def muhammad_al_luhaidan_ali_imran_15(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 15 of Surah Ali 'Imran by Muhammad Al-Luhaidan
@@ -693,19 +706,6 @@ class TikToks:
     ######################################################################################################################################################
     ######################################################################################################################################################
     ######################################################################################################################################################
-
-    def mostafa_shaibani_al_qiyamah_20_27(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 20-27 of Surah Al-Qiyamah by Mostafa Shaibani
-        """
-
-        self._set_values(
-            r"Surahs\Mostafa Shaibani - Al-Qiyamah (75.20-27)",
-            "20-27",
-            75,
-            20,
-            27,
-        )
 
     def muhammad_al_luhaidan_al_baqarah_273_274(self) -> None:
         """
