@@ -27,10 +27,10 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks(
         # account=ACCOUNTS.HEARTFELTRECITATIONS,
-        language=LANGUAGES.DUTCH,
+        # language=LANGUAGES.DUTCH,
     )
     tiktok.change_settings(video_map={})
-    tiktok.fatih_seferagic_al_hujurat_10_11()
+    tiktok.mansour_as_salimi_maryam_27_33()
     tiktok.run()
 
 
@@ -542,6 +542,58 @@ class TikToks:
         )
         self.end_time_modifier = -0.4
 
+    def fatih_seferagic_an_nisa_155_160(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 155-160 of Surah An-Nisa by Fatih Seferagic
+        """
+
+        self._set_values(
+            r"Surahs\Fatih Seferagic - An-Nisa (4.155-160)",
+            "155-160",
+            4,
+            155,
+            176,
+        )
+
+    def fatih_seferagic_an_nur_35(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 35 of Surah An-Nur by Fatih Seferagic
+        """
+
+        self._set_values(
+            r"Surahs\Fatih Seferagic - An-Nur (24.35)",
+            "35",
+            24,
+            35,
+            35,
+        )
+
+    def mansour_as_salimi_maryam_27_33(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 27-33 of Surah Maryam by Mansour As Salimi
+        """
+
+        self._set_values(
+            r"Surahs\Mansour As Salimi - Maryam (19.16-33)",
+            "27-33",
+            19,
+            16,
+            33,
+        )
+
+    def mansour_as_salimi_yusuf_1_5(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 1-5 of Surah Yusuf by Mansour As Salimi
+        """
+
+        self._set_values(
+            r"Surahs\Mansour As Salimi - Yusuf (12.1-5)",
+            "1-5",
+            12,
+            1,
+            5,
+        )
+
     def muhammad_al_luhaidan_ali_imran_15(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verse 15 of Surah Ali 'Imran by Muhammad Al-Luhaidan
@@ -641,58 +693,6 @@ class TikToks:
     ######################################################################################################################################################
     ######################################################################################################################################################
     ######################################################################################################################################################
-
-    def fatih_seferagic_an_nisa_155_160(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 155-160 of Surah An-Nisa by Fatih Seferagic
-        """
-
-        self._set_values(
-            r"Surahs\Fatih Seferagic - An-Nisa (4.155-160)",
-            "155-160",
-            4,
-            155,
-            176,
-        )
-
-    def fatih_seferagic_an_nur_35(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verse 35 of Surah An-Nur by Fatih Seferagic
-        """
-
-        self._set_values(
-            r"Surahs\Fatih Seferagic - An-Nur (24.35)",
-            "35",
-            24,
-            35,
-            35,
-        )
-
-    def mansour_as_salimi_maryam_27_33(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 27-33 of Surah Maryam by Mansour As Salimi
-        """
-
-        self._set_values(
-            r"Surahs\Mansour As Salimi - Maryam (19.27-33)",
-            "27-33",
-            19,
-            27,
-            33,
-        )
-
-    def mansour_as_salimi_yusuf_1_5(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 1-5 of Surah Yusuf by Mansour As Salimi
-        """
-
-        self._set_values(
-            r"Surahs\Mansour As Salimi - Yusuf (12.1-5)",
-            "1-5",
-            12,
-            1,
-            5,
-        )
 
     def mostafa_shaibani_al_qiyamah_20_27(self) -> None:
         """
