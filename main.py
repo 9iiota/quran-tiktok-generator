@@ -30,7 +30,7 @@ def main() -> None:
         # language=LANGUAGES.DUTCH,
     )
     tiktok.change_settings(video_map={})
-    tiktok.mansour_as_salimi_maryam_27_33()
+    tiktok.unknown_al_ankabut_56_58()
     tiktok.run()
 
 
@@ -159,7 +159,7 @@ class TikToks:
         single_background_clip: str = None,
         single_background_clip_horizontal_offset: float = None,
         single_background_clip_vertical_offset: float = None,
-        video_map: dict[int, tuple[str, float, int]] = None,
+        video_map: dict[int, list[str, float or int, int, str]] = None,
     ) -> None:
         self.single_background_clip = single_background_clip
         self.single_background_clip_horizontal_offset = single_background_clip_horizontal_offset
@@ -170,7 +170,7 @@ class TikToks:
         if self.chapter is None:
             self.chapter_csv_file_path = os.path.join(self.directory_path, "chapter.csv")
 
-        self.output_file_name = f"{self.output_file_name} {(self.account.name).lower()} {self.language.value} {datetime.now().strftime('%H.%M.%S %d-%m-%Y')}"
+        self.output_file_name = f"{self.output_file_name} {(self.account.name).lower()} {self.language.value} {datetime.now().strftime('%d-%m-%Y %H.%M.%S')}"
 
         create_tiktok(
             directory_path=self.directory_path,
@@ -660,6 +660,33 @@ class TikToks:
         )
         self.start_time_modifier = -0.2
 
+    def unknown_al_ankabut_56_58(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 56-58 of Surah Al-'Ankabut by an unknown reciter
+        """
+
+        self._set_values(
+            r"Surahs\Unknown - Al-'Ankabut (29.56-58)",
+            "56-58",
+            29,
+            56,
+            58,
+        )
+
+    def unknown_al_ankabut_56_57(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 56-57 of Surah Al-'Ankabut by an unknown reciter
+        """
+
+        self._set_values(
+            r"Surahs\Unknown - Al-'Ankabut (29.56-58)",
+            "56-57",
+            29,
+            56,
+            58,
+        )
+        self.end_time_modifier = -0.2
+
     def unknown_al_furqan_63_70(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 63-70 of Surah Al-Furqan by an unknown reciter
@@ -979,32 +1006,6 @@ class TikToks:
             25,
             72,
             77,
-        )
-
-    def unknown_al_ankabut_56_58(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 56-58 of Surah Al-'Ankabut by an unknown reciter
-        """
-
-        self._set_values(
-            r"Surahs\Unknown - Al-'Ankabut (29.56-58)",
-            "56-58",
-            29,
-            56,
-            58,
-        )
-
-    def unknown_al_ankabut_56_57(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 56-57 of Surah Al-'Ankabut by an unknown reciter
-        """
-
-        self._set_values(
-            r"Surahs\Unknown - Al-'Ankabut (29.56-58)",
-            "56-57",
-            29,
-            56,
-            58,
         )
 
     def unknown_al_hujurat_12(self) -> None:
@@ -1495,7 +1496,10 @@ def create_tiktok(
     text_clips_array = []
     used_background_clip_paths = []
     video_clips = []
-    video_map = {int(key): value for key, value in video_map.items()} if video_map is not None else None
+
+    if video_map is not None:
+        video_map = update_video_map_paths(video_map)
+
     video_map_output = {}
 
     # Loop through lines
@@ -1849,7 +1853,8 @@ def create_tiktok(
     formatter = Formatter()
     formatter.use_tab_to_indent = True
     formatter.nested_bracket_padding = False
-    formatter.max_inline_complexity = 10
+    formatter.max_inline_length = 300
+    formatter.max_inline_complexity = 1
     formatter.json_eol_style = EolStyle.LF
     formatter.dont_justify_numbers = True
 
@@ -2379,11 +2384,29 @@ def select_columns(csv_file_path: str, columns_to_select: list[str]) -> list[lis
     return selected_data
 
 
-def sort_nested_timestamps(timestamps):
+def sort_nested_timestamps(timestamps) -> list[list[str]]:
     for i, timestamp in enumerate(timestamps):
         if isinstance(timestamp, list):
             timestamps[i] = sorted(timestamp, key=get_seconds_from_timestamp, reverse=True)
     return timestamps
+
+
+def update_video_map_paths(
+    video_map: dict[int, list[list[str, float or int, int, str]]]
+) -> dict[int, list[list[str, float or int, int, str]]]:
+    updated_video_map = {}
+
+    for key, value in video_map.items():
+        # Convert the relative paths to absolute paths
+        absolute_paths = []
+        for video_info in value:
+            absolute_path = os.path.abspath(video_info[0])
+            absolute_paths.append([absolute_path] + video_info[1:])
+
+        # Update the new dictionary with absolute paths
+        updated_video_map[int(key)] = absolute_paths
+
+    return updated_video_map
 
 
 if __name__ == "__main__":
