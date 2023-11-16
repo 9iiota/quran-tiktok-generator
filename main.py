@@ -29,8 +29,10 @@ def main() -> None:
         # account=ACCOUNTS.HEARTFELTRECITATIONS,
         # language=LANGUAGES.DUTCH,
     )
-    tiktok.change_settings(video_map={})
-    tiktok.unknown_al_ankabut_56_58()
+    tiktok.change_settings(
+        video_map={}
+    )
+    tiktok.abdul_rahman_mossad_al_ghashiyah_10_26()
     tiktok.run()
 
 
@@ -123,7 +125,7 @@ class TikToks:
         shadow_opacity: float = 0.7,
         video_mode: bool = True,
         allow_duplicate_background_clips: bool = True,
-        allow_mirrored_background_clips: bool = False,
+        allow_mirrored_background_clips: bool = True,
     ) -> None:
         self.account = account
         self.allow_duplicate_background_clips = allow_duplicate_background_clips
@@ -2002,7 +2004,7 @@ def get_all_background_clip_paths(
     """
 
     return [
-        os.path.join(path, clip)
+        os.path.abspath(os.path.join(path, clip))
         for path in background_clips_directory_paths
         for clip in os.listdir(path)
         if clip.endswith(".mp4")
