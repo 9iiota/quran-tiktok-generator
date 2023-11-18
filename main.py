@@ -30,9 +30,80 @@ def main() -> None:
         # language=LANGUAGES.DUTCH,
     )
     tiktok.change_settings(
-        video_map={}
+        video_map={
+            "2": [
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\Garden of Words (104).mp4",
+                    1.55,
+                    671,
+                    "False",
+                ]
+            ],
+            "3": [
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Kizumonogatari I - Tekketsu-hen (340).mp4",
+                    0.23,
+                    513,
+                    "True",
+                ],
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Tenki no Ko (10).mp4", 1.46, 217, "True"],
+            ],
+            "4": [
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\5 Centimeters per Second (262).mp4",
+                    0.03,
+                    430,
+                    "True",
+                ]
+            ],
+            "5": [
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (38).mp4", 1.52, 433, "True"]
+            ],
+            "6": [
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Suzume no Tojimari (13).mp4",
+                    0.06,
+                    1150,
+                    "False",
+                ]
+            ],
+            "7": [
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (64).mp4", 0.94, 314, "True"]
+            ],
+            "8": [
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\Jujutsu Kaisen - S01E01 (56).mp4",
+                    0.19,
+                    111,
+                    "True",
+                ],
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (112).mp4",
+                    0.2,
+                    578,
+                    "False",
+                ],
+            ],
+            "9": [
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (53).mp4", 1.44, 297, "True"]
+            ],
+            "10": [
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\Tamako Love Story (1257).mp4",
+                    0.24,
+                    209,
+                    "False",
+                ],
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\5 Centimeters per Second (176).mp4",
+                    0.39,
+                    96,
+                    "True",
+                ],
+            ],
+        }
     )
-    tiktok.abdul_rahman_mossad_al_ghashiyah_10_26()
+    tiktok.muhammad_al_luhaidan_al_anfal_2()
     tiktok.run()
 
 
@@ -607,6 +678,33 @@ class TikToks:
             75,
             20,
             27,
+        )
+
+    def muhammad_al_luhaidan_al_anfal_2(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 2 of Surah Al-Anfal by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Anfal (8.2-4)",
+            "2",
+            8,
+            2,
+            4,
+        )
+        self.end_time_modifier = -0.2
+
+    def muhammad_al_luhaidan_al_anfal_2_4(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 2-4 of Surah Al-Anfal by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Anfal (8.2-4)",
+            "2-4",
+            8,
+            2,
+            4,
         )
 
     def muhammad_al_luhaidan_ali_imran_15(self) -> None:
