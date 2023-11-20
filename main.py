@@ -22,7 +22,6 @@ MINIMAL_CLIP_DURATION = 0.75
 # TODO: ADD DURATIONS IN VIDEO MAP AND UNCOMMENT CODE IN GET_VALID_BACKGROUND_CLIPS
 # TODO: Add support for clips shorter than final clip with still frames
 # TODO: FIX PICTURES MODE
-# TODO: FIX DUPLICATE CLIPS
 
 
 def main() -> None:
@@ -123,7 +122,7 @@ class TikToks:
         background_clips_speed: float = 1.0,
         shadow_opacity: float = 0.7,
         video_mode: bool = True,
-        allow_duplicate_background_clips: bool = True,
+        allow_duplicate_background_clips: bool = False,
         allow_mirrored_background_clips: bool = True,
     ) -> None:
         self.account = account
@@ -1468,7 +1467,11 @@ def create_tiktok(
 
     # Modify settings
     english_font = account.value["english_font"]
-    background_clips_directory_paths = account.value["background_clips_directory_paths"]
+    background_clips_directory_paths = (
+        account.value["background_clips_directory_paths"]
+        if background_clips_directory_paths is None
+        else background_clips_directory_paths
+    )
     shadow_color = mode.value["shadow_color"]
     verse_text_color = mode.value["verse_text_color"]
     verse_translation_color = mode.value["verse_translation_color"]
@@ -2243,8 +2246,8 @@ def get_valid_background_clips(
         # Get new background clips until the total duration of the background clips is long enough for the video clip
         background_clip_path = get_random_background_clip_path(all_background_clips_paths)
 
-        if len(used_background_clips_paths) == len(all_background_clips_paths):
-            allow_duplicate_background_clips = True
+        # if len(used_background_clips_paths) == len(all_background_clips_paths):
+        #     allow_duplicate_background_clips = True
 
         if allow_duplicate_background_clips or (
             not allow_duplicate_background_clips
