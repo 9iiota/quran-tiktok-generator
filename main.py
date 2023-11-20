@@ -22,6 +22,7 @@ MINIMAL_CLIP_DURATION = 0.75
 # TODO: ADD DURATIONS IN VIDEO MAP AND UNCOMMENT CODE IN GET_VALID_BACKGROUND_CLIPS
 # TODO: Add support for clips shorter than final clip with still frames
 # TODO: FIX PICTURES MODE
+# TODO: FIX DUPLICATE CLIPS
 
 
 def main() -> None:
@@ -30,7 +31,7 @@ def main() -> None:
         # language=LANGUAGES.DUTCH,
     )
     tiktok.change_settings(video_map={})
-    tiktok.muhammad_al_luhaidan_al_anfal_2()
+    tiktok.unknown_al_baqarah_153_157()
     tiktok.run()
 
 
@@ -713,6 +714,19 @@ class TikToks:
             58,
         )
         self.end_time_modifier = -0.2
+
+    def unknown_al_baqarah_153_157(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 153-157 of Surah Al-Baqarah by an unknown reciter
+        """
+
+        self._set_values(
+            r"Surahs\Unknown - Al-Baqarah (2.153-157)",
+            "153-157",
+            2,
+            153,
+            157,
+        )
 
     def unknown_al_furqan_63_70(self) -> None:
         """
