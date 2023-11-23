@@ -25,12 +25,11 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks(
-        # account=ACCOUNTS.HEARTFELTRECITATIONS,
-        # language=LANGUAGES.DUTCH,
+    tiktok = TikToks()
+    tiktok.change_settings(
+        video_map={"1": [[r"C:\Users\Crazy\Desktop\GitHub\quran\Anime_Clips\Jujutsu Kaisen - S01E15 (33).mp4", 0.0]]}
     )
-    tiktok.change_settings(video_map={})
-    tiktok.unknown_al_baqarah_153_157()
+    tiktok.unknown_al_furqan_72_75()
     tiktok.run()
 
 
@@ -80,16 +79,16 @@ class ACCOUNTS(Enum):
     }  # crazyshocklight@hotmail.com
     REFLECT2RECITE = {
         "english_font": "Fonts/Butler_Regular.otf",
-        "background_clips_directory_paths": ["Real_Clips"],
+        "background_clips_directory_paths": ["Real_Clips", "Real_Clips_2"],
     }  # crazyshocklight2@gmail.com
     HEARTFELTRECITATIONS = {
         "english_font": "Fonts/Butler_Regular.otf",
-        "background_clips_directory_paths": ["Anime_Clips", "Real_Clips"],
+        "background_clips_directory_paths": ["Anime_Clips", "Real_Clips", "Real_Clips_2"],
     }
     # LOVE_QURAN77 = {"english_font": "Fonts/Sk-Modernist-Regular.otf"}
     QURANIC_TIKTOKS = {
         "english_font": "Fonts/FreshStart.otf",
-        "background_clips_directory_paths": ["Real_Clips"],
+        "background_clips_directory_paths": ["Real_Clips", "Real_Clips_2"],
     }  # crazyshocky@hotmail.com
 
 
@@ -1041,11 +1040,11 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Unknown - Al-Furqan (25.72-77)",
+            r"Surahs\Unknown - Al-Furqan (25.72-75)",
             "72-75",
             25,
             72,
-            77,
+            75,
         )
 
     def unknown_al_hujurat_12(self) -> None:
