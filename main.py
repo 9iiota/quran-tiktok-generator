@@ -26,9 +26,7 @@ MINIMAL_CLIP_DURATION = 0.75
 
 def main() -> None:
     tiktok = TikToks()
-    tiktok.change_settings(
-        video_map={"1": [[r"C:\Users\Crazy\Desktop\GitHub\quran\Anime_Clips\Jujutsu Kaisen - S01E15 (33).mp4", 0.0]]}
-    )
+    tiktok.change_settings(video_map={})
     tiktok.unknown_al_furqan_72_75()
     tiktok.run()
 
