@@ -1,0 +1,24 @@
+﻿Name	Start	Duration	Time Format	Type	Description
+Marker 01	0:00.000	0:00.000	decimal	Cue	
+Marker 02	0:06.371	0:00.000	decimal	Cue	
+CD Track 02	0:12.240	0:00.000	decimal	Track	
+CD Track 01	0:17.706	0:00.000	decimal	Track	
+Marker 03	0:22.973	0:00.000	decimal	Track	
+CD Track 03	0:27.773	0:00.000	decimal	Track	
+CD Track 11	0:31.040	0:00.000	decimal	Track	
+Marker 04	0:35.607	0:00.000	decimal	Cue	
+CD Track 12	0:37.800	0:00.000	decimal	Track	
+CD Track 19	0:41.706	0:00.000	decimal	Track	
+CD Track 04	0:44.493	0:00.000	decimal	Track	
+CD Track 05	0:46.560	0:00.000	decimal	Track	
+CD Track 20	0:48.240	0:00.000	decimal	Track	
+CD Track 18	0:53.453	0:00.000	decimal	Track	
+Marker 05	0:57.700	0:00.000	decimal	Cue	
+Marker 06	1:05.156	0:00.000	decimal	Subclip	
+CD Track 07	1:06.400	0:00.000	decimal	Track	
+CD Track 08	1:12.106	0:00.000	decimal	Track	
+CD Track 16	1:14.066	0:00.000	decimal	Track	
+CD Track 09	1:19.026	0:00.000	decimal	Cue	
+CD Track 10	1:23.960	0:00.000	decimal	Track	
+CD Track 17	1:26.106	0:00.000	decimal	Track	
+Marker 07	1:34.443	0:00.000	decimal	Cue	

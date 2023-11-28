@@ -27,7 +27,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings(video_map={})
-    tiktok.unknown_al_furqan_72_75()
+    tiktok.muhammad_al_luhaidan_ghafir_48_52()
     tiktok.run()
 
 
@@ -655,6 +655,19 @@ class TikToks:
             4,
             75,
             76,
+        )
+
+    def muhammad_al_luhaidan_ghafir_48_52(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 48-52 of Surah Ghafir by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Ghafir (40.48-52)",
+            "48-52",
+            40,
+            48,
+            52,
         )
 
     def salim_bahanan_ad_duhaa_1_11(self) -> None:
