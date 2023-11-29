@@ -27,7 +27,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings(video_map={})
-    tiktok.muhammad_al_luhaidan_ghafir_48_52()
+    tiktok.muhammad_al_luhaidan_al_ahqaf_30_31()
     tiktok.run()
 
 
@@ -602,6 +602,19 @@ class TikToks:
             75,
             20,
             27,
+        )
+
+    def muhammad_al_luhaidan_al_ahqaf_30_31(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 30-31 of Surah Al-Ahqaf by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Ahqaf (46.30-31)",
+            "30-31",
+            46,
+            30,
+            31,
         )
 
     def muhammad_al_luhaidan_al_anfal_2(self) -> None:
