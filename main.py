@@ -22,12 +22,97 @@ MINIMAL_CLIP_DURATION = 0.75
 # TODO: ADD DURATIONS IN VIDEO MAP AND UNCOMMENT CODE IN GET_VALID_BACKGROUND_CLIPS
 # TODO: Add support for clips shorter than final clip with still frames
 # TODO: FIX PICTURES MODE
+# TODO: Add language to account settings
 
 
 def main() -> None:
-    tiktok = TikToks()
-    tiktok.change_settings(video_map={})
-    tiktok.muhammad_al_luhaidan_al_jathiyah_27_30()
+    tiktok = TikToks(
+        account=ACCOUNTS.HEARTFELTRECITATIONS,
+        language=LANGUAGES.DUTCH,
+    )
+    tiktok.change_settings(
+        video_map={
+            "1": [
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Koe no Katachi (42).mp4",
+                    0.39,
+                    814,
+                    "False",
+                ],
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Koe no Katachi (44).mp4", 0.5, 344, "True"],
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\5 Centimeters per Second (30).mp4",
+                    3.54,
+                    1304,
+                    "False",
+                ],
+            ],
+            "3": [
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Real_Clips\\ocean_-_74888 (1080p).mp4", 8.7, 90, "True"]
+            ],
+            "4": [
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Real_Clips\\freenaturestock-rain-drops-leaf.mp4",
+                    3.93,
+                    169,
+                    "True",
+                ]
+            ],
+            "5": [["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Tenki no Ko (31).mp4", 1.9, 64, "False"]],
+            "6": [
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Tenki no Ko (24).mp4", 0.04, 175, "False"]
+            ],
+            "7": [
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Tenki no Ko (64).mp4", 2.1, 794, "False"],
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Josee to Tora to Sakana-tachi (1).mp4",
+                    5.96,
+                    722,
+                    "False",
+                ],
+            ],
+            "8": [
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (86).mp4",
+                    0.29,
+                    1027,
+                    "False",
+                ],
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Tenki no Ko (79).mp4", 0.89, 33, "False"],
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Real_Clips\\mixkit-sun-rays-over-forest-treetops-515.mp4",
+                    5.02,
+                    609,
+                    "True",
+                ],
+            ],
+            "9": [
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Hello World (8).mp4", 0.69, 504, "False"],
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Real_Clips\\video (1080p) (1).mp4", 13.7, 700, "False"],
+            ],
+            "10": [
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Koe no Katachi (41).mp4", 0.07, 776, "True"],
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Tenki no Ko (111).mp4", 1.84, 321, "True"],
+            ],
+            "11": [
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Musaigen no Phantom World (3).mp4",
+                    0.07,
+                    555,
+                    "True",
+                ],
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Tenki no Ko (63).mp4", 0.52, 559, "True"],
+                ["C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (54).mp4", 0.6, 77, "False"],
+                [
+                    "C:\\Users\\Crazy\\Desktop\\GitHub\\quran\\Anime_Clips\\Jujutsu Kaisen - S01E15 (33).mp4",
+                    2.13,
+                    879,
+                    "True",
+                ],
+            ],
+        }
+    )
+    tiktok.yousef_al_soqier_ya_sin_63_65()
     tiktok.run()
 
 
@@ -72,20 +157,20 @@ def test():
 
 class ACCOUNTS(Enum):
     QURAN_2_LISTEN = {
-        "english_font": "Fonts/Butler_Regular.otf",
+        "translation_font": "Fonts/Butler_Regular.otf",
         "background_clips_directory_paths": ["Anime_Clips"],
     }  # crazyshocklight@hotmail.com
     REFLECT2RECITE = {
-        "english_font": "Fonts/Butler_Regular.otf",
+        "translation_font": "Fonts/Butler_Regular.otf",
         "background_clips_directory_paths": ["Real_Clips", "Real_Clips_2"],
     }  # crazyshocklight2@gmail.com
     HEARTFELTRECITATIONS = {
-        "english_font": "Fonts/Butler_Regular.otf",
+        "translation_font": "Fonts/Butler_Regular.otf",
         "background_clips_directory_paths": ["Anime_Clips", "Real_Clips", "Real_Clips_2"],
     }
-    # LOVE_QURAN77 = {"english_font": "Fonts/Sk-Modernist-Regular.otf"}
+    # LOVE_QURAN77 = {"translation_font": "Fonts/Sk-Modernist-Regular.otf"}
     QURANIC_TIKTOKS = {
-        "english_font": "Fonts/FreshStart.otf",
+        "translation_font": "Fonts/FreshStart.otf",
         "background_clips_directory_paths": ["Real_Clips", "Real_Clips_2"],
     }  # crazyshocky@hotmail.com
 
@@ -1502,7 +1587,7 @@ def create_tiktok(
             return
 
     # Modify settings
-    english_font = account.value["english_font"]
+    translation_font = account.value["translation_font"]
     background_clips_directory_paths = (
         account.value["background_clips_directory_paths"]
         if background_clips_directory_paths is None
@@ -1796,7 +1881,7 @@ def create_tiktok(
                 size=(video_dimensions[0] * 0.6, None),
                 color=verse_translation_color,
                 fontsize=20,
-                font=english_font,
+                font=translation_font,
                 position=("center", 0.49),
                 method="caption",
                 duration=text_duration,
@@ -1810,7 +1895,7 @@ def create_tiktok(
                     size=(video_dimensions[0] * 0.6, None),
                     color=verse_translation_color,
                     fontsize=20,
-                    font=english_font,
+                    font=translation_font,
                     position=("center", 0.75),
                     method="caption",
                     duration=text_duration,
@@ -1824,7 +1909,7 @@ def create_tiktok(
                     size=(video_dimensions[0] * 0.6, None),
                     color=verse_translation_color,
                     fontsize=20,
-                    font=english_font,
+                    font=translation_font,
                     position=("center", 0.20),
                     method="caption",
                     duration=text_duration,
