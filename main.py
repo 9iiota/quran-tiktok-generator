@@ -26,12 +26,9 @@ MINIMAL_CLIP_DURATION = 0.75
 
 
 def main() -> None:
-    tiktok = TikToks(
-        account=ACCOUNTS.HEARTFELTRECITATIONS,
-        language=LANGUAGES.DUTCH,
-    )
+    tiktok = TikToks()
     tiktok.change_settings(video_map={})
-    tiktok.yousef_al_soqier_ya_sin_63_65()
+    tiktok.fatih_seferagic_ar_rahman_1_16()
     tiktok.run()
 
 
@@ -79,7 +76,7 @@ class ACCOUNTS(Enum):
         "translation_font": "Fonts/Butler_Regular.otf",
         "background_clips_directory_paths": ["Anime_Clips"],
     }  # crazyshocklight@hotmail.com
-    REFLECT2RECITE = {
+    RECITE2REFLECT = {
         "translation_font": "Fonts/Butler_Regular.otf",
         "background_clips_directory_paths": ["Real_Clips", "Real_Clips_2"],
     }  # crazyshocklight2@gmail.com
@@ -567,6 +564,19 @@ class TikToks:
             24,
             35,
             35,
+        )
+
+    def fatih_seferagic_ar_rahman_1_16(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 1-16 of Surah Ar-Rahman by Fatih Seferagic
+        """
+
+        self._set_values(
+            r"Surahs\Fatih Seferagic - Ar-Rahman (55.1-16)",
+            "1-16",
+            55,
+            1,
+            16,
         )
 
     def mansour_as_salimi_maryam_27_33(self) -> None:
@@ -1274,6 +1284,7 @@ def add_or_update_csv_verse_numbers(
     chapter_csv_file_path: str, chapter: int, start_verse: int, end_verse: int
 ) -> None:
     translations = get_chapter_translation(chapter)[start_verse - 1 : end_verse]
+    indexed_translations = list(zip(range(start_verse, end_verse + 1), translations))
     existing_verses = set()
 
     with open(chapter_csv_file_path, "r", encoding="utf-8") as csv_file:
@@ -1290,16 +1301,16 @@ def add_or_update_csv_verse_numbers(
                 csv_translation = row["en"]
                 csv_translation_length = len(csv_translation)
 
-                for j, translation in enumerate(translations, start=start_verse):
-                    letter_difference = len(translation) - csv_translation_length
+                for tuple in indexed_translations:
+                    letter_difference = len(tuple[1]) - csv_translation_length
 
                     if letter_difference >= 0:
-                        for k in range(letter_difference + 1):
-                            match = translation[k : csv_translation_length + k]
+                        for i in range(letter_difference + 1):
+                            match = tuple[1][i : csv_translation_length + i]
                             ratio = fuzz.ratio(csv_translation, match)
 
                             if ratio > best_ratio:
-                                best_ratio, best_verse_number = (ratio, j)
+                                best_ratio, best_verse_number = (ratio, tuple[0])
 
                             if ratio == 100:
                                 break
@@ -1308,6 +1319,9 @@ def add_or_update_csv_verse_numbers(
                 if verse not in existing_verses:
                     row["verse"] = verse
                     existing_verses.add(verse)
+
+                    if indexed_translations[0] != (best_verse_number, csv_translation):
+                        indexed_translations.pop(0)
                 else:
                     row["verse"] = ""
 
