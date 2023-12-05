@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings(video_map={})
-    tiktok.fatih_seferagic_ar_rahman_1_16()
+    tiktok.fatih_seferagic_al_hadid_20()
     tiktok.run()
 
 
@@ -457,6 +457,19 @@ class TikToks:
             20,
             1,
             135,
+        )
+
+    def fatih_seferagic_al_hadid_20(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 20 of Surah Al-Hadid by Fatih Seferagic
+        """
+
+        self._set_values(
+            r"Surahs\Fatih Seferagic - Al-Hadid (57.20)",
+            "20",
+            57,
+            20,
+            20,
         )
 
     def fatih_seferagic_al_hujurat_10_11(self) -> None:
@@ -1320,8 +1333,11 @@ def add_or_update_csv_verse_numbers(
                     row["verse"] = verse
                     existing_verses.add(verse)
 
-                    if indexed_translations[0] != (best_verse_number, csv_translation):
-                        indexed_translations.pop(0)
+                    try:
+                        if indexed_translations[0][0] != best_verse_number:
+                            indexed_translations.pop(0)
+                    except IndexError:
+                        pass
                 else:
                     row["verse"] = ""
 
