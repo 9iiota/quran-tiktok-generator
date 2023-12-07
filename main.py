@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings(video_map={})
-    tiktok.fatih_seferagic_al_hadid_20()
+    tiktok.yasser_al_dosari_ar_rahman_17_25()
     tiktok.run()
 
 
@@ -814,6 +814,19 @@ class TikToks:
             37,
             123,
             132,
+        )
+
+    def yasser_al_dosari_ar_rahman_17_25(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 17-25 of Surah Ar-Rahman by Yasser Al-Dosari
+        """
+
+        self._set_values(
+            r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.17-25)",
+            "17-25",
+            55,
+            17,
+            25,
         )
 
     def yousef_al_soqier_ya_sin_63_65(self) -> None:
