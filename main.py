@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings(video_map={})
-    tiktok.yasser_al_dosari_ar_rahman_17_25()
+    tiktok.yasser_al_dosari_ar_rahman_26_34()
     tiktok.run()
 
 
@@ -822,12 +822,27 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.17-25)",
+            r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)",
             "17-25",
             55,
-            17,
-            25,
+            1,
+            78,
         )
+        self.end_time_modifier = -0.4
+
+    def yasser_al_dosari_ar_rahman_26_34(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 26-34 of Surah Ar-Rahman by Yasser Al-Dosari
+        """
+
+        self._set_values(
+            r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)",
+            "26-34",
+            55,
+            1,
+            78,
+        )
+        self.end_time_modifier = -0.3
 
     def yousef_al_soqier_ya_sin_63_65(self) -> None:
         """
@@ -1193,20 +1208,6 @@ class TikToks:
             29,
         )
 
-    def yasser_al_dosari_ar_rahman_26_34(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 26-34 of Surah Ar-Rahman by Yasser Al-Dosari
-        """
-
-        self._set_values(
-            r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)",
-            "26-34",
-            55,
-            1,
-            78,
-        )
-        self.end_time_modifier = -0.3
-
     def yasser_al_dosari_az_zukhruf_68_73(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 68-73 of Surah Az-Zukhruf by Yasser Al-Dosari
@@ -1331,8 +1332,12 @@ def add_or_update_csv_verse_numbers(
                     letter_difference = len(tuple[1]) - csv_translation_length
 
                     if letter_difference >= 0:
-                        for i in range(letter_difference + 1):
-                            match = tuple[1][i : csv_translation_length + i]
+                        word_start_indexes = [0] + [
+                            space_index + 1 for space_index, char in enumerate(tuple[1]) if char == " "
+                        ]
+
+                        for word_start_index in word_start_indexes:
+                            match = tuple[1][word_start_index : csv_translation_length + word_start_index]
                             ratio = fuzz.ratio(csv_translation, match)
 
                             if ratio > best_ratio:
@@ -2193,21 +2198,14 @@ def get_loop_range(
     verse_range = (output_file_name.split(".")[1]).split(")")[0]
     start, end = verse_range.split("-") if "-" in verse_range else (verse_range, verse_range)
 
-    # Find the corresponding lines in chapter_csv_lines
-    for i, line in enumerate(chapter_csv_lines):
-        if line[0] == f"{chapter}:{start}" and start_line is None:
-            start_line = i + 1
-        if line[0] == f"{chapter}:{end}":
-            j = i + 1
-            while j < len(chapter_csv_lines) and chapter_csv_lines[j][0] == "":
-                j += 1
-            if end_line is None:
-                end_line = j
+    verse_numbers = [row[0] for row in chapter_csv_lines]
 
-    if end_line < len(chapter_csv_lines):
+    start_line = verse_numbers.index(f"{chapter}:{start}") + 1
+    end_line = verse_numbers.index(f"{chapter}:{end}") + 1
+    while end_line < len(verse_numbers) and verse_numbers[end_line] == "":
         end_line += 1
 
-    return (start_line, end_line)
+    return (start_line, end_line + 1)
 
 
 def get_max_horizontal_offset(background_clip_width: int, video_width: int) -> int:

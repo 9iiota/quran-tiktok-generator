@@ -1,20 +1,45 @@
 ﻿Name	Start	Duration	Time Format	Type	Description
-Marker 01	2:23.668	0:00.000	decimal	Cue	
-Marker 02	2:27.477	0:00.000	decimal	Cue	
-CD Track 02	2:29.880	0:00.000	decimal	Track	
-Marker 03	2:33.781	0:00.000	decimal	Cue	
-Marker 04	2:39.872	0:00.000	decimal	Cue	
-CD Track 04	2:44.413	0:00.000	decimal	Track	
-Marker 05	2:47.208	0:00.000	decimal	Cue	
-Marker 06	2:54.450	0:00.000	decimal	Cue	
-CD Track 05	2:56.000	0:00.000	decimal	Track	
-Marker 07	2:59.483	0:00.000	decimal	Cue	
-Marker 08	3:05.377	0:00.000	decimal	Cue	
-CD Track 07	3:09.413	0:00.000	decimal	Track	
-CD Track 06	3:14.546	0:00.000	decimal	Track	
-CD Track 11	3:18.466	0:00.000	decimal	Track	
-CD Track 09	3:22.226	0:00.000	decimal	Track	
-CD Track 08	3:24.786	0:00.000	decimal	Track	
-CD Track 10	3:26.813	0:00.000	decimal	Track	
-Marker 09	3:30.004	0:00.000	decimal	Cue	
-Marker 10	3:37.445	0:00.000	decimal	Cue	
+Marker 12	0:00.197	0:00.000	decimal	Cue	
+Marker 13	0:04.688	0:00.000	decimal	Cue	
+Marker 14	0:09.033	0:00.000	decimal	Cue	
+Marker 27	0:11.757	0:00.000	decimal	Cue	
+Marker 15	0:15.436	0:00.000	decimal	Cue	
+Marker 16	0:19.443	0:00.000	decimal	Cue	
+Marker 17	0:24.236	0:00.000	decimal	Cue	
+Marker 18	0:31.205	0:00.000	decimal	Cue	
+Marker 19	0:35.354	0:00.000	decimal	Cue	
+Marker 20	0:41.518	0:00.000	decimal	Cue	
+Marker 21	0:45.662	0:00.000	decimal	Cue	
+Marker 22	0:52.544	0:00.000	decimal	Cue	
+Marker 23	0:57.025	0:00.000	decimal	Cue	
+Marker 24	1:04.983	0:00.000	decimal	Cue	
+Marker 25	1:13.085	0:00.000	decimal	Cue	
+Marker 26	1:22.538	0:00.000	decimal	Cue	
+Marker 01	1:28.963	0:00.000	decimal	Cue	
+Marker 02	1:33.611	0:00.000	decimal	Cue	
+Marker 03	1:41.435	0:00.000	decimal	Cue	
+Marker 04	1:45.598	0:00.000	decimal	Cue	
+Marker 07	1:50.208	0:00.000	decimal	Cue	
+Marker 08	1:56.486	0:00.000	decimal	Cue	
+Marker 09	2:01.648	0:00.000	decimal	Cue	
+Marker 10	2:09.868	0:00.000	decimal	Cue	
+Marker 11	2:17.141	0:00.000	decimal	Cue	
+Marker 01	2:23.779	0:00.000	decimal	Cue	
+Marker 02	2:27.572	0:00.000	decimal	Cue	
+CD Track 02	2:30.000	0:00.000	decimal	Track	
+Marker 03	2:33.892	0:00.000	decimal	Cue	
+Marker 04	2:40.000	0:00.000	decimal	Cue	
+CD Track 04	2:44.520	0:00.000	decimal	Track	
+Marker 05	2:47.346	0:00.000	decimal	Cue	
+Marker 06	2:54.511	0:00.000	decimal	Cue	
+CD Track 05	2:56.133	0:00.000	decimal	Track	
+Marker 07	2:59.578	0:00.000	decimal	Cue	
+Marker 08	3:05.500	0:00.000	decimal	Cue	
+CD Track 07	3:09.520	0:00.000	decimal	Track	
+CD Track 06	3:14.666	0:00.000	decimal	Track	
+CD Track 11	3:18.600	0:00.000	decimal	Track	
+CD Track 09	3:22.373	0:00.000	decimal	Track	
+CD Track 08	3:24.853	0:00.000	decimal	Track	
+CD Track 10	3:26.960	0:00.000	decimal	Track	
+Marker 09	3:30.121	0:00.000	decimal	Cue	
+Marker 10	3:37.537	0:00.000	decimal	Cue	
