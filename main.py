@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings(video_map={})
-    tiktok.yasser_al_dosari_ar_rahman_26_34()
+    tiktok.yasser_al_dosari_ar_rahman_17_25()
     tiktok.run()
 
 
@@ -214,15 +214,6 @@ class TikToks:
         self.time_modifier = time_modifier
         self.output_file_name = (
             f"{((self.directory_path).split(' - ')[1]).split(' (')[0]} ({self.chapter}.{output_file_name})"
-        )
-
-    def test(self):
-        self._set_values(
-            r"Surahs\test - test (1.1)",
-            "1",
-            100,
-            1,
-            11,
         )
 
     def abdul_rahman_mossad_al_adiyat_1_11(self) -> None:
@@ -708,6 +699,19 @@ class TikToks:
             4,
             75,
             76,
+        )
+
+    def muhammad_al_luhaidan_an_nisa_122_123(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 122-123 of Surah An-Nisa by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.122-123)",
+            "122-123",
+            4,
+            122,
+            123,
         )
 
     def muhammad_al_luhaidan_ghafir_48_52(self) -> None:
@@ -2205,7 +2209,7 @@ def get_loop_range(
     while end_line < len(verse_numbers) and verse_numbers[end_line] == "":
         end_line += 1
 
-    return (start_line, end_line + 1)
+    return (start_line, min(end_line + 1, len(verse_numbers)))
 
 
 def get_max_horizontal_offset(background_clip_width: int, video_width: int) -> int:
