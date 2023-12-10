@@ -5,4 +5,5 @@ moviepy
 opencv-python
 plyer
 pyquran
+python-Levenshtein
 requests
