@@ -27,65 +27,7 @@ MINIMAL_CLIP_DURATION = 0.75
 
 def main() -> None:
     tiktok = TikToks()
-    tiktok.change_settings(
-        video_map={
-            "1": [["E:\\GitHub\\quran\\Anime_Clips\\_Suzume no Tojimari (11).mp4", 0.53, 1203, "False"]],
-            "2": [
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (53).mp4", 0.23, 24, "True"],
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (21).mp4", 1.23, 189, "True"],
-            ],
-            "3": [["E:\\GitHub\\quran\\Anime_Clips\\Jujutsu Kaisen - S01E03 (58).mp4", 0.84, 909, "False"]],
-            "4": [
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (13).mp4", 0.46, 191, "False"],
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Violet Evergarden Movie (13).mp4", 0.42, 1206, "True"],
-            ],
-            "5": [["E:\\GitHub\\quran\\Anime_Clips\\_Tenki no Ko (85).mp4", 0.08, 1155, "False"]],
-            "6": [["E:\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (99).mp4", 3.16, 72, "False"]],
-            "8": [
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Boku ga Aishita Subete no Kimi e (1).mp4", 2.35, 961, "True"],
-                ["E:\\GitHub\\quran\\Anime_Clips\\5 Centimeters per Second (168).mp4", 1.23, 481, "True"],
-            ],
-            "9": [
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Koe no Katachi (54).mp4", 0.45, 821, "False"],
-                ["E:\\GitHub\\quran\\Anime_Clips\\Horimiya - S01E09 (30).mp4", 1.43, 468, "True"],
-            ],
-            "10": [["E:\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (119).mp4", 1.05, 84, "True"]],
-            "11": [
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Kizumonogatari I - Tekketsu-hen (58).mp4", 0.99, 405, "True"],
-                ["E:\\GitHub\\quran\\Anime_Clips\\Violet Evergarden - S1E7 (120).mp4", 1.47, 1285, "False"],
-            ],
-            "12": [
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (46).mp4", 1.5, 194, "False"],
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Tenki no Ko (3).mp4", 1.49, 112, "False"],
-            ],
-            "13": [["E:\\GitHub\\quran\\Anime_Clips\\_Suzume no Tojimari (13).mp4", 4.51, 1211, "True"]],
-            "14": [
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (43).mp4", 0.02, 139, "True"],
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Tenki no Ko (117).mp4", 0.46, 3, "True"],
-            ],
-            "15": [
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (79).mp4", 0.54, 933, "False"],
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (69).mp4", 0.68, 577, "False"],
-            ],
-            "16": [
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Koe no Katachi (15).mp4", 0.21, 36, "True"],
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Tenki no Ko (67).mp4", 0.4, 952, "True"],
-            ],
-            "17": [["E:\\GitHub\\quran\\Anime_Clips\\_Koe no Katachi (23).mp4", 1.24, 656, "False"]],
-            "18": [
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (24).mp4", 0.52, 443, "True"],
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Kimi no Na wa. (32).mp4", 0.47, 33, "False"],
-            ],
-            "19": [
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Violet Evergarden Movie (5).mp4", 0.55, 1257, "False"],
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Josee to Tora to Sakana-tachi (5).mp4", 1.71, 344, "True"],
-            ],
-            "20": [
-                ["E:\\GitHub\\quran\\Anime_Clips\\Horimiya - S01E01 (53).mp4", 0.52, 1011, "False"],
-                ["E:\\GitHub\\quran\\Anime_Clips\\_Josee to Tora to Sakana-tachi (10).mp4", 1.43, 252, "True"],
-            ],
-        }
-    )
+    tiktok.change_settings({})
     tiktok.muhammad_al_luhaidan_al_anam_27_30()
     tiktok.run()
 

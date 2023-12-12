@@ -1,3 +1,4 @@
+import contextlib
 import csv
 import moviepy.editor as mpy
 import os
@@ -86,7 +87,7 @@ def create_video(
     """
 
     if not os.path.isfile(audio_mp3_file_path):
-        raise Exception(f"{audio_mp3_file_path} is not a valid path.")
+        raise FileNotFoundError(f"{audio_mp3_file_path} is not a file.")
 
     audio_mp3_file_directory_path = os.path.dirname(audio_mp3_file_path)
 
@@ -96,7 +97,7 @@ def create_video(
         try:
             output_directory_path = os.path.dirname(output_mp4_file_path)
         except Exception:
-            raise Exception(f"{output_mp4_file_path} is not a valid path.")
+            raise NotADirectoryError(f"{output_directory_path} is not a valid directory.")
     else:
         output_directory_path = os.path.join(audio_mp3_file_directory_path, "Videos")
         output_mp4_file_path = os.path.join(output_directory_path, f"{output_mp4_file_name}.mp4")
@@ -107,8 +108,9 @@ def create_video(
     chapter_csv_file_path = chapter_csv_file_path.replace("\\", "/")
 
     if not os.path.isfile(chapter_csv_file_path):
-        if create_csv_file(chapter_csv_file_path, [verse_number_column_name, verse_text_column_name]):
-            colored_print(Fore.GREEN, f"Created {chapter_csv_file_path}.")
+        column_names = [verse_number_column_name, verse_text_column_name]
+        if create_csv_file(chapter_csv_file_path, column_names):
+            colored_print(Fore.GREEN, f"Created {chapter_csv_file_path} with column names {column_names}.")
 
             if append_verse_texts_to_csv_file(
                 chapter_csv_file_path,
@@ -128,7 +130,7 @@ def create_video(
         return
 
     if not os.path.isfile(timestamps_csv_file_path):
-        raise Exception(f"{timestamps_csv_file_path} is not a valid path.")
+        raise FileNotFoundError(f"{timestamps_csv_file_path} is not a valid path.")
     else:
         if update_csv_file_timestamps(chapter_csv_file_path, timestamps_csv_file_path, timestamp_column_name):
             colored_print(Fore.GREEN, f"Added timestamps to {chapter_csv_file_path}.")
@@ -424,11 +426,7 @@ def create_video(
             clip_counter += 1
         else:
             verse_number_color = account.value.mode.value.verse_number_color
-            verse_number_font_file_path = (
-                account.value.verse_translation_font_file_path
-                if not verse_number_font_file_path
-                else verse_number_font_file_path
-            )
+            verse_number_font_file_path = verse_number_font_file_path or account.value.verse_translation_font_file_path
             text_clips.append(
                 create_text_clip(
                     background_color=verse_number_background_color,
@@ -589,7 +587,7 @@ def create_video(
         raise Exception(f"Failed to create final video: {error}") from error
 
 
-def create_csv_file(chapter_csv_file_path: str, field_names: list[str]) -> bool:
+def create_csv_file(chapter_csv_file_path: str, column_names: list[str]) -> bool:
     """
     Creates a CSV file.
 
@@ -607,7 +605,7 @@ def create_csv_file(chapter_csv_file_path: str, field_names: list[str]) -> bool:
     """
 
     with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
-        csv_dict_writer = csv.DictWriter(chapter_csv_file, fieldnames=field_names)
+        csv_dict_writer = csv.DictWriter(chapter_csv_file, fieldnames=column_names)
         csv_dict_writer.writeheader()
 
     return True
@@ -726,8 +724,8 @@ def append_verse_translations_to_csv_file(
                 csv_dict_writer.writeheader()
                 csv_dict_writer.writerows(data)
 
-                if remove_empty_rows_from_csv_file(chapter_csv_file_path):
-                    return True
+    if remove_empty_rows_from_csv_file(chapter_csv_file_path):
+        return True
 
 
 def remove_empty_rows_from_csv_file(csv_file_path: str) -> bool:
@@ -747,11 +745,7 @@ def remove_empty_rows_from_csv_file(csv_file_path: str) -> bool:
 
     with open(csv_file_path, mode="r", encoding="utf-8") as csv_file:
         csv_reader = csv.reader(csv_file)
-        rows = [
-            row
-            for row in csv_reader
-            if any(cell.strip() != "" for cell in row) or not all(cell.strip() == "" for cell in row)
-        ]
+        rows = [row for row in csv_reader if any(cell.strip() != "" for cell in row)]
 
     with open(csv_file_path, mode="w", encoding="utf-8", newline="") as csv_file:
         csv_writer = csv.writer(csv_file)
@@ -906,9 +900,7 @@ def update_csv_file_verse_numbers(
         indexed_verse_texts = list(zip(range(start_verse, end_verse + 1), verse_texts))
 
         for row in csv_dict_reader:
-            if row[verse_text_column_name] == "" and row[timestamp_column_name] != "":
-                data.append(row)
-            else:
+            if row[verse_text_column_name] != "" or row[timestamp_column_name] == "":
                 best_ratio, best_verse_number = (0, None)
                 csv_text = row[verse_text_column_name]
 
@@ -935,16 +927,13 @@ def update_csv_file_verse_numbers(
                     row[verse_number_column_name] = verse
                     existing_verses.add(verse)
 
-                    try:
+                    with contextlib.suppress(IndexError):
                         if indexed_verse_texts[0][0] != best_verse_number:
                             indexed_verse_texts.pop(0)
-                    except IndexError:
-                        pass
                 else:
                     row[verse_number_column_name] = ""
 
-                data.append(row)
-
+            data.append(row)
         with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
             csv_dict_writer = csv.DictWriter(chapter_csv_file, fieldnames=field_names)
             csv_dict_writer.writeheader()
@@ -1106,12 +1095,14 @@ def fetch_chapter_translation(chapter_number: int, language: Language) -> list[s
             f"Failed to fetch translation for chapter {chapter_number} in {language.value['abbreviation']}."
         ) from error
 
-    translation = [
-        re.sub("ḥ", "h", re.sub("ā", "a", re.sub(r"<.*?>*<.*?>", "", translation["text"])))
+    return [
+        re.sub(
+            "ḥ",
+            "h",
+            re.sub("ā", "a", re.sub(r"<.*?>*<.*?>", "", translation["text"])),
+        )
         for translation in response.json()["translations"]
     ]
-
-    return translation
 
 
 def fetch_chapter_verse_count(chapter_number: int) -> int:
@@ -1655,10 +1646,7 @@ def validate_chapter_number(chapter_number: int) -> bool:
         True if the chapter number is valid, False otherwise.
     """
 
-    if isinstance(chapter_number, int) and chapter_number >= 1 and chapter_number <= 114:
-        return True
-
-    return False
+    return isinstance(chapter_number, int) and chapter_number >= 1 and chapter_number <= 114
 
 
 def validate_chapter_verse_range(chapter_number: int, start_verse_number: int, end_verse_number: int) -> bool:
@@ -1680,15 +1668,12 @@ def validate_chapter_verse_range(chapter_number: int, start_verse_number: int, e
 
     chapter_verse_count = fetch_chapter_verse_count(chapter_number)
 
-    if (
+    return (
         isinstance(start_verse_number, int)
         and isinstance(end_verse_number, int)
         and start_verse_number < end_verse_number
         and end_verse_number <= chapter_verse_count
-    ):
-        return True
-
-    return False
+    )
 
 
 def validate_language(language: Language, valid_languages: list[Language] = Language) -> bool:
@@ -1706,10 +1691,7 @@ def validate_language(language: Language, valid_languages: list[Language] = Lang
         True if the language is valid, False otherwise.
     """
 
-    if isinstance(language, Language) and language in valid_languages:
-        return True
-
-    return False
+    return isinstance(language, Language) and language in valid_languages
 
 
 def validate_background_clip_duration(
@@ -1753,7 +1735,7 @@ def create_shadow_clip(
         The duration of the shadow clip.
     size : tuple[int, int]
         The size of the shadow clip.
-    opacity : float # TODO 0.7
+    opacity : float
         The opacity of the shadow clip.
 
     Returns
@@ -1782,19 +1764,19 @@ def create_text_clip(
 
     Parameters
     ----------
-    background_color : str # TODO "transparent"
+    background_color : str
         The background color of the text.
     color : str
         The color of the text.
     duration : float
         The duration of the text clip.
-    fade_duration : float # TODO 0.5
+    fade_duration : float
         The fade duration of the text clip.
     font : str
         The font of the text.
     fontsize : int
         The font size of the text.
-    method : str # TODO "caption"
+    method : str
         The method of the text clip.
     position : tuple[str or float, str or float]
         The position of the text clip.
@@ -1854,7 +1836,7 @@ def create_video_clip(
         The video mode.
     video_dimensions : tuple[int, int]
         The dimensions of the video.
-    background_clip_speed : float # TODO 1.0
+    background_clip_speed : float
         The speed of the background clip.
     shadow_clip : mpy.ColorClip, optional
         The shadow clip, by default None
