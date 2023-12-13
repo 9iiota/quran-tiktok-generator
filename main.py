@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings({})
-    tiktok.muhammad_al_luhaidan_al_anam_27_30()
+    tiktok.muhammad_al_luhaidan_al_furqan_72_77()
     tiktok.run()
 
 
@@ -155,8 +155,8 @@ class TikToks:
     def change_settings(
         self,
         single_background_clip: str = None,
-        single_background_clip_horizontal_offset: float = None,
-        single_background_clip_vertical_offset: float = None,
+        single_background_clip_horizontal_offset: int = None,
+        single_background_clip_vertical_offset: int = None,
         video_map: dict[int, list[str, float or int, int, str]] = None,
     ) -> None:
         self.single_background_clip = single_background_clip
@@ -675,6 +675,58 @@ class TikToks:
             4,
         )
 
+    def muhammad_al_luhaidan_al_furqan_25_30(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 25-30 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.25-30)",
+            "25-30",
+            25,
+            25,
+            30,
+        )
+
+    def muhammad_al_luhaidan_al_furqan_69(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 69 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.61-77)",
+            "69",
+            25,
+            61,
+            77,
+        )
+
+    def muhammad_al_luhaidan_al_furqan_72_77(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 72-77 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.61-77)",
+            "72-77",
+            25,
+            61,
+            77,
+        )
+
+    def muhammad_al_luhaidan_al_furqan_74(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 74 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.61-77)",
+            "74",
+            25,
+            61,
+            77,
+        )
+
     def muhammad_al_luhaidan_al_jathiyah_27_30(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 27-30 of Surah Al-Jathiyah by Muhammad Al-Luhaidan
@@ -919,45 +971,6 @@ class TikToks:
             20,
             105,
             108,
-        )
-
-    def muhammad_al_luhaidan_al_furqan_26_30(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 26-30 of Surah Al-Furqan by Muhammad Al-Luhaidan
-        """
-
-        self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.26-30)",
-            "26-30",
-            25,
-            26,
-            30,
-        )
-
-    def muhammad_al_luhaidan_al_furqan_72_77(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 72-77 of Surah Al-Furqan by Muhammad Al-Luhaidan
-        """
-
-        self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.72-77)",
-            "72-77",
-            25,
-            72,
-            77,
-        )
-
-    def muhammad_al_luhaidan_al_furqan_74(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verse 74 of Surah Al-Furqan by Muhammad Al-Luhaidan
-        """
-
-        self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.72-77)",
-            "74",
-            25,
-            72,
-            77,
         )
 
     def muhammad_al_luhaidan_al_haqqah_29_33(self) -> None:
@@ -1665,7 +1678,7 @@ def create_tiktok(
         except IndexError:
             text_duration = video_clip_duration
 
-        if background_video is None:
+        if not background_video:
             # Create variables for background clips
             video_clip_background_clip_paths = []
             total_background_clips_duration = 0
@@ -1887,7 +1900,7 @@ def create_tiktok(
                 )
             )
 
-        if background_video is None:
+        if not background_video:
             # Create shadow clip
             shadow_clip = create_shadow_clip(
                 size=video_dimensions,
@@ -1930,7 +1943,7 @@ def create_tiktok(
 
             text_clips_array.extend(text_clips)
 
-    if background_video is None:
+    if not background_video:
         # Concatenate video clips, add audio, and set duration for final video
         final_video = mpy.concatenate_videoclips(clips=video_clips, method="chain").set_audio(audio)
     else:
@@ -1947,7 +1960,7 @@ def create_tiktok(
             # Video is wider than 9:16, so we need to crop the sides
             new_width = int(background_clip_height * target_aspect_ratio)
 
-            if background_video_horizontal_offset is None:
+            if not background_video_horizontal_offset:
                 background_video_horizontal_offset = (background_clip_width - new_width) // 2
 
             background_clip = background_clip.crop(
@@ -1958,7 +1971,7 @@ def create_tiktok(
             # Video is taller than 9:16, so we need to crop the top and bottom
             new_height = int(background_clip_width / target_aspect_ratio)
 
-            if background_video_vertical_offset is None:
+            if not background_video_vertical_offset:
                 background_video_vertical_offset = (background_clip_height - new_height) // 2
 
             background_clip = background_clip.crop(
@@ -2225,9 +2238,7 @@ def get_max_time_offset(background_clip_duration: float) -> float:
     Gets the max time offset for a background clip
     """
 
-    get_max_time_offset = background_clip_duration - MINIMAL_CLIP_DURATION
-
-    return max(get_max_time_offset, 0)
+    return max(background_clip_duration - MINIMAL_CLIP_DURATION, 0)
 
 
 def get_mirrored_tuple(
