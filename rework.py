@@ -22,6 +22,7 @@ def create_video(
     chapter_number: int,
     start_verse: int,
     end_verse: int,
+    verse_range: tuple[int, int],
     time_modifier: float,
     end_time_modifier: float,
     output_mp4_file_name: str,
@@ -158,7 +159,7 @@ def create_video(
     )
 
     if not start_line or not end_line:
-        start_line, end_line = get_loop_range(chapter_csv_lines, chapter_number, start_verse, end_verse)
+        start_line, end_line = get_loop_range(chapter_csv_lines, chapter_number, verse_range)
 
     video_width, video_height = video_dimensions
 
@@ -389,6 +390,7 @@ def create_video(
                     ]
                 )
 
+        # Create verse text and verse translation text clips
         verse_text_color = account.value.mode.value.verse_text_color
         verse_translation_color = account.value.mode.value.verse_translation_color
         text_clips = [
@@ -418,13 +420,8 @@ def create_video(
             ),
         ]
 
-        if verse_counter == "":
-            line_index = line - 2
-            while chapter_csv_lines[line_index][0] == "":
-                line_index -= 1
-            verse_counter = chapter_csv_lines[line_index][0]
-            clip_counter += 1
-        else:
+        # Append verse number text clip
+        if verse_counter != "":
             verse_number_color = account.value.mode.value.verse_number_color
             verse_number_font_file_path = verse_number_font_file_path or account.value.verse_translation_font_file_path
             text_clips.append(
@@ -443,7 +440,14 @@ def create_video(
             )
 
             clip_counter = 1
+        else:
+            line_index = line - 2
+            while chapter_csv_lines[line_index][0] == "":
+                line_index -= 1
+            verse_counter = chapter_csv_lines[line_index][0]
+            clip_counter += 1
 
+        # Append reciter name text clip if it is the first clip
         if line == start_line and reciter_name:
             reciter_name_color = account.value.mode.value.reciter_name_color
             text_clips.append(
@@ -464,6 +468,7 @@ def create_video(
         colored_print(Fore.MAGENTA, f"Creating clip {verse_counter}.{clip_counter}...")
 
         if not background_video:
+            # Create shadow clip to put overlay on the video clip
             shadow_color = account.value.mode.value.shadow_color
             shadow_opacity = account.value.mode.value.shadow_opacity
             shadow_clip = create_shadow_clip(
@@ -493,15 +498,18 @@ def create_video(
 
             colored_print(Fore.GREEN, f"Created clip {verse_counter}:{clip_counter}")
         else:
+            # Set text clip start times if using a single background video
             text_start_time = get_time_difference_seconds(audio_start, video_start)
 
             text_clips[0] = text_clips[0].set_start(text_start_time)
             text_clips[1] = text_clips[1].set_start(text_start_time)
 
+            # Append verse number text clip
             if verse_counter != "":
                 text_clips[2] = text_clips[2].set_start(text_start_time)
 
-            if line == start_line:
+            # Append reciter name text clip if it is the first clip
+            if line == start_line and reciter_name:
                 text_clips[-1] = text_clips[-1].set_start(text_start_time)
 
             text_clips_array.extend(text_clips)
@@ -724,8 +732,8 @@ def append_verse_translations_to_csv_file(
                 csv_dict_writer.writeheader()
                 csv_dict_writer.writerows(data)
 
-    if remove_empty_rows_from_csv_file(chapter_csv_file_path):
-        return True
+            if remove_empty_rows_from_csv_file(chapter_csv_file_path):
+                return True
 
 
 def remove_empty_rows_from_csv_file(csv_file_path: str) -> bool:
@@ -944,7 +952,7 @@ def update_csv_file_verse_numbers(
 
 
 def get_loop_range(
-    chapter_csv_lines: list[list[str]], chapter_number: int, start_verse: int, end_verse: int
+    chapter_csv_lines: list[list[str]], chapter_number: int, verse_range: tuple[int, int]
 ) -> tuple[int, int]:
     """
     Get the loop range for the TikTok.
@@ -966,11 +974,12 @@ def get_loop_range(
         The loop range.
     """
 
+    verse_range_start, verse_range_end = verse_range
     verse_numbers = [row[0] for row in chapter_csv_lines]
 
-    start_line = verse_numbers.index(f"{chapter_number}:{start_verse}") + 1
+    start_line = verse_numbers.index(f"{chapter_number}:{verse_range_start}") + 1
 
-    end_line = verse_numbers.index(f"{chapter_number}:{end_verse}") + 1
+    end_line = verse_numbers.index(f"{chapter_number}:{verse_range_end}") + 1
 
     while end_line + 1 < len(verse_numbers) and verse_numbers[end_line + 1] == "":
         end_line += 1
@@ -1649,13 +1658,13 @@ def validate_chapter_number(chapter_number: int) -> bool:
     return isinstance(chapter_number, int) and chapter_number >= 1 and chapter_number <= 114
 
 
-def validate_chapter_verse_range(chapter_number: int, start_verse_number: int, end_verse_number: int) -> bool:
+def validate_chapter_verse_range(chapter_number: int, start_verse: int, end_verse: int) -> bool:
     """
     Checks if a chapter verse range is valid.
 
     Parameters
     ----------
-    start_verse_number : int
+    start_verse : int
         The start verse number of the chapter verse range to check the validity of.
     end_verse_number : int
         The end verse number of the chapter verse range to check the validity of.
@@ -1669,10 +1678,10 @@ def validate_chapter_verse_range(chapter_number: int, start_verse_number: int, e
     chapter_verse_count = fetch_chapter_verse_count(chapter_number)
 
     return (
-        isinstance(start_verse_number, int)
-        and isinstance(end_verse_number, int)
-        and start_verse_number < end_verse_number
-        and end_verse_number <= chapter_verse_count
+        isinstance(start_verse, int)
+        and isinstance(end_verse, int)
+        and start_verse < end_verse
+        and end_verse <= chapter_verse_count
     )
 
 

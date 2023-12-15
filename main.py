@@ -27,8 +27,8 @@ MINIMAL_CLIP_DURATION = 0.75
 
 def main() -> None:
     tiktok = TikToks()
-    tiktok.change_settings({})
-    tiktok.muhammad_al_luhaidan_al_furqan_72_77()
+    tiktok.change_settings(video_map={})
+    tiktok.muhammad_al_luhaidan_al_furqan_71_77()
     tiktok.run()
 
 
@@ -688,14 +688,41 @@ class TikToks:
             30,
         )
 
-    def muhammad_al_luhaidan_al_furqan_69(self) -> None:
+    def muhammad_al_luhaidan_al_furqan_69_71(self) -> None:
         """
-        Modifies the parameters of the class for a TikTok video for verse 69 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        Modifies the parameters of the class for a TikTok video for verses 69-71 of Surah Al-Furqan by Muhammad Al-Luhaidan
         """
 
         self._set_values(
             r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.61-77)",
-            "69",
+            "69-71",
+            25,
+            61,
+            77,
+        )
+        self.end_time_modifier = -0.2
+
+    def muhammad_al_luhaidan_al_furqan_69_77(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 69-77 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.61-77)",
+            "69-77",
+            25,
+            61,
+            77,
+        )
+
+    def muhammad_al_luhaidan_al_furqan_71_77(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 71-77 of Surah Al-Furqan by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.61-77)",
+            "71-77",
             25,
             61,
             77,

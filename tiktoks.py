@@ -7,11 +7,12 @@ from rework import create_video, fetch_chapter_name
 
 
 def main():
-    tiktok = TikTok(Account.QURAN_2_LISTEN)
-    tiktok.create_tiktok(r"E:\GitHub\quran\Surahs\Abdul Rahman Mossad - Al-'Adiyat (100.1-11) - Copy\audio.mp3", 1, 11)
+    # TODO: Add verse_range alongside start_verse and end_verse so you can choose which of the verses to include in the video
+    tiktok = TikTokInfo(Account.QURAN_2_LISTEN)
+    tiktok.create_tiktok(r"E:\GitHub\quran\Surahs\Abdul Rahman Mossad - Al-'Adiyat (100.1-11) - Copy", 1, 11, (1, 2))
 
 
-class TikTok:
+class TikTokInfo:
     def __init__(
         self,
         account: Account,
@@ -28,31 +29,35 @@ class TikTok:
 
     def create_tiktok(
         self,
-        audio_mp3_file_path: str,
+        audio_directory_path: str,
         start_verse: int,
         end_verse: int,
+        verse_range: tuple[int, int],
         time_modifier: float = -0.2,
         end_time_modifier: float = 0.0,
+        video_map: dict[str, list[list[str, float, int, str]]] = None,
         background_clips_speed: float = 1.0,
         video_mode: bool = True,
         start_line: int = None,
         end_line: int = None,
-        video_map: dict[str, list[list[str, float, int, str]]] = None,
         background_video: str = None,
         background_video_horizontal_offset: int = None,
         background_video_vertical_offset: int = None,
         output_mp4_file_path: str = None,
         start_time_modifier: float = None,
     ):
-        directory_path = os.path.dirname(audio_mp3_file_path)
-        chapter_number = int(directory_path.split(" (")[1].split(".")[0])
+        for file in os.listdir(audio_directory_path):
+            if file.endswith(".mp3"):
+                audio_mp3_file_path = os.path.join(audio_directory_path, file)
+                break
+        chapter_number = int(audio_directory_path.split(" (")[1].split(".")[0])
         chapter_name = fetch_chapter_name(chapter_number)
-        reciter_name = directory_path.split(" - ")[0].split("\\")[-1]
+        reciter_name = audio_directory_path.split(" - ")[0].split("\\")[-1]
         language_abbreviation = self.account.value.language.value.abbreviation
         output_mp4_file_name = f"{chapter_name} ({chapter_number}.{start_verse}-{end_verse}) - {reciter_name} {self.account.name.lower()} {language_abbreviation} {datetime.now().strftime('%d-%m-%Y %H.%M.%S')}"
 
-        chapter_csv_file_path = os.path.join(directory_path, "chapter.csv")
-        timestamps_csv_file_path = os.path.join(directory_path, "Markers.csv")
+        chapter_csv_file_path = os.path.join(audio_directory_path, "chapter.csv")
+        timestamps_csv_file_path = os.path.join(audio_directory_path, "Markers.csv")
 
         verse_number_column_name = "verse"
         verse_text_column_name = "ar"
@@ -95,6 +100,7 @@ class TikTok:
             chapter_number=chapter_number,
             start_verse=start_verse,
             end_verse=end_verse,
+            verse_range=verse_range,
             time_modifier=time_modifier,
             end_time_modifier=end_time_modifier,
             output_mp4_file_name=output_mp4_file_name,
