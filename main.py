@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings(video_map={})
-    tiktok.ahmed_wael_as_saffat_91_93()
+    tiktok.ahmed_wael_al_ahzab_56()
     tiktok.run()
 
 
@@ -448,6 +448,19 @@ class TikToks:
             20,
             1,
             135,
+        )
+
+    def ahmed_wael_al_ahzab_56(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 56 of Surah Al-Ahzab by Ahmed Wael
+        """
+
+        self._set_values(
+            r"Surahs\Ahmed Wael - Al-Ahzab (33.56)",
+            "56",
+            33,
+            56,
+            56,
         )
 
     def ahmed_wael_as_saffat_91_93(self) -> None:
