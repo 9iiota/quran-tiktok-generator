@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings(video_map={})
-    tiktok.muhammad_al_luhaidan_al_furqan_71_77()
+    tiktok.ahmed_wael_as_saffat_91_93()
     tiktok.run()
 
 
@@ -448,6 +448,19 @@ class TikToks:
             20,
             1,
             135,
+        )
+
+    def ahmed_wael_as_saffat_91_93(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 91-93 of Surah As-Saffat by Ahmed Wael
+        """
+
+        self._set_values(
+            r"Surahs\Ahmed Wael - As-Saffat (37.91-93)",
+            "91-93",
+            37,
+            91,
+            93,
         )
 
     def fatih_seferagic_al_hadid_20(self) -> None:
