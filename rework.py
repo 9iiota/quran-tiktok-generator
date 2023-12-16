@@ -8,7 +8,7 @@ from colorama import Fore, Style
 from compact_json import EolStyle, Formatter
 from config import MINIMAL_BACKGROUND_CLIP_DURATION
 from datetime import datetime, timedelta
-from enums import (
+from classes import (
     Account,
     AudioSettings,
     CSVColumnNames,
@@ -999,7 +999,7 @@ def offset_timestamp(timestamp: str, time_offset_seconds: float) -> str:
 import re
 import requests
 
-from enums import Language
+from classes import Language
 from pyquran import quran
 
 

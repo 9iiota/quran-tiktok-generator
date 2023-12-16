@@ -1,4 +1,4 @@
-from enums import Language
+from classes import Language
 from rework import (
     append_verse_texts_to_csv_file,
     append_verse_translations_to_csv_file,

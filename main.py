@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings(video_map={})
-    tiktok.ahmed_wael_al_ahzab_56()
+    tiktok.yasser_al_dosari_ash_sharh_1_8()
     tiktok.run()
 
 
@@ -965,6 +965,19 @@ class TikToks:
             78,
         )
         self.end_time_modifier = -0.3
+
+    def yasser_al_dosari_ash_sharh_1_8(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 1-8 of Surah Ash-Sharh by Yasser Al-Dosari
+        """
+
+        self._set_values(
+            r"Surahs\Yasser Al-Dosari - Ash-Sharh (94.1-8)",
+            "1-8",
+            94,
+            1,
+            8,
+        )
 
     def yousef_al_soqier_ya_sin_63_65(self) -> None:
         """

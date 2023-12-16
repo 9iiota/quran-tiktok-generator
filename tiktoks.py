@@ -2,7 +2,7 @@ import os
 import re
 
 from datetime import datetime
-from enums import Account, AudioSettings, CSVColumnNames, TextClipInfo, TimeModifiers, VideoMode, VideoSettings
+from classes import Account, AudioSettings, CSVColumnNames, TextClipInfo, TimeModifiers, VideoMode, VideoSettings
 from rework import create_video, fetch_chapter_name
 
 

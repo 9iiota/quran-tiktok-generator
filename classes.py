@@ -4,6 +4,25 @@ from enum import Enum
 from typing import Union
 
 
+class AudioSettings:
+    def __init__(
+        self,
+        audio_mp3_file_path: str,
+        chapter_number: int,
+        start_to_end_timestamp_verse_range: tuple[int, int],
+    ) -> None:
+        self.audio_mp3_file_path = audio_mp3_file_path
+        self.chapter_number = chapter_number
+        self.start_to_end_timestamp_verse_range = start_to_end_timestamp_verse_range
+
+
+class CSVColumnNames:
+    def __init__(self, verse_number: str, verse_text: str, timestamp: str) -> None:
+        self.verse_number = verse_number
+        self.verse_text = verse_text
+        self.timestamp = timestamp
+
+
 class LanguageInfo:
     def __init__(self, abbreviation: str, translation_id: int):
         self.abbreviation = abbreviation
@@ -82,59 +101,6 @@ class Account(Enum):
     )
 
 
-class VideoMode(Enum):
-    VIDEO = 1
-    IMAGE = 2
-
-
-class VideoSettings:
-    def __init__(
-        self,
-        allow_duplicate_background_clips: bool,
-        allow_mirrored_background_clips: bool,
-        background_clips_speed: float,
-        video_dimensions: tuple[int, int],
-        video_mode: VideoMode,
-        single_background_video_path: str = None,
-        single_background_video_horizontal_offset: int = None,
-        single_background_video_vertical_offset: int = None,
-    ) -> None:
-        self.allow_duplicate_background_clips = allow_duplicate_background_clips
-        self.allow_mirrored_background_clips = allow_mirrored_background_clips
-        self.background_clips_speed = background_clips_speed
-        self.video_dimensions = video_dimensions
-        self.video_mode = video_mode
-        self.single_background_video = single_background_video_path
-        self.single_background_video_horizontal_offset = single_background_video_horizontal_offset
-        self.single_background_video_vertical_offset = single_background_video_vertical_offset
-
-
-class TimeModifiers:
-    def __init__(self, time_modifier: float, end_time_modifier: float, start_time_modifier: float = None) -> None:
-        self.time_modifier = time_modifier
-        self.end_time_modifier = end_time_modifier
-        self.start_time_modifier = start_time_modifier
-
-
-class AudioSettings:
-    def __init__(
-        self,
-        audio_mp3_file_path: str,
-        chapter_number: int,
-        start_to_end_timestamp_verse_range: tuple[int, int],
-    ) -> None:
-        self.audio_mp3_file_path = audio_mp3_file_path
-        self.chapter_number = chapter_number
-        self.start_to_end_timestamp_verse_range = start_to_end_timestamp_verse_range
-
-
-class CSVColumnNames:
-    def __init__(self, verse_number: str, verse_text: str, timestamp: str) -> None:
-        self.verse_number = verse_number
-        self.verse_text = verse_text
-        self.timestamp = timestamp
-
-
 class TextClipInfo:
     def __init__(
         self,
@@ -168,3 +134,37 @@ class TextClipInfo:
             .crossfadein(self.text_fade_duration)
             .crossfadeout(self.text_fade_duration)
         )
+
+
+class TimeModifiers:
+    def __init__(self, time_modifier: float, end_time_modifier: float, start_time_modifier: float = None) -> None:
+        self.time_modifier = time_modifier
+        self.end_time_modifier = end_time_modifier
+        self.start_time_modifier = start_time_modifier
+
+
+class VideoMode(Enum):
+    VIDEO = 1
+    IMAGE = 2
+
+
+class VideoSettings:
+    def __init__(
+        self,
+        allow_duplicate_background_clips: bool,
+        allow_mirrored_background_clips: bool,
+        background_clips_speed: float,
+        video_dimensions: tuple[int, int],
+        video_mode: VideoMode,
+        single_background_video_path: str = None,
+        single_background_video_horizontal_offset: int = None,
+        single_background_video_vertical_offset: int = None,
+    ) -> None:
+        self.allow_duplicate_background_clips = allow_duplicate_background_clips
+        self.allow_mirrored_background_clips = allow_mirrored_background_clips
+        self.background_clips_speed = background_clips_speed
+        self.video_dimensions = video_dimensions
+        self.video_mode = video_mode
+        self.single_background_video = single_background_video_path
+        self.single_background_video_horizontal_offset = single_background_video_horizontal_offset
+        self.single_background_video_vertical_offset = single_background_video_vertical_offset
