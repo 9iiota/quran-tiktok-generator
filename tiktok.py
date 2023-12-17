@@ -9,12 +9,8 @@ from rework import create_video, fetch_chapter_name
 
 def main():
     tiktok = TikTok(Account.QURAN_2_LISTEN)
-    # tiktok.create_tiktok(
-    #     Presets.ABDUL_RAHMAN_MOSSAD_AL_ADIYAT.value.audio_directory_path,
-    #     1,
-    #     1,
-    # )
-    tiktok.create_tiktok(r"Surahs\Ahmed Wael - As-Saffat (37.91-93)", (91, 93), video_map={})
+    tiktok.create_tiktok(Presets.ABDUL_RAHMAN_MOSSAD_AL_ADIYAT_1_11.value.audio_directory_path, (1, 1))
+    # tiktok.create_tiktok(r"Surahs\Ahmed Wael - As-Saffat (37.91-93)", (91, 93), video_map={})
 
 
 class TikTok:

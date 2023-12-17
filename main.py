@@ -226,7 +226,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Al-'Adiyat (100.1-11)",
+            r"Surahs\Abdul Rahman Mossad\Al-'Adiyat (100.1-11)",
             "1-11",
             100,
             1,
@@ -239,7 +239,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)",
+            r"Surahs\Abdul Rahman Mossad\Al-'Ankabut (29.53-64)",
             "54-60",
             29,
             53,
@@ -253,7 +253,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)",
+            r"Surahs\Abdul Rahman Mossad\Al-'Ankabut (29.53-64)",
             "54-57",
             29,
             53,
@@ -267,7 +267,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Al-'Ankabut (29.53-64)",
+            r"Surahs\Abdul Rahman Mossad\Al-'Ankabut (29.53-64)",
             "56-57",
             29,
             53,
@@ -281,7 +281,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)",
+            r"Surahs\Abdul Rahman Mossad\Al-Ghashiyah (88.1-26)",
             "1-9",
             88,
             1,
@@ -295,7 +295,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)",
+            r"Surahs\Abdul Rahman Mossad\Al-Ghashiyah (88.1-26)",
             "10-26",
             88,
             1,
@@ -308,7 +308,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)",
+            r"Surahs\Abdul Rahman Mossad\Al-Ghashiyah (88.1-26)",
             "10-16",
             88,
             1,
@@ -322,7 +322,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Al-Ghashiyah (88.1-26)",
+            r"Surahs\Abdul Rahman Mossad\Al-Ghashiyah (88.1-26)",
             "10-12",
             88,
             1,
@@ -336,7 +336,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)",
+            r"Surahs\Abdul Rahman Mossad\Al-Muzzammil (73.1-20)",
             "6-13",
             73,
             1,
@@ -350,7 +350,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)",
+            r"Surahs\Abdul Rahman Mossad\Al-Muzzammil (73.1-20)",
             "14-18",
             73,
             1,
@@ -364,7 +364,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Al-Muzzammil (73.1-20)",
+            r"Surahs\Abdul Rahman Mossad\Al-Muzzammil (73.1-20)",
             "14-15",
             73,
             1,
@@ -378,7 +378,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Maryam (19.65-98)",
+            r"Surahs\Abdul Rahman Mossad\Maryam (19.65-98)",
             "93-98",
             19,
             65,
@@ -391,7 +391,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Maryam (19.65-98)",
+            r"Surahs\Abdul Rahman Mossad\Maryam (19.65-98)",
             "93-94",
             19,
             65,
@@ -405,7 +405,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)",
+            r"Surahs\Abdul Rahman Mossad\Yunus (10.3-25)",
             "7-10",
             10,
             3,
@@ -419,7 +419,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)",
+            r"Surahs\Abdul Rahman Mossad\Yunus (10.3-25)",
             "17-20",
             10,
             3,
@@ -433,7 +433,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Abdul Rahman Mossad - Yunus (10.3-25)",
+            r"Surahs\Abdul Rahman Mossad\Yunus (10.3-25)",
             "17",
             10,
             3,
@@ -447,7 +447,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Ahmed Khedr - Taha (20.1-135)",
+            r"Surahs\Ahmed Khedr\Taha (20.1-135)",
             "14-16",
             20,
             1,
@@ -460,7 +460,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Ahmed Wael - Al-Ahzab (33.56)",
+            r"Surahs\Ahmed Wael\Al-Ahzab (33.56)",
             "56",
             33,
             56,
@@ -473,7 +473,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Ahmed Wael - As-Saffat (37.91-93)",
+            r"Surahs\Ahmed Wael\As-Saffat (37.91-93)",
             "91-93",
             37,
             91,
@@ -486,7 +486,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Fatih Seferagic - Al-Hadid (57.20)",
+            r"Surahs\Fatih Seferagic\Al-Hadid (57.20)",
             "20",
             57,
             20,
@@ -499,7 +499,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Fatih Seferagic - Al-Hujurat (49.10-11)",
+            r"Surahs\Fatih Seferagic\Al-Hujurat (49.10-11)",
             "10-11",
             49,
             10,
@@ -512,7 +512,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Fatih Seferagic - Al-Hujurat (49.10-11)",
+            r"Surahs\Fatih Seferagic\Al-Hujurat (49.10-11)",
             "10",
             49,
             10,
@@ -526,7 +526,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Fatih Seferagic - Al-Baqarah (2.255)",
+            r"Surahs\Fatih Seferagic\Al-Baqarah (2.255)",
             "255",
             2,
             255,
@@ -539,7 +539,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Fatih Seferagic - Al-Hashr (59.21-24)",
+            r"Surahs\Fatih Seferagic\Al-Hashr (59.21-24)",
             "21-24",
             59,
             21,
@@ -552,7 +552,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Fatih Seferagic - Al-Qiyamah (75.1-40)",
+            r"Surahs\Fatih Seferagic\Al-Qiyamah (75.1-40)",
             "1-12",
             75,
             1,
@@ -566,7 +566,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Fatih Seferagic - Al-Qiyamah (75.1-40)",
+            r"Surahs\Fatih Seferagic\Al-Qiyamah (75.1-40)",
             "13-19",
             75,
             1,
@@ -580,7 +580,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Fatih Seferagic - An-Nisa (4.155-160)",
+            r"Surahs\Fatih Seferagic\An-Nisa (4.155-160)",
             "155-160",
             4,
             155,
@@ -593,7 +593,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Fatih Seferagic - An-Nur (24.35)",
+            r"Surahs\Fatih Seferagic\An-Nur (24.35)",
             "35",
             24,
             35,
@@ -606,7 +606,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Fatih Seferagic - Ar-Rahman (55.1-16)",
+            r"Surahs\Fatih Seferagic\Ar-Rahman (55.1-16)",
             "1-16",
             55,
             1,
@@ -619,7 +619,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Mansour As Salimi - Maryam (19.16-33)",
+            r"Surahs\Mansour As Salimi\Maryam (19.16-33)",
             "27-33",
             19,
             16,
@@ -632,7 +632,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Mansour As Salimi - Yusuf (12.1-5)",
+            r"Surahs\Mansour As Salimi\Yusuf (12.1-5)",
             "1-5",
             12,
             1,
@@ -645,7 +645,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Mostafa Shaibani - Al-Qiyamah (75.20-27)",
+            r"Surahs\Mostafa Shaibani\Al-Qiyamah (75.20-27)",
             "20-27",
             75,
             20,
@@ -658,7 +658,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Ahqaf (46.30-31)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Ahqaf (46.30-31)",
             "30-31",
             46,
             30,
@@ -671,7 +671,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-An'am (6.27-30)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-An'am (6.27-30)",
             "27-30",
             6,
             27,
@@ -684,7 +684,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Anfal (8.2-4)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Anfal (8.2-4)",
             "2",
             8,
             2,
@@ -698,7 +698,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Anfal (8.2-4)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Anfal (8.2-4)",
             "2-4",
             8,
             2,
@@ -711,7 +711,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.25-30)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Furqan (25.25-30)",
             "25-30",
             25,
             25,
@@ -724,7 +724,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.61-77)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Furqan (25.61-77)",
             "69-71",
             25,
             61,
@@ -738,7 +738,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.61-77)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Furqan (25.61-77)",
             "69-77",
             25,
             61,
@@ -751,7 +751,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.61-77)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Furqan (25.61-77)",
             "71-77",
             25,
             61,
@@ -764,7 +764,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.61-77)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Furqan (25.61-77)",
             "72-77",
             25,
             61,
@@ -777,7 +777,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Furqan (25.61-77)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Furqan (25.61-77)",
             "74",
             25,
             61,
@@ -790,7 +790,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Jathiyah (45.27-30)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Jathiyah (45.27-30)",
             "27-30",
             45,
             27,
@@ -803,7 +803,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.15)",
+            r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.15)",
             "15",
             3,
             15,
@@ -816,7 +816,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.75-76)",
+            r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.75-76)",
             "75-76",
             4,
             75,
@@ -829,7 +829,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.122-123)",
+            r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.122-123)",
             "122-123",
             4,
             122,
@@ -842,7 +842,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Ghafir (40.48-52)",
+            r"Surahs\Muhammad Al-Luhaidan\Ghafir (40.48-52)",
             "48-52",
             40,
             48,
@@ -855,7 +855,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Salim Bahanan - Ad-Duhaa (93.1-11)",
+            r"Surahs\Salim Bahanan\Ad-Duhaa (93.1-11)",
             "1-11",
             93,
             1,
@@ -868,7 +868,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Salim Bahanan - Al-Qari'ah (101.1-11)",
+            r"Surahs\Salim Bahanan\Al-Qari'ah (101.1-11)",
             "1-11",
             101,
             1,
@@ -882,7 +882,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Unknown - Al-'Ankabut (29.56-58)",
+            r"Surahs\Unknown\Al-'Ankabut (29.56-58)",
             "56-58",
             29,
             56,
@@ -895,7 +895,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Unknown - Al-'Ankabut (29.56-58)",
+            r"Surahs\Unknown\Al-'Ankabut (29.56-58)",
             "56-57",
             29,
             56,
@@ -909,7 +909,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Unknown - Al-Baqarah (2.153-157)",
+            r"Surahs\Unknown\Al-Baqarah (2.153-157)",
             "153-157",
             2,
             153,
@@ -922,7 +922,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Unknown - Al-Furqan (25.63-70)",
+            r"Surahs\Unknown\Al-Furqan (25.63-70)",
             "63-70",
             25,
             63,
@@ -935,7 +935,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Unknown - As-Saffat (37.123-132)",
+            r"Surahs\Unknown\As-Saffat (37.123-132)",
             "123-132",
             37,
             123,
@@ -948,7 +948,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Yasser Al-Dosari - Al-Fath (48.29)",
+            r"Surahs\Yasser Al-Dosari\Al-Fath (48.29)",
             "29",
             48,
             29,
@@ -961,7 +961,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)",
+            r"Surahs\Yasser Al-Dosari\Ar-Rahman (55.1-78)",
             "17-25",
             55,
             1,
@@ -975,7 +975,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Yasser Al-Dosari - Ar-Rahman (55.1-78)",
+            r"Surahs\Yasser Al-Dosari\Ar-Rahman (55.1-78)",
             "26-34",
             55,
             1,
@@ -989,7 +989,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Yasser Al-Dosari - Ash-Sharh (94.1-8)",
+            r"Surahs\Yasser Al-Dosari\Ash-Sharh (94.1-8)",
             "1-8",
             94,
             1,
@@ -1002,7 +1002,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Yousef Al-Soqier - Ya-Sin (36.55-67)",
+            r"Surahs\Yousef Al-Soqier\Ya-Sin (36.55-67)",
             "63-65",
             36,
             55,
@@ -1023,7 +1023,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Baqarah (2.273-274)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.273-274)",
             "273-274",
             2,
             273,
@@ -1036,7 +1036,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Maryam (19.85-92)",
+            r"Surahs\Muhammad Al-Luhaidan\Maryam (19.85-92)",
             "85-92",
             19,
             85,
@@ -1049,7 +1049,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Taha (20.105-108)",
+            r"Surahs\Muhammad Al-Luhaidan\Taha (20.105-108)",
             "105-108",
             20,
             105,
@@ -1062,7 +1062,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Haqqah (69.29-33)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Haqqah (69.29-33)",
             "29-33",
             69,
             29,
@@ -1075,7 +1075,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Insan (76.20-22)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.20-22)",
             "20-22",
             76,
             20,
@@ -1088,7 +1088,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Ahzab (33.23-24)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Ahzab (33.23-24)",
             "23-24",
             33,
             23,
@@ -1101,7 +1101,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Al-Baqarah (2.214)",
+            r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.214)",
             "214",
             2,
             214,
@@ -1114,7 +1114,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.16-17)",
+            r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.16-17)",
             "16-17",
             3,
             16,
@@ -1127,7 +1127,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - Ali 'Imran (3.104-106)",
+            r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.104-106)",
             "104-106",
             3,
             104,
@@ -1140,7 +1140,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - An-Nazi'at (79.1-46)",
+            r"Surahs\Muhammad Al-Luhaidan\An-Nazi'at (79.1-46)",
             "34-41",
             79,
             1,
@@ -1153,7 +1153,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.27-29)",
+            r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.27-29)",
             "27-29",
             4,
             27,
@@ -1166,7 +1166,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan - An-Nisa (4.27-29)",
+            r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.27-29)",
             "27",
             4,
             27,
@@ -1180,7 +1180,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Muhammadloiq Qori - Al-Ahzab (33.35)",
+            r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)",
             "35",
             33,
             35,
@@ -1193,7 +1193,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Salim Bahanan - Al-Fatihah (1.1-7)",
+            r"Surahs\Salim Bahanan\Al-Fatihah (1.1-7)",
             "2-7",
             1,
             1,
@@ -1206,7 +1206,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Salim Bahanan - At-Tin (95.1-8)",
+            r"Surahs\Salim Bahanan\At-Tin (95.1-8)",
             "1-8",
             95,
             1,
@@ -1219,7 +1219,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Unknown - Taha (20.124-126)",
+            r"Surahs\Unknown\Taha (20.124-126)",
             "124-126",
             20,
             124,
@@ -1232,7 +1232,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Unknown - Al-Furqan (25.72-75)",
+            r"Surahs\Unknown\Al-Furqan (25.72-75)",
             "72-75",
             25,
             72,
@@ -1245,7 +1245,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Unknown - Al-Hujurat (49.12)",
+            r"Surahs\Unknown\Al-Hujurat (49.12)",
             "12",
             49,
             12,
@@ -1258,7 +1258,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Unknown - Az-Zumar (39.71-75)",
+            r"Surahs\Unknown\Az-Zumar (39.71-75)",
             "71-75",
             39,
             71,
@@ -1273,7 +1273,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Unknown - Az-Zumar (39.71-75)",
+            r"Surahs\Unknown\Az-Zumar (39.71-75)",
             "73-75",
             39,
             71,
@@ -1288,7 +1288,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Yasser Al-Dosari - Al-Mu'minun (23.34-39)",
+            r"Surahs\Yasser Al-Dosari\Al-Mu'minun (23.34-39)",
             "34-39",
             23,
             34,
@@ -1301,7 +1301,7 @@ class TikToks:
         """
 
         self._set_values(
-            r"Surahs\Yasser Al-Dosari - Az-Zukhruf (43.1-89)",
+            r"Surahs\Yasser Al-Dosari\Az-Zukhruf (43.1-89)",
             "68-73",
             43,
             1,
