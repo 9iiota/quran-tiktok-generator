@@ -79,21 +79,32 @@ class AccountInfo:
 
 class Account(Enum):
     QURAN_2_LISTEN = AccountInfo(
-        background_clips_directory_paths=["Anime_Clips"],
+        background_clips_directory_paths=["Background_Clips/Anime"],
         language=Language.ENGLISH,
         mode=Mode.DARK,
         verse_text_font_file_path="Fonts/Hafs.ttf",
         verse_translation_font_file_path="Fonts/Butler_Regular.otf",
     )
     RECITE_2_REFLECT = AccountInfo(
-        background_clips_directory_paths=["Real_Clips, Real_Clips_2"],
+        background_clips_directory_paths=["Background_Clips/Real", "Background_Clips/Real_2"],
         language=Language.ENGLISH,
         mode=Mode.DARK,
         verse_text_font_file_path="Fonts/Hafs.ttf",
         verse_translation_font_file_path="Fonts/Butler_Regular.otf",
     )
     HEARTFELTRECITATIONS = AccountInfo(
-        background_clips_directory_paths=["Anime_Clips", "Real_Clips", "Real_Clips_2"],
+        background_clips_directory_paths=[
+            "Background_Clips/Anime",
+            "Background_Clips/Real",
+            "Background_Clips/Real_2",
+        ],
+        language=Language.ENGLISH,
+        mode=Mode.DARK,
+        verse_text_font_file_path="Fonts/Hafs.ttf",
+        verse_translation_font_file_path="Fonts/Butler_Regular.otf",
+    )
+    QURANIC_TIKTOKS = AccountInfo(
+        background_clips_directory_paths=["Background_Clips/Real", "Background_Clips/Real_2"],
         language=Language.ENGLISH,
         mode=Mode.DARK,
         verse_text_font_file_path="Fonts/Hafs.ttf",
@@ -154,6 +165,7 @@ class VideoSettings:
         allow_duplicate_background_clips: bool,
         allow_mirrored_background_clips: bool,
         background_clips_speed: float,
+        minimal_background_clip_duration: float,
         video_dimensions: tuple[int, int],
         video_mode: VideoMode,
         single_background_video_path: str = None,
@@ -163,6 +175,7 @@ class VideoSettings:
         self.allow_duplicate_background_clips = allow_duplicate_background_clips
         self.allow_mirrored_background_clips = allow_mirrored_background_clips
         self.background_clips_speed = background_clips_speed
+        self.minimal_background_clip_duration = minimal_background_clip_duration
         self.video_dimensions = video_dimensions
         self.video_mode = video_mode
         self.single_background_video = single_background_video_path

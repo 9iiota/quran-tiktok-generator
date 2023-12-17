@@ -3,15 +3,21 @@ import re
 
 from datetime import datetime
 from classes import Account, AudioSettings, CSVColumnNames, TextClipInfo, TimeModifiers, VideoMode, VideoSettings
+from presets import Presets
 from rework import create_video, fetch_chapter_name
 
 
 def main():
-    tiktok = TikTokInfo(Account.QURAN_2_LISTEN)
+    tiktok = TikTok(Account.QURAN_2_LISTEN)
+    # tiktok.create_tiktok(
+    #     Presets.ABDUL_RAHMAN_MOSSAD_AL_ADIYAT.value.audio_directory_path,
+    #     1,
+    #     1,
+    # )
     tiktok.create_tiktok(r"Surahs\Ahmed Wael - As-Saffat (37.91-93)", (91, 93), video_map={})
 
 
-class TikTokInfo:
+class TikTok:
     def __init__(
         self,
         account: Account,
@@ -19,6 +25,7 @@ class TikTokInfo:
             allow_duplicate_background_clips=False,
             allow_mirrored_background_clips=True,
             background_clips_speed=1.0,
+            minimal_background_clip_duration=0.75,
             video_dimensions=(576, 1024),
             video_mode=VideoMode.VIDEO,
         ),
@@ -55,9 +62,11 @@ class TikTokInfo:
 
         chapter_name = fetch_chapter_name(chapter_number)
         reciter_name = audio_directory_path.split(" - ")[0].split("\\")[-1]
+        account_name = str(self.account).split(".")[-1].lower()
         language_abbreviation = self.account.value.language.value.abbreviation
         start_verse, end_verse = output_video_verse_range
-        output_mp4_file_name = f"{chapter_name} ({chapter_number}.{start_verse}-{end_verse}) - {reciter_name} {self.account.name.lower()} {language_abbreviation} {datetime.now().strftime('%d-%m-%Y %H.%M.%S')}"
+
+        output_mp4_file_name = f"{chapter_name} ({chapter_number}.{start_verse}-{end_verse}) - {reciter_name} {account_name} {language_abbreviation} {datetime.now().strftime('%d-%m-%Y %H.%M.%S')}"
 
         chapter_csv_file_path = os.path.join(audio_directory_path, "chapter.csv")
         timestamps_csv_file_path = os.path.join(audio_directory_path, "Markers.csv")

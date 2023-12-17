@@ -3,10 +3,11 @@ import csv
 import moviepy.editor as mpy
 import os
 import random
+import re
+import requests
 
 from colorama import Fore, Style
 from compact_json import EolStyle, Formatter
-from config import MINIMAL_BACKGROUND_CLIP_DURATION
 from datetime import datetime, timedelta
 from classes import (
     Account,
@@ -19,6 +20,7 @@ from classes import (
     VideoSettings,
 )
 from fuzzywuzzy import fuzz
+from pyquran import quran
 
 
 def main():
@@ -220,7 +222,7 @@ def create_video(
                         )
 
                         max_time_offset = calculate_clip_max_time_offset(
-                            background_clip_duration, MINIMAL_BACKGROUND_CLIP_DURATION
+                            background_clip_duration, video_settings.minimal_background_clip_duration
                         )
                         background_clip_time_offset = get_background_clip_time_offset(
                             background_clip_info, max_time_offset
@@ -273,7 +275,7 @@ def create_video(
                         video_clip_leftover_duration = video_clip_duration - total_background_clips_duration
                         if validate_background_clip_duration(
                             adjusted_background_clip_duration,
-                            MINIMAL_BACKGROUND_CLIP_DURATION,
+                            video_settings.minimal_background_clip_duration,
                             video_clip_leftover_duration,
                         ):
                             video_clip_background_clip_paths.append(
@@ -308,7 +310,7 @@ def create_video(
                             video_settings.allow_duplicate_background_clips,
                             video_settings.allow_mirrored_background_clips,
                             video_settings.background_clips_speed,
-                            MINIMAL_BACKGROUND_CLIP_DURATION,
+                            video_settings.minimal_background_clip_duration,
                             total_background_clips_duration,
                             used_background_clips_paths,
                             video_clip_background_clip_paths,
@@ -328,7 +330,7 @@ def create_video(
                         video_settings.allow_duplicate_background_clips,
                         video_settings.allow_mirrored_background_clips,
                         video_settings.background_clips_speed,
-                        MINIMAL_BACKGROUND_CLIP_DURATION,
+                        video_settings.minimal_background_clip_duration,
                         total_background_clips_duration,
                         used_background_clips_paths,
                         video_clip_background_clip_paths,
@@ -349,7 +351,7 @@ def create_video(
                 )
 
                 max_time_offset = calculate_clip_max_time_offset(
-                    background_clip_duration, MINIMAL_BACKGROUND_CLIP_DURATION
+                    background_clip_duration, video_settings.minimal_background_clip_duration
                 )
                 background_clip_time_offset = get_random_time_offset(max_time_offset)
 
@@ -994,13 +996,6 @@ def offset_timestamp(timestamp: str, time_offset_seconds: float) -> str:
         new_timedelta.seconds % 60,
         new_timedelta.microseconds // 1000,
     )
-
-
-import re
-import requests
-
-from classes import Language
-from pyquran import quran
 
 
 def fetch_chapter_name(chapter_number: int) -> str:
