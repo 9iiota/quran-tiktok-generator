@@ -112,6 +112,20 @@ class Account(Enum):
     )
 
 
+class OutputSettings:
+    def __init__(
+        self,
+        single_background_video_path: str = None,
+        single_background_video_horizontal_offset: int = None,
+        single_background_video_vertical_offset: int = None,
+        video_map: dict[str, list[list[str, float, int, str]]] = None,
+    ) -> None:
+        self.single_background_video_path = single_background_video_path
+        self.single_background_video_horizontal_offset = single_background_video_horizontal_offset
+        self.single_background_video_vertical_offset = single_background_video_vertical_offset
+        self.video_map = video_map
+
+
 class TextClipInfo:
     def __init__(
         self,
@@ -168,9 +182,6 @@ class VideoSettings:
         minimal_background_clip_duration: float,
         video_dimensions: tuple[int, int],
         video_mode: VideoMode,
-        single_background_video_path: str = None,
-        single_background_video_horizontal_offset: int = None,
-        single_background_video_vertical_offset: int = None,
     ) -> None:
         self.allow_duplicate_background_clips = allow_duplicate_background_clips
         self.allow_mirrored_background_clips = allow_mirrored_background_clips
@@ -178,6 +189,3 @@ class VideoSettings:
         self.minimal_background_clip_duration = minimal_background_clip_duration
         self.video_dimensions = video_dimensions
         self.video_mode = video_mode
-        self.single_background_video = single_background_video_path
-        self.single_background_video_horizontal_offset = single_background_video_horizontal_offset
-        self.single_background_video_vertical_offset = single_background_video_vertical_offset

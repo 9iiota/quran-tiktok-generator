@@ -14,6 +14,7 @@ from classes import (
     AudioSettings,
     CSVColumnNames,
     Language,
+    OutputSettings,
     TextClipInfo,
     TimeModifiers,
     VideoMode,
@@ -42,7 +43,7 @@ def create_video(
     verse_number_text_clip: TextClipInfo = None,
     reciter_name: str = None,
     reciter_name_text_clip: TextClipInfo = None,
-    video_map: dict[str, list[list[str, float, int, str]]] = None,
+    output_settings: OutputSettings = None,
     background_clips_directories_list: list[str] = None,
     output_mp4_file_path: str = None,
 ) -> None:
@@ -199,18 +200,18 @@ def create_video(
         except IndexError:
             text_duration = video_clip_duration
 
-        if not video_settings.single_background_video:
+        if not output_settings.single_background_video_path:
             total_background_clips_duration = 0
             video_clip_background_clip_paths = []
 
             if video_settings.video_mode == VideoMode.VIDEO:
                 video_map_index = line - start_line + 1
 
-                if video_map and video_map_index in video_map.keys():
-                    background_clips_count = len(video_map[video_map_index])
+                if output_settings.video_map and video_map_index in output_settings.video_map.keys():
+                    background_clips_count = len(output_settings.video_map[video_map_index])
 
                     for i in range(background_clips_count):
-                        background_clip_info = video_map[video_map_index][i]
+                        background_clip_info = output_settings.video_map[video_map_index][i]
 
                         background_clip_path = background_clip_info[0]
                         background_clip = mpy.VideoFileClip(background_clip_path).speedx(
@@ -315,7 +316,7 @@ def create_video(
                             used_background_clips_paths,
                             video_clip_background_clip_paths,
                             video_clip_duration,
-                            video_map,
+                            output_settings.video_map,
                             video_map_index,
                             video_width,
                             i,
@@ -335,7 +336,7 @@ def create_video(
                         used_background_clips_paths,
                         video_clip_background_clip_paths,
                         video_clip_duration,
-                        video_map,
+                        output_settings.video_map,
                         video_map_index,
                         video_width,
                     )[
@@ -422,7 +423,7 @@ def create_video(
             )
             text_clips.append(reciter_name_clip)
 
-        if not video_settings.single_background_video:
+        if not output_settings.single_background_video_path:
             # Create shadow clip to put overlay on the video clip
             shadow_color = account.value.mode.value.shadow_color
             shadow_opacity = account.value.mode.value.shadow_opacity
@@ -469,10 +470,10 @@ def create_video(
 
             text_clips_array.extend(text_clips)
 
-    if not video_settings.single_background_video:
+    if not output_settings.single_background_video_path:
         final_video = mpy.concatenate_videoclips(clips=video_clips, method="chain").set_audio(audio)
     else:
-        background_clip = mpy.VideoFileClip(video_settings.single_background_video).subclip(video_start)
+        background_clip = mpy.VideoFileClip(output_settings.single_background_video_path).subclip(video_start)
 
         background_clip_width, background_clip_height = background_clip.size
         current_aspect_ratio = background_clip_width / background_clip_height
@@ -480,8 +481,10 @@ def create_video(
         if current_aspect_ratio > target_aspect_ratio:
             new_width = int(background_clip_height * target_aspect_ratio)
 
-            if background_video_horizontal_offset is None:
+            if not output_settings.single_background_video_horizontal_offset:
                 background_video_horizontal_offset = (background_clip_width - new_width) // 2
+            else:
+                background_video_horizontal_offset = output_settings.single_background_video_horizontal_offset
 
             background_clip = background_clip.crop(
                 x1=background_video_horizontal_offset,
@@ -490,24 +493,26 @@ def create_video(
         else:
             new_height = int(background_clip_width / target_aspect_ratio)
 
-            if background_video_vertical_offset is None:
+            if not output_settings.single_background_video_vertical_offset:
                 background_video_vertical_offset = (background_clip_height - new_height) // 2
+            else:
+                background_video_vertical_offset = output_settings.single_background_video_vertical_offset
 
             background_clip = background_clip.crop(
                 y1=background_video_vertical_offset, y2=background_video_vertical_offset + new_height
             ).resize(video_settings.video_dimensions)
 
         shadow_clip = create_shadow_clip(
-            color=account.mode.value["shadow_color"],
+            color=account.value.mode.value.shadow_color,
             duration=background_clip.duration,
-            opacity=account.mode.value["shadow_opacity"],
+            opacity=account.value.mode.value.shadow_opacity,
             size=video_settings.video_dimensions,
         )
 
         video = mpy.CompositeVideoClip([background_clip, shadow_clip])
         final_video = mpy.CompositeVideoClip([video, *text_clips_array], use_bgclip=True).set_audio(audio)
 
-        video_map_output = video_settings.single_background_video
+        video_map_output = output_settings.single_background_video_path
 
     colored_print(Fore.GREEN, "Creating final video...")
 
@@ -528,7 +533,7 @@ def create_video(
     )
 
     try:
-        if video_settings.single_background_video:
+        if output_settings.single_background_video_path:
             final_video.write_videofile(
                 filename=output_mp4_file_path,
                 fps=video.fps,
