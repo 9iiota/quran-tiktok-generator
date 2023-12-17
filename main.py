@@ -28,7 +28,7 @@ MINIMAL_CLIP_DURATION = 0.75
 def main() -> None:
     tiktok = TikToks()
     tiktok.change_settings(video_map={})
-    tiktok.yasser_al_dosari_ash_sharh_1_8()
+    tiktok.yasser_al_dosari_al_fath_29()
     tiktok.run()
 
 
@@ -938,6 +938,19 @@ class TikToks:
             132,
         )
 
+    def yasser_al_dosari_al_fath_29(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verse 29 of Surah Al-Fath by Yasser Al-Dosari
+        """
+
+        self._set_values(
+            r"Surahs\Yasser Al-Dosari - Al-Fath (48.29)",
+            "29",
+            48,
+            29,
+            29,
+        )
+
     def yasser_al_dosari_ar_rahman_17_25(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 17-25 of Surah Ar-Rahman by Yasser Al-Dosari
@@ -1276,19 +1289,6 @@ class TikToks:
             23,
             34,
             39,
-        )
-
-    def yasser_al_dosari_al_fath_29(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verse 29 of Surah Al-Fath by Yasser Al-Dosari
-        """
-
-        self._set_values(
-            r"Surahs\Yasser Al-Dosari - Al-Fath (48.29)",
-            "29",
-            48,
-            29,
-            29,
         )
 
     def yasser_al_dosari_az_zukhruf_68_73(self) -> None:
