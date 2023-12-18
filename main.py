@@ -849,6 +849,19 @@ class TikToks:
             52,
         )
 
+    def muhammad_al_luhaidan_taha_105_108(self) -> None:
+        """
+        Modifies the parameters of the class for a TikTok video for verses 105-108 of Surah Taha by Muhammad Al-Luhaidan
+        """
+
+        self._set_values(
+            r"Surahs\Muhammad Al-Luhaidan\Taha (20.105-108)",
+            "105-108",
+            20,
+            105,
+            108,
+        )
+
     def salim_bahanan_ad_duhaa_1_11(self) -> None:
         """
         Modifies the parameters of the class for a TikTok video for verses 1-11 of Surah Ad-Duhaa by Salim Bahanan
@@ -1041,19 +1054,6 @@ class TikToks:
             19,
             85,
             92,
-        )
-
-    def muhammad_al_luhaidan_taha_105_108(self) -> None:
-        """
-        Modifies the parameters of the class for a TikTok video for verses 105-108 of Surah Taha by Muhammad Al-Luhaidan
-        """
-
-        self._set_values(
-            r"Surahs\Muhammad Al-Luhaidan\Taha (20.105-108)",
-            "105-108",
-            20,
-            105,
-            108,
         )
 
     def muhammad_al_luhaidan_al_haqqah_29_33(self) -> None:

@@ -7,7 +7,7 @@ class Preset:
         self,
         audio_directory_path: str,
         output_video_verse_range: str,
-        output_settings: OutputSettings = None,
+        output_settings: OutputSettings = OutputSettings(),
         time_modifiers: TimeModifiers = TimeModifiers(time_modifier=-0.2, end_time_modifier=0.0),
     ) -> None:
         self.audio_directory_path = audio_directory_path
@@ -18,17 +18,17 @@ class Preset:
 
 class Presets(Enum):
     ABDUL_RAHMAN_MOSSAD_AL_ADIYAT_1_11 = Preset(r"Surahs\Abdul Rahman Mossad\Al-'Adiyat (100.1-11)", (1, 11))
-    ABDUL_RAHMAN_MOSSAD_AL_ADIYAT_54_60 = Preset(
+    ABDUL_RAHMAN_MOSSAD_AL_ANKABUT_54_60 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-'Ankabut (29.53-64)",
         (54, 60),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
     )
-    ABDUL_RAHMAN_MOSSAD_AL_ADIYAT_54_57 = Preset(
+    ABDUL_RAHMAN_MOSSAD_AL_ANKABUT_54_57 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-'Ankabut (29.53-64)",
         (54, 57),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
     )
-    ABDUL_RAHMAN_MOSSAD_AL_ADIYAT_56_57 = Preset(
+    ABDUL_RAHMAN_MOSSAD_AL_ANKABUT_56_57 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-'Ankabut (29.53-64)",
         (56, 57),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
@@ -220,6 +220,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Ghafir (40.48-52)",
         (48, 52),
     )
+    MUHAMMAD_AL_LUHAIDAN_TAHA_105_108 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Taha (20.105-108)",
+        (105, 108),
+    )
     SALIM_BAHANAN_AD_DUHAA_1_11 = Preset(
         r"Surahs\Salim Bahanan\Ad-Duhaa (93.1-11)",
         (1, 11),
@@ -285,10 +289,7 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Maryam (19.85-92)",
         (85, 92),
     )
-    MUHAMMAD_AL_LUHAIDAN_TAHA_105_108 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\Taha (20.105-108)",
-        (105, 108),
-    )
+
     MUHAMMAD_AL_LUHAIDAN_AL_HAQQAH_29_33 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Haqqah (69.29-33)",
         (29, 33),

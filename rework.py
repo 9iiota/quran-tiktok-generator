@@ -43,7 +43,7 @@ def create_video(
     verse_number_text_clip: TextClipInfo = None,
     reciter_name: str = None,
     reciter_name_text_clip: TextClipInfo = None,
-    output_settings: OutputSettings = None,
+    output_settings: OutputSettings = OutputSettings(),
     background_clips_directories_list: list[str] = None,
     output_mp4_file_path: str = None,
 ) -> None:
@@ -153,31 +153,25 @@ def create_video(
     if not background_clips_directories_list:
         background_clips_directories_list = account.value.background_clips_directory_paths
 
-    all_background_clips_paths = get_absolute_mp4_paths(background_clips_directories_list)
+    all_background_clips_paths = get_relative_mp4_paths(background_clips_directories_list)
+    target_aspect_ratio = video_width / video_height
     text_clips_array = []
     used_background_clips_paths = []
-    target_aspect_ratio = video_width / video_height
     video_clips = []
     video_map_output = {}
 
+    if output_settings.video_map:
+        output_settings.video_map = {int(key): value for key, value in output_settings.video_map.items()}
+
     loop_range = range(start_line, end_line)
     for line in loop_range:
+        clip_index = line - start_line + 1
         current_line = chapter_csv_lines[line - 1]
 
         # TODO: A line should be able to exist without verse_translation
         verse_number, verse_text, verse_translation, timestamp = current_line
 
-        if verse_number_text_clip:
-            if verse_number != "":
-                clip_counter = 1
-            else:
-                line_index = line - 2
-                while chapter_csv_lines[line_index][0] == "":
-                    line_index -= 1
-                verse_number = chapter_csv_lines[line_index][0]
-                clip_counter += 1
-
-        colored_print(Fore.MAGENTA, f"Creating clip {verse_number}.{clip_counter}...")
+        colored_print(Fore.MAGENTA, f"Creating clip {clip_index}...")
 
         next_line = chapter_csv_lines[line]
         next_timestamp = next_line[3]
@@ -452,7 +446,7 @@ def create_video(
             )
             video_clips.append(video_clip)
 
-            colored_print(Fore.GREEN, f"Created clip {verse_number}:{clip_counter}")
+            colored_print(Fore.GREEN, f"Created clip {clip_index}")
         else:
             # Set text clip start times if using a single background video
             text_start_time = get_time_difference_seconds(audio_start, video_start)
@@ -1195,6 +1189,31 @@ def get_absolute_mp4_paths(
 
     return [
         os.path.abspath(os.path.join(folder_path, file))
+        for folder_path in folder_paths
+        for file in os.listdir(folder_path)
+        if file.endswith(".mp4")
+    ]
+
+
+def get_relative_mp4_paths(
+    folder_paths: list[str],
+) -> list[str]:
+    """
+    Gets the relative paths of all mp4 files in a list of folders.
+
+    Parameters
+    ----------
+    folder_paths : list[str]
+        The paths to the folders.
+
+    Returns
+    -------
+    list[str]
+        The relative paths of all mp4 files in the folders.
+    """
+
+    return [
+        os.path.join(folder_path, file)
         for folder_path in folder_paths
         for file in os.listdir(folder_path)
         if file.endswith(".mp4")

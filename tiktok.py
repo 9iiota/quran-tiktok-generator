@@ -18,9 +18,13 @@ from rework import create_video, fetch_chapter_name
 
 def main():
     tiktok = TikTok(Account.QURAN_2_LISTEN)
-    preset = Presets.UNKNOWN_AZ_ZUMAR_71_75.value
+    preset = Presets.MUHAMMAD_AL_LUHAIDAN_TAHA_105_108.value
     tiktok.create_tiktok(
-        preset.audio_directory_path, preset.output_video_verse_range, preset.time_modifiers, preset.output_settings
+        preset.audio_directory_path,
+        preset.output_video_verse_range,
+        preset.time_modifiers,
+        output_settings=preset.output_settings,
+        # output_settings=OutputSettings(video_map={}),
     )
     # tiktok.create_tiktok(r"Surahs\Ahmed Wael - As-Saffat (37.91-93)", (91, 93), video_map={})
 
@@ -33,7 +37,7 @@ class TikTok:
             allow_duplicate_background_clips=False,
             allow_mirrored_background_clips=True,
             background_clips_speed=1.0,
-            minimal_background_clip_duration=0.75,
+            minimal_background_clip_duration=1,
             video_dimensions=(576, 1024),
             video_mode=VideoMode.VIDEO,
         ),
