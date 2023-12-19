@@ -50,6 +50,9 @@ def create_video(
     ----------
     """
 
+    if not isinstance(account, Account):
+        account = account.value
+
     if not os.path.isfile(audio_settings.audio_mp3_file):
         raise FileNotFoundError(f"{audio_settings.audio_mp3_file} is not a file.")
 
@@ -87,7 +90,7 @@ def create_video(
 
     if append_verse_translations_to_csv_file(
         chapter_csv_file,
-        account.value.language,
+        account.language,
         audio_settings.chapter_number,
         audio_settings.audio_verse_range,
         csv_column_names.timestamp,
@@ -112,7 +115,7 @@ def create_video(
             ):
                 colored_print(Fore.GREEN, f"Added verse numbers to {chapter_csv_file}.")
 
-    language_abbreviation = account.value.language.value.abbreviation
+    language_abbreviation = account.language.value.abbreviation
 
     # TODO: A clip should be able to be created without language abbreviation column
     chapter_csv_lines = select_columns_from_csv_file(
@@ -146,7 +149,7 @@ def create_video(
     # if video_map:
     #     video_map = convert_video_map_paths_to_absolute_paths(video_map)
 
-    all_background_clips_paths = get_relative_mp4_paths(account.value.background_clips_directories)
+    all_background_clips_paths = get_relative_mp4_paths(account.background_clips_directories)
     target_aspect_ratio = video_width / video_height
     text_clips_array = []
     used_background_clips_paths = []
@@ -371,51 +374,51 @@ def create_video(
         text_clips = []
 
         if verse_text_text_clip:
-            verse_text_color = account.value.mode.value.verse_text_color
+            verse_text_color = account.mode.value.verse_text_color
             verse_text_clip = verse_text_text_clip.create_text_clip(
                 color=verse_text_color,
                 duration=text_duration,
-                font=account.value.verse_text_font_file,
+                font=account.verse_text_font_file,
                 text=verse_text,
             )
             text_clips.append(verse_text_clip)
 
         if verse_translation_text_clip:
-            verse_translation_color = account.value.mode.value.verse_translation_color
+            verse_translation_color = account.mode.value.verse_translation_color
             verse_translation_clip = verse_translation_text_clip.create_text_clip(
                 color=verse_translation_color,
                 duration=text_duration,
-                font=account.value.verse_translation_font_file,
+                font=account.verse_translation_font_file,
                 text=verse_translation,
             )
             text_clips.append(verse_translation_clip)
 
         # Append verse number text clip if it is a new verse
         if verse_number_text_clip and verse_number != "":
-            verse_number_color = account.value.mode.value.verse_number_color
+            verse_number_color = account.mode.value.verse_number_color
             verse_number_clip = verse_number_text_clip.create_text_clip(
                 color=verse_number_color,
                 duration=text_duration,
-                font=account.value.verse_number_font_file,
+                font=account.verse_number_font_file,
                 text=verse_number,
             )
             text_clips.append(verse_number_clip)
 
         # Append reciter name text clip if it is the first clip
         if line == start_line and reciter_name and reciter_name_text_clip:
-            reciter_name_color = account.value.mode.value.reciter_name_color
+            reciter_name_color = account.mode.value.reciter_name_color
             reciter_name_clip = reciter_name_text_clip.create_text_clip(
                 color=reciter_name_color,
                 duration=text_duration,
-                font=account.value.reciter_name_font_file,
+                font=account.reciter_name_font_file,
                 text=reciter_name,
             )
             text_clips.append(reciter_name_clip)
 
         if not optional_video_settings.single_background_video:
             # Create shadow clip to put overlay on the video clip
-            shadow_color = account.value.mode.value.shadow_color
-            shadow_opacity = account.value.mode.value.shadow_opacity
+            shadow_color = account.mode.value.shadow_color
+            shadow_opacity = account.mode.value.shadow_opacity
             shadow_clip = create_shadow_clip(
                 size=video_settings.video_dimensions,
                 color=shadow_color,
@@ -492,9 +495,9 @@ def create_video(
             ).resize(video_settings.video_dimensions)
 
         shadow_clip = create_shadow_clip(
-            color=account.value.mode.value.shadow_color,
+            color=account.mode.value.shadow_color,
             duration=background_clip.duration,
-            opacity=account.value.mode.value.shadow_opacity,
+            opacity=account.mode.value.shadow_opacity,
             size=video_settings.video_dimensions,
         )
 

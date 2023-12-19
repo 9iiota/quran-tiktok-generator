@@ -3,6 +3,7 @@ import re
 
 from datetime import datetime
 from classes import (
+    Account,
     AudioSettings,
     CSVColumnNames,
     TextClipInfo,
@@ -17,7 +18,7 @@ from typing import Optional
 
 
 class TikTok:
-    def __init__(self, account):
+    def __init__(self, account: Account):
         self.account = account
 
     def create(
@@ -59,10 +60,16 @@ class TikTok:
             audio_verse_range=start_to_end_timestamp_verse_range,
         )
 
+        if not isinstance(self.account, Account):
+            self.account = self.account.value
+            account_name = "anonymous"
+        else:
+            account_name = str(self.account).split(".")[-1].lower()
+
+        language_abbreviation = self.account.language.value.abbreviation
+
         chapter_name = fetch_chapter_name(chapter_number)
         reciter_name = audio_directory_path.split("\\")[-2]
-        account_name = str(self.account).split(".")[-1].lower()
-        language_abbreviation = self.account.value.language.value.abbreviation
         start_verse, end_verse = video_verse_range
         verse_range = f"{start_verse}-{end_verse}" if start_verse != end_verse else str(start_verse)
 
