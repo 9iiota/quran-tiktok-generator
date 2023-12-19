@@ -1,34 +1,26 @@
 import os
 import re
 
-from dataclasses import dataclass
 from datetime import datetime
 from classes import (
-    Account,
     AudioSettings,
     CSVColumnNames,
     TextClipInfo,
     TimeModifiers,
+    VideoModes,
     VideoSettings,
     OptionalVideoSettings,
-    VideoModes,
 )
-from _Private.enums import Accounts
 from presets import Presets
-from rework import create_video, fetch_chapter_name
+from functions import create_video, fetch_chapter_name
 from typing import Optional
 
 
-def main():
-    tiktok = TikTok(Accounts.QURAN_2_LISTEN)
-    tiktok.create_tiktok(preset=Presets.ABDUL_RAHMAN_MOSSAD_AL_ADIYAT_1_11)
-
-
-@dataclass
 class TikTok:
-    account: Account
+    def __init__(self, account):
+        self.account = account
 
-    def create_tiktok(
+    def create(
         self,
         preset: Optional[Presets] = None,
         video_verse_range: Optional[tuple[int, int]] = None,
@@ -136,7 +128,3 @@ class TikTok:
             reciter_name_text_clip=reciter_name_text_clip,
             output_mp4_file=output_mp4_file,
         )
-
-
-if __name__ == "__main__":
-    main()

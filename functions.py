@@ -13,20 +13,16 @@ from classes import (
     Account,
     AudioSettings,
     CSVColumnNames,
-    Languages,
     TextClipInfo,
     TimeModifiers,
+    VideoModes,
     VideoSettings,
     OptionalVideoSettings,
-    VideoModes,
+    Languages,
 )
 from fuzzywuzzy import fuzz
 from pyquran import quran
 from typing import Optional
-
-
-def main():
-    pass
 
 
 def create_video(
@@ -1899,7 +1895,3 @@ def create_video_clip(
         final_video_clip = final_video_clip.fadein(0.25).fadeout(0.25)
 
     return final_video_clip
-
-
-if __name__ == "__main__":
-    main()
