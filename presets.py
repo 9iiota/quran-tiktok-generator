@@ -1,19 +1,16 @@
-from classes import OutputSettings, TimeModifiers
+from classes import TimeModifiers
+from dataclasses import dataclass, field
 from enum import Enum
+from typing import Optional
 
 
+@dataclass
 class Preset:
-    def __init__(
-        self,
-        audio_directory_path: str,
-        output_video_verse_range: str,
-        output_settings: OutputSettings = OutputSettings(),
-        time_modifiers: TimeModifiers = TimeModifiers(time_modifier=-0.2, end_time_modifier=0.0),
-    ) -> None:
-        self.audio_directory_path = audio_directory_path
-        self.output_video_verse_range = output_video_verse_range
-        self.output_settings = output_settings
-        self.time_modifiers = time_modifiers
+    audio_directory_path: str
+    video_verse_range: str
+    time_modifiers: Optional[TimeModifiers] = field(
+        default_factory=lambda: TimeModifiers(time_modifier=-0.2, end_time_modifier=0.0)
+    )
 
 
 class Presets(Enum):
@@ -354,18 +351,10 @@ class Presets(Enum):
     UNKNOWN_AZ_ZUMAR_71_75 = Preset(
         r"Surahs\Unknown\Az-Zumar (39.71-75)",
         (71, 75),
-        output_settings=OutputSettings(
-            single_background_video_path=r"Surahs\Unknown\Az-Zumar (39.71-75)\video.mp4",
-            single_background_video_horizontal_offset=750,
-        ),
     )
     UNKNOWN_AZ_ZUMAR_73_75 = Preset(
         r"Surahs\Unknown\Az-Zumar (39.71-75)",
         (73, 75),
-        output_settings=OutputSettings(
-            single_background_video_path=r"Surahs\Unknown\Az-Zumar (39.71-75)\video.mp4",
-            single_background_video_horizontal_offset=750,
-        ),
     )
     YASSER_AL_DOSARI_AL_MUMINUN_34_39 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Mu'minun (23.34-39)",
