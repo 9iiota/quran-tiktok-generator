@@ -105,7 +105,7 @@ class VideoSettings:
 
 
 @dataclass
-class OptionalVideoSettings:
+class AdditionalVideoSettings:
     single_background_video: Optional[str] = None
     single_background_video_horizontal_offset: Optional[int] = None
     single_background_video_vertical_offset: Optional[int] = None

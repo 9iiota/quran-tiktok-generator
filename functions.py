@@ -17,7 +17,7 @@ from classes import (
     TimeModifiers,
     VideoModes,
     VideoSettings,
-    OptionalVideoSettings,
+    AdditionalVideoSettings,
     Languages,
 )
 from fuzzywuzzy import fuzz
@@ -35,7 +35,7 @@ def create_video(
     output_mp4_file_name: str,
     chapter_csv_file: str,
     timestamps_csv_file: str,
-    optional_video_settings: Optional[OptionalVideoSettings] = OptionalVideoSettings(),
+    optional_video_settings: Optional[AdditionalVideoSettings] = AdditionalVideoSettings(),
     verse_text_text_clip: Optional[TextClipInfo] = None,
     verse_translation_text_clip: Optional[TextClipInfo] = None,
     verse_number_text_clip: Optional[TextClipInfo] = None,
@@ -184,16 +184,16 @@ def create_video(
         else:
             audio_end = offset_timestamp(strip_timestamp(next_timestamp)[0], time_modifiers.time_modifier)
 
-        video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
+        total_video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
 
         try:
             text_end = offset_timestamp(strip_timestamp(next_timestamp)[1], time_modifiers.time_modifier)
             text_duration = get_time_difference_seconds(audio_start, text_end)
         except IndexError:
-            text_duration = video_clip_duration
+            text_duration = total_video_clip_duration
 
         if not optional_video_settings.single_background_video:
-            total_background_clips_duration = 0
+            current_video_clip_duration = 0
             video_clip_background_clip_paths = []
 
             if video_settings.video_mode == VideoModes.VIDEO:
@@ -263,13 +263,15 @@ def create_video(
                         except IndexError:
                             pass
 
-                        adjusted_background_clip_duration = background_clip_duration - background_clip_time_offset
+                        time_offsetted_background_clip_duration = (
+                            background_clip_duration - background_clip_time_offset
+                        )
+                        video_clip_remaining_duration = total_video_clip_duration - current_video_clip_duration
 
-                        video_clip_leftover_duration = video_clip_duration - total_background_clips_duration
                         if validate_background_clip_duration(
-                            adjusted_background_clip_duration,
+                            time_offsetted_background_clip_duration,
                             video_settings.minimal_background_clip_duration,
-                            video_clip_leftover_duration,
+                            video_clip_remaining_duration,
                         ):
                             video_clip_background_clip_paths.append(
                                 [
@@ -281,18 +283,18 @@ def create_video(
                             )
                             used_background_clips_paths.append(background_clip_path)
 
-                            total_background_clips_duration += adjusted_background_clip_duration
+                            current_video_clip_duration += time_offsetted_background_clip_duration
 
-                            if total_background_clips_duration >= video_clip_duration:
+                            if current_video_clip_duration >= total_video_clip_duration:
                                 break
                         else:
                             colored_print(
                                 Fore.RED,
-                                f"Verse {video_map_index} background clip {i + 1} duration ({background_clip_duration} : {round((video_clip_leftover_duration - background_clip_duration), 2)}) is invalid, skipping...",
+                                f"Verse {video_map_index} background clip {i + 1} duration ({background_clip_duration} : {round((video_clip_remaining_duration - background_clip_duration), 2)}) is invalid, skipping...",
                             )
 
-                    video_clip_leftover_duration = video_clip_duration - total_background_clips_duration
-                    if video_clip_leftover_duration > 0:
+                    video_clip_remaining_duration = total_video_clip_duration - current_video_clip_duration
+                    if video_clip_remaining_duration > 0:
                         (
                             i,
                             used_background_clips_paths,
@@ -304,10 +306,10 @@ def create_video(
                             video_settings.allow_mirrored_background_clips,
                             video_settings.background_clips_speed,
                             video_settings.minimal_background_clip_duration,
-                            total_background_clips_duration,
+                            current_video_clip_duration,
                             used_background_clips_paths,
                             video_clip_background_clip_paths,
-                            video_clip_duration,
+                            total_video_clip_duration,
                             optional_video_settings.video_map,
                             video_map_index,
                             video_width,
@@ -324,10 +326,10 @@ def create_video(
                         video_settings.allow_mirrored_background_clips,
                         video_settings.background_clips_speed,
                         video_settings.minimal_background_clip_duration,
-                        total_background_clips_duration,
+                        current_video_clip_duration,
                         used_background_clips_paths,
                         video_clip_background_clip_paths,
-                        video_clip_duration,
+                        total_video_clip_duration,
                         optional_video_settings.video_map,
                         video_map_index,
                         video_width,
@@ -422,7 +424,7 @@ def create_video(
             shadow_clip = create_shadow_clip(
                 size=video_settings.video_dimensions,
                 color=shadow_color,
-                duration=video_clip_duration,
+                duration=total_video_clip_duration,
                 opacity=shadow_opacity,
             )
 
@@ -434,7 +436,7 @@ def create_video(
             video_clip = create_video_clip(
                 background_clips_paths=video_clip_background_clip_paths,
                 background_clips_speed=video_settings.background_clips_speed,
-                final_clip_duration=video_clip_duration,
+                final_clip_duration=total_video_clip_duration,
                 target_aspect_ratio=target_aspect_ratio,
                 text_clips=text_clips,
                 video_dimensions=video_settings.video_dimensions,
@@ -933,10 +935,11 @@ def get_loop_range(
 
     end_line = verse_numbers.index(f"{chapter_number}:{verse_range_end}") + 1
 
-    while end_line + 1 < len(verse_numbers) and verse_numbers[end_line + 1] == "":
+    while end_line < len(verse_numbers) and verse_numbers[end_line] == "":
         end_line += 1
+    end_line = min(len(chapter_csv_lines), end_line + 1)
 
-    return (start_line, end_line + 1)
+    return (start_line, end_line)
 
 
 def get_time_difference_seconds(time1: str, time2: str) -> float:
@@ -1513,10 +1516,10 @@ def get_valid_background_clips(
     allow_mirrored_background_clips: bool,
     background_clips_speed: float,
     minimal_background_clip_duration: float,
-    total_background_clips_duration: float,
+    current_video_clip_duration: float,
     used_background_clips_paths: list[str],
     video_clip_background_clip_paths: list[list[str, float or int, int, str]],
-    video_clip_duration: float,
+    total_video_clip_duration: float,
     video_map: dict[str, list[list[str, float or int, int, str]]],
     video_map_index: int,
     video_width: int,
@@ -1554,8 +1557,7 @@ def get_valid_background_clips(
                 background_clip_duration, minimal_background_clip_duration
             )
             background_clip_time_offset = get_random_time_offset(max_time_offset)
-
-            background_clip_leftover_duration = background_clip_duration - background_clip_time_offset
+            time_offsetted_background_clip_duration = background_clip_duration - background_clip_time_offset
 
             # TO BE ADDED WHEN DURATION IN VIDEO MAPS IS IMPLEMENTED
             # # Get a random clip duration between the minimal clip duration and the leftover duration
@@ -1564,11 +1566,13 @@ def get_valid_background_clips(
             #     random.uniform(MINIMAL_CLIP_DURATION, min(background_clip_leftover_duration, video_clip_duration)),
             # )
 
-            adjusted_background_clip_duration = min(background_clip_leftover_duration, video_clip_duration)
+            # If the background clip remaining duration is longer than the video clip duration, set the adjusted background clip duration to the video clip duration
+            adjusted_background_clip_duration = min(time_offsetted_background_clip_duration, total_video_clip_duration)
 
-            video_clip_leftover_duration = video_clip_duration - total_background_clips_duration
+            video_clip_remaining_duration = total_video_clip_duration - current_video_clip_duration
+
             if validate_background_clip_duration(
-                adjusted_background_clip_duration, minimal_background_clip_duration, video_clip_leftover_duration
+                adjusted_background_clip_duration, minimal_background_clip_duration, video_clip_remaining_duration
             ):
                 background_clip = mpy.VideoFileClip(background_clip_path)
 
@@ -1596,10 +1600,10 @@ def get_valid_background_clips(
                 )
                 used_background_clips_paths.append(background_clip_path)
 
-                total_background_clips_duration += adjusted_background_clip_duration
+                current_video_clip_duration += adjusted_background_clip_duration
                 x += 1
 
-                if total_background_clips_duration >= video_clip_duration:
+                if current_video_clip_duration >= total_video_clip_duration:
                     break
 
     return (
@@ -1674,19 +1678,19 @@ def validate_language(language: Languages, valid_languages: list[Languages] = La
 
 
 def validate_background_clip_duration(
-    background_clip_duration: float, minimal_background_clip_duration: float, final_clip_leftover_duration: float
+    background_clip_duration: float, minimal_background_clip_duration: float, video_clip_remaining_duration: float
 ) -> bool:
     """
-    Checks if the duration of a sub clip is valid.
+    Checks if the duration of a background clip is valid.
 
     Parameters
     ----------
     background_clip_duration : float
-        The duration of the sub clip.
+        The duration of the sub clip to check the validity of.
     minimal_background_clip_duration : float
-        The minimal duration of the sub clip.
-    final_clip_leftover_duration : float
-        The leftover duration of the final clip.
+        The minimal duration of the sub clip to check the validity of.
+    video_clip_remaining_duration : float
+        The remaining duration of the video clip.
 
     Returns
     -------
@@ -1695,8 +1699,8 @@ def validate_background_clip_duration(
     """
 
     return (
-        final_clip_leftover_duration - background_clip_duration >= minimal_background_clip_duration
-        or final_clip_leftover_duration - background_clip_duration <= 0
+        video_clip_remaining_duration - background_clip_duration >= minimal_background_clip_duration
+        or video_clip_remaining_duration - background_clip_duration <= 0
     )
 
 

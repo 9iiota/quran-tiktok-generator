@@ -7,10 +7,14 @@ from typing import Optional
 @dataclass
 class Preset:
     audio_directory_path: str
-    video_verse_range: str
+    video_verse_range: tuple[int, int]
     time_modifiers: Optional[TimeModifiers] = field(
         default_factory=lambda: TimeModifiers(time_modifier=-0.2, end_time_modifier=0.0)
     )
+
+    def __post_init__(self):
+        if isinstance(self.video_verse_range, int):
+            self.video_verse_range = (self.video_verse_range, self.video_verse_range)
 
 
 class Presets(Enum):
@@ -197,6 +201,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Al-Furqan (25.61-77)",
         (74),
     )
+    MUHAMMAD_AL_LUHAIDAN_AL_HAQQAH_29_33 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Haqqah (69.29-33)",
+        (29, 33),
+    )
     MUHAMMAD_AL_LUHAIDAN_AL_JATHIYAH_27_30 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Jathiyah (45.27-30)",
         (27, 30),
@@ -250,9 +258,17 @@ class Presets(Enum):
         r"Surahs\Unknown\As-Saffat (37.123-132)",
         (123, 132),
     )
+    UNKNOWN_TAHA_124_126 = Preset(
+        r"Surahs\Unknown\Taha (20.124-126)",
+        (124, 126),
+    )
     YASSER_AL_DOSARI_AL_FATH_29 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Fath (48.29)",
         (29),
+    )
+    YASSER_AL_DOSARI_AL_MUMINUN_34_39 = Preset(
+        r"Surahs\Yasser Al-Dosari\Al-Mu'minun (23.34-39)",
+        (34, 39),
     )
     YASSER_AL_DOSARI_AR_RAHMAN_17_25 = Preset(
         r"Surahs\Yasser Al-Dosari\Ar-Rahman (55.1-78)",
@@ -285,11 +301,6 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_MARYAM_85_92 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Maryam (19.85-92)",
         (85, 92),
-    )
-
-    MUHAMMAD_AL_LUHAIDAN_AL_HAQQAH_29_33 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\Al-Haqqah (69.29-33)",
-        (29, 33),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_INSAN_20_22 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.20-22)",
@@ -336,10 +347,6 @@ class Presets(Enum):
         r"Surahs\Salim Bahanan\At-Tin (95.1-8)",
         (1, 8),
     )
-    UNKNOWN_TAHA_124_126 = Preset(
-        r"Surahs\Unknown\Taha (20.124-126)",
-        (124, 126),
-    )
     UNKNOWN_AL_FURQAN_72_75 = Preset(
         r"Surahs\Unknown\Al-Furqan (25.72-75)",
         (72, 75),
@@ -356,10 +363,7 @@ class Presets(Enum):
         r"Surahs\Unknown\Az-Zumar (39.71-75)",
         (73, 75),
     )
-    YASSER_AL_DOSARI_AL_MUMINUN_34_39 = Preset(
-        r"Surahs\Yasser Al-Dosari\Al-Mu'minun (23.34-39)",
-        (34, 39),
-    )
+
     YASSER_AL_DOSARI_AZ_ZUKHRUF_68_73 = Preset(
         r"Surahs\Yasser Al-Dosari\Az-Zukhruf (43.1-89)",
         (68, 73),

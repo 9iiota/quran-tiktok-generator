@@ -10,7 +10,7 @@ from classes import (
     TimeModifiers,
     VideoModes,
     VideoSettings,
-    OptionalVideoSettings,
+    AdditionalVideoSettings,
 )
 from presets import Presets
 from functions import create_video, fetch_chapter_name
@@ -35,13 +35,16 @@ class TikTok:
             video_dimensions=(576, 1024),
             video_mode=VideoModes.VIDEO,
         ),
-        optional_video_settings: Optional[OptionalVideoSettings] = OptionalVideoSettings(),
+        optional_video_settings: Optional[AdditionalVideoSettings] = AdditionalVideoSettings(),
         output_mp4_file: Optional[str] = None,
     ):
         if preset:
             audio_directory_path = preset.value.audio_directory_path
             video_verse_range = video_verse_range or preset.value.video_verse_range
             time_modifiers = time_modifiers or preset.value.time_modifiers
+
+        if isinstance(video_verse_range, int):
+            video_verse_range = (video_verse_range, video_verse_range)
 
         for file in os.listdir(audio_directory_path):
             if file.endswith(".mp3"):
@@ -61,16 +64,19 @@ class TikTok:
         )
 
         if not isinstance(self.account, Account):
-            self.account = self.account.value
-            account_name = "anonymous"
-        else:
             account_name = str(self.account).split(".")[-1].lower()
+            self.account = self.account.value
+        else:
+            account_name = "anonymous"
 
         language_abbreviation = self.account.language.value.abbreviation
 
         chapter_name = fetch_chapter_name(chapter_number)
         reciter_name = audio_directory_path.split("\\")[-2]
-        start_verse, end_verse = video_verse_range
+        try:
+            start_verse, end_verse = video_verse_range
+        except ValueError:
+            start_verse = end_verse = video_verse_range
         verse_range = f"{start_verse}-{end_verse}" if start_verse != end_verse else str(start_verse)
 
         output_mp4_file_name = f"{chapter_name} ({chapter_number}.{verse_range}) - {reciter_name} {account_name} {language_abbreviation} {datetime.now().strftime('%d-%m-%Y %H.%M.%S')}"
