@@ -233,6 +233,10 @@ class Presets(Enum):
         r"Surahs\Salim Bahanan\Ad-Duhaa (93.1-11)",
         (1, 11),
     )
+    SALIM_BAHANAN_AL_FATIHAH_2_7 = Preset(
+        r"Surahs\Salim Bahanan\Al-Fatihah (1.1-7)",
+        (2, 7),
+    )
     SALIM_BAHANAN_AL_QARIAH_1_11 = Preset(
         r"Surahs\Salim Bahanan\Al-Qari'ah (101.1-11)",
         (1, 11),
@@ -338,10 +342,6 @@ class Presets(Enum):
     MUHAMMADLOIQ_QORI_AL_AHZAB_35 = Preset(
         r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)",
         (35),
-    )
-    SALIM_BAHANAN_AL_FATIHAH_2_7 = Preset(
-        r"Surahs\Salim Bahanan\Al-Fatihah (1.1-7)",
-        (2, 7),
     )
     SALIM_BAHANAN_AT_TIN_1_8 = Preset(
         r"Surahs\Salim Bahanan\At-Tin (95.1-8)",

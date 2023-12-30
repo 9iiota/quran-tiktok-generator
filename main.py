@@ -17,10 +17,12 @@ class Joe(Enum):
 
 def main():
     tiktok = TikTok(Accounts.QURAN_2_LISTEN)
-    preset = Presets.UNKNOWN_TAHA_124_126
+    preset = Presets.MANSOUR_AS_SALIMI_MARYAM_27_33
     tiktok.create(
         preset,
-        optional_video_settings=AdditionalVideoSettings(video_map={}),
+        optional_video_settings=AdditionalVideoSettings(
+            video_map={"1": [["Background_Clips/Anime/Garden of Words (19).mp4", 0]]}
+        ),
     )
 
 
