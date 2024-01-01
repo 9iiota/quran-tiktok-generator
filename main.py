@@ -17,10 +17,10 @@ class Joe(Enum):
 
 def main():
     tiktok = TikTok(Accounts.QURAN_2_LISTEN)
-    preset = Presets.MUHAMMAD_AL_LUHAIDAN_MARYAM_85_92
+    preset = Presets.ABDUL_RAHMAN_MOSSAD_AL_ANKABUT_56_57
     tiktok.create(
         preset,
-        optional_video_settings=AdditionalVideoSettings(video_map={}),
+        # additional_video_settings=AdditionalVideoSettings(video_map={}),
     )
 
 

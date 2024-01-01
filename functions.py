@@ -35,7 +35,7 @@ def create_video(
     output_mp4_file_name: str,
     chapter_csv_file: str,
     timestamps_csv_file: str,
-    optional_video_settings: Optional[AdditionalVideoSettings] = AdditionalVideoSettings(),
+    additional_video_settings: Optional[AdditionalVideoSettings] = AdditionalVideoSettings(),
     verse_text_text_clip: Optional[TextClipInfo] = None,
     verse_translation_text_clip: Optional[TextClipInfo] = None,
     verse_number_text_clip: Optional[TextClipInfo] = None,
@@ -128,7 +128,13 @@ def create_video(
         ],
     )
 
-    start_line, end_line = get_loop_range(chapter_csv_lines, audio_settings.chapter_number, output_video_verse_range)
+    start_line, end_line = get_loop_range(
+        chapter_csv_lines,
+        audio_settings.chapter_number,
+        output_video_verse_range,
+        additional_video_settings.start_line,
+        additional_video_settings.end_line,
+    )
 
     video_width, video_height = video_settings.video_dimensions
 
@@ -156,12 +162,15 @@ def create_video(
     video_clips = []
     video_map_output = {}
 
-    if optional_video_settings.video_map:
-        optional_video_settings.video_map = {
-            int(key): value for key, value in optional_video_settings.video_map.items()
+    if additional_video_settings.video_map:
+        additional_video_settings.video_map = {
+            int(key): value for key, value in additional_video_settings.video_map.items()
         }
 
     loop_range = range(start_line, end_line)
+
+    colored_print(Fore.MAGENTA, f"Creating clips in range {start_line}-{end_line - 1}...")
+
     for line in loop_range:
         clip_index = line - start_line + 1
         current_line = chapter_csv_lines[line - 1]
@@ -192,18 +201,21 @@ def create_video(
         except IndexError:
             text_duration = total_video_clip_duration
 
-        if not optional_video_settings.single_background_video:
+        if not additional_video_settings.single_background_video:
             current_video_clip_duration = 0
             video_clip_background_clip_paths = []
 
             if video_settings.video_mode == VideoModes.VIDEO:
                 video_map_index = line - start_line + 1
 
-                if optional_video_settings.video_map and video_map_index in optional_video_settings.video_map.keys():
-                    background_clips_count = len(optional_video_settings.video_map[video_map_index])
+                if (
+                    additional_video_settings.video_map
+                    and video_map_index in additional_video_settings.video_map.keys()
+                ):
+                    background_clips_count = len(additional_video_settings.video_map[video_map_index])
 
                     for i in range(background_clips_count):
-                        background_clip_info = optional_video_settings.video_map[video_map_index][i]
+                        background_clip_info = additional_video_settings.video_map[video_map_index][i]
 
                         background_clip_path = background_clip_info[0]
                         background_clip = mpy.VideoFileClip(background_clip_path).speedx(
@@ -310,7 +322,7 @@ def create_video(
                             used_background_clips_paths,
                             video_clip_background_clip_paths,
                             total_video_clip_duration,
-                            optional_video_settings.video_map,
+                            additional_video_settings.video_map,
                             video_map_index,
                             video_width,
                             i,
@@ -330,7 +342,7 @@ def create_video(
                         used_background_clips_paths,
                         video_clip_background_clip_paths,
                         total_video_clip_duration,
-                        optional_video_settings.video_map,
+                        additional_video_settings.video_map,
                         video_map_index,
                         video_width,
                     )[
@@ -417,7 +429,7 @@ def create_video(
             )
             text_clips.append(reciter_name_clip)
 
-        if not optional_video_settings.single_background_video:
+        if not additional_video_settings.single_background_video:
             # Create shadow clip to put overlay on the video clip
             shadow_color = account.mode.value.shadow_color
             shadow_opacity = account.mode.value.shadow_opacity
@@ -464,10 +476,10 @@ def create_video(
 
             text_clips_array.extend(text_clips)
 
-    if not optional_video_settings.single_background_video:
+    if not additional_video_settings.single_background_video:
         final_video = mpy.concatenate_videoclips(clips=video_clips, method="chain").set_audio(audio)
     else:
-        background_clip = mpy.VideoFileClip(optional_video_settings.single_background_video).subclip(video_start)
+        background_clip = mpy.VideoFileClip(additional_video_settings.single_background_video).subclip(video_start)
 
         background_clip_width, background_clip_height = background_clip.size
         current_aspect_ratio = background_clip_width / background_clip_height
@@ -475,10 +487,12 @@ def create_video(
         if current_aspect_ratio > target_aspect_ratio:
             new_width = int(background_clip_height * target_aspect_ratio)
 
-            if not optional_video_settings.single_background_video_horizontal_offset:
+            if not additional_video_settings.single_background_video_horizontal_offset:
                 background_video_horizontal_offset = (background_clip_width - new_width) // 2
             else:
-                background_video_horizontal_offset = optional_video_settings.single_background_video_horizontal_offset
+                background_video_horizontal_offset = (
+                    additional_video_settings.single_background_video_horizontal_offset
+                )
 
             background_clip = background_clip.crop(
                 x1=background_video_horizontal_offset,
@@ -487,10 +501,10 @@ def create_video(
         else:
             new_height = int(background_clip_width / target_aspect_ratio)
 
-            if not optional_video_settings.single_background_video_vertical_offset:
+            if not additional_video_settings.single_background_video_vertical_offset:
                 background_video_vertical_offset = (background_clip_height - new_height) // 2
             else:
-                background_video_vertical_offset = optional_video_settings.single_background_video_vertical_offset
+                background_video_vertical_offset = additional_video_settings.single_background_video_vertical_offset
 
             background_clip = background_clip.crop(
                 y1=background_video_vertical_offset, y2=background_video_vertical_offset + new_height
@@ -506,7 +520,7 @@ def create_video(
         video = mpy.CompositeVideoClip([background_clip, shadow_clip])
         final_video = mpy.CompositeVideoClip([video, *text_clips_array], use_bgclip=True).set_audio(audio)
 
-        video_map_output = optional_video_settings.single_background_video
+        video_map_output = additional_video_settings.single_background_video
 
     colored_print(Fore.GREEN, "Creating final video...")
 
@@ -527,7 +541,7 @@ def create_video(
     )
 
     try:
-        if optional_video_settings.single_background_video:
+        if additional_video_settings.single_background_video:
             final_video.write_videofile(
                 filename=output_mp4_file,
                 fps=video.fps,
@@ -906,7 +920,11 @@ def update_csv_file_verse_numbers(
 
 
 def get_loop_range(
-    chapter_csv_lines: list[list[str]], chapter_number: int, verse_range: tuple[int, int]
+    chapter_csv_lines: list[list[str]],
+    chapter_number: int,
+    verse_range: tuple[int, int],
+    start_line: int = None,
+    end_line: int = None,
 ) -> tuple[int, int]:
     """
     Get the loop range for the TikTok.
@@ -931,13 +949,17 @@ def get_loop_range(
     verse_range_start, verse_range_end = verse_range
     verse_numbers = [row[0] for row in chapter_csv_lines]
 
-    start_line = verse_numbers.index(f"{chapter_number}:{verse_range_start}") + 1
+    if not start_line:
+        start_line = verse_numbers.index(f"{chapter_number}:{verse_range_start}") + 1
 
-    end_line = verse_numbers.index(f"{chapter_number}:{verse_range_end}") + 1
+    if not end_line:
+        end_line = verse_numbers.index(f"{chapter_number}:{verse_range_end}") + 1
 
-    while end_line < len(verse_numbers) and verse_numbers[end_line] == "":
+        while end_line < len(verse_numbers) and verse_numbers[end_line] == "":
+            end_line += 1
+        end_line = min(len(chapter_csv_lines), end_line + 1)
+    else:
         end_line += 1
-    end_line = min(len(chapter_csv_lines), end_line + 1)
 
     return (start_line, end_line)
 

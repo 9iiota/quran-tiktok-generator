@@ -1,4 +1,4 @@
-from classes import TimeModifiers
+from classes import AdditionalVideoSettings, TimeModifiers
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
@@ -10,6 +10,9 @@ class Preset:
     video_verse_range: tuple[int, int]
     time_modifiers: Optional[TimeModifiers] = field(
         default_factory=lambda: TimeModifiers(time_modifier=-0.2, end_time_modifier=0.0)
+    )
+    additional_video_settings: Optional[AdditionalVideoSettings] = field(
+        default_factory=lambda: AdditionalVideoSettings()
     )
 
     def __post_init__(self):
@@ -32,7 +35,8 @@ class Presets(Enum):
     ABDUL_RAHMAN_MOSSAD_AL_ANKABUT_56_57 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-'Ankabut (29.53-64)",
         (56, 57),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.5),
+        additional_video_settings=AdditionalVideoSettings(end_line=12),
     )
     ABDUL_RAHMAN_MOSSAD_AL_GHASHIYAH_1_9 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-Ghashiyah (88.1-26)",

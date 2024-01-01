@@ -35,13 +35,16 @@ class TikTok:
             video_dimensions=(576, 1024),
             video_mode=VideoModes.VIDEO,
         ),
-        optional_video_settings: Optional[AdditionalVideoSettings] = AdditionalVideoSettings(),
+        additional_video_settings: Optional[AdditionalVideoSettings] = None,
         output_mp4_file: Optional[str] = None,
     ):
         if preset:
             audio_directory_path = preset.value.audio_directory_path
             video_verse_range = video_verse_range or preset.value.video_verse_range
             time_modifiers = time_modifiers or preset.value.time_modifiers
+            additional_video_settings = (
+                additional_video_settings or preset.value.additional_video_settings or AdditionalVideoSettings()
+            )
 
         if isinstance(video_verse_range, int):
             video_verse_range = (video_verse_range, video_verse_range)
@@ -133,7 +136,7 @@ class TikTok:
             output_mp4_file_name=output_mp4_file_name,
             chapter_csv_file=chapter_csv_file_path,
             timestamps_csv_file=timestamps_csv_file_path,
-            optional_video_settings=optional_video_settings,
+            additional_video_settings=additional_video_settings,
             verse_text_text_clip=verse_text_text_clip,
             verse_translation_text_clip=verse_translation_text_clip,
             verse_number_text_clip=verse_number_text_clip,
