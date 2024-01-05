@@ -71,6 +71,7 @@ class Presets(Enum):
         r"Surahs\Abdul Rahman Mossad\Al-Muzzammil (73.1-20)",
         (14, 15),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        additional_video_settings=AdditionalVideoSettings(end_line=28),
     )
     ABDUL_RAHMAN_MOSSAD_MARYAM_93_98 = Preset(
         r"Surahs\Abdul Rahman Mossad\Maryam (19.65-98)",
@@ -107,6 +108,10 @@ class Presets(Enum):
     AHMED_WAEL_AS_SAFFAT_91_93 = Preset(
         r"Surahs\Ahmed Wael\As-Saffat (37.91-93)",
         (91, 93),
+    )
+    FAHAD_AL_KANDARI_AZ_ZALZALAH_1_8 = Preset(
+        r"Surahs\Fahad Al-Kandari\Az-Zalzalah (99.1-8)",
+        (1, 8),
     )
     FATIH_SEFERAGIC_AL_HADID_20 = Preset(
         r"Surahs\Fatih Seferagic\Al-Hadid (57.20)",
