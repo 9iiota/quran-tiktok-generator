@@ -238,6 +238,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.122-123)",
         (122, 123),
     )
+    MUHAMMAD_AL_LUHAIDAN_AR_RAHMAN_40_47 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Ar-Rahman (55.40-47)",
+        (40, 47),
+    )
     MUHAMMAD_AL_LUHAIDAN_GHAFIR_48_52 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Ghafir (40.48-52)",
         (48, 52),
