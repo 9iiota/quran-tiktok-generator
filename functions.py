@@ -563,6 +563,28 @@ def create_video(
         raise Exception(f"Failed to create final video: {error}") from error
 
 
+def adjust_timestamps(input_file, output_file, seconds_to_add):
+    try:
+        with open(input_file, "r", encoding="utf-8") as csvfile:
+            reader = csv.DictReader(csvfile, delimiter="\t")
+            fieldnames = reader.fieldnames
+
+            data = list(reader)
+            for line in range(len(data)):
+                data[line]["Start"] = offset_timestamp(data[line]["Start"], seconds_to_add)
+
+            with open(output_file, "w", encoding="utf-8") as output_csvfile:
+                writer = csv.DictWriter(output_csvfile, fieldnames=fieldnames, delimiter="\t")
+                writer.writeheader()
+                writer.writerows(data)
+
+        remove_empty_rows_from_csv_file(output_file)
+
+        print(f"Timestamps modified and saved to {output_file}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
 def create_csv_file(chapter_csv_file_path: str, column_names: list[str]) -> bool:
     """
     Creates a CSV file.

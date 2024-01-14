@@ -222,6 +222,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Al-Haqqah (69.29-33)",
         (29, 33),
     )
+    MUHAMMAD_AL_LUHAIDAN_AL_INSAN_20_22 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.20-22)",
+        (20, 22),
+    )
     MUHAMMAD_AL_LUHAIDAN_AL_JATHIYAH_27_30 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Jathiyah (45.27-30)",
         (27, 30),
@@ -318,6 +322,15 @@ class Presets(Enum):
         (63, 65),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
     )
+    YOUSEF_AL_SOQIER_YA_SIN_63_65_WITH_VIDEO = Preset(
+        r"Surahs\Yousef Al-Soqier\Ya-Sin (36.55-67)",
+        (63, 65),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        additional_video_settings=AdditionalVideoSettings(
+            single_background_video=r"Surahs\Yousef Al-Soqier\Ya-Sin (36.55-67)\video.mp4",
+            single_background_video_horizontal_offset=300,
+        ),
+    )
     ############################################################################################################################################################
     ############################################################################################################################################################
     ############################################################################################################################################################
@@ -326,10 +339,6 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_273_274 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.273-274)",
         (273, 274),
-    )
-    MUHAMMAD_AL_LUHAIDAN_AL_INSAN_20_22 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.20-22)",
-        (20, 22),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_AHZAB_23_24 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Ahzab (33.23-24)",
