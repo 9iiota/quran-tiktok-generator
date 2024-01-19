@@ -168,6 +168,18 @@ class Presets(Enum):
         r"Surahs\Mostafa Shaibani\Al-Qiyamah (75.20-27)",
         (20, 27),
     )
+    MUHAMMADLOIQ_QORI_AL_AHZAB_35 = Preset(
+        r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)",
+        (35),
+    )
+    MUHAMMADLOIQ_QORI_AL_AHZAB_35_WITH_VIDEO = Preset(
+        r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)",
+        (35),
+        additional_video_settings=AdditionalVideoSettings(
+            single_background_video=r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)\video2.mp4",
+            single_background_video_horizontal_offset=400,
+        ),
+    )
     MUHAMMAD_AL_LUHAIDAN_AL_AHQAF_30_31 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Ahqaf (46.30-31)",
         (30, 31),
@@ -368,10 +380,6 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.27-29)",
         (27),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
-    )
-    MUHAMMADLOIQ_QORI_AL_AHZAB_35 = Preset(
-        r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)",
-        (35),
     )
     SALIM_BAHANAN_AT_TIN_1_8 = Preset(
         r"Surahs\Salim Bahanan\At-Tin (95.1-8)",
