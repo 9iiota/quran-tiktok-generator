@@ -152,6 +152,13 @@ class Presets(Enum):
         r"Surahs\Fatih Seferagic\An-Nur (24.35)",
         (35),
     )
+    FATIH_SEFERAGIC_AN_NUR_35_WITH_VIDEO = Preset(
+        r"Surahs\Fatih Seferagic\An-Nur (24.35)",
+        (35),
+        additional_video_settings=AdditionalVideoSettings(
+            single_background_video=r"Surahs\Fatih Seferagic\An-Nur (24.35)\video.mp4",
+        ),
+    )
     FATIH_SEFERAGIC_AR_RAHMAN_1_16 = Preset(
         r"Surahs\Fatih Seferagic\Ar-Rahman (55.1-16)",
         (1, 16),
@@ -176,7 +183,7 @@ class Presets(Enum):
         r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)",
         (35),
         additional_video_settings=AdditionalVideoSettings(
-            single_background_video=r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)\video2.mp4",
+            single_background_video=r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)\video.mp4",
             single_background_video_horizontal_offset=400,
         ),
     )
@@ -269,6 +276,17 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_TAHA_105_108 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Taha (20.105-108)",
         (105, 108),
+    )
+    OBAIDA_MUAFAQ_GHAFIR_26_27 = Preset(
+        r"Surahs\Obaida Muafaq\Ghafir (40.26-27)",
+        (26, 27),
+    )
+    OBAIDA_MUAFAQ_GHAFIR_26_27_WITH_VIDEO = Preset(
+        r"Surahs\Obaida Muafaq\Ghafir (40.26-27)",
+        (26, 27),
+        additional_video_settings=AdditionalVideoSettings(
+            single_background_video=r"Surahs\Obaida Muafaq\Ghafir (40.26-27)\video.mp4",
+        ),
     )
     SALIM_BAHANAN_AD_DUHAA_1_11 = Preset(
         r"Surahs\Salim Bahanan\Ad-Duhaa (93.1-11)",
