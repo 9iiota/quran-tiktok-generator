@@ -17,7 +17,7 @@ class Joe(Enum):
 
 def main():
     tiktok = TikTok(Accounts.QURAN_2_LISTEN)
-    preset = Presets.OBAIDA_MUAFAQ_GHAFIR_26_27_WITH_VIDEO
+    preset = Presets.SALIM_BAHANAN_AT_TIN_1_8
 
     tiktok.create(
         preset,

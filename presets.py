@@ -300,6 +300,10 @@ class Presets(Enum):
         r"Surahs\Salim Bahanan\Al-Qari'ah (101.1-11)",
         (1, 11),
     )
+    SALIM_BAHANAN_AT_TIN_1_8 = Preset(
+        r"Surahs\Salim Bahanan\At-Tin (95.1-8)",
+        (1, 8),
+    )
     UNKNOWN_AL_ANKABUT_56_58 = Preset(
         r"Surahs\Unknown\Al-'Ankabut (29.56-58)",
         (56, 58),
@@ -398,10 +402,6 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.27-29)",
         (27),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
-    )
-    SALIM_BAHANAN_AT_TIN_1_8 = Preset(
-        r"Surahs\Salim Bahanan\At-Tin (95.1-8)",
-        (1, 8),
     )
     UNKNOWN_AL_FURQAN_72_75 = Preset(
         r"Surahs\Unknown\Al-Furqan (25.72-75)",
