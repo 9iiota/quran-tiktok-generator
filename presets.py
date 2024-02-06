@@ -21,6 +21,11 @@ class Preset:
 
 
 class Presets(Enum):
+    TEST = Preset(
+        r"Surahs\Unknown\Ar-Rahman (55.1-47)",
+        (1, 47),
+    )
+
     ABDUL_RAHMAN_MOSSAD_AL_ADIYAT_1_11 = Preset(r"Surahs\Abdul Rahman Mossad\Al-'Adiyat (100.1-11)", (1, 11))
     ABDUL_RAHMAN_MOSSAD_AL_ANKABUT_54_60 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-'Ankabut (29.53-64)",
@@ -212,6 +217,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Al-A'raf (7.1-206)",
         (40),
     )
+    MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_273_274 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.273-274)",
+        (273, 274),
+    )
     MUHAMMAD_AL_LUHAIDAN_AL_FATH_22_23 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Fath (48.22-23)",
         (22, 23),
@@ -329,6 +338,29 @@ class Presets(Enum):
         r"Surahs\Unknown\As-Saffat (37.123-132)",
         (123, 132),
     )
+    UNKNOWN_AZ_ZUMAR_71_75 = Preset(
+        r"Surahs\Unknown\Az-Zumar (39.71-75)",
+        (71, 75),
+    )
+    UNKNOWN_AZ_ZUMAR_71_75_WITH_VIDEO = Preset(
+        r"Surahs\Unknown\Az-Zumar (39.71-75)",
+        (71, 75),
+        additional_video_settings=AdditionalVideoSettings(
+            single_background_video=r"Surahs\Unknown\Az-Zumar (39.71-75)\video.mp4",
+            single_background_video_horizontal_offset=700,
+        ),
+    )
+    UNKNOWN_AZ_ZUMAR_73_75 = Preset(
+        r"Surahs\Unknown\Az-Zumar (39.71-75)",
+        (73, 75),
+    )
+    UNKNOWN_AZ_ZUMAR_73_75_WITH_VIDEO = Preset(
+        r"Surahs\Unknown\Az-Zumar (39.71-75)",
+        (73, 75),
+        additional_video_settings=AdditionalVideoSettings(
+            single_background_video=r"Surahs\Unknown\Az-Zumar (39.71-75)\video.mp4",
+        ),
+    )
     UNKNOWN_TAHA_124_126 = Preset(
         r"Surahs\Unknown\Taha (20.124-126)",
         (124, 126),
@@ -355,6 +387,10 @@ class Presets(Enum):
         r"Surahs\Yasser Al-Dosari\Ash-Sharh (94.1-8)",
         (1, 8),
     )
+    YASSER_AL_DOSARI_AZ_ZUKHRUF_68_73 = Preset(
+        r"Surahs\Yasser Al-Dosari\Az-Zukhruf (43.68-73)",
+        (68, 73),
+    )
     YOUSEF_AL_SOQIER_YA_SIN_63_65 = Preset(
         r"Surahs\Yousef Al-Soqier\Ya-Sin (36.55-67)",
         (63, 65),
@@ -374,10 +410,6 @@ class Presets(Enum):
     ############################################################################################################################################################
     ############################################################################################################################################################
     ############################################################################################################################################################
-    MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_273_274 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.273-274)",
-        (273, 274),
-    )
     MUHAMMAD_AL_LUHAIDAN_AL_AHZAB_23_24 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Ahzab (33.23-24)",
         (23, 24),
@@ -414,17 +446,4 @@ class Presets(Enum):
     UNKNOWN_AL_HUJURAT_12 = Preset(
         r"Surahs\Unknown\Al-Hujurat (49.12)",
         (12),
-    )
-    UNKNOWN_AZ_ZUMAR_71_75 = Preset(
-        r"Surahs\Unknown\Az-Zumar (39.71-75)",
-        (71, 75),
-    )
-    UNKNOWN_AZ_ZUMAR_73_75 = Preset(
-        r"Surahs\Unknown\Az-Zumar (39.71-75)",
-        (73, 75),
-    )
-
-    YASSER_AL_DOSARI_AZ_ZUKHRUF_68_73 = Preset(
-        r"Surahs\Yasser Al-Dosari\Az-Zukhruf (43.1-89)",
-        (68, 73),
     )
