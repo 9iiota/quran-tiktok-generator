@@ -172,6 +172,10 @@ class Presets(Enum):
         r"Surahs\Fatih Seferagic\Ar-Rahman (55.35-39)",
         (35, 39),
     )
+    MANSOUR_AS_SALIMI_FURQAN_15 = Preset(
+        r"Surahs\Mansour As Salimi\Al-Furqan (25.15)",
+        (15),
+    )
     MANSOUR_AS_SALIMI_MARYAM_27_33 = Preset(
         r"Surahs\Mansour As Salimi\Maryam (19.16-33)",
         (27, 33),
@@ -216,6 +220,10 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_ARAF_40 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-A'raf (7.1-206)",
         (40),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_214 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.214)",
+        (214),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_273_274 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.273-274)",
@@ -413,10 +421,6 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_AHZAB_23_24 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Ahzab (33.23-24)",
         (23, 24),
-    )
-    MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_214 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.214)",
-        (214),
     )
     MUHAMMAD_AL_LUHAIDAN_ALI_IMRAN_16_17 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.16-17)",
