@@ -118,6 +118,10 @@ class Presets(Enum):
         r"Surahs\Fahad Al-Kandari\Az-Zalzalah (99.1-8)",
         (1, 8),
     )
+    FATIH_SEFERAGIC_AL_ALA = Preset(
+        r"Surahs\Fatih Seferagic\Al-A'la (87.1-19)",
+        (1, 19),
+    )
     FATIH_SEFERAGIC_AL_HADID_20 = Preset(
         r"Surahs\Fatih Seferagic\Al-Hadid (57.20)",
         (20),
@@ -324,6 +328,10 @@ class Presets(Enum):
     SALIM_BAHANAN_AT_TIN_1_8 = Preset(
         r"Surahs\Salim Bahanan\At-Tin (95.1-8)",
         (1, 8),
+    )
+    UNKNOWN_ADH_DHARIYAT_17_28 = Preset(
+        r"Surahs\Unknown\Adh-Dhariyat (51.17-28)",
+        (17, 28),
     )
     UNKNOWN_AL_ANKABUT_56_58 = Preset(
         r"Surahs\Unknown\Al-'Ankabut (29.56-58)",
