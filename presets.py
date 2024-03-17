@@ -102,6 +102,11 @@ class Presets(Enum):
         (17),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.5),
     )
+    ABDULLAH_AL_QARNI_MAIDAH_73_74 = Preset(
+        r"Surahs\Abdullah Al-Qarni\Al-Ma'idah (5.72-76)",
+        (73, 74),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+    )
     AHMED_KHEDR_TAHA_14_16 = Preset(
         r"Surahs\Ahmed Khedr\Taha (20.1-135)",
         (14, 16),
