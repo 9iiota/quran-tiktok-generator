@@ -181,6 +181,14 @@ class Presets(Enum):
         r"Surahs\Fatih Seferagic\Ar-Rahman (55.35-39)",
         (35, 39),
     )
+    FATIH_SEFERAGIC_YA_SIN_77_83 = Preset(
+        r"Surahs\Fatih Seferagic\Ya-Sin (36.77-83)",
+        (77, 83),
+    )
+    ISLAM_SOBHI_YUSUF_86 = Preset(
+        r"Surahs\Islam Sobhi\Yusuf (12.86)",
+        (86),
+    )
     MANSOUR_AS_SALIMI_FURQAN_15 = Preset(
         r"Surahs\Mansour As Salimi\Al-Furqan (25.15)",
         (15),
