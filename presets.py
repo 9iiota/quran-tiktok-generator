@@ -189,6 +189,11 @@ class Presets(Enum):
         r"Surahs\Islam Sobhi\Yusuf (12.86)",
         (86),
     )
+    ISLAM_SOBHI_AN_NAML_74_75 = Preset(
+        r"Surahs\Islam Sobhi\An-Naml (27.66-93)",
+        (74, 75),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.6),
+    )
     MANSOUR_AS_SALIMI_FURQAN_15 = Preset(
         r"Surahs\Mansour As Salimi\Al-Furqan (25.15)",
         (15),
@@ -314,6 +319,10 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_MARYAM_85_92 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Maryam (19.85-92)",
         (85, 92),
+    )
+    MUHAMMAD_AL_LUHAIDAN_QAF_29_30 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Qaf (50.29-30)",
+        (29, 30),
     )
     MUHAMMAD_AL_LUHAIDAN_TAHA_105_108 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Taha (20.105-108)",
