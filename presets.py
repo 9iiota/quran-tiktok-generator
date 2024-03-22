@@ -300,6 +300,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.135-136)",
         (135, 136),
     )
+    MUHAMMAD_AL_LUHAIDAN_AN_NAZIAT_34_41 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\An-Nazi'at (79.1-46)",
+        (34, 41),
+    )
     MUHAMMAD_AL_LUHAIDAN_AN_NISA_75_76 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.75-76)",
         (75, 76),
@@ -375,6 +379,10 @@ class Presets(Enum):
     UNKNOWN_AL_FURQAN_63_70 = Preset(
         r"Surahs\Unknown\Al-Furqan (25.63-70)",
         (63, 70),
+    )
+    UNKNOWN_AL_HUJURAT_12 = Preset(
+        r"Surahs\Unknown\Al-Hujurat (49.12)",
+        (12),
     )
     UNKNOWN_AL_KAHF_46 = Preset(
         r"Surahs\Unknown\Al-Kahf (18.46)",
@@ -464,21 +472,9 @@ class Presets(Enum):
     ############################################################################################################################################################
     ############################################################################################################################################################
     ############################################################################################################################################################
-    MUHAMMAD_AL_LUHAIDAN_AL_AHZAB_23_24 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\Al-Ahzab (33.23-24)",
-        (23, 24),
-    )
-    MUHAMMAD_AL_LUHAIDAN_ALI_IMRAN_16_17 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.16-17)",
-        (16, 17),
-    )
-    MUHAMMAD_AL_LUHAIDAN_ALI_IMRAN_104_106 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.104-106)",
-        (104, 106),
-    )
-    MUHAMMAD_AL_LUHAIDAN_AN_NAZIAT_34_41 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\An-Nazi'at (79.1-46)",
-        (34, 41),
+    UNKNOWN_AL_FURQAN_72_75 = Preset(
+        r"Surahs\Unknown\Al-Furqan (25.72-75)",
+        (72, 75),
     )
     MUHAMMAD_AL_LUHAIDAN_AN_NISA_27_29 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.27-29)",
@@ -489,11 +485,15 @@ class Presets(Enum):
         (27),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
     )
-    UNKNOWN_AL_FURQAN_72_75 = Preset(
-        r"Surahs\Unknown\Al-Furqan (25.72-75)",
-        (72, 75),
+    MUHAMMAD_AL_LUHAIDAN_ALI_IMRAN_104_106 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.104-106)",
+        (104, 106),
     )
-    UNKNOWN_AL_HUJURAT_12 = Preset(
-        r"Surahs\Unknown\Al-Hujurat (49.12)",
-        (12),
+    MUHAMMAD_AL_LUHAIDAN_AL_AHZAB_23_24 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Ahzab (33.23-24)",
+        (23, 24),
+    )
+    MUHAMMAD_AL_LUHAIDAN_ALI_IMRAN_16_17 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.16-17)",
+        (16, 17),
     )
