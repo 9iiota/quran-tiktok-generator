@@ -304,6 +304,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\An-Nazi'at (79.1-46)",
         (34, 41),
     )
+    MUHAMMAD_AL_LUHAIDAN_AN_NISA_27_29 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.27-29)",
+        (27, 29),
+    )
     MUHAMMAD_AL_LUHAIDAN_AN_NISA_75_76 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.75-76)",
         (75, 76),
@@ -343,6 +347,10 @@ class Presets(Enum):
             single_background_video=r"Surahs\Obaida Muafaq\Ghafir (40.26-27)\video.mp4",
         ),
     )
+    OMAR_BN_DIAAALDEEN_AL_FURQAN_58 = Preset(
+        r"Surahs\Omar Bn DiaaAldeen\Al-Furqan (25.58)",
+        (58),
+    )
     SALIM_BAHANAN_AD_DUHAA_1_11 = Preset(
         r"Surahs\Salim Bahanan\Ad-Duhaa (93.1-11)",
         (1, 11),
@@ -379,6 +387,10 @@ class Presets(Enum):
     UNKNOWN_AL_FURQAN_63_70 = Preset(
         r"Surahs\Unknown\Al-Furqan (25.63-70)",
         (63, 70),
+    )
+    UNKNOWN_AL_FURQAN_72_75 = Preset(
+        r"Surahs\Unknown\Al-Furqan (25.72-75)",
+        (72, 75),
     )
     UNKNOWN_AL_HUJURAT_12 = Preset(
         r"Surahs\Unknown\Al-Hujurat (49.12)",
@@ -472,14 +484,6 @@ class Presets(Enum):
     ############################################################################################################################################################
     ############################################################################################################################################################
     ############################################################################################################################################################
-    UNKNOWN_AL_FURQAN_72_75 = Preset(
-        r"Surahs\Unknown\Al-Furqan (25.72-75)",
-        (72, 75),
-    )
-    MUHAMMAD_AL_LUHAIDAN_AN_NISA_27_29 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.27-29)",
-        (27, 29),
-    )
     MUHAMMAD_AL_LUHAIDAN_AN_NISA_27 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.27-29)",
         (27),
