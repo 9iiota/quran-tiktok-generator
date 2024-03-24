@@ -1,26 +1,26 @@
 ﻿Name	Start	Duration	Time Format	Type	Description
-Marker 01	0:00.000	0:00.000	decimal	Cue	
-CD Track 24	0:03.853	0:00.000	decimal	Track	
-CD Track 01	0:06.906	0:00.000	decimal	Track	
-CD Track 02	0:08.920	0:00.000	decimal	Track	
-CD Track 03	0:11.346	0:00.000	decimal	Track	
-Marker 02	0:15.213	0:00.000	decimal	Track	
-CD Track 04	0:17.440	0:00.000	decimal	Track	
-CD Track 05	0:20.200	0:00.000	decimal	Track	
-CD Track 06	0:28.120	0:00.000	decimal	Cue	
-CD Track 23	0:31.840	0:00.000	decimal	Track	
-CD Track 07	0:34.693	0:00.000	decimal	Track	
-CD Track 08	0:42.453	0:00.000	decimal	Track	
-CD Track 09	0:48.706	0:00.000	decimal	Cue	
-CD Track 11	0:51.506	0:00.000	decimal	Track	
-CD Track 10	0:55.760	0:00.000	decimal	Track	
-CD Track 13	0:59.160	0:00.000	decimal	Track	
-CD Track 12	1:03.333	0:00.000	decimal	Track	
-CD Track 16	1:07.640	0:00.000	decimal	Track	
-CD Track 15	1:11.973	0:00.000	decimal	Track	
-CD Track 18	1:15.306	0:00.000	decimal	Track	
-CD Track 17	1:20.200	0:00.000	decimal	Track	
-CD Track 20	1:24.440	0:00.000	decimal	Track	
-CD Track 21	1:27.986	0:00.000	decimal	Track	
-CD Track 19	1:32.106	0:00.000	decimal	Track	
+Marker 01	0:00.117	0:00.000	decimal	Cue	
+CD Track 24	0:04.013	0:00.000	decimal	Track	
+CD Track 01	0:07.146	0:00.000	decimal	Track	
+CD Track 02	0:09.093	0:00.000	decimal	Track	
+CD Track 03	0:11.520	0:00.000	decimal	Track	
+Marker 02	0:15.413	0:00.000	decimal	Track	
+CD Track 04	0:17.706	0:00.000	decimal	Track	
+CD Track 05	0:20.400	0:00.000	decimal	Track	
+CD Track 06	0:28.370	0:00.000	decimal	Cue	
+CD Track 23	0:32.000	0:00.000	decimal	Track	
+CD Track 07	0:34.933	0:00.000	decimal	Track	
+CD Track 08	0:42.693	0:00.000	decimal	Track	
+CD Track 09	0:48.886	0:00.000	decimal	Cue	
+CD Track 11	0:51.733	0:00.000	decimal	Track	
+CD Track 10	0:55.973	0:00.000	decimal	Track	
+CD Track 13	0:59.386	0:00.000	decimal	Track	
+CD Track 12	1:03.586	0:00.000	decimal	Track	
+CD Track 16	1:07.773	0:00.000	decimal	Track	
+CD Track 15	1:12.133	0:00.000	decimal	Track	
+CD Track 18	1:15.480	0:00.000	decimal	Track	
+CD Track 17	1:20.333	0:00.000	decimal	Track	
+CD Track 20	1:24.626	0:00.000	decimal	Track	
+CD Track 21	1:28.106	0:00.000	decimal	Track	
+CD Track 19	1:32.266	0:00.000	decimal	Track	
 CD Track 22	1:39.034	0:00.000	decimal	Cue	

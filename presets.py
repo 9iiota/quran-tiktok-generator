@@ -62,6 +62,10 @@ class Presets(Enum):
         (10, 12),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
     )
+    ABDUL_RAHMAN_MOSSAD_AL_MAUN_1_7 = Preset(
+        r"Surahs\Abdul Rahman Mossad\Al-Ma'un (107.1-7)",
+        (1, 7),
+    )
     ABDUL_RAHMAN_MOSSAD_AL_MUZZAMMIL_6_13 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-Muzzammil (73.1-20)",
         (6, 13),
@@ -296,6 +300,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.15)",
         (15),
     )
+    MUHAMMAD_AL_LUHAIDAN_ALI_IMRAN_104_106 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.104-106)",
+        (104, 106),
+    )
     MUHAMMAD_AL_LUHAIDAN_ALI_IMRAN_135_136 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.135-136)",
         (135, 136),
@@ -307,6 +315,11 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AN_NISA_27_29 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.27-29)",
         (27, 29),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AN_NISA_27 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.27-29)",
+        (27),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
     )
     MUHAMMAD_AL_LUHAIDAN_AN_NISA_75_76 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.75-76)",
@@ -484,15 +497,6 @@ class Presets(Enum):
     ############################################################################################################################################################
     ############################################################################################################################################################
     ############################################################################################################################################################
-    MUHAMMAD_AL_LUHAIDAN_AN_NISA_27 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.27-29)",
-        (27),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
-    )
-    MUHAMMAD_AL_LUHAIDAN_ALI_IMRAN_104_106 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.104-106)",
-        (104, 106),
-    )
     MUHAMMAD_AL_LUHAIDAN_AL_AHZAB_23_24 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Ahzab (33.23-24)",
         (23, 24),
