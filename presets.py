@@ -214,18 +214,6 @@ class Presets(Enum):
         r"Surahs\Mostafa Shaibani\Al-Qiyamah (75.20-27)",
         (20, 27),
     )
-    MUHAMMADLOIQ_QORI_AL_AHZAB_35 = Preset(
-        r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)",
-        (35),
-    )
-    MUHAMMADLOIQ_QORI_AL_AHZAB_35_WITH_VIDEO = Preset(
-        r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)",
-        (35),
-        additional_video_settings=AdditionalVideoSettings(
-            single_background_video=r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)\video.mp4",
-            single_background_video_horizontal_offset=400,
-        ),
-    )
     MUHAMMAD_AL_LUHAIDAN_AL_AHQAF_30_31 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Ahqaf (46.30-31)",
         (30, 31),
@@ -288,14 +276,6 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Al-Haqqah (69.29-33)",
         (29, 33),
     )
-    MUHAMMAD_AL_LUHAIDAN_AL_INSAN_20_22 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.20-22)",
-        (20, 22),
-    )
-    MUHAMMAD_AL_LUHAIDAN_AL_JATHIYAH_27_30 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\Al-Jathiyah (45.27-30)",
-        (27, 30),
-    )
     MUHAMMAD_AL_LUHAIDAN_ALI_IMRAN_15 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.15)",
         (15),
@@ -307,6 +287,18 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_ALI_IMRAN_135_136 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.135-136)",
         (135, 136),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_INSAN_20_22 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.20-22)",
+        (20, 22),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_JATHIYAH_27_30 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Jathiyah (45.27-30)",
+        (27, 30),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_QAMAR_47_55 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Qamar (54.47-55)",
+        (47, 55),
     )
     MUHAMMAD_AL_LUHAIDAN_AN_NAZIAT_34_41 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Nazi'at (79.1-46)",
@@ -348,6 +340,22 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_TAHA_105_108 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Taha (20.105-108)",
         (105, 108),
+    )
+    MUHAMMAD_DIBIROV_MARYAM_1_4 = Preset(
+        r"Surahs\Muhammad Dibirov\Maryam (19.1-4)",
+        (1, 4),
+    )
+    MUHAMMADLOIQ_QORI_AL_AHZAB_35 = Preset(
+        r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)",
+        (35),
+    )
+    MUHAMMADLOIQ_QORI_AL_AHZAB_35_WITH_VIDEO = Preset(
+        r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)",
+        (35),
+        additional_video_settings=AdditionalVideoSettings(
+            single_background_video=r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)\video.mp4",
+            single_background_video_horizontal_offset=400,
+        ),
     )
     OBAIDA_MUAFAQ_GHAFIR_26_27 = Preset(
         r"Surahs\Obaida Muafaq\Ghafir (40.26-27)",

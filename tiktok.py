@@ -31,7 +31,7 @@ class TikTok:
             allow_duplicate_background_clips=False,
             allow_mirrored_background_clips=True,
             background_clips_speed=1.0,
-            minimal_background_clip_duration=1.5,
+            minimal_background_clip_duration=1.25,
             video_dimensions=(576, 1024),
             video_mode=VideoModes.VIDEO,
         ),
