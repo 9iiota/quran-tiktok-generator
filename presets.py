@@ -288,6 +288,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.135-136)",
         (135, 136),
     )
+    MUHAMMAD_AL_LUHAIDAN_ALI_IMRAN_191_194 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.191-194)",
+        (191, 194),
+    )
     MUHAMMAD_AL_LUHAIDAN_AL_INSAN_20_22 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.20-22)",
         (20, 22),
@@ -388,6 +392,10 @@ class Presets(Enum):
         r"Surahs\Salim Bahanan\At-Tin (95.1-8)",
         (1, 8),
     )
+    UMAIR_SHAMIM_AL_HIJR_30_35 = Preset(
+        r"Surahs\Umair Shamim\Al-Hijr (15.30-35)",
+        (30, 35),
+    )
     UNKNOWN_ADH_DHARIYAT_17_28 = Preset(
         r"Surahs\Unknown\Adh-Dhariyat (51.17-28)",
         (17, 28),
@@ -420,6 +428,10 @@ class Presets(Enum):
     UNKNOWN_AL_KAHF_46 = Preset(
         r"Surahs\Unknown\Al-Kahf (18.46)",
         (46),
+    )
+    UNKNOWN_AN_NASR_1_3 = Preset(
+        r"Surahs\Unknown\An-Nasr (110.1-3)",
+        (1, 3),
     )
     UNKNOWN_AS_SAFFAT_123_132 = Preset(
         r"Surahs\Unknown\As-Saffat (37.123-132)",
@@ -485,6 +497,14 @@ class Presets(Enum):
     YASSER_AL_DOSARI_AZ_ZUKHRUF_68_73 = Preset(
         r"Surahs\Yasser Al-Dosari\Az-Zukhruf (43.68-73)",
         (68, 73),
+    )
+    YOUSEF_AL_SOQIER_ASH_SHUARA_87_95 = Preset(
+        r"Surahs\Yousef Al-Soqier\Ash-Shu'ara (26.87-95)",
+        (87, 95),
+    )
+    YOUSEF_AL_SOQIER_QAF_19_22 = Preset(
+        r"Surahs\Yousef Al-Soqier\Qaf (50.19-22)",
+        (19, 22),
     )
     YOUSEF_AL_SOQIER_YA_SIN_63_65 = Preset(
         r"Surahs\Yousef Al-Soqier\Ya-Sin (36.55-67)",
