@@ -198,6 +198,10 @@ class Presets(Enum):
         (74, 75),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.6),
     )
+    MAHDI_ASH_SHISHANI_AL_KAFIRUN_1_6 = Preset(
+        r"Surahs\Mahdi Ash-Shishani\Al-Kafirun (109.1-6)",
+        (1, 6),
+    )
     MANSOUR_AS_SALIMI_FURQAN_15 = Preset(
         r"Surahs\Mansour As Salimi\Al-Furqan (25.15)",
         (15),
@@ -333,9 +337,17 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Ar-Rahman (55.40-47)",
         (40, 47),
     )
+    MUHAMMAD_AL_LUHAIDAN_AS_SAJDAH_12_14 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\As-Sajdah (32.12-14)",
+        (12, 14),
+    )
     MUHAMMAD_AL_LUHAIDAN_GHAFIR_48_52 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Ghafir (40.48-52)",
         (48, 52),
+    )
+    MUHAMMAD_AL_LUHAIDAN_MARYAM_59_63 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Maryam (19.59-63)",
+        (59, 63),
     )
     MUHAMMAD_AL_LUHAIDAN_MARYAM_85_92 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Maryam (19.85-92)",
@@ -416,6 +428,10 @@ class Presets(Enum):
     UNKNOWN_AL_BAQARAH_153_157 = Preset(
         r"Surahs\Unknown\Al-Baqarah (2.153-157)",
         (153, 157),
+    )
+    UNKNOWN_AL_BAQARAH_285 = Preset(
+        r"Surahs\Unknown\Al-Baqarah (2.285)",
+        (285),
     )
     UNKNOWN_AL_FURQAN_63_70 = Preset(
         r"Surahs\Unknown\Al-Furqan (25.63-70)",
