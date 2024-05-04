@@ -302,7 +302,7 @@ def create_video(
                         else:
                             colored_print(
                                 Fore.RED,
-                                f"Verse {video_map_index} background clip {i + 1} duration ({background_clip_duration}) is invalid, video clip remaining duration ({round((video_clip_remaining_duration - background_clip_duration), 2)}), skipping...",
+                                f"Verse {video_map_index} background clip {i + 1} duration ({background_clip_duration}) is invalid, video clip remaining duration ({round((video_clip_remaining_duration - time_offsetted_background_clip_duration), 2)}), skipping...",
                             )
 
                     video_clip_remaining_duration = total_video_clip_duration - current_video_clip_duration

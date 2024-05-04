@@ -17,11 +17,17 @@ class Joe(Enum):
 
 def main():
     tiktok = TikTok(Accounts.QURAN_2_LISTEN)
-    preset = Presets.MUHAMMAD_AL_LUHAIDAN_MARYAM_59_63
+    preset = Presets.UNKNOWN_AL_MUMINUN_1_6
 
     tiktok.create(
         preset,
-        # additional_video_settings=AdditionalVideoSettings(video_map={}),
+        additional_video_settings=AdditionalVideoSettings(
+            video_map={
+                "1": [
+                    ["Background_Clips/Anime\\_Kimi no Na wa. (86).mp4", 1.3, 479, "True"],
+                ],
+            }
+        ),
     )
 
 

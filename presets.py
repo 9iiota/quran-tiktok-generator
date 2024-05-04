@@ -361,6 +361,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Taha (20.105-108)",
         (105, 108),
     )
+    MUHAMMAD_AL_LUHAIDAN_YA_SIN_59_62 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Ya-Sin (36.59-62)",
+        (59, 62),
+    )
     MUHAMMAD_DIBIROV_MARYAM_1_4 = Preset(
         r"Surahs\Muhammad Dibirov\Maryam (19.1-4)",
         (1, 4),
@@ -448,6 +452,10 @@ class Presets(Enum):
     UNKNOWN_AL_KAHF_46 = Preset(
         r"Surahs\Unknown\Al-Kahf (18.46)",
         (46),
+    )
+    UNKNOWN_AL_MUMINUN_1_6 = Preset(
+        r"Surahs\Unknown\Al-Mu'minun (23.1-6)",
+        (1, 6),
     )
     UNKNOWN_AN_NASR_1_3 = Preset(
         r"Surahs\Unknown\An-Nasr (110.1-3)",
