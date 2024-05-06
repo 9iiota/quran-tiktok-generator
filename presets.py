@@ -218,6 +218,10 @@ class Presets(Enum):
         r"Surahs\Mostafa Shaibani\Al-Qiyamah (75.20-27)",
         (20, 27),
     )
+    MUHAMMAD_AL_LUHAIDAN_AD_DUKHAN_43_49 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Ad-Dukhan (44.43-49)",
+        (43, 49),
+    )
     MUHAMMAD_AL_LUHAIDAN_AL_AHQAF_30_31 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Ahqaf (46.30-31)",
         (30, 31),
@@ -242,6 +246,10 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_ARAF_40 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-A'raf (7.1-206)",
         (40),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_138_141 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.138-141)",
+        (138, 141),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_214 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.214)",
@@ -333,6 +341,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.122-123)",
         (122, 123),
     )
+    MUHAMMAD_AL_LUHAIDAN_AR_RAD_33_35 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Ar-Ra'd (13.33-35)",
+        (33, 35),
+    )
     MUHAMMAD_AL_LUHAIDAN_AR_RAHMAN_40_47 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Ar-Rahman (55.40-47)",
         (40, 47),
@@ -360,6 +372,10 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_TAHA_105_108 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Taha (20.105-108)",
         (105, 108),
+    )
+    MUHAMMAD_AL_LUHAIDAN_YA_SIN_51_58 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Ya-Sin (36.51-58)",
+        (51, 58),
     )
     MUHAMMAD_AL_LUHAIDAN_YA_SIN_59_62 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Ya-Sin (36.59-62)",
@@ -504,6 +520,10 @@ class Presets(Enum):
         r"Surahs\Yasser Al-Dosari\Al-Mu'minun (23.34-39)",
         (34, 39),
     )
+    YASSER_AL_DOSARI_AL_MUMINUN_84_92 = Preset(
+        r"Surahs\Yasser Al-Dosari\Al-Mu'minun (23.84-92)",
+        (84, 92),
+    )
     YASSER_AL_DOSARI_AL_QASAS_32_34 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Qasas (28.32-34)",
         (32, 34),
@@ -525,6 +545,10 @@ class Presets(Enum):
     YASSER_AL_DOSARI_AZ_ZUKHRUF_68_73 = Preset(
         r"Surahs\Yasser Al-Dosari\Az-Zukhruf (43.68-73)",
         (68, 73),
+    )
+    YASSER_AL_DOSARI_LUQMAN_8_11 = Preset(
+        r"Surahs\Yasser Al-Dosari\Luqman (31.8-11)",
+        (8, 11),
     )
     YOUSEF_AL_SOQIER_ASH_SHUARA_87_95 = Preset(
         r"Surahs\Yousef Al-Soqier\Ash-Shu'ara (26.87-95)",

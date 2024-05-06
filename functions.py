@@ -920,16 +920,20 @@ def update_csv_file_verse_numbers(
                             if ratio == 100:
                                 break
 
-                verse = f"{chapter_number}:{best_verse_number}"
-                if verse not in existing_verses:
-                    row[verse_number_column_name] = verse
-                    existing_verses.add(verse)
+                    if best_ratio == 100:
+                        break
 
-                    with contextlib.suppress(IndexError):
-                        if indexed_verse_texts[0][0] != best_verse_number:
-                            indexed_verse_texts.pop(0)
-                else:
-                    row[verse_number_column_name] = ""
+                if best_ratio >= 80:
+                    verse = f"{chapter_number}:{best_verse_number}"
+                    if verse not in existing_verses:
+                        row[verse_number_column_name] = verse
+                        existing_verses.add(verse)
+
+                        with contextlib.suppress(IndexError):
+                            if indexed_verse_texts[0][0] != best_verse_number:
+                                indexed_verse_texts.pop(0)
+                    else:
+                        row[verse_number_column_name] = ""
 
             data.append(row)
         with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
