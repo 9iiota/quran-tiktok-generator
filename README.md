@@ -9,6 +9,8 @@ You can see an example of what this repository does on the following TikTok acco
 ### Prerequisites
 - Python 3.x
 - Required Python packages listed in `requirements.txt`
+- ImageMagick
+- ffmpeg
 
 ### Installation
 1. Clone the repository to your local machine.
