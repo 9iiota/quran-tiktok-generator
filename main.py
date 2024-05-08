@@ -2,7 +2,7 @@ from classes import Account, ColorModes, Languages, AdditionalVideoSettings
 from presets import Presets
 from enum import Enum
 from tiktok import TikTok
-from _Private.enums import Accounts
+from enums import Accounts
 
 
 class Joe(Enum):
