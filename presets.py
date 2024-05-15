@@ -308,9 +308,14 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Ali 'Imran (3.191-194)",
         (191, 194),
     )
-    MUHAMMAD_AL_LUHAIDAN_AL_INSAN_20_22 = Preset(
-        r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.20-22)",
-        (20, 22),
+    MUHAMMAD_AL_LUHAIDAN_AL_INSAN_11_18 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.11-22)",
+        (11, 18),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.3),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_INSAN_19_22 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.11-22)",
+        (19, 22),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_JATHIYAH_7_10 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Jathiyah (45.7-10)",
