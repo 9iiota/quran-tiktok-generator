@@ -131,9 +131,17 @@ class Presets(Enum):
         r"Surahs\Fatih Seferagic\Al-A'la (87.1-19)",
         (1, 19),
     )
+    FATIH_SEFERAGIC_AL_BAQARAH_255 = Preset(
+        r"Surahs\Fatih Seferagic\Al-Baqarah (2.255)",
+        (255),
+    )
     FATIH_SEFERAGIC_AL_HADID_20 = Preset(
         r"Surahs\Fatih Seferagic\Al-Hadid (57.20)",
         (20),
+    )
+    FATIH_SEFERAGIC_AL_HASHR_21_24 = Preset(
+        r"Surahs\Fatih Seferagic\Al-Hashr (59.21-24)",
+        (21, 24),
     )
     FATIH_SEFERAGIC_AL_HUJURAT_10_11 = Preset(
         r"Surahs\Fatih Seferagic\Al-Hujurat (49.10-11)",
@@ -144,13 +152,28 @@ class Presets(Enum):
         (10),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
     )
-    FATIH_SEFERAGIC_AL_BAQARAH_255 = Preset(
-        r"Surahs\Fatih Seferagic\Al-Baqarah (2.255)",
-        (255),
+    FATIH_SEFERAGIC_AL_MULK_1_5 = Preset(
+        r"Surahs\Fatih Seferagic\Al-Mulk (67.1-30)",
+        (1, 5),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.3),
     )
-    FATIH_SEFERAGIC_AL_HASHR_21_24 = Preset(
-        r"Surahs\Fatih Seferagic\Al-Hashr (59.21-24)",
-        (21, 24),
+    FATIH_SEFERAGIC_AL_MULK_6_11 = Preset(
+        r"Surahs\Fatih Seferagic\Al-Mulk (67.1-30)",
+        (6, 11),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+    )
+    FATIH_SEFERAGIC_AL_MULK_12_18 = Preset(
+        r"Surahs\Fatih Seferagic\Al-Mulk (67.1-30)",
+        (12, 18),
+    )
+    FATIH_SEFERAGIC_AL_MULK_19_22 = Preset(
+        r"Surahs\Fatih Seferagic\Al-Mulk (67.1-30)",
+        (19, 22),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.5),
+    )
+    FATIH_SEFERAGIC_AL_MULK_23_30 = Preset(
+        r"Surahs\Fatih Seferagic\Al-Mulk (67.1-30)",
+        (23, 30),
     )
     FATIH_SEFERAGIC_AL_QIYAMAH_1_12 = Preset(
         r"Surahs\Fatih Seferagic\Al-Qiyamah (75.1-40)",
@@ -161,6 +184,20 @@ class Presets(Enum):
         r"Surahs\Fatih Seferagic\Al-Qiyamah (75.1-40)",
         (13, 19),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+    )
+    FATIH_SEFERAGIC_AN_NABA_1_16 = Preset(
+        r"Surahs\Fatih Seferagic\An-Naba (78.1-40)",
+        (1, 16),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+    )
+    FATIH_SEFERAGIC_AN_NABA_17_30 = Preset(
+        r"Surahs\Fatih Seferagic\An-Naba (78.1-40)",
+        (17, 30),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-1.3),
+    )
+    FATIH_SEFERAGIC_AN_NABA_31_40 = Preset(
+        r"Surahs\Fatih Seferagic\An-Naba (78.1-40)",
+        (31, 40),
     )
     FATIH_SEFERAGIC_AN_NISA_155_160 = Preset(
         r"Surahs\Fatih Seferagic\An-Nisa (4.155-160)",
@@ -258,6 +295,10 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_273_274 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.273-274)",
         (273, 274),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_BURUJ_12_22 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Buruj (85.12-22)",
+        (12, 22),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_FATH_22_23 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Fath (48.22-23)",
@@ -390,6 +431,17 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Ya-Sin (36.59-62)",
         (59, 62),
     )
+    MUHAMMAD_DIBIROV_IBRAHIM_12 = Preset(
+        r"Surahs\Muhammad Dibirov\Ibrahim (14.12)",
+        (12),
+    )
+    MUHAMMAD_DIBIROV_IBRAHIM_12_WITH_VIDEO = Preset(
+        r"Surahs\Muhammad Dibirov\Ibrahim (14.12)",
+        (12),
+        additional_video_settings=AdditionalVideoSettings(
+            single_background_video=r"Surahs\Muhammad Dibirov\Ibrahim (14.12)\video.mp4",
+        ),
+    )
     MUHAMMAD_DIBIROV_MARYAM_1_4 = Preset(
         r"Surahs\Muhammad Dibirov\Maryam (19.1-4)",
         (1, 4),
@@ -440,6 +492,14 @@ class Presets(Enum):
     UMAIR_SHAMIM_AL_HIJR_30_35 = Preset(
         r"Surahs\Umair Shamim\Al-Hijr (15.30-35)",
         (30, 35),
+    )
+    UMAIR_SHAMIM_AS_SAFFAT_149_163 = Preset(
+        r"Surahs\Umair Shamim\As-Saffat (37.149-163)",
+        (149, 163),
+    )
+    UMAR_SILDINSKIY_AL_INFITAR_9_19 = Preset(
+        r"Surahs\Umar Sildinskiy\Al-Infitar (82.9-19)",
+        (9, 19),
     )
     UNKNOWN_ADH_DHARIYAT_17_28 = Preset(
         r"Surahs\Unknown\Adh-Dhariyat (51.17-28)",
@@ -532,6 +592,10 @@ class Presets(Enum):
     YASSER_AL_DOSARI_AL_MUMINUN_84_92 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Mu'minun (23.84-92)",
         (84, 92),
+    )
+    YASSER_AL_DOSARI_AL_QASAS_7_8 = Preset(
+        r"Surahs\Yasser Al-Dosari\Al-Qasas (28.7-8)",
+        (7, 8),
     )
     YASSER_AL_DOSARI_AL_QASAS_32_34 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Qasas (28.32-34)",
