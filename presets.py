@@ -581,6 +581,10 @@ class Presets(Enum):
         r"Surahs\Yasser Al-Dosari\Al-Fath (48.29)",
         (29),
     )
+    YASSER_AL_DOSARI_AL_ISRA_9_12 = Preset(
+        r"Surahs\Yasser Al-Dosari\Al-Isra (17.9-12)",
+        (9, 12),
+    )
     YASSER_AL_DOSARI_AL_MAIDAH_114_115 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Ma'idah (5.114-115)",
         (114, 115),
@@ -592,6 +596,10 @@ class Presets(Enum):
     YASSER_AL_DOSARI_AL_MUMINUN_84_92 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Mu'minun (23.84-92)",
         (84, 92),
+    )
+    YASSER_AL_DOSARI_AL_MUTAFFIFIN_18_28 = Preset(
+        r"Surahs\Yasser Al-Dosari\Al-Mutaffifin (83.18-28)",
+        (18, 28),
     )
     YASSER_AL_DOSARI_AL_QASAS_7_8 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Qasas (28.7-8)",
