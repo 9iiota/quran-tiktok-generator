@@ -226,6 +226,10 @@ class Presets(Enum):
         r"Surahs\Fatih Seferagic\Ya-Sin (36.77-83)",
         (77, 83),
     )
+    IDRISS_ABKAR_AT_TUR_35_43 = Preset(
+        r"Surahs\Idriss Abkar\At-Tur (52.35-43)",
+        (35, 43),
+    )
     ISLAM_SOBHI_YUSUF_86 = Preset(
         r"Surahs\Islam Sobhi\Yusuf (12.86)",
         (86),
@@ -580,6 +584,10 @@ class Presets(Enum):
     YASSER_AL_DOSARI_AL_FATH_29 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Fath (48.29)",
         (29),
+    )
+    YASSER_AL_DOSARI_ALI_IMRAN_162_163 = Preset(
+        r"Surahs\Yasser Al-Dosari\Ali 'Imran (3.162-163)",
+        (162, 163),
     )
     YASSER_AL_DOSARI_AL_ISRA_9_12 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Isra (17.9-12)",
