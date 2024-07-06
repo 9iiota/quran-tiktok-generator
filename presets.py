@@ -123,6 +123,10 @@ class Presets(Enum):
         r"Surahs\Ahmed Wael\As-Saffat (37.91-93)",
         (91, 93),
     )
+    BANDAR_BALILAH_AL_ANAM_61_62 = Preset(
+        r"Surahs\Bandar Balilah\Al-An'am (6.61-62)",
+        (61, 62),
+    )
     FAHAD_AL_KANDARI_AZ_ZALZALAH_1_8 = Preset(
         r"Surahs\Fahad Al-Kandari\Az-Zalzalah (99.1-8)",
         (1, 8),
@@ -226,6 +230,10 @@ class Presets(Enum):
         r"Surahs\Fatih Seferagic\Ya-Sin (36.77-83)",
         (77, 83),
     )
+    IDRISS_ABKAR_AL_JINN_18_19 = Preset(
+        r"Surahs\Idriss Abkar\Al-Jinn (72.18-19)",
+        (18, 19),
+    )
     IDRISS_ABKAR_AT_TUR_35_43 = Preset(
         r"Surahs\Idriss Abkar\At-Tur (52.35-43)",
         (35, 43),
@@ -238,6 +246,10 @@ class Presets(Enum):
         r"Surahs\Islam Sobhi\An-Naml (27.66-93)",
         (74, 75),
         time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.6),
+    )
+    ISMAIL_ABOUD_AL_FURQAN_68_70 = Preset(
+        r"Surahs\Ismail Aboud\Al-Furqan (25.68-70)",
+        (68, 70),
     )
     MAHDI_ASH_SHISHANI_AL_KAFIRUN_1_6 = Preset(
         r"Surahs\Mahdi Ash-Shishani\Al-Kafirun (109.1-6)",
@@ -258,6 +270,10 @@ class Presets(Enum):
     MOSTAFA_SHAIBANI_AL_QIYAMAH_20_27 = Preset(
         r"Surahs\Mostafa Shaibani\Al-Qiyamah (75.20-27)",
         (20, 27),
+    )
+    MUHAMMAD_AL_LUHAIDAN_ABASA_33_42 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\'Abasa (80.33-42)",
+        (33, 42),
     )
     MUHAMMAD_AL_LUHAIDAN_AD_DUKHAN_43_49 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Ad-Dukhan (44.43-49)",
@@ -406,6 +422,10 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AS_SAJDAH_12_14 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\As-Sajdah (32.12-14)",
         (12, 14),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AZ_ZUMAR_22_23 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Az-Zumar (39.22-23)",
+        (22, 23),
     )
     MUHAMMAD_AL_LUHAIDAN_GHAFIR_48_52 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Ghafir (40.48-52)",
