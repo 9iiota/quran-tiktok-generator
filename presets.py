@@ -390,6 +390,15 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Al-Qamar (54.47-55)",
         (47, 55),
     )
+    MUHAMMAD_AL_LUHAIDAN_AL_WAQIAH_1_11 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Waqi'ah (56.1-26)",
+        (1, 11),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.3),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_WAQIAH_12_26 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Waqi'ah (56.1-26)",
+        (12, 26),
+    )
     MUHAMMAD_AL_LUHAIDAN_AN_NAZIAT_34_41 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Nazi'at (79.1-46)",
         (34, 41),
