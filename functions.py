@@ -1150,7 +1150,10 @@ def get_chapter_text(chapter_number: int) -> list[str]:
         A list of strings containing the text of the chapter.
     """
 
-    return quran.get_sura(chapter_number, with_tashkeel=True)
+    response = requests.get(f"https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number={chapter_number}")
+
+    return [re.sub("ا۟", "ا", verse["text_uthmani"]) for verse in response.json()["verses"]]
+    # return quran.get_sura(chapter_number, with_tashkeel=True)
 
 
 def colored_print(color: str, text: str) -> None:
