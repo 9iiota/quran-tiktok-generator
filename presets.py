@@ -251,6 +251,10 @@ class Presets(Enum):
         r"Surahs\Ismail Aboud\Al-Furqan (25.68-70)",
         (68, 70),
     )
+    MAHER_AL_MUAIQLY_AL_ANAM_160_165 = Preset(
+        r"Surahs\Maher Al-Muaiqly\Al-An'am (6.160-165)",
+        (160, 165),
+    )
     MAHDI_ASH_SHISHANI_AL_KAFIRUN_1_6 = Preset(
         r"Surahs\Mahdi Ash-Shishani\Al-Kafirun (109.1-6)",
         (1, 6),
@@ -534,8 +538,13 @@ class Presets(Enum):
         r"Surahs\Umair Shamim\Al-Hijr (15.30-35)",
         (30, 35),
     )
+    UMAIR_SHAMIM_AS_SAFFAT_139_148 = Preset(
+        r"Surahs\Umair Shamim\As-Saffat (37.139-163)",
+        (139, 148),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+    )
     UMAIR_SHAMIM_AS_SAFFAT_149_163 = Preset(
-        r"Surahs\Umair Shamim\As-Saffat (37.149-163)",
+        r"Surahs\Umair Shamim\As-Saffat (37.139-163)",
         (149, 163),
     )
     UMAR_SILDINSKIY_AL_INFITAR_9_19 = Preset(
