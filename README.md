@@ -40,17 +40,17 @@ Please note that while efforts have been made to provide comprehensive instructi
 **Adding New Presets**
 - All presets are stored in presets.py. Follow these steps to add a new one:
   1. In the "Surahs" folder, add a new folder with the name of the reciter.
-  2. Inside the new folder, create another folder with the format: "SURAHNAME (CHAPTERNUMBER.STARTVERSENUMBER_ENDVERSENUMBER)".
+  2. Inside the new folder, create another folder with the format: "SURAHNAME (CHAPTERNUMBER.STARTVERSENUMBER_ENDVERSENUMBER)". Here, the start verse number and end verse number refer to the specific verses of the clip you want to make. For example, if the entire audio covers verses 1-10 but you want to make a clip from only verses 1-3, then the start verse number would be 1 and the end verse number would be 3.
   3. Place the audio file in that folder.
   4. Add a new preset in presets.py following the existing format.
-  5. Run main.py, which will generate a chapter.csv file containing the text of the verses.
-  6. Open the audio file using Adobe Audition (or any suitable software) and add markers:
+  5. Run main.py, which will generate a chapter.csv file containing the text of the verses. If you ever need to regenerate this file, just rename the existing chapter.csv file and run main.py again.
+  6. Open the audio file using Adobe Audition and add markers:
      - Use a normal marker at the start of each new verse.
      - Use a CD track marker for any markers in between the starts.
      - Use a subclip marker if you want the video clip to continue but want the text to fade away at the time of the subclip marker.
   7. Export all markers to the same folder.
-  8. Edit the chapter.csv file as needed.
-  9. Finally, run the code, and it should create the TikTok videos correctly.
+  8. Edit the chapter.csv file to ensure the text for each marker is correct.
+  9. Finally, run the code, and it should create the TikTok video correctly.
  
 ### Contributing
 Contributions are welcome! Feel free to submit pull requests or open issues.
