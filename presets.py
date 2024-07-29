@@ -255,6 +255,10 @@ class Presets(Enum):
         r"Surahs\Maher Al-Muaiqly\Al-An'am (6.160-165)",
         (160, 165),
     )
+    MAHDI_ASH_SHISHANI_AL_IKHLAS_1_4 = Preset(
+        r"Surahs\Mahdi Ash-Shishani\Al-Ikhlas (112.1-4)",
+        (1, 4),
+    )
     MAHDI_ASH_SHISHANI_AL_KAFIRUN_1_6 = Preset(
         r"Surahs\Mahdi Ash-Shishani\Al-Kafirun (109.1-6)",
         (1, 6),
@@ -385,6 +389,14 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_INSAN_19_22 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.11-22)",
         (19, 22),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_ISRA_13_17 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Isra (17.13-17)",
+        (13, 17),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_MAARIJ_1_14 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Ma'arij (70.1-14)",
+        (1, 14),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_JATHIYAH_7_10 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Jathiyah (45.7-10)",
