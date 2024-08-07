@@ -312,6 +312,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Al-A'raf (7.1-206)",
         (40),
     )
+    MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_42_46 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.42-46)",
+        (42, 46),
+    )
     MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_138_141 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.138-141)",
         (138, 141),
@@ -550,6 +554,10 @@ class Presets(Enum):
         r"Surahs\Umair Shamim\Al-Hijr (15.30-35)",
         (30, 35),
     )
+    UMAIR_SHAMIM_AL_MUTAFFIFIN_29_36 = Preset(
+        r"Surahs\Umair Shamim\Al-Mutaffifin (83.29-36)",
+        (29, 36),
+    )
     UMAIR_SHAMIM_AS_SAFFAT_139_148 = Preset(
         r"Surahs\Umair Shamim\As-Saffat (37.139-163)",
         (139, 148),
@@ -566,6 +574,10 @@ class Presets(Enum):
     UNKNOWN_ADH_DHARIYAT_17_28 = Preset(
         r"Surahs\Unknown\Adh-Dhariyat (51.17-28)",
         (17, 28),
+    )
+    UNKNOWN_AL_ANFAL_61_62 = Preset(
+        r"Surahs\Unknown\Al-Anfal (8.61-62)",
+        (61, 62),
     )
     UNKNOWN_AL_ANKABUT_56_58 = Preset(
         r"Surahs\Unknown\Al-'Ankabut (29.56-58)",
