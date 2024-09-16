@@ -1102,9 +1102,13 @@ def fetch_chapter_translation(chapter_number: int, language: Languages) -> list[
 
     return [
         re.sub(
-            "ḥ",
-            "h",
-            re.sub("ā", "a", re.sub(r"<.*?>*<.*?>", "", translation["text"])),
+            "صَۣ",
+            "صَ",
+            re.sub(
+                "ḥ",
+                "h",
+                re.sub("ā", "a", re.sub(r"<.*?>*<.*?>", "", translation["text"])),
+            ),
         )
         for translation in response.json()["translations"]
     ]

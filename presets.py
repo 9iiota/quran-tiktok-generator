@@ -608,6 +608,10 @@ class Presets(Enum):
         r"Surahs\Unknown\Al-Hujurat (49.12)",
         (12),
     )
+    UNKNOWN_AL_INSAN_11_18 = Preset(
+        r"Surahs\Unknown\Al-Insan (76.11-18)",
+        (11, 18),
+    )
     UNKNOWN_AL_KAHF_46 = Preset(
         r"Surahs\Unknown\Al-Kahf (18.46)",
         (46),
@@ -623,6 +627,10 @@ class Presets(Enum):
     UNKNOWN_AS_SAFFAT_123_132 = Preset(
         r"Surahs\Unknown\As-Saffat (37.123-132)",
         (123, 132),
+    )
+    UNKNOWN_AT_TUR_35_43 = Preset(
+        r"Surahs\Unknown\At-Tur (52.35-43)",
+        (35, 43),
     )
     UNKNOWN_AZ_ZUMAR_71_75 = Preset(
         r"Surahs\Unknown\Az-Zumar (39.71-75)",

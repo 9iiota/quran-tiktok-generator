@@ -50,9 +50,16 @@ class TikTok:
             video_verse_range = (video_verse_range, video_verse_range)
 
         for file in os.listdir(audio_directory_path):
-            if file.endswith(".mp3"):
-                audio_mp3_file_path = os.path.join(audio_directory_path, file)
+            if file.endswith(".wav"):
+                audio_file_path = os.path.join(audio_directory_path, file)
                 break
+        else:
+            for file in os.listdir(audio_directory_path):
+                if file.endswith(".mp3"):
+                    audio_file_path = os.path.join(audio_directory_path, file)
+                    break
+            else:
+                raise FileNotFoundError("No audio file found in the directory.")
 
         pattern = r"\d+"
         match = re.findall(pattern, audio_directory_path)
@@ -61,7 +68,7 @@ class TikTok:
         start_to_end_timestamp_verse_range = (int(match[1]), int(match[-1]))
 
         audio_settings = AudioSettings(
-            audio_mp3_file=audio_mp3_file_path,
+            audio_mp3_file=audio_file_path,
             chapter_number=chapter_number,
             audio_verse_range=start_to_end_timestamp_verse_range,
         )
