@@ -608,6 +608,10 @@ class Presets(Enum):
         r"Surahs\Unknown\Al-Hujurat (49.12)",
         (12),
     )
+    UNKNOWN_ALI_IMRAN_15 = Preset(
+        r"Surahs\Unknown\Ali 'Imran (3.15)",
+        (15),
+    )
     UNKNOWN_AL_INSAN_11_18 = Preset(
         r"Surahs\Unknown\Al-Insan (76.11-18)",
         (11, 18),
