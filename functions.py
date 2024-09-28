@@ -895,7 +895,7 @@ def update_csv_file_verse_numbers(
         existing_verses = set()
         start_verse, end_verse = entire_audio_verse_range
         verse_texts = get_chapter_text(chapter_number)[start_verse - 1 : end_verse]
-        indexed_verse_texts = list(zip(range(start_verse, end_verse + 1), verse_texts))
+        indexed_verse_texts = [list(item) for item in zip(range(start_verse, end_verse + 1), verse_texts)]
 
         for row in csv_dict_reader:
             if row[verse_text_column_name] != "" or row[timestamp_column_name] == "":
@@ -905,35 +905,50 @@ def update_csv_file_verse_numbers(
                 for tuple in indexed_verse_texts:
                     letter_difference = len(tuple[1]) - len(csv_text)
 
+                    # Here we check if the indexed verse text is long or equal to the CSV text
+                    # We do this so we can skip over texts that would definitely not match due to being too short
                     if letter_difference >= 0:
+                        # Here we get the indexes of the start of each word in the indexed verse text
+                        # We do this because we're comparing words, so there's no need to start checking in the middle of a word or at a space
                         word_start_indexes = [0] + [
                             space_index + 1 for space_index, char in enumerate(tuple[1]) if char == " "
                         ]
 
                         for word_start_index in word_start_indexes:
+                            # Here we check the match ratio of the CSV text and the indexed verse text starting at each word
+                            # We do this to find the best match
                             match = tuple[1][word_start_index : len(csv_text) + word_start_index]
                             ratio = fuzz.ratio(csv_text, match)
 
+                            # Replace the previous ratio if this one is better
                             if ratio > best_ratio:
                                 best_ratio, best_verse_number = (ratio, tuple[0])
 
+                            # If it's a perfect match, we don't need to continue
                             if ratio == 100:
                                 break
 
+                    # If it's a perfect match, we don't need to continue
                     if best_ratio == 100:
                         break
 
-                if best_ratio >= 80:
+                if best_ratio >= 90:
                     verse = f"{chapter_number}:{best_verse_number}"
                     if verse not in existing_verses:
                         row[verse_number_column_name] = verse
                         existing_verses.add(verse)
-
-                        with contextlib.suppress(IndexError):
-                            if indexed_verse_texts[0][0] != best_verse_number:
-                                indexed_verse_texts.pop(0)
                     else:
                         row[verse_number_column_name] = ""
+
+                    with contextlib.suppress(IndexError):
+                        indexed_verse_texts[0][1] = re.sub(match, "", indexed_verse_texts[0][1]).strip()
+
+                        if indexed_verse_texts[0][1] == "":
+                            indexed_verse_texts.pop(0)
+                        # if indexed_verse_texts[0][0] != best_verse_number:
+                        #     indexed_verse_texts.pop(0)
+                else:
+                    row[verse_number_column_name] = ""
 
             data.append(row)
         with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
