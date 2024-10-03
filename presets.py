@@ -423,6 +423,15 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Al-Waqi'ah (56.1-26)",
         (12, 26),
     )
+    MUHAMMAD_AL_LUHAIDAN_AN_NAJM_39_55 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\An-Najm (53.39-62)",
+        (39, 55),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.3),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AN_NAJM_56_62 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\An-Najm (53.39-62)",
+        (56, 62),
+    )
     MUHAMMAD_AL_LUHAIDAN_AN_NAZIAT_34_41 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Nazi'at (79.1-46)",
         (34, 41),
@@ -695,8 +704,13 @@ class Presets(Enum):
         r"Surahs\Yasser Al-Dosari\Al-Mu'minun (23.84-92)",
         (84, 92),
     )
+    YASSER_AL_DOSARI_AL_MUTAFFIFIN_7_17 = Preset(
+        r"Surahs\Yasser Al-Dosari\Al-Mutaffifin (83.7-28)",
+        (7, 17),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.3),
+    )
     YASSER_AL_DOSARI_AL_MUTAFFIFIN_18_28 = Preset(
-        r"Surahs\Yasser Al-Dosari\Al-Mutaffifin (83.18-28)",
+        r"Surahs\Yasser Al-Dosari\Al-Mutaffifin (83.7-28)",
         (18, 28),
     )
     YASSER_AL_DOSARI_AL_QASAS_7_8 = Preset(
