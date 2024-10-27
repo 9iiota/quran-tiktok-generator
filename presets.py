@@ -563,6 +563,11 @@ class Presets(Enum):
         r"Surahs\Salim Bahanan\At-Tin (95.1-8)",
         (1, 8),
     )
+    UMAIR_SHAMIM_AL_HIJR_26_29 = Preset(
+        r"Surahs\Umair Shamim\Al-Hijr (15.26-35)",
+        (26, 29),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+    )
     UMAIR_SHAMIM_AL_HIJR_30_35 = Preset(
         r"Surahs\Umair Shamim\Al-Hijr (15.30-35)",
         (30, 35),
@@ -644,6 +649,10 @@ class Presets(Enum):
     UNKNOWN_AL_QIYAMAH_20_27 = Preset(
         r"Surahs\Unknown\Al-Qiyamah (75.20-27)",
         (20, 27),
+    )
+    UNKNOWN_ASH_SHUARA_78_83 = Preset(
+        r"Surahs\Unknown\Ash-Shu'ara (26.78-83)",
+        (78, 83),
     )
     UNKNOWN_AS_SAFFAT_123_132 = Preset(
         r"Surahs\Unknown\As-Saffat (37.123-132)",
