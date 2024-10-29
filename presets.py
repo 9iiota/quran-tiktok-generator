@@ -123,6 +123,10 @@ class Presets(Enum):
         r"Surahs\Ahmed Wael\As-Saffat (37.91-93)",
         (91, 93),
     )
+    ALI_ABDUL_SALAM_GHAFIR_41_43 = Preset(
+        r"Surahs\Ali Abdul Salam\Ghafir (40.41-43)",
+        (41, 43),
+    )
     BANDAR_BALILAH_AL_ANAM_61_62 = Preset(
         r"Surahs\Bandar Balilah\Al-An'am (6.61-62)",
         (61, 62),
