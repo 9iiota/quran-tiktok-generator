@@ -26,7 +26,9 @@ class Presets(Enum):
         (1, 47),
     )
 
-    ABDUL_RAHMAN_MOSSAD_AL_ADIYAT_1_11 = Preset(r"Surahs\Abdul Rahman Mossad\Al-'Adiyat (100.1-11)", (1, 11))
+    ABDUL_RAHMAN_MOSSAD_AL_ADIYAT_1_11 = Preset(
+        r"Surahs\Abdul Rahman Mossad\Al-'Adiyat (100.1-11)", (1, 11)
+    )
     ABDUL_RAHMAN_MOSSAD_AL_ANKABUT_54_60 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-'Ankabut (29.53-64)",
         (54, 60),
@@ -142,6 +144,10 @@ class Presets(Enum):
     FATIH_SEFERAGIC_AL_BAQARAH_255 = Preset(
         r"Surahs\Fatih Seferagic\Al-Baqarah (2.255)",
         (255),
+    )
+    FATIH_SEFERAGIC_AL_HAQQAH_1_8 = Preset(
+        r"Surahs\Fatih Seferagic\Al-Haqqah (69.1-8)",
+        (1, 8),
     )
     FATIH_SEFERAGIC_AL_HADID_20 = Preset(
         r"Surahs\Fatih Seferagic\Al-Hadid (57.20)",
@@ -409,6 +415,10 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_MAARIJ_1_14 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Ma'arij (70.1-14)",
         (1, 14),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_MUMINUN_97_102 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Mu'minun (23.97-102)",
+        (97, 102),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_JATHIYAH_7_10 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Jathiyah (45.7-10)",

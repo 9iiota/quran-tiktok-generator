@@ -5,7 +5,9 @@ from enum import Enum
 from tiktok import TikTok
 from enums import Accounts
 
-change_settings({"IMAGEMAGICK_BINARY": r"C:\\Program Files\\ImageMagick-7.1.1-Q16-HDRI\\magick.exe"})
+change_settings(
+    {"IMAGEMAGICK_BINARY": r"C:\\Program Files\\ImageMagick-7.1.1-Q16-HDRI\\magick.exe"}
+)
 
 
 class Joe(Enum):
@@ -20,7 +22,7 @@ class Joe(Enum):
 
 def main():
     tiktok = TikTok(Accounts.QURAN_2_LISTEN)
-    preset = Presets.ALI_ABDUL_SALAM_GHAFIR_41_43
+    preset = Presets.MUHAMMAD_AL_LUHAIDAN_AL_MUMINUN_97_102
 
     tiktok.create(
         preset,
