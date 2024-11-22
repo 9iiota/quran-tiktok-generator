@@ -715,6 +715,15 @@ class Presets(Enum):
         r"Surahs\Yasser Al-Dosari\Al-Isra (17.9-12)",
         (9, 12),
     )
+    YASSER_AL_DOSARI_AL_KAHF_99_102 = Preset(
+        r"Surahs\Yasser Al-Dosari\Al-Kahf (18.99-106)",
+        (99, 102),
+        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+    )
+    YASSER_AL_DOSARI_AL_KAHF_103_106 = Preset(
+        r"Surahs\Yasser Al-Dosari\Al-Kahf (18.99-106)",
+        (103, 106),
+    )
     YASSER_AL_DOSARI_AL_MAIDAH_114_115 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Ma'idah (5.114-115)",
         (114, 115),
