@@ -15,7 +15,9 @@ class ColorMode:
     reciter_name_color: Optional[str] = None
 
     def __post_init__(self):
-        self.verse_translation_color = self.verse_translation_color or self.verse_text_color
+        self.verse_translation_color = (
+            self.verse_translation_color or self.verse_text_color
+        )
         self.verse_number_color = self.verse_number_color or self.verse_text_color
         self.reciter_name_color = self.reciter_name_color or self.verse_text_color
 
@@ -37,8 +39,12 @@ class Account:
     reciter_name_font_file: Optional[str] = None
 
     def __post_init__(self):
-        self.verse_number_font_file = self.verse_number_font_file or self.verse_translation_font_file
-        self.reciter_name_font_file = self.reciter_name_font_file or self.verse_translation_font_file
+        self.verse_number_font_file = (
+            self.verse_number_font_file or self.verse_translation_font_file
+        )
+        self.reciter_name_font_file = (
+            self.reciter_name_font_file or self.verse_translation_font_file
+        )
 
 
 @dataclass
@@ -111,12 +117,20 @@ class AdditionalVideoSettings:
     single_background_video: Optional[str] = None
     single_background_video_horizontal_offset: Optional[int] = None
     single_background_video_vertical_offset: Optional[int] = None
-    video_map: Optional[dict[str, list[list[str, float, int, str]]]] = None
+    videoMap: Optional[dict[str, list[list[str, float, int, str]]]] = None
 
 
 class ColorModes(Enum):
-    DARK = ColorMode(shadow_color=(0, 0, 0), shadow_opacity=0.7, verse_text_color="rgb(255, 255, 255)")
-    LIGHT = ColorMode(shadow_color=(255, 255, 255), shadow_opacity=0.7, verse_text_color="rgb(0, 0, 0)")
+    DARK = ColorMode(
+        shadow_color=(0, 0, 0),
+        shadow_opacity=0.7,
+        verse_text_color="rgb(255, 255, 255)",
+    )
+    LIGHT = ColorMode(
+        shadow_color=(255, 255, 255),
+        shadow_opacity=0.7,
+        verse_text_color="rgb(0, 0, 0)",
+    )
 
 
 class Languages(Enum):

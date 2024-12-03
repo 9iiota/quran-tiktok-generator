@@ -43,7 +43,9 @@ class TikTok:
             video_verse_range = video_verse_range or preset.value.video_verse_range
             time_modifiers = time_modifiers or preset.value.time_modifiers
             additional_video_settings = (
-                additional_video_settings or preset.value.additional_video_settings or AdditionalVideoSettings()
+                additional_video_settings
+                or preset.value.additional_video_settings
+                or AdditionalVideoSettings()
             )
 
         if isinstance(video_verse_range, int):
@@ -87,14 +89,20 @@ class TikTok:
             start_verse, end_verse = video_verse_range
         except ValueError:
             start_verse = end_verse = video_verse_range
-        verse_range = f"{start_verse}-{end_verse}" if start_verse != end_verse else str(start_verse)
+        verse_range = (
+            f"{start_verse}-{end_verse}"
+            if start_verse != end_verse
+            else str(start_verse)
+        )
 
         output_mp4_file_name = f"{chapter_name} ({chapter_number}.{verse_range}) - {reciter_name} {account_name} {language_abbreviation} {datetime.now().strftime('%d-%m-%Y %H.%M.%S')}"
 
         chapter_csv_file_path = os.path.join(audio_directory_path, "chapter.csv")
         timestamps_csv_file_path = os.path.join(audio_directory_path, "Markers.csv")
 
-        csv_column_names = CSVColumnNames(verse_number="verse", verse_text="ar", timestamp="timestamps")
+        csv_column_names = CSVColumnNames(
+            verse_number="verse", verse_text="ar", timestamp="timestamps"
+        )
 
         verse_text_text_clip = TextClipInfo(
             text_background_color="transparent",
@@ -137,14 +145,14 @@ class TikTok:
             account=self.account,
             audio_settings=audio_settings,
             csv_column_names=csv_column_names,
-            time_modifiers=time_modifiers,
-            video_settings=video_settings,
+            timeModifiers=time_modifiers,
+            videoSettings=video_settings,
             output_video_verse_range=video_verse_range,
             output_mp4_file_name=output_mp4_file_name,
             chapter_csv_file=chapter_csv_file_path,
             timestamps_csv_file=timestamps_csv_file_path,
-            additional_video_settings=additional_video_settings,
-            verse_text_text_clip=verse_text_text_clip,
+            additionalVideoSettings=additional_video_settings,
+            verseTextTextClip=verse_text_text_clip,
             verse_translation_text_clip=verse_translation_text_clip,
             verse_number_text_clip=verse_number_text_clip,
             reciter_name=reciter_name,
