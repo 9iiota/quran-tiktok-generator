@@ -37,16 +37,16 @@ def create_video(
     videoSettings: VideoSettings,
     output_video_verse_range: tuple[int, int],
     output_mp4_file_name: str,
-    chapter_csv_file: str,
+    chapterCsvPath: str,
     timestamps_csv_file: str,
     additionalVideoSettings: Optional[
         AdditionalVideoSettings
     ] = AdditionalVideoSettings(),
     verseTextTextClip: Optional[TextClipInfo] = None,
-    verse_translation_text_clip: Optional[TextClipInfo] = None,
-    verse_number_text_clip: Optional[TextClipInfo] = None,
-    reciter_name: Optional[str] = None,
-    reciter_name_text_clip: Optional[TextClipInfo] = None,
+    verseTranslationTextClip: Optional[TextClipInfo] = None,
+    verseNumberTextClip: Optional[TextClipInfo] = None,
+    reciterName: Optional[str] = None,
+    reciterNameTextClip: Optional[TextClipInfo] = None,
     output_mp4_file: Optional[str] = None,
 ) -> None:
     """
@@ -82,33 +82,33 @@ def create_video(
     if not os.path.isdir(output_directory_path):
         os.mkdir(output_directory_path)
 
-    chapter_csv_file = chapter_csv_file.replace("\\", "/")
+    chapterCsvPath = chapterCsvPath.replace("\\", "/")
 
-    if not os.path.isfile(chapter_csv_file):
+    if not os.path.isfile(chapterCsvPath):
         column_names = [csv_column_names.verse_number, csv_column_names.verse_text]
-        if create_csv_file(chapter_csv_file, column_names):
+        if create_csv_file(chapterCsvPath, column_names):
             PrintColored(
                 Fore.GREEN,
-                f"Created {chapter_csv_file} with column names {column_names}.",
+                f"Created {chapterCsvPath} with column names {column_names}.",
             )
 
             if append_verse_texts_to_csv_file(
-                chapter_csv_file,
+                chapterCsvPath,
                 audio_settings.chapter_number,
                 audio_settings.audio_verse_range,
                 csv_column_names.verse_number,
                 csv_column_names.verse_text,
             ):
-                PrintColored(Fore.GREEN, f"Added verse texts to {chapter_csv_file}.")
+                PrintColored(Fore.GREEN, f"Added verse texts to {chapterCsvPath}.")
 
     if append_verse_translations_to_csv_file(
-        chapter_csv_file,
+        chapterCsvPath,
         account.language,
         audio_settings.chapter_number,
         audio_settings.audio_verse_range,
         csv_column_names.timestamp,
     ):
-        PrintColored(Fore.GREEN, f"Added verse translations to {chapter_csv_file}.")
+        PrintColored(Fore.GREEN, f"Added verse translations to {chapterCsvPath}.")
 
         return
 
@@ -116,25 +116,25 @@ def create_video(
         raise FileNotFoundError(f"{timestamps_csv_file} is not a valid path.")
     else:
         if update_csv_file_timestamps(
-            chapter_csv_file, timestamps_csv_file, csv_column_names.timestamp
+            chapterCsvPath, timestamps_csv_file, csv_column_names.timestamp
         ):
-            PrintColored(Fore.GREEN, f"Added timestamps to {chapter_csv_file}.")
+            PrintColored(Fore.GREEN, f"Added timestamps to {chapterCsvPath}.")
 
             if update_csv_file_verse_numbers(
-                chapter_csv_file,
+                chapterCsvPath,
                 audio_settings.chapter_number,
                 audio_settings.audio_verse_range,
                 csv_column_names.verse_number,
                 csv_column_names.verse_text,
                 csv_column_names.timestamp,
             ):
-                PrintColored(Fore.GREEN, f"Added verse numbers to {chapter_csv_file}.")
+                PrintColored(Fore.GREEN, f"Added verse numbers to {chapterCsvPath}.")
 
     language_abbreviation = account.language.value.abbreviation
 
     # TODO: A clip should be able to be created without language abbreviation column
     chapterCsvLines = select_columns_from_csv_file(
-        chapter_csv_file,
+        chapterCsvPath,
         [
             csv_column_names.verse_number,
             csv_column_names.verse_text,
@@ -167,7 +167,10 @@ def create_video(
     import subprocess
 
     exePath = "D:/GitHub/c-sharp/bin/Release/net8.0/win-x64/c-sharp.exe"
+    json_output_file_path = output_mp4_file.replace(".mp4", ".json")
     arguments = [
+        str(os.path.abspath(chapterCsvPath)),
+        str(os.path.abspath(json_output_file_path)),
         str(startLine),
         str(endLine),
         str(video_start_timestamp),
@@ -177,7 +180,7 @@ def create_video(
 
     import json
 
-    with open("videoMap.json", "r") as file:
+    with open(os.path.abspath(json_output_file_path), "r") as file:
         additionalVideoSettings.videoMap = json.load(file)
 
     # print(additional_video_settings.video_map)
@@ -195,17 +198,15 @@ def create_video(
     # if video_map:
     #     video_map = convert_video_map_paths_to_absolute_paths(video_map)
 
-    all_background_clips_paths = get_relative_mp4_paths(
-        account.background_clips_directories
-    )
-    target_aspect_ratio = video_width / video_height
-    text_clips_array = []
+    allBackgroundClipPaths = GetRelativeMp4Paths(account.background_clips_directories)
+    targetAspectRatio = video_width / video_height
+    textClipsArray = []
     UsedBackgroundClips = []
 
     videoClips = []
     videoClipsLock = Lock()
 
-    video_map_output = {}
+    videoMap = {}
 
     if additionalVideoSettings.videoMap:
         additionalVideoSettings.videoMap = {
@@ -217,15 +218,13 @@ def create_video(
     PrintColored(Fore.MAGENTA, f"Creating clips in range {startLine}-{endLine - 1}...")
 
     def CreateClip(line):
-        # global chapterCsvLines, startLine, endLine, videoStart, videoEnd, additionalVideoSettings, videoSettings, mpy, account, videoClips
-
-        clipIndex = line - startLine + 1
+        videoClipIndex = line - startLine + 1
         chapterCsvLine = chapterCsvLines[line - 1]
 
         # TODO: A line should be able to exist without verse_translation
         verseNumber, verseText, translation, timestamp = chapterCsvLine
 
-        PrintColored(Fore.MAGENTA, f"Creating clip {clipIndex}...")
+        PrintColored(Fore.MAGENTA, f"Creating clip {videoClipIndex}...")
 
         nextLine = chapterCsvLines[line]
         nextTimestamp = nextLine[3]
@@ -259,64 +258,43 @@ def create_video(
             videoClipBackgroundClips = []
 
             if videoSettings.video_mode == VideoModes.VIDEO:
-                videoMapIndex = line - startLine + 1
-
                 if (
                     additionalVideoSettings.videoMap
-                    and videoMapIndex in additionalVideoSettings.videoMap.keys()
+                    and videoClipIndex in additionalVideoSettings.videoMap.keys()
                 ):
                     # Video clip entry exists
-                    backgroundClipsCount = len(
-                        additionalVideoSettings.videoMap[videoMapIndex]
-                    )
-
-                    # Loop through background clips
-                    for i in range(backgroundClipsCount):
-                        background_clip_info = additionalVideoSettings.videoMap[
-                            videoMapIndex
-                        ][i]
-
-                        backgroundClipPath = background_clip_info[0]
-                        clip = mpy.VideoFileClip(backgroundClipPath).speedx(
-                            videoSettings.background_clips_speed
+                    videoClip = additionalVideoSettings.videoMap[videoClipIndex]
+                    for backgroundClip in videoClip:
+                        clipPath, timeOffset, horizontalOffset, isMirrored = (
+                            backgroundClip
                         )
-
-                        clipDuration = calculate_clip_duration(
-                            backgroundClipPath, videoSettings.background_clips_speed
-                        )
-
-                        timeOffset = background_clip_info[1]
-                        horizontalOffset = background_clip_info[2]
-                        isMirrored = background_clip_info[3]
-
-                        offsetClipDuration = clipDuration - timeOffset
-
-                        adjustedClipDuration = min(
-                            maxVideoClipDuration, offsetClipDuration
+                        clipDuration = GetClipDuration(
+                            clipPath, videoSettings.background_clips_speed
                         )
 
                         remainingVideoClipDuration = (
                             maxVideoClipDuration - videoClipDuration
                         )
-
-                        # if validate_background_clip_duration(
-                        if (
-                            remainingVideoClipDuration - adjustedClipDuration
-                            >= videoSettings.minimal_background_clip_duration
-                            or remainingVideoClipDuration - adjustedClipDuration <= 0
+                        if isValidClipDuration(
+                            clipDuration,
+                            videoSettings.minimal_background_clip_duration,
+                            remainingVideoClipDuration,
                         ):
                             videoClipBackgroundClips.append(
                                 [
-                                    backgroundClipPath,
+                                    clipPath,
                                     timeOffset,
                                     horizontalOffset,
                                     isMirrored,
                                 ]
                             )
-                            UsedBackgroundClips.append(backgroundClipPath)
+                            UsedBackgroundClips.append(clipPath)
 
+                            offsetClipDuration = clipDuration - timeOffset
+                            adjustedClipDuration = min(
+                                maxVideoClipDuration, offsetClipDuration
+                            )
                             videoClipDuration += adjustedClipDuration
-
                             if videoClipDuration >= maxVideoClipDuration:
                                 break
 
@@ -324,82 +302,83 @@ def create_video(
         textClips = []
 
         if verseTextTextClip:
-            verse_text_color = account.mode.value.verse_text_color
-            verse_text_clip = verseTextTextClip.create_text_clip(
-                color=verse_text_color,
+            verseTextColor = account.mode.value.verse_text_color
+            verseTextClip = verseTextTextClip.create_text_clip(
+                color=verseTextColor,
                 duration=textDuration,
                 font=account.verse_text_font_file,
                 text=verseText,
             )
-            textClips.append(verse_text_clip)
+            textClips.append(verseTextClip)
 
-        if verse_translation_text_clip:
-            verse_translation_color = account.mode.value.verse_translation_color
-            verse_translation_clip = verse_translation_text_clip.create_text_clip(
-                color=verse_translation_color,
+        if verseTranslationTextClip:
+            verseTranslationColor = account.mode.value.verse_translation_color
+            verseTranslationClip = verseTranslationTextClip.create_text_clip(
+                color=verseTranslationColor,
                 duration=textDuration,
                 font=account.verse_translation_font_file,
                 text=translation,
             )
-            textClips.append(verse_translation_clip)
+            textClips.append(verseTranslationClip)
 
         # Append verse number text clip if it is a new verse
-        if verse_number_text_clip and verseNumber != "":
-            verse_number_color = account.mode.value.verse_number_color
-            verse_number_clip = verse_number_text_clip.create_text_clip(
-                color=verse_number_color,
+        if verseNumberTextClip and verseNumber != "":
+            verseNumberColor = account.mode.value.verse_number_color
+            verseNumberClip = verseNumberTextClip.create_text_clip(
+                color=verseNumberColor,
                 duration=textDuration,
                 font=account.verse_number_font_file,
                 text=verseNumber,
             )
-            textClips.append(verse_number_clip)
+            textClips.append(verseNumberClip)
 
         # Append reciter name text clip if it is the first clip
-        if line == startLine and reciter_name and reciter_name_text_clip:
-            reciter_name_color = account.mode.value.reciter_name_color
-            reciter_name_clip = reciter_name_text_clip.create_text_clip(
-                color=reciter_name_color,
+        if line == startLine and reciterName and reciterNameTextClip:
+            reciterNameColor = account.mode.value.reciter_name_color
+            reciterNameClip = reciterNameTextClip.create_text_clip(
+                color=reciterNameColor,
                 duration=textDuration,
                 font=account.reciter_name_font_file,
-                text=reciter_name,
+                text=reciterName,
             )
-            textClips.append(reciter_name_clip)
+            textClips.append(reciterNameClip)
 
         if not additionalVideoSettings.single_background_video:
             # Create shadow clip to put overlay on the video clip
-            shadow_color = account.mode.value.shadow_color
-            shadow_opacity = account.mode.value.shadow_opacity
-            shadow_clip = create_shadow_clip(
+            shadowColor = account.mode.value.shadow_color
+            shadowOpacity = account.mode.value.shadow_opacity
+            shadowClip = create_shadow_clip(
                 size=videoSettings.video_dimensions,
-                color=shadow_color,
+                color=shadowColor,
                 duration=maxVideoClipDuration,
-                opacity=shadow_opacity,
+                opacity=shadowOpacity,
             )
 
-            PrintColored(Fore.CYAN, f"{clipIndex} Using background clip(s):")
+            PrintColored(Fore.CYAN, f"{videoClipIndex} Using background clip(s):")
 
-            for backgroundClipPath in videoClipBackgroundClips:
-                PrintColored(Fore.CYAN, f"- {backgroundClipPath[0]}")
+            for clipPath in videoClipBackgroundClips:
+                PrintColored(Fore.CYAN, f"- {clipPath[0]}")
 
             videoClipWithIndex = (
-                clipIndex,
+                videoClipIndex,
                 CreateVideoClip(
                     background_clips_paths=videoClipBackgroundClips,
                     background_clips_speed=videoSettings.background_clips_speed,
                     final_clip_duration=maxVideoClipDuration,
-                    target_aspect_ratio=target_aspect_ratio,
+                    target_aspect_ratio=targetAspectRatio,
                     text_clips=textClips,
                     video_dimensions=videoSettings.video_dimensions,
                     video_mode=videoSettings.video_mode,
-                    shadow_clip=shadow_clip,
+                    shadow_clip=shadowClip,
                     text_duration=textDuration,
                 ),
             )
 
             with videoClipsLock:
                 videoClips.append(videoClipWithIndex)
+                videoMap[videoClipIndex] = videoClipBackgroundClips
 
-            PrintColored(Fore.GREEN, f"Created clip {clipIndex}")
+            PrintColored(Fore.GREEN, f"Created clip {videoClipIndex}")
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         # Submit tasks to the executor
@@ -411,9 +390,7 @@ def create_video(
     print("All tasks are completed. Proceeding to the next part.")
 
     videoClips = sorted(videoClips, key=lambda clip: clip[0])
-    print([videoClip[0] for videoClip in videoClips])
     videoClips = [videoClip[1] for videoClip in videoClips]
-    # return
 
     if not additionalVideoSettings.single_background_video:
         final_video = mpy.concatenate_videoclips(
@@ -421,8 +398,6 @@ def create_video(
         ).set_audio(audio)
 
     PrintColored(Fore.GREEN, "Creating final video...")
-
-    json_output_file_path = output_mp4_file.replace(".mp4", ".json")
 
     formatter = Formatter()
     formatter.use_tab_to_indent = True
@@ -433,7 +408,7 @@ def create_video(
     formatter.dont_justify_numbers = True
 
     formatter.dump(
-        video_map_output,
+        videoMap,
         output_file=json_output_file_path,
         newline_at_eof=True,
     )
@@ -1205,7 +1180,7 @@ def get_absolute_mp4_paths(
     ]
 
 
-def get_relative_mp4_paths(
+def GetRelativeMp4Paths(
     folder_paths: list[str],
 ) -> list[str]:
     """
@@ -1230,7 +1205,7 @@ def get_relative_mp4_paths(
     ]
 
 
-def calculate_clip_duration(clip_path: str, clip_speed: float) -> float:
+def GetClipDuration(clip_path: str, clip_speed: float) -> float:
     """
     Gets the duration of a clip.
 
@@ -1569,7 +1544,7 @@ def get_valid_background_clips(
                 or video_map is None
             )
         ):
-            background_clip_duration = calculate_clip_duration(
+            background_clip_duration = GetClipDuration(
                 background_clip_path, background_clips_speed
             )
 
@@ -1595,7 +1570,7 @@ def get_valid_background_clips(
 
             remainingVideoClipDuration = maxVideoClipDuration - videoClipDuration
 
-            if validate_background_clip_duration(
+            if isValidClipDuration(
                 adjusted_background_clip_duration,
                 minimal_background_clip_duration,
                 remainingVideoClipDuration,
@@ -1715,7 +1690,7 @@ def validate_language(
     return isinstance(language, Languages) and language in valid_languages
 
 
-def validate_background_clip_duration(
+def isValidClipDuration(
     clipDuration: float,
     minimumClipDuration: float,
     remainingVideoClipDuration: float,
@@ -1889,7 +1864,7 @@ def CreateVideoClip(
                 background_clip = background_clip.fx(mpy.vfx.mirror_x)
 
             background_clip_duration = (
-                calculate_clip_duration(background_clip_path, background_clips_speed)
+                GetClipDuration(background_clip_path, background_clips_speed)
             ) - background_clip_time_offset
 
             background_clip = (
