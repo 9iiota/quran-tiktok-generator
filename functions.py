@@ -192,13 +192,13 @@ def create_video(
     PrintColored(Fore.MAGENTA, f"Creating clips in range {startLine}-{endLine - 1}...")
 
     def CreateClip(line):
-        clipIndex = line - startLine + 1
+        videoClipIndex = line - startLine + 1
         chapterCsvLine = chapterCsvLines[line - 1]
 
         # TODO: A line should be able to exist without verse_translation
         verseNumber, verseText, verseTranslation, timestamp = chapterCsvLine
 
-        PrintColored(Fore.MAGENTA, f"Creating clip {clipIndex}...")
+        PrintColored(Fore.MAGENTA, f"Creating clip {videoClipIndex}...")
 
         nextLine = chapterCsvLines[line]
         nextTimestamp = nextLine[3]
@@ -232,8 +232,6 @@ def create_video(
             videoClipBackgroundClips = []
 
             if videoSettings.video_mode == VideoModes.VIDEO:
-                videoMapIndex = line - startLine + 1
-
                 while videoClipDuration < maxVideoClipDuration:
                     # Get new background clips until the total duration of the background clips is long enough for the video clip
                     backgroundClipPath = GetRandomChoice(allBackgroundClips)
@@ -244,11 +242,11 @@ def create_video(
                     if backgroundClipPath not in usedBackgroundClips:
                         clipDuration = GetClipDuration(
                             backgroundClipPath,
-                            VideoSettings.background_clips_speed,
+                            videoSettings.background_clips_speed,
                         )
                         maxTimeOffset = GetMaxTimeOffset(
                             clipDuration,
-                            VideoSettings.minimal_background_clip_duration,
+                            videoSettings.minimal_background_clip_duration,
                         )
                         timeOffset = get_random_time_offset(maxTimeOffset)
                         offsetClipDuration = clipDuration - timeOffset
@@ -264,7 +262,7 @@ def create_video(
 
                         if (
                             remainingVideoClipDuration - adjustedClipDuration
-                            >= VideoSettings.minimal_background_clip_duration
+                            >= videoSettings.minimal_background_clip_duration
                             or remainingVideoClipDuration - adjustedClipDuration <= 0
                         ):
                             backgroundClip = mpy.VideoFileClip(backgroundClipPath)
@@ -272,14 +270,14 @@ def create_video(
                             maxHorizontalOffset = GetMaxHorizontalOffset(
                                 backgroundClip.w, video_width
                             )
-                            if maxHorizontalOffset < 0:
-                                raise ValueError(
-                                    f"Verse {videoMapIndex} Background clip {x + 1} width ({backgroundClip.w}) is less than video width ({video_width})"
-                                )
+                            # if maxHorizontalOffset < 0:
+                            #     raise ValueError(
+                            #         f"Verse {videoMapIndex} Background clip {x + 1} width ({backgroundClip.w}) is less than video width ({video_width})"
+                            #     )
 
                             horizontalOffset = GetHorizontalOffset(maxHorizontalOffset)
 
-                            if VideoSettings.allow_mirrored_background_clips:
+                            if videoSettings.allow_mirrored_background_clips:
                                 isMirrored = str(random.choice([True, False]))
                             else:
                                 isMirrored = "False"
@@ -296,44 +294,44 @@ def create_video(
 
                             videoClipDuration += adjustedClipDuration
 
-                videoMapOutput[videoMapIndex] = videoClipBackgroundClips
-            # else:
-            #     backgroundClipPath = GetRandomChoice(allBackgroundClips)
-            #     backgroundClip = mpy.VideoFileClip(backgroundClipPath)
-            #     clipDuration = GetClipDuration(
-            #         backgroundClipPath, videoSettings.background_clips_speed
-            #     )
+                videoMapOutput[videoClipIndex] = videoClipBackgroundClips
+            else:
+                backgroundClipPath = GetRandomChoice(allBackgroundClips)
+                backgroundClip = mpy.VideoFileClip(backgroundClipPath)
+                clipDuration = GetClipDuration(
+                    backgroundClipPath, videoSettings.background_clips_speed
+                )
 
-            #     maxTimeOffset = GetMaxTimeOffset(
-            #         clipDuration,
-            #         videoSettings.minimal_background_clip_duration,
-            #     )
-            #     timeOffset = get_random_time_offset(maxTimeOffset)
+                maxTimeOffset = GetMaxTimeOffset(
+                    clipDuration,
+                    videoSettings.minimal_background_clip_duration,
+                )
+                timeOffset = get_random_time_offset(maxTimeOffset)
 
-            #     maxHorizontalOffset = GetMaxHorizontalOffset(
-            #         backgroundClip.w, video_width
-            #     )
+                maxHorizontalOffset = GetMaxHorizontalOffset(
+                    backgroundClip.w, video_width
+                )
 
-            #     if maxHorizontalOffset < 0:
-            #         raise ValueError(
-            #             f"Background clip {backgroundClipPath} width ({backgroundClip.w}) is less than video width ({video_width})"
-            #         )
+                if maxHorizontalOffset < 0:
+                    raise ValueError(
+                        f"Background clip {backgroundClipPath} width ({backgroundClip.w}) is less than video width ({video_width})"
+                    )
 
-            #     horizontalOffset = GetHorizontalOffset(maxHorizontalOffset)
+                horizontalOffset = GetHorizontalOffset(maxHorizontalOffset)
 
-            #     isMirrored = get_background_clip_mirrored(
-            #         backgroundClipPath,
-            #         videoSettings.allow_mirrored_background_clips,
-            #     )
+                isMirrored = get_background_clip_mirrored(
+                    backgroundClipPath,
+                    videoSettings.allow_mirrored_background_clips,
+                )
 
-            #     videoClipBackgroundClips.append(
-            #         [
-            #             backgroundClipPath,
-            #             timeOffset,
-            #             horizontalOffset,
-            #             isMirrored,
-            #         ]
-            #     )
+                videoClipBackgroundClips.append(
+                    [
+                        backgroundClipPath,
+                        timeOffset,
+                        horizontalOffset,
+                        isMirrored,
+                    ]
+                )
 
         # Append text clips
         textClips = []
@@ -391,13 +389,13 @@ def create_video(
                 opacity=shadow_opacity,
             )
 
-            PrintColored(Fore.CYAN, f"{clipIndex} Using background clip(s):")
+            PrintColored(Fore.CYAN, f"{videoClipIndex} Using background clip(s):")
 
             for backgroundClipPath in videoClipBackgroundClips:
                 PrintColored(Fore.CYAN, f"- {backgroundClipPath[0]}")
 
             videoClipEntry = (
-                clipIndex,
+                videoClipIndex,
                 CreateVideoClip(
                     background_clips_paths=videoClipBackgroundClips,
                     background_clips_speed=videoSettings.background_clips_speed,
@@ -415,7 +413,7 @@ def create_video(
             with videoClipEntriesLock:
                 videoClipEntries.append(videoClipEntry)
 
-            PrintColored(Fore.GREEN, f"Created clip {clipIndex}")
+            PrintColored(Fore.GREEN, f"Created clip {videoClipIndex}")
         else:
             # Set text clip start times if using a single background video
             text_start_time = GetTimeDifferenceSeconds(audioStart, videoStart)
@@ -433,20 +431,22 @@ def create_video(
 
             text_clips_array.extend(textClips)
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+    with concurrent.futures.ThreadPoolExecutor() as executor:
         # Submit tasks to the executor
         futures = [executor.submit(CreateClip, line) for line in loopRange]
 
-        # Wait for all futures to complete
-        concurrent.futures.wait(futures)
+        for future in concurrent.futures.as_completed(
+            futures
+        ):  # Process as they complete
+            try:
+                future.result()  # Raise any exception from the thread
+            except Exception as e:
+                print(f"Exception in thread: {e}")
 
     print("All tasks are completed. Proceeding to the next part.")
 
     videoClipEntries = sorted(videoClipEntries, key=lambda clip: clip[0])
-    print(videoClipEntries)
     videoClips = [videoClipEntry[1] for videoClipEntry in videoClipEntries]
-    print(videoClips)
-    return
 
     if not additionalVideoSettings.single_background_video:
         final_video = mpy.concatenate_videoclips(
@@ -1328,7 +1328,7 @@ def get_relative_mp4_paths(
     ]
 
 
-def GetClipDuration(clip_path: str, clip_speed: float) -> float:
+def GetClipDuration(clipPath: str, clipSpeed: float) -> float:
     """
     Gets the duration of a clip.
 
@@ -1345,7 +1345,7 @@ def GetClipDuration(clip_path: str, clip_speed: float) -> float:
         The duration of the clip.
     """
 
-    return get_video_duration_seconds(clip_path) / clip_speed
+    return GetVideoDurationSeconds(clipPath) / clipSpeed
 
 
 def get_background_clip_horizontal_offset(
@@ -1556,7 +1556,7 @@ def get_background_clip_time_offset(
         return get_random_time_offset(max_time_offset)
 
 
-def get_video_duration_seconds(mp4_file_path: str) -> float:
+def GetVideoDurationSeconds(mp4File: str) -> float:
     """
     Gets the duration of a video in seconds.
 
@@ -1571,7 +1571,7 @@ def get_video_duration_seconds(mp4_file_path: str) -> float:
         The duration of the video in seconds.
     """
 
-    return mpy.VideoFileClip(mp4_file_path).duration
+    return mpy.VideoFileClip(mp4File).duration
 
 
 def sort_nested_timestamps(
