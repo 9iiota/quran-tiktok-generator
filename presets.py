@@ -9,7 +9,7 @@ class Preset:
     audio_directory_path: str
     video_verse_range: tuple[int, int]
     time_modifiers: Optional[TimeModifiers] = field(
-        default_factory=lambda: TimeModifiers(time_modifier=-0.2, end_time_modifier=0.0)
+        default_factory=lambda: TimeModifiers(timeModifier=-0.2, endTimeModifier=0.0)
     )
     additional_video_settings: Optional[AdditionalVideoSettings] = field(
         default_factory=lambda: AdditionalVideoSettings()
@@ -32,23 +32,23 @@ class Presets(Enum):
     ABDUL_RAHMAN_MOSSAD_AL_ANKABUT_54_60 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-'Ankabut (29.53-64)",
         (54, 60),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
     )
     ABDUL_RAHMAN_MOSSAD_AL_ANKABUT_54_57 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-'Ankabut (29.53-64)",
         (54, 57),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
     ABDUL_RAHMAN_MOSSAD_AL_ANKABUT_56_57 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-'Ankabut (29.53-64)",
         (56, 57),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.5),
-        additional_video_settings=AdditionalVideoSettings(end_line=12),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.5),
+        additional_video_settings=AdditionalVideoSettings(endLine=12),
     )
     ABDUL_RAHMAN_MOSSAD_AL_GHASHIYAH_1_9 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-Ghashiyah (88.1-26)",
         (1, 9),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
     )
     ABDUL_RAHMAN_MOSSAD_AL_GHASHIYAH_10_26 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-Ghashiyah (88.1-26)",
@@ -57,12 +57,12 @@ class Presets(Enum):
     ABDUL_RAHMAN_MOSSAD_AL_GHASHIYAH_10_16 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-Ghashiyah (88.1-26)",
         (10, 16),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.6),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.6),
     )
     ABDUL_RAHMAN_MOSSAD_AL_GHASHIYAH_10_12 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-Ghashiyah (88.1-26)",
         (10, 12),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
     ABDUL_RAHMAN_MOSSAD_AL_MAUN_1_7 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-Ma'un (107.1-7)",
@@ -71,18 +71,18 @@ class Presets(Enum):
     ABDUL_RAHMAN_MOSSAD_AL_MUZZAMMIL_6_13 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-Muzzammil (73.1-20)",
         (6, 13),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.3),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.3),
     )
     ABDUL_RAHMAN_MOSSAD_AL_MUZZAMMIL_14_18 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-Muzzammil (73.1-20)",
         (14, 18),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
     ABDUL_RAHMAN_MOSSAD_AL_MUZZAMMIL_14_15 = Preset(
         r"Surahs\Abdul Rahman Mossad\Al-Muzzammil (73.1-20)",
         (14, 15),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
-        additional_video_settings=AdditionalVideoSettings(end_line=28),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
+        additional_video_settings=AdditionalVideoSettings(endLine=28),
     )
     ABDUL_RAHMAN_MOSSAD_MARYAM_93_98 = Preset(
         r"Surahs\Abdul Rahman Mossad\Maryam (19.65-98)",
@@ -91,27 +91,27 @@ class Presets(Enum):
     ABDUL_RAHMAN_MOSSAD_MARYAM_93_94 = Preset(
         r"Surahs\Abdul Rahman Mossad\Maryam (19.65-98)",
         (93, 94),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
     ABDUL_RAHMAN_MOSSAD_YUNUS_7_10 = Preset(
         r"Surahs\Abdul Rahman Mossad\Yunus (10.3-25)",
         (7, 10),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
     ABDUL_RAHMAN_MOSSAD_YUNUS_17_20 = Preset(
         r"Surahs\Abdul Rahman Mossad\Yunus (10.3-25)",
         (17, 20),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
     ABDUL_RAHMAN_MOSSAD_YUNUS_17 = Preset(
         r"Surahs\Abdul Rahman Mossad\Yunus (10.3-25)",
         (17),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.5),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.5),
     )
     ABDULLAH_AL_QARNI_MAIDAH_73_74 = Preset(
         r"Surahs\Abdullah Al-Qarni\Al-Ma'idah (5.72-76)",
         (73, 74),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
     AHMED_KHEDR_TAHA_14_16 = Preset(
         r"Surahs\Ahmed Khedr\Taha (20.1-135)",
@@ -168,17 +168,17 @@ class Presets(Enum):
     FATIH_SEFERAGIC_AL_HUJURAT_10 = Preset(
         r"Surahs\Fatih Seferagic\Al-Hujurat (49.10-11)",
         (10),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
     )
     FATIH_SEFERAGIC_AL_MULK_1_5 = Preset(
         r"Surahs\Fatih Seferagic\Al-Mulk (67.1-30)",
         (1, 5),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.3),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.3),
     )
     FATIH_SEFERAGIC_AL_MULK_6_11 = Preset(
         r"Surahs\Fatih Seferagic\Al-Mulk (67.1-30)",
         (6, 11),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
     )
     FATIH_SEFERAGIC_AL_MULK_12_18 = Preset(
         r"Surahs\Fatih Seferagic\Al-Mulk (67.1-30)",
@@ -187,7 +187,7 @@ class Presets(Enum):
     FATIH_SEFERAGIC_AL_MULK_19_22 = Preset(
         r"Surahs\Fatih Seferagic\Al-Mulk (67.1-30)",
         (19, 22),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.5),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.5),
     )
     FATIH_SEFERAGIC_AL_MULK_23_30 = Preset(
         r"Surahs\Fatih Seferagic\Al-Mulk (67.1-30)",
@@ -196,22 +196,22 @@ class Presets(Enum):
     FATIH_SEFERAGIC_AL_QIYAMAH_1_12 = Preset(
         r"Surahs\Fatih Seferagic\Al-Qiyamah (75.1-40)",
         (1, 12),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
     )
     FATIH_SEFERAGIC_AL_QIYAMAH_13_19 = Preset(
         r"Surahs\Fatih Seferagic\Al-Qiyamah (75.1-40)",
         (13, 19),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
     )
     FATIH_SEFERAGIC_AN_NABA_1_16 = Preset(
         r"Surahs\Fatih Seferagic\An-Naba (78.1-40)",
         (1, 16),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
     )
     FATIH_SEFERAGIC_AN_NABA_17_30 = Preset(
         r"Surahs\Fatih Seferagic\An-Naba (78.1-40)",
         (17, 30),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-1.3),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-1.3),
     )
     FATIH_SEFERAGIC_AN_NABA_31_40 = Preset(
         r"Surahs\Fatih Seferagic\An-Naba (78.1-40)",
@@ -229,7 +229,7 @@ class Presets(Enum):
         r"Surahs\Fatih Seferagic\An-Nur (24.35)",
         (35),
         additional_video_settings=AdditionalVideoSettings(
-            single_background_video=r"Surahs\Fatih Seferagic\An-Nur (24.35)\video.mp4",
+            backgroundVideo=r"Surahs\Fatih Seferagic\An-Nur (24.35)\video.mp4",
         ),
     )
     FATIH_SEFERAGIC_AR_RAHMAN_1_16 = Preset(
@@ -259,7 +259,7 @@ class Presets(Enum):
     ISLAM_SOBHI_AN_NAML_74_75 = Preset(
         r"Surahs\Islam Sobhi\An-Naml (27.66-93)",
         (74, 75),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.6),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.6),
     )
     ISMAIL_ABOUD_AL_FURQAN_68_70 = Preset(
         r"Surahs\Ismail Aboud\Al-Furqan (25.68-70)",
@@ -316,7 +316,7 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_ANFAL_2 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Anfal (8.2-4)",
         (2),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_ANFAL_2_4 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Anfal (8.2-4)",
@@ -357,7 +357,7 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_FURQAN_69_71 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Furqan (25.61-77)",
         (69, 71),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_FURQAN_69_77 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Furqan (25.61-77)",
@@ -402,7 +402,7 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_INSAN_11_18 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.11-22)",
         (11, 18),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.3),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.3),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_INSAN_19_22 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Insan (76.11-22)",
@@ -439,7 +439,7 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_WAQIAH_1_11 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Waqi'ah (56.1-26)",
         (1, 11),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.3),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.3),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_WAQIAH_12_26 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Waqi'ah (56.1-26)",
@@ -448,7 +448,7 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AN_NAJM_39_55 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Najm (53.39-62)",
         (39, 55),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.3),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.3),
     )
     MUHAMMAD_AL_LUHAIDAN_AN_NAJM_56_62 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Najm (53.39-62)",
@@ -465,7 +465,7 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AN_NISA_27 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.27-29)",
         (27),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
     )
     MUHAMMAD_AL_LUHAIDAN_AN_NISA_75_76 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Nisa (4.75-76)",
@@ -531,7 +531,7 @@ class Presets(Enum):
         r"Surahs\Muhammad Dibirov\Ibrahim (14.12)",
         (12),
         additional_video_settings=AdditionalVideoSettings(
-            single_background_video=r"Surahs\Muhammad Dibirov\Ibrahim (14.12)\video.mp4",
+            backgroundVideo=r"Surahs\Muhammad Dibirov\Ibrahim (14.12)\video.mp4",
         ),
     )
     MUHAMMAD_DIBIROV_MARYAM_1_4 = Preset(
@@ -546,8 +546,8 @@ class Presets(Enum):
         r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)",
         (35),
         additional_video_settings=AdditionalVideoSettings(
-            single_background_video=r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)\video.mp4",
-            single_background_video_horizontal_offset=400,
+            backgroundVideo=r"Surahs\Muhammadloiq Qori\Al-Ahzab (33.35)\video.mp4",
+            backgroundVideoHorizontalOffset=400,
         ),
     )
     OBAIDA_MUAFAQ_GHAFIR_26_27 = Preset(
@@ -558,7 +558,7 @@ class Presets(Enum):
         r"Surahs\Obaida Muafaq\Ghafir (40.26-27)",
         (26, 27),
         additional_video_settings=AdditionalVideoSettings(
-            single_background_video=r"Surahs\Obaida Muafaq\Ghafir (40.26-27)\video.mp4",
+            backgroundVideo=r"Surahs\Obaida Muafaq\Ghafir (40.26-27)\video.mp4",
         ),
     )
     OMAR_BN_DIAAALDEEN_AL_FURQAN_58 = Preset(
@@ -584,7 +584,7 @@ class Presets(Enum):
     UMAIR_SHAMIM_AL_HIJR_26_29 = Preset(
         r"Surahs\Umair Shamim\Al-Hijr (15.26-35)",
         (26, 29),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
     )
     UMAIR_SHAMIM_AL_HIJR_30_35 = Preset(
         r"Surahs\Umair Shamim\Al-Hijr (15.30-35)",
@@ -597,7 +597,7 @@ class Presets(Enum):
     UMAIR_SHAMIM_AS_SAFFAT_139_148 = Preset(
         r"Surahs\Umair Shamim\As-Saffat (37.139-163)",
         (139, 148),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
     UMAIR_SHAMIM_AS_SAFFAT_149_163 = Preset(
         r"Surahs\Umair Shamim\As-Saffat (37.139-163)",
@@ -622,7 +622,7 @@ class Presets(Enum):
     UNKNOWN_AL_ANKABUT_56_57 = Preset(
         r"Surahs\Unknown\Al-'Ankabut (29.56-58)",
         (56, 57),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
     UNKNOWN_AL_BAQARAH_153_157 = Preset(
         r"Surahs\Unknown\Al-Baqarah (2.153-157)",
@@ -688,8 +688,8 @@ class Presets(Enum):
         r"Surahs\Unknown\Az-Zumar (39.71-75)",
         (71, 75),
         additional_video_settings=AdditionalVideoSettings(
-            single_background_video=r"Surahs\Unknown\Az-Zumar (39.71-75)\video.mp4",
-            single_background_video_horizontal_offset=700,
+            backgroundVideo=r"Surahs\Unknown\Az-Zumar (39.71-75)\video.mp4",
+            backgroundVideoHorizontalOffset=700,
         ),
     )
     UNKNOWN_AZ_ZUMAR_73_75 = Preset(
@@ -700,7 +700,7 @@ class Presets(Enum):
         r"Surahs\Unknown\Az-Zumar (39.71-75)",
         (73, 75),
         additional_video_settings=AdditionalVideoSettings(
-            single_background_video=r"Surahs\Unknown\Az-Zumar (39.71-75)\video.mp4",
+            backgroundVideo=r"Surahs\Unknown\Az-Zumar (39.71-75)\video.mp4",
         ),
     )
     UNKNOWN_TAHA_124_126 = Preset(
@@ -722,7 +722,7 @@ class Presets(Enum):
     YASSER_AL_DOSARI_AL_KAHF_99_102 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Kahf (18.99-106)",
         (99, 102),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
     )
     YASSER_AL_DOSARI_AL_KAHF_103_106 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Kahf (18.99-106)",
@@ -747,7 +747,7 @@ class Presets(Enum):
     YASSER_AL_DOSARI_AL_MUTAFFIFIN_7_17 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Mutaffifin (83.7-28)",
         (7, 17),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.3),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.3),
     )
     YASSER_AL_DOSARI_AL_MUTAFFIFIN_18_28 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Mutaffifin (83.7-28)",
@@ -764,12 +764,12 @@ class Presets(Enum):
     YASSER_AL_DOSARI_AR_RAHMAN_17_25 = Preset(
         r"Surahs\Yasser Al-Dosari\Ar-Rahman (55.1-78)",
         (17, 25),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
     )
     YASSER_AL_DOSARI_AR_RAHMAN_26_34 = Preset(
         r"Surahs\Yasser Al-Dosari\Ar-Rahman (55.1-78)",
         (26, 34),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.3),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.3),
     )
     YASSER_AL_DOSARI_ASH_SHARH_1_8 = Preset(
         r"Surahs\Yasser Al-Dosari\Ash-Sharh (94.1-8)",
@@ -782,7 +782,7 @@ class Presets(Enum):
     YASSER_AL_DOSARI_AZ_ZUKHRUF_68_73 = Preset(
         r"Surahs\Yasser Al-Dosari\Az-Zukhruf (43.68-80)",
         (68, 73),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
     )
     YASSER_AL_DOSARI_AZ_ZUKHRUF_74_80 = Preset(
         r"Surahs\Yasser Al-Dosari\Az-Zukhruf (43.68-80)",
@@ -803,15 +803,15 @@ class Presets(Enum):
     YOUSEF_AL_SOQIER_YA_SIN_63_65 = Preset(
         r"Surahs\Yousef Al-Soqier\Ya-Sin (36.55-67)",
         (63, 65),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.2),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
     YOUSEF_AL_SOQIER_YA_SIN_63_65_WITH_VIDEO = Preset(
         r"Surahs\Yousef Al-Soqier\Ya-Sin (36.55-67)",
         (63, 65),
-        time_modifiers=TimeModifiers(time_modifier=-0.2, end_time_modifier=-0.4),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
         additional_video_settings=AdditionalVideoSettings(
-            single_background_video=r"Surahs\Yousef Al-Soqier\Ya-Sin (36.55-67)\video.mp4",
-            single_background_video_horizontal_offset=300,
+            backgroundVideo=r"Surahs\Yousef Al-Soqier\Ya-Sin (36.55-67)\video.mp4",
+            backgroundVideoHorizontalOffset=300,
         ),
     )
     ############################################################################################################################################################

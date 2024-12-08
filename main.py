@@ -12,11 +12,11 @@ change_settings(
 
 class Joe(Enum):
     hello = Account(
-        background_clips_directories=["Background_Clips/Anime"],
+        clipDirectories=["Background_Clips/Anime"],
         language=Languages.ENGLISH,
         mode=ColorModes.DARK,
-        verse_text_font_file="Fonts/Hafs.ttf",
-        verse_translation_font_file="Fonts/Butler_Regular.otf",
+        verseTextFontFile="Fonts/Hafs.ttf",
+        verseTranslationFontFile="Fonts/Butler_Regular.otf",
     )
 
 

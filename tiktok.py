@@ -28,12 +28,12 @@ class TikTok:
         audio_directory_path: Optional[str] = None,
         time_modifiers: Optional[TimeModifiers] = None,
         video_settings: Optional[VideoSettings] = VideoSettings(
-            allow_duplicate_background_clips=False,
-            allow_mirrored_background_clips=True,
-            background_clips_speed=1.0,
-            minimal_background_clip_duration=1.25,
-            video_dimensions=(576, 1024),
-            video_mode=VideoModes.VIDEO,
+            allowDuplicateClips=False,
+            allowMirroredClips=True,
+            clipSpeed=1.0,
+            minimumClipDuration=1.25,
+            videoDimensions=(576, 1024),
+            videoMode=VideoModes.VIDEO,
         ),
         additional_video_settings: Optional[AdditionalVideoSettings] = None,
         output_mp4_file: Optional[str] = None,
@@ -70,9 +70,9 @@ class TikTok:
         start_to_end_timestamp_verse_range = (int(match[1]), int(match[-1]))
 
         audio_settings = AudioSettings(
-            audio_mp3_file=audio_file_path,
-            chapter_number=chapter_number,
-            audio_verse_range=start_to_end_timestamp_verse_range,
+            audioFile=audio_file_path,
+            chapterNumber=chapter_number,
+            verseRange=start_to_end_timestamp_verse_range,
         )
 
         if not isinstance(self.account, Account):
@@ -101,7 +101,7 @@ class TikTok:
         timestamps_csv_file_path = os.path.join(audio_directory_path, "Markers.csv")
 
         csv_column_names = CSVColumnNames(
-            verse_number="verse", verse_text="ar", timestamp="timestamps"
+            verseNumber="verse", verseText="ar", timestamp="timestamps"
         )
 
         verse_text_text_clip = TextClipInfo(
@@ -110,7 +110,7 @@ class TikTok:
             text_font_size=44,
             text_method="caption",
             text_position=("center", 0.41),
-            text_size=(video_settings.video_dimensions[0] * 0.9, None),
+            text_size=(video_settings.videoDimensions[0] * 0.9, None),
         )
 
         verse_translation_text_clip = TextClipInfo(
@@ -119,7 +119,7 @@ class TikTok:
             text_font_size=20,
             text_method="caption",
             text_position=("center", 0.49),
-            text_size=(video_settings.video_dimensions[0] * 0.6, None),
+            text_size=(video_settings.videoDimensions[0] * 0.6, None),
         )
 
         verse_number_text_clip = TextClipInfo(
@@ -128,7 +128,7 @@ class TikTok:
             text_font_size=20,
             text_method="caption",
             text_position=("center", 0.75),
-            text_size=(video_settings.video_dimensions[0] * 0.6, None),
+            text_size=(video_settings.videoDimensions[0] * 0.6, None),
         )
 
         reciter_name = None if reciter_name.casefold() == "unknown" else reciter_name
@@ -138,24 +138,24 @@ class TikTok:
             text_font_size=20,
             text_method="caption",
             text_position=("center", 0.20),
-            text_size=(video_settings.video_dimensions[0] * 0.6, None),
+            text_size=(video_settings.videoDimensions[0] * 0.6, None),
         )
 
         create_video(
             account=self.account,
-            audio_settings=audio_settings,
-            csv_column_names=csv_column_names,
+            audioSettings=audio_settings,
+            csvColumnNames=csv_column_names,
             timeModifiers=time_modifiers,
             videoSettings=video_settings,
             output_video_verse_range=video_verse_range,
-            output_mp4_file_name=output_mp4_file_name,
-            chapter_csv_file=chapter_csv_file_path,
-            timestamps_csv_file=timestamps_csv_file_path,
+            outputFileName=output_mp4_file_name,
+            chapterCsvFile=chapter_csv_file_path,
+            timestampsCsvFile=timestamps_csv_file_path,
             additionalVideoSettings=additional_video_settings,
             verse_text_text_clip=verse_text_text_clip,
             verse_translation_text_clip=verse_translation_text_clip,
             verse_number_text_clip=verse_number_text_clip,
             reciter_name=reciter_name,
             reciter_name_text_clip=reciter_name_text_clip,
-            output_mp4_file=output_mp4_file,
+            outputFile=output_mp4_file,
         )

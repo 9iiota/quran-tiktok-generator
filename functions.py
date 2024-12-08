@@ -30,14 +30,14 @@ from typing import Optional
 
 def create_video(
     account: Account,
-    audio_settings: AudioSettings,
-    csv_column_names: CSVColumnNames,
+    audioSettings: AudioSettings,
+    csvColumnNames: CSVColumnNames,
     timeModifiers: TimeModifiers,
     videoSettings: VideoSettings,
     output_video_verse_range: tuple[int, int],
-    output_mp4_file_name: str,
-    chapter_csv_file: str,
-    timestamps_csv_file: str,
+    outputFileName: str,
+    chapterCsvFile: str,
+    timestampsCsvFile: str,
     additionalVideoSettings: Optional[
         AdditionalVideoSettings
     ] = AdditionalVideoSettings(),
@@ -46,7 +46,7 @@ def create_video(
     verse_number_text_clip: Optional[TextClipInfo] = None,
     reciter_name: Optional[str] = None,
     reciter_name_text_clip: Optional[TextClipInfo] = None,
-    output_mp4_file: Optional[str] = None,
+    outputFile: Optional[str] = None,
 ) -> None:
     """
     Create a video with the given parameters.
@@ -58,131 +58,132 @@ def create_video(
     if not isinstance(account, Account):
         account = account.value
 
-    if not os.path.isfile(audio_settings.audio_mp3_file):
-        raise FileNotFoundError(f"{audio_settings.audio_mp3_file} is not a file.")
+    if not os.path.isfile(audioSettings.audioFile):
+        raise FileNotFoundError(f"{audioSettings.audioFile} is not a file.")
 
-    audio_mp3_file_directory_path = os.path.dirname(audio_settings.audio_mp3_file)
+    audioFileDirectory = os.path.dirname(audioSettings.audioFile)
 
-    if output_mp4_file:
-        output_mp4_file = output_mp4_file.replace("\\", "/")
+    if outputFile:
+        outputFile = outputFile.replace("\\", "/")
 
         try:
-            output_directory_path = os.path.dirname(output_mp4_file)
+            outputDirectory = os.path.dirname(outputFile)
         except Exception:
-            raise NotADirectoryError(
-                f"{output_directory_path} is not a valid directory."
-            )
+            raise NotADirectoryError(f"{outputDirectory} is not a valid directory.")
     else:
-        output_directory_path = os.path.join(audio_mp3_file_directory_path, "Videos")
-        output_mp4_file = os.path.join(
-            output_directory_path, f"{output_mp4_file_name}.mp4"
+        outputDirectory = os.path.join(audioFileDirectory, "Videos")
+        outputFile = os.path.join(outputDirectory, f"{outputFileName}.mp4")
+
+    if not os.path.isdir(outputDirectory):
+        os.mkdir(outputDirectory)
+
+    chapterCsvFile = chapterCsvFile.replace("\\", "/")
+    if not os.path.isfile(chapterCsvFile):
+        # Create chapter CSV file and add verses
+        columnNames = [csvColumnNames.verseNumber, csvColumnNames.verseText]
+        if not CreateCsvFile(chapterCsvFile, columnNames):
+            PrintColored(
+                Fore.RED,
+                f"Unable to create {chapterCsvFile} with column names {columnNames}.",
+            )
+            return
+        PrintColored(
+            Fore.GREEN,
+            f"Created {chapterCsvFile} with column names {columnNames}.",
         )
 
-    if not os.path.isdir(output_directory_path):
-        os.mkdir(output_directory_path)
+        if not AddVerses(
+            chapterCsvFile,
+            audioSettings.chapterNumber,
+            audioSettings.verseRange,
+            csvColumnNames.verseNumber,
+            csvColumnNames.verseText,
+        ):
+            PrintColored(Fore.RED, f"Unable to add verse texts to {chapterCsvFile}.")
+            return
+        PrintColored(Fore.GREEN, f"Added verse texts to {chapterCsvFile}.")
 
-    chapter_csv_file = chapter_csv_file.replace("\\", "/")
-
-    if not os.path.isfile(chapter_csv_file):
-        column_names = [csv_column_names.verse_number, csv_column_names.verse_text]
-        if create_csv_file(chapter_csv_file, column_names):
-            PrintColored(
-                Fore.GREEN,
-                f"Created {chapter_csv_file} with column names {column_names}.",
-            )
-
-            if append_verse_texts_to_csv_file(
-                chapter_csv_file,
-                audio_settings.chapter_number,
-                audio_settings.audio_verse_range,
-                csv_column_names.verse_number,
-                csv_column_names.verse_text,
-            ):
-                PrintColored(Fore.GREEN, f"Added verse texts to {chapter_csv_file}.")
-
-    if append_verse_translations_to_csv_file(
-        chapter_csv_file,
+    if AddTranslations(
+        chapterCsvFile,
         account.language,
-        audio_settings.chapter_number,
-        audio_settings.audio_verse_range,
-        csv_column_names.timestamp,
+        audioSettings.chapterNumber,
+        audioSettings.verseRange,
+        csvColumnNames.timestamp,
     ):
-        PrintColored(Fore.GREEN, f"Added verse translations to {chapter_csv_file}.")
-
+        PrintColored(Fore.GREEN, f"Added verse translations to {chapterCsvFile}.")
         return
 
-    if not os.path.isfile(timestamps_csv_file):
-        raise FileNotFoundError(f"{timestamps_csv_file} is not a valid path.")
+    # TODO
+    if not os.path.isfile(timestampsCsvFile):
+        raise FileNotFoundError(f"{timestampsCsvFile} is not a valid path.")
     else:
-        if update_csv_file_timestamps(
-            chapter_csv_file, timestamps_csv_file, csv_column_names.timestamp
+        if UpdateCsvFileTimestamps(
+            chapterCsvFile, timestampsCsvFile, csvColumnNames.timestamp
         ):
-            PrintColored(Fore.GREEN, f"Added timestamps to {chapter_csv_file}.")
+            PrintColored(Fore.GREEN, f"Added timestamps to {chapterCsvFile}.")
 
-            if update_csv_file_verse_numbers(
-                chapter_csv_file,
-                audio_settings.chapter_number,
-                audio_settings.audio_verse_range,
-                csv_column_names.verse_number,
-                csv_column_names.verse_text,
-                csv_column_names.timestamp,
+            if UpdateCsvFileVerseNumbers(
+                chapterCsvFile,
+                audioSettings.chapterNumber,
+                audioSettings.verseRange,
+                csvColumnNames.verseNumber,
+                csvColumnNames.verseText,
+                csvColumnNames.timestamp,
             ):
-                PrintColored(Fore.GREEN, f"Added verse numbers to {chapter_csv_file}.")
+                PrintColored(Fore.GREEN, f"Added verse numbers to {chapterCsvFile}.")
 
-    language_abbreviation = account.language.value.abbreviation
+    languageAbbreviation = account.language.value.abbreviation
 
     # TODO: A clip should be able to be created without language abbreviation column
-    chapterCsvLines = select_columns_from_csv_file(
-        chapter_csv_file,
+    chapterCsvLines = SelectColumnsFromCsvFile(
+        chapterCsvFile,
         [
-            csv_column_names.verse_number,
-            csv_column_names.verse_text,
-            language_abbreviation,
-            csv_column_names.timestamp,
+            csvColumnNames.verseNumber,
+            csvColumnNames.verseText,
+            languageAbbreviation,
+            csvColumnNames.timestamp,
         ],
     )
 
-    startLine, endLine = get_loop_range(
+    startLine, endLine = GetLoopRange(
         chapterCsvLines,
-        audio_settings.chapter_number,
+        audioSettings.chapterNumber,
         output_video_verse_range,
-        additionalVideoSettings.start_line,
-        additionalVideoSettings.end_line,
+        additionalVideoSettings.startLine,
+        additionalVideoSettings.endLine,
     )
 
-    video_width, video_height = videoSettings.video_dimensions
+    videoWidth, videoHeight = videoSettings.videoDimensions
 
-    video_start_timestamp = chapterCsvLines[startLine - 1][3].strip().split(",")[0]
-    if timeModifiers.start_time_modifier:
+    videoStartTimestamp = chapterCsvLines[startLine - 1][3].strip().split(",")[0]
+    if timeModifiers.startTimeModifier:
         videoStart = OffsetTimestamp(
-            video_start_timestamp, timeModifiers.start_time_modifier
+            videoStartTimestamp, timeModifiers.startTimeModifier
         )
     else:
-        videoStart = OffsetTimestamp(video_start_timestamp, timeModifiers.time_modifier)
+        videoStart = OffsetTimestamp(videoStartTimestamp, timeModifiers.timeModifier)
 
-    video_end_timestamp = chapterCsvLines[endLine - 1][3].strip().split(",")[0]
-    videoEnd = OffsetTimestamp(video_end_timestamp, timeModifiers.end_time_modifier)
+    videoEndTimestamp = chapterCsvLines[endLine - 1][3].strip().split(",")[0]
+    videoEnd = OffsetTimestamp(videoEndTimestamp, timeModifiers.endTimeModifier)
 
-    video_duration = GetTimeDifferenceSeconds(videoStart, videoEnd)
+    # video_duration = GetTimeDifferenceSeconds(videoStart, videoEnd)
 
-    audio = mpy.AudioFileClip(audio_settings.audio_mp3_file).subclip(
-        videoStart, videoEnd
-    )
+    audio = mpy.AudioFileClip(audioSettings.audioFile).subclip(videoStart, videoEnd)
 
     # TODO: Unsure if it is better to have absolute or relative paths
     # if video_map:
     #     video_map = convert_video_map_paths_to_absolute_paths(video_map)
 
-    allBackgroundClips = get_relative_mp4_paths(account.background_clips_directories)
-    target_aspect_ratio = video_width / video_height
-    text_clips_array = []
+    allBackgroundClips = GetRelativeMp4Paths(account.clipDirectories)
+    targetAspectRatio = videoWidth / videoHeight
+    textClips = []
     usedBackgroundClips = []
     videoClipEntries = []
     videoMapOutput = {}
 
-    if additionalVideoSettings.video_map:
-        additionalVideoSettings.video_map = {
-            int(key): value for key, value in additionalVideoSettings.video_map.items()
+    if additionalVideoSettings.videoMap:
+        additionalVideoSettings.videoMap = {
+            int(key): value for key, value in additionalVideoSettings.videoMap.items()
         }
 
     videoClipEntriesLock = Lock()
@@ -207,31 +208,31 @@ def create_video(
             audioStart = videoStart
         else:
             audioStart = OffsetTimestamp(
-                StripTimestamp(timestamp)[0], timeModifiers.time_modifier
+                StripTimestamp(timestamp)[0], timeModifiers.timeModifier
             )
 
         if line == endLine - 1:
             audioEnd = videoEnd
         else:
             audioEnd = OffsetTimestamp(
-                StripTimestamp(nextTimestamp)[0], timeModifiers.time_modifier
+                StripTimestamp(nextTimestamp)[0], timeModifiers.timeModifier
             )
 
         maxVideoClipDuration = GetTimeDifferenceSeconds(audioStart, audioEnd)
 
         try:
             textEnd = OffsetTimestamp(
-                StripTimestamp(nextTimestamp)[1], timeModifiers.time_modifier
+                StripTimestamp(nextTimestamp)[1], timeModifiers.timeModifier
             )
             textDuration = GetTimeDifferenceSeconds(audioStart, textEnd)
         except IndexError:
             textDuration = maxVideoClipDuration
 
-        if not additionalVideoSettings.single_background_video:
+        if not additionalVideoSettings.backgroundVideo:
             videoClipDuration = 0
             videoClipBackgroundClips = []
 
-            if videoSettings.video_mode == VideoModes.VIDEO:
+            if videoSettings.videoMode == VideoModes.VIDEO:
                 while videoClipDuration < maxVideoClipDuration:
                     # Get new background clips until the total duration of the background clips is long enough for the video clip
                     backgroundClipPath = GetRandomChoice(allBackgroundClips)
@@ -242,11 +243,11 @@ def create_video(
                     if backgroundClipPath not in usedBackgroundClips:
                         clipDuration = GetClipDuration(
                             backgroundClipPath,
-                            videoSettings.background_clips_speed,
+                            videoSettings.clipSpeed,
                         )
                         maxTimeOffset = GetMaxTimeOffset(
                             clipDuration,
-                            videoSettings.minimal_background_clip_duration,
+                            videoSettings.minimumClipDuration,
                         )
                         timeOffset = get_random_time_offset(maxTimeOffset)
                         offsetClipDuration = clipDuration - timeOffset
@@ -262,13 +263,13 @@ def create_video(
 
                         if (
                             remainingVideoClipDuration - adjustedClipDuration
-                            >= videoSettings.minimal_background_clip_duration
+                            >= videoSettings.minimumClipDuration
                             or remainingVideoClipDuration - adjustedClipDuration <= 0
                         ):
                             backgroundClip = mpy.VideoFileClip(backgroundClipPath)
 
                             maxHorizontalOffset = GetMaxHorizontalOffset(
-                                backgroundClip.w, video_width
+                                backgroundClip.w, videoWidth
                             )
                             # if maxHorizontalOffset < 0:
                             #     raise ValueError(
@@ -277,7 +278,7 @@ def create_video(
 
                             horizontalOffset = GetHorizontalOffset(maxHorizontalOffset)
 
-                            if videoSettings.allow_mirrored_background_clips:
+                            if videoSettings.allowMirroredClips:
                                 isMirrored = str(random.choice([True, False]))
                             else:
                                 isMirrored = "False"
@@ -299,29 +300,29 @@ def create_video(
                 backgroundClipPath = GetRandomChoice(allBackgroundClips)
                 backgroundClip = mpy.VideoFileClip(backgroundClipPath)
                 clipDuration = GetClipDuration(
-                    backgroundClipPath, videoSettings.background_clips_speed
+                    backgroundClipPath, videoSettings.clipSpeed
                 )
 
                 maxTimeOffset = GetMaxTimeOffset(
                     clipDuration,
-                    videoSettings.minimal_background_clip_duration,
+                    videoSettings.minimumClipDuration,
                 )
                 timeOffset = get_random_time_offset(maxTimeOffset)
 
                 maxHorizontalOffset = GetMaxHorizontalOffset(
-                    backgroundClip.w, video_width
+                    backgroundClip.w, videoWidth
                 )
 
                 if maxHorizontalOffset < 0:
                     raise ValueError(
-                        f"Background clip {backgroundClipPath} width ({backgroundClip.w}) is less than video width ({video_width})"
+                        f"Background clip {backgroundClipPath} width ({backgroundClip.w}) is less than video width ({videoWidth})"
                     )
 
                 horizontalOffset = GetHorizontalOffset(maxHorizontalOffset)
 
                 isMirrored = get_background_clip_mirrored(
                     backgroundClipPath,
-                    videoSettings.allow_mirrored_background_clips,
+                    videoSettings.allowMirroredClips,
                 )
 
                 videoClipBackgroundClips.append(
@@ -341,7 +342,7 @@ def create_video(
             verse_text_clip = verse_text_text_clip.create_text_clip(
                 color=verse_text_color,
                 duration=textDuration,
-                font=account.verse_text_font_file,
+                font=account.verseTextFontFile,
                 text=verseText,
             )
             textClips.append(verse_text_clip)
@@ -351,7 +352,7 @@ def create_video(
             verse_translation_clip = verse_translation_text_clip.create_text_clip(
                 color=verse_translation_color,
                 duration=textDuration,
-                font=account.verse_translation_font_file,
+                font=account.verseTranslationFontFile,
                 text=verseTranslation,
             )
             textClips.append(verse_translation_clip)
@@ -362,7 +363,7 @@ def create_video(
             verse_number_clip = verse_number_text_clip.create_text_clip(
                 color=verse_number_color,
                 duration=textDuration,
-                font=account.verse_number_font_file,
+                font=account.verseNumberFontFile,
                 text=verseNumber,
             )
             textClips.append(verse_number_clip)
@@ -373,17 +374,17 @@ def create_video(
             reciter_name_clip = reciter_name_text_clip.create_text_clip(
                 color=reciter_name_color,
                 duration=textDuration,
-                font=account.reciter_name_font_file,
+                font=account.reciterNameFontFile,
                 text=reciter_name,
             )
             textClips.append(reciter_name_clip)
 
-        if not additionalVideoSettings.single_background_video:
+        if not additionalVideoSettings.backgroundVideo:
             # Create shadow clip to put overlay on the video clip
             shadow_color = account.mode.value.shadow_color
             shadow_opacity = account.mode.value.shadow_opacity
             shadow_clip = create_shadow_clip(
-                size=videoSettings.video_dimensions,
+                size=videoSettings.videoDimensions,
                 color=shadow_color,
                 duration=maxVideoClipDuration,
                 opacity=shadow_opacity,
@@ -398,12 +399,12 @@ def create_video(
                 videoClipIndex,
                 CreateVideoClip(
                     background_clips_paths=videoClipBackgroundClips,
-                    background_clips_speed=videoSettings.background_clips_speed,
+                    background_clips_speed=videoSettings.clipSpeed,
                     final_clip_duration=maxVideoClipDuration,
-                    target_aspect_ratio=target_aspect_ratio,
+                    target_aspect_ratio=targetAspectRatio,
                     text_clips=textClips,
-                    video_dimensions=videoSettings.video_dimensions,
-                    video_mode=videoSettings.video_mode,
+                    video_dimensions=videoSettings.videoDimensions,
+                    video_mode=videoSettings.videoMode,
                     shadow_clip=shadow_clip,
                     text_duration=textDuration,
                 ),
@@ -429,7 +430,7 @@ def create_video(
             if line == startLine and reciter_name:
                 textClips[-1] = textClips[-1].set_start(text_start_time)
 
-            text_clips_array.extend(textClips)
+            textClips.extend(textClips)
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         # Submit tasks to the executor
@@ -448,68 +449,68 @@ def create_video(
     videoClipEntries = sorted(videoClipEntries, key=lambda clip: clip[0])
     videoClips = [videoClipEntry[1] for videoClipEntry in videoClipEntries]
 
-    if not additionalVideoSettings.single_background_video:
+    if not additionalVideoSettings.backgroundVideo:
         final_video = mpy.concatenate_videoclips(
             clips=videoClips, method="chain"
         ).set_audio(audio)
     else:
         background_clip = mpy.VideoFileClip(
-            additionalVideoSettings.single_background_video
+            additionalVideoSettings.backgroundVideo
         ).subclip(videoStart)
 
         background_clip_width, background_clip_height = background_clip.size
         current_aspect_ratio = background_clip_width / background_clip_height
 
-        if current_aspect_ratio > target_aspect_ratio:
-            new_width = int(background_clip_height * target_aspect_ratio)
+        if current_aspect_ratio > targetAspectRatio:
+            new_width = int(background_clip_height * targetAspectRatio)
 
-            if not additionalVideoSettings.single_background_video_horizontal_offset:
+            if not additionalVideoSettings.backgroundVideoHorizontalOffset:
                 background_video_horizontal_offset = (
                     background_clip_width - new_width
                 ) // 2
             else:
                 background_video_horizontal_offset = (
-                    additionalVideoSettings.single_background_video_horizontal_offset
+                    additionalVideoSettings.backgroundVideoHorizontalOffset
                 )
 
             background_clip = background_clip.crop(
                 x1=background_video_horizontal_offset,
                 x2=background_video_horizontal_offset + new_width,
-            ).resize(videoSettings.video_dimensions)
+            ).resize(videoSettings.videoDimensions)
         else:
-            new_height = int(background_clip_width / target_aspect_ratio)
+            new_height = int(background_clip_width / targetAspectRatio)
 
-            if not additionalVideoSettings.single_background_video_vertical_offset:
+            if not additionalVideoSettings.backgroundVideoVerticalOffset:
                 background_video_vertical_offset = (
                     background_clip_height - new_height
                 ) // 2
             else:
                 background_video_vertical_offset = (
-                    additionalVideoSettings.single_background_video_vertical_offset
+                    additionalVideoSettings.backgroundVideoVerticalOffset
                 )
 
             background_clip = background_clip.crop(
                 y1=background_video_vertical_offset,
                 y2=background_video_vertical_offset + new_height,
-            ).resize(videoSettings.video_dimensions)
+            ).resize(videoSettings.videoDimensions)
 
         shadow_clip = create_shadow_clip(
             color=account.mode.value.shadow_color,
             duration=background_clip.duration,
             opacity=account.mode.value.shadow_opacity,
-            size=videoSettings.video_dimensions,
+            size=videoSettings.videoDimensions,
         )
 
         video = mpy.CompositeVideoClip([background_clip, shadow_clip])
         final_video = mpy.CompositeVideoClip(
-            [video, *text_clips_array], use_bgclip=True
+            [video, *textClips], use_bgclip=True
         ).set_audio(audio)
 
-        videoMapOutput = additionalVideoSettings.single_background_video
+        videoMapOutput = additionalVideoSettings.backgroundVideo
 
     PrintColored(Fore.GREEN, "Creating final video...")
 
-    json_output_file_path = output_mp4_file.replace(".mp4", ".json")
+    json_output_file_path = outputFile.replace(".mp4", ".json")
 
     formatter = Formatter()
     formatter.use_tab_to_indent = True
@@ -526,20 +527,20 @@ def create_video(
     )
 
     try:
-        if additionalVideoSettings.single_background_video:
+        if additionalVideoSettings.backgroundVideo:
             final_video.write_videofile(
-                filename=output_mp4_file,
+                filename=outputFile,
                 fps=video.fps,
             )
-        elif videoSettings.video_mode == VideoModes.VIDEO:
+        elif videoSettings.videoMode == VideoModes.VIDEO:
             final_video.write_videofile(
                 codec="libx264",
-                filename=output_mp4_file,
+                filename=outputFile,
             )
-        elif videoSettings.video_mode == VideoModes.IMAGE:
+        elif videoSettings.videoMode == VideoModes.IMAGE:
             final_video.write_videofile(
                 codec="libx264",
-                filename=output_mp4_file,
+                filename=outputFile,
                 fps=60,
             )
 
@@ -567,188 +568,136 @@ def adjust_timestamps(input_file, output_file, seconds_to_add):
                 writer.writeheader()
                 writer.writerows(data)
 
-        remove_empty_rows_from_csv_file(output_file)
+        RemoveEmptyRows(output_file)
 
         print(f"Timestamps modified and saved to {output_file}")
     except Exception as e:
         print(f"An error occurred: {e}")
 
 
-def create_csv_file(chapter_csv_file_path: str, column_names: list[str]) -> bool:
+def CreateCsvFile(path: str, columnNames: list[str]) -> bool:
     """
-    Creates a CSV file.
-
-    Parameters
-    ----------
-    chapter_csv_file_path : str
-        The path of the CSV file to create.
-    field_names : list[str]
-        The names of the columns of the CSV file.
-
-    Returns
-    -------
-    bool
-        True if the CSV file was created successfully, False otherwise.
+    Creates a CSV file using the given column names.
     """
 
-    with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
-        csv_dict_writer = csv.DictWriter(chapter_csv_file, fieldnames=column_names)
-        csv_dict_writer.writeheader()
+    with open(path, "w", encoding="utf-8") as file:
+        dictWriter = csv.DictWriter(file, fieldnames=columnNames)
 
-    return True
+        try:
+            dictWriter.writeheader()
+
+            return True
+        except Exception:
+            return False
 
 
-def append_verse_texts_to_csv_file(
-    chapter_csv_file_path: str,
-    chapter_number: int,
-    entire_audio_verse_range: tuple[int, int],
-    verse_number_column_name: str,
-    verse_text_column_name: str,
+def AddVerses(
+    csvFilePath: str,
+    chapterNumber: int,
+    verseRange: tuple[int, int],
+    verseNumberColumnName: str,
+    verseTextColumnName: str,
 ) -> bool:
     """
-    Appends the verse texts of a chapter from the Qur'an to a CSV file.
-
-    Parameters
-    ----------
-    chapter_csv_file_path : str
-        The path of the CSV file to append the verse texts to.
-    chapter_number : int
-        The chapter number of the chapter to get the verse texts of.
-    start_verse : int
-        The verse number of the first verse to get.
-    verse_number_column_name : str
-        The name of the column containing the verse numbers.
-    verse_text_column_name : str
-        The name of the column containing the verse texts.
-    end_verse : int
-        The verse number of the last verse to get.
-
-    Returns
-    -------
-    bool
-        True if the verse texts were appended successfully, False otherwise.
+    Adds verses to the CSV file.
     """
 
-    with open(chapter_csv_file_path, "r", encoding="utf-8") as chapter_csv_file:
-        csv_dict_reader = csv.DictReader(chapter_csv_file)
-        field_names = csv_dict_reader.fieldnames
+    try:
+        with open(csvFilePath, "r", encoding="utf-8") as file:
+            dictReader = csv.DictReader(file)
 
-        verse_column_index = field_names.index(verse_number_column_name)
-        verse_text_column_index = field_names.index(verse_text_column_name)
+            fieldNames = dictReader.fieldnames
+            verseNumberColumnIndex = fieldNames.index(verseNumberColumnName)
+            verseTextColumnIndex = fieldNames.index(verseTextColumnName)
 
-        data = []
-        start_verse, end_verse = entire_audio_verse_range
-        verse_texts = get_chapter_text(chapter_number)[start_verse - 1 : end_verse]
+            rows = []
+            startVerse, endVerse = verseRange
+            verseTexts = GetChapterText(chapterNumber)[startVerse - 1 : endVerse]
+            for index, verseText in enumerate(verseTexts):
+                verseNumber = f"{chapterNumber}:{startVerse + index}"
+                if verseText is not None:
+                    rows.append(
+                        {
+                            fieldNames[verseNumberColumnIndex]: verseNumber,
+                            fieldNames[verseTextColumnIndex]: verseText,
+                        }
+                    )
 
-        for i in range(len(verse_texts)):
-            verse_number = f"{chapter_number}:{start_verse + i}"
-            verse_text = verse_texts[i]
+        with open(csvFilePath, "w", encoding="utf-8") as file:
+            dictWriter = csv.DictWriter(file, fieldnames=fieldNames)
+            dictWriter.writeheader()
+            dictWriter.writerows(rows)
 
-            if verse_text is not None:
-                data.append(
-                    {
-                        field_names[verse_column_index]: verse_number,
-                        field_names[verse_text_column_index]: verse_text,
-                    }
-                )
-
-        with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
-            csv_dict_writer = csv.DictWriter(chapter_csv_file, fieldnames=field_names)
-            csv_dict_writer.writeheader()
-            csv_dict_writer.writerows(data)
-
-    if remove_empty_rows_from_csv_file(chapter_csv_file_path):
-        return True
+        if RemoveEmptyRows(csvFilePath):
+            return True
+    except Exception:
+        return False
 
 
-def append_verse_translations_to_csv_file(
-    chapter_csv_file_path: str,
+def AddTranslations(
+    csvFilePath: str,
     language: Languages,
-    chapter_number: int,
-    entire_audio_verse_range: tuple[int, int],
-    timestamp_column_name: str,
+    chapterNumber: int,
+    verseRange: tuple[int, int],
+    timestampColumnName: str,
 ) -> bool:
     """
-    Appends the verse translations of a chapter from the Qur'an to a CSV file.
-
-    Parameters
-    ----------
-    chapter_csv_file_path : str
-        The path of the CSV file to append the verse translations to.
-    language : Language
-        The language of the translation.
-    chapter_number : int
-        The chapter number of the chapter to get the verse translations of.
-    start_verse : int
-        The verse number of the first verse to get.
-    end_verse : int
-        The verse number of the last verse to get.
-
-    Returns
-    -------
-    bool
-        True if the verse translations were appended successfully, False otherwise.
+    Appends the verse translations of a chapter from the Qur'an to a CSV file
     """
 
-    with open(chapter_csv_file_path, "r", encoding="utf-8") as chapter_csv_file:
-        csv_dict_reader = csv.DictReader(chapter_csv_file)
-        field_names = csv_dict_reader.fieldnames
+    try:
+        with open(csvFilePath, "r", encoding="utf-8") as file:
+            dictReader = csv.DictReader(file)
 
-        if language.value.abbreviation not in field_names:
-            data = list(csv_dict_reader)
+            fieldNames = dictReader.fieldnames
+            if language.value.abbreviation not in fieldNames:
+                if timestampColumnName in fieldNames:
+                    # Insert the translation column before the timestamp column
+                    timestampColumnIndex = fieldNames.index(timestampColumnName)
+                    fieldNames.insert(timestampColumnIndex, language.value.abbreviation)
+                else:
+                    # Append the translation column to the end
+                    fieldNames.append(language.value.abbreviation)
 
-            if timestamp_column_name in field_names:
-                timestamp_column_index = field_names.index(timestamp_column_name)
-                field_names.insert(timestamp_column_index, language.value.abbreviation)
-            else:
-                field_names.append(language.value.abbreviation)
+                rows = list(dictReader)
+                startVerse, endVerse = verseRange
+                verseTranslations = GetChapterTranslation(chapterNumber, language)[
+                    startVerse - 1 : endVerse
+                ]
+                for index, verseTranslation in enumerate(verseTranslations):
+                    rows[index][language.value.abbreviation] = verseTranslation
 
-            start_verse, end_verse = entire_audio_verse_range
-            verse_translations = fetch_chapter_translation(chapter_number, language)[
-                start_verse - 1 : end_verse
-            ]
+        with open(csvFilePath, "w", encoding="utf-8") as file:
+            dictWriter = csv.DictWriter(file, fieldnames=fieldNames)
+            dictWriter.writeheader()
+            dictWriter.writerows(rows)
 
-            for i, verse_translation in enumerate(verse_translations):
-                data[i][language.value.abbreviation] = verse_translation
-
-            with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
-                csv_dict_writer = csv.DictWriter(
-                    chapter_csv_file, fieldnames=field_names
-                )
-                csv_dict_writer.writeheader()
-                csv_dict_writer.writerows(data)
-
-            if remove_empty_rows_from_csv_file(chapter_csv_file_path):
-                return True
+        if RemoveEmptyRows(csvFilePath):
+            return True
+    except Exception:
+        return False
 
 
-def remove_empty_rows_from_csv_file(csv_file_path: str) -> bool:
+def RemoveEmptyRows(csvFilePath: str) -> bool:
     """
-    Removes empty rows from a CSV file.
-
-    Parameters
-    ----------
-    csv_file_path : str
-        The path of the CSV file to remove the empty rows from.
-
-    Returns
-    -------
-    bool
-        True if the empty rows were removed successfully, False otherwise.
+    Removes empty rows from a CSV file
     """
 
-    with open(csv_file_path, mode="r", encoding="utf-8") as csv_file:
-        csv_reader = csv.reader(csv_file)
-        rows = [row for row in csv_reader if any(cell.strip() != "" for cell in row)]
+    try:
+        with open(csvFilePath, mode="r", encoding="utf-8") as file:
+            reader = csv.reader(file)
+            rows = [row for row in reader if any(cell.strip() != "" for cell in row)]
 
-    with open(csv_file_path, mode="w", encoding="utf-8", newline="") as csv_file:
-        csv_writer = csv.writer(csv_file)
-        csv_writer.writerows(rows)
+        with open(csvFilePath, mode="w", encoding="utf-8", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerows(rows)
 
-    return True
+        return True
+    except Exception:
+        return False
 
 
-def select_columns_from_csv_file(
+def SelectColumnsFromCsvFile(
     csv_file_path: str, columns_to_select: list[str]
 ) -> list[list[str]]:
     """
@@ -779,7 +728,7 @@ def select_columns_from_csv_file(
     return selected_data
 
 
-def update_csv_file_timestamps(
+def UpdateCsvFileTimestamps(
     chapter_csv_file_path: str,
     timestamps_csv_file_path: str,
     timestamp_column_name: str,
@@ -855,11 +804,11 @@ def update_csv_file_timestamps(
                 writer.writeheader()
                 writer.writerows(data)
 
-    if remove_empty_rows_from_csv_file(chapter_csv_file_path):
+    if RemoveEmptyRows(chapter_csv_file_path):
         return True
 
 
-def update_csv_file_verse_numbers(
+def UpdateCsvFileVerseNumbers(
     chapter_csv_file_path: str,
     chapter_number: int,
     entire_audio_verse_range: tuple[int, int],
@@ -900,7 +849,7 @@ def update_csv_file_verse_numbers(
         data = []
         existing_verses = set()
         start_verse, end_verse = entire_audio_verse_range
-        verse_texts = get_chapter_text(chapter_number)[start_verse - 1 : end_verse]
+        verse_texts = GetChapterText(chapter_number)[start_verse - 1 : end_verse]
         indexed_verse_texts = [
             list(item) for item in zip(range(start_verse, end_verse + 1), verse_texts)
         ]
@@ -970,11 +919,11 @@ def update_csv_file_verse_numbers(
             csv_dict_writer.writeheader()
             csv_dict_writer.writerows(data)
 
-    if remove_empty_rows_from_csv_file(chapter_csv_file_path):
+    if RemoveEmptyRows(chapter_csv_file_path):
         return True
 
 
-def get_loop_range(
+def GetLoopRange(
     chapter_csv_lines: list[list[str]],
     chapter_number: int,
     verse_range: tuple[int, int],
@@ -1104,61 +1053,49 @@ def fetch_chapter_name(chapter_number: int) -> str:
     return chapter_names[chapter_number - 1]
 
 
-def fetch_chapter_translation(chapter_number: int, language: Languages) -> list[str]:
+def GetChapterTranslation(chapterNumber: int, language: Languages) -> list[str]:
     """
-    Gets the translation of a chapter from the Quran
-
-    Parameters
-    ----------
-    chapter_number : int
-        The chapter number of the chapter to get the translation of.
-    language : Language
-        The language of the translation.
-
-    Returns
-    -------
-    list[str]
-        A list of strings containing the translation of the chapter.
+    Gets the translation of a chapter from the Qur'an
     """
-
-    translation_id = language.value.translation_id
-    url = f"https://api.quran.com/api/v4/quran/translations/{translation_id}?chapter_number={chapter_number}"
 
     try:
-        response = requests.get(url)
-    except Exception as error:
-        raise Exception(
-            f"Failed to fetch translation for chapter {chapter_number} in {language.value['abbreviation']}."
-        ) from error
+        translationId = language.value.translation_id
+        response = requests.get(
+            f"https://api.quran.com/api/v4/quran/translations/{translationId}?chapter_number={chapterNumber}"
+        )
 
-    return [
-        re.sub(
-            "’",
-            "'",
+        return [
             re.sub(
-                "ʿ",
+                "’",
                 "'",
                 re.sub(
-                    "ū",
-                    "u",
+                    "ʿ",
+                    "'",
                     re.sub(
-                        "صَۣ",
-                        "صَ",
+                        "ū",
+                        "u",
                         re.sub(
-                            "ḥ",
-                            "h",
+                            "صَۣ",
+                            "صَ",
                             re.sub(
-                                "ā",
-                                "a",
-                                re.sub(r"<.*?>*<.*?>", "", translation["text"]),
+                                "ḥ",
+                                "h",
+                                re.sub(
+                                    "ā",
+                                    "a",
+                                    re.sub(r"<.*?>*<.*?>", "", translation["text"]),
+                                ),
                             ),
                         ),
                     ),
                 ),
-            ),
-        )
-        for translation in response.json()["translations"]
-    ]
+            )
+            for translation in response.json()["translations"]
+        ]
+    except Exception as error:
+        raise Exception(
+            f"Failed to fetch translation for chapter {chapterNumber} in {language.value['abbreviation']}."
+        ) from error
 
 
 def fetch_chapter_verse_count(chapter_number: int) -> int:
@@ -1186,29 +1123,22 @@ def fetch_chapter_verse_count(chapter_number: int) -> int:
     return response.json()["chapter"]["verses_count"]
 
 
-def get_chapter_text(chapter_number: int) -> list[str]:
+def GetChapterText(chapterNumber: int) -> list[str]:
     """
     Gets the text of a chapter from the Qur'an
-
-    Parameters
-    ----------
-    chapter_number : int
-        The chapter number of the chapter to get the text of.
-
-    Returns
-    -------
-    list[str]
-        A list of strings containing the text of the chapter.
     """
 
-    response = requests.get(
-        f"https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number={chapter_number}"
-    )
+    try:
+        response = requests.get(
+            f"https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number={chapterNumber}"
+        )
 
-    return [
-        re.sub("ا۟", "ا", verse["text_uthmani"]) for verse in response.json()["verses"]
-    ]
-    # return quran.get_sura(chapter_number, with_tashkeel=True)
+        return [
+            re.sub("ا۟", "ا", verse["text_uthmani"])
+            for verse in response.json()["verses"]
+        ]
+    except Exception as error:
+        raise Exception(f"Failed to fetch text for chapter {chapterNumber}.") from error
 
 
 def PrintColored(color: str, text: str) -> None:
@@ -1303,7 +1233,7 @@ def get_absolute_mp4_paths(
     ]
 
 
-def get_relative_mp4_paths(
+def GetRelativeMp4Paths(
     folder_paths: list[str],
 ) -> list[str]:
     """
