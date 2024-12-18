@@ -1,4 +1,4 @@
-from classes import Account, ColorModes, Languages
+from models import Account, ColorModes, Languages
 from enum import Enum
 
 

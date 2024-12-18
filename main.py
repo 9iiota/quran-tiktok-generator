@@ -1,4 +1,4 @@
-from classes import Account, ColorModes, Languages, AdditionalVideoSettings
+from models import Account, ColorModes, Languages, AdditionalVideoSettings
 from moviepy.config import change_settings
 from presets import Presets
 from enum import Enum
@@ -22,7 +22,7 @@ class Joe(Enum):
 
 def main():
     tiktok = TikTok(Accounts.QURAN_2_LISTEN)
-    preset = Presets.MUHAMMAD_AL_LUHAIDAN_AN_NAJM_56_62
+    preset = Presets.FATIH_SEFERAGIC_AL_HAQQAH_9_12
 
     tiktok.create(
         preset,

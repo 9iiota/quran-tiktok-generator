@@ -12,10 +12,10 @@ import requests
 from colorama import Fore, Style
 from compact_json import EolStyle, Formatter
 from datetime import datetime, timedelta
-from classes import (
+from models import (
     Account,
     AudioSettings,
-    CSVColumnNames,
+    ColumnHeaders,
     TextClipInfo,
     TimeModifiers,
     VideoModes,
@@ -31,7 +31,7 @@ from typing import Optional
 def create_video(
     account: Account,
     audioSettings: AudioSettings,
-    csvColumnNames: CSVColumnNames,
+    csvColumnNames: ColumnHeaders,
     timeModifiers: TimeModifiers,
     videoSettings: VideoSettings,
     output_video_verse_range: tuple[int, int],
@@ -80,7 +80,7 @@ def create_video(
     chapterCsvFile = chapterCsvFile.replace("\\", "/")
     if not os.path.isfile(chapterCsvFile):
         # Create chapter CSV file and add verses
-        columnNames = [csvColumnNames.verseNumber, csvColumnNames.verseText]
+        columnNames = [csvColumnNames.verse_number, csvColumnNames.verse_text]
         if not CreateCsvFile(chapterCsvFile, columnNames):
             PrintColored(
                 Fore.RED,
@@ -96,22 +96,23 @@ def create_video(
             chapterCsvFile,
             audioSettings.chapterNumber,
             audioSettings.verseRange,
-            csvColumnNames.verseNumber,
-            csvColumnNames.verseText,
+            csvColumnNames.verse_number,
+            csvColumnNames.verse_text,
         ):
             PrintColored(Fore.RED, f"Unable to add verse texts to {chapterCsvFile}.")
             return
         PrintColored(Fore.GREEN, f"Added verse texts to {chapterCsvFile}.")
 
-    if AddTranslations(
+    if not AddTranslations(
         chapterCsvFile,
         account.language,
         audioSettings.chapterNumber,
         audioSettings.verseRange,
         csvColumnNames.timestamp,
     ):
-        PrintColored(Fore.GREEN, f"Added verse translations to {chapterCsvFile}.")
+        PrintColored(Fore.RED, f"Unable to add translations to {chapterCsvFile}.")
         return
+    PrintColored(Fore.GREEN, f"Added translations to {chapterCsvFile}.")
 
     # TODO
     if not os.path.isfile(timestampsCsvFile):
@@ -126,8 +127,8 @@ def create_video(
                 chapterCsvFile,
                 audioSettings.chapterNumber,
                 audioSettings.verseRange,
-                csvColumnNames.verseNumber,
-                csvColumnNames.verseText,
+                csvColumnNames.verse_number,
+                csvColumnNames.verse_text,
                 csvColumnNames.timestamp,
             ):
                 PrintColored(Fore.GREEN, f"Added verse numbers to {chapterCsvFile}.")
@@ -138,8 +139,8 @@ def create_video(
     chapterCsvLines = SelectColumnsFromCsvFile(
         chapterCsvFile,
         [
-            csvColumnNames.verseNumber,
-            csvColumnNames.verseText,
+            csvColumnNames.verse_number,
+            csvColumnNames.verse_text,
             languageAbbreviation,
             csvColumnNames.timestamp,
         ],
@@ -635,44 +636,46 @@ def AddVerses(
 
 
 def AddTranslations(
-    csvFilePath: str,
+    csv_file_path: str,
     language: Languages,
     chapterNumber: int,
-    verseRange: tuple[int, int],
-    timestampColumnName: str,
+    verse_range: tuple[int, int],
+    timestamp_column_name: str,
 ) -> bool:
     """
     Appends the verse translations of a chapter from the Qur'an to a CSV file
     """
 
     try:
-        with open(csvFilePath, "r", encoding="utf-8") as file:
-            dictReader = csv.DictReader(file)
+        with open(csv_file_path, "r", encoding="utf-8") as csv_file:
+            dict_reader = csv.DictReader(csv_file)
 
-            fieldNames = dictReader.fieldnames
-            if language.value.abbreviation not in fieldNames:
-                if timestampColumnName in fieldNames:
+            field_names = dict_reader.fieldnames
+            if language.value.abbreviation not in field_names:
+                if timestamp_column_name in field_names:
                     # Insert the translation column before the timestamp column
-                    timestampColumnIndex = fieldNames.index(timestampColumnName)
-                    fieldNames.insert(timestampColumnIndex, language.value.abbreviation)
+                    timestamp_column_index = field_names.index(timestamp_column_name)
+                    field_names.insert(
+                        timestamp_column_index, language.value.abbreviation
+                    )
                 else:
                     # Append the translation column to the end
-                    fieldNames.append(language.value.abbreviation)
+                    field_names.append(language.value.abbreviation)
 
-                rows = list(dictReader)
-                startVerse, endVerse = verseRange
-                verseTranslations = GetChapterTranslation(chapterNumber, language)[
-                    startVerse - 1 : endVerse
+                rows = list(dict_reader)
+                start_verse, end_verse = verse_range
+                verse_translations = GetChapterTranslation(chapterNumber, language)[
+                    start_verse - 1 : end_verse
                 ]
-                for index, verseTranslation in enumerate(verseTranslations):
-                    rows[index][language.value.abbreviation] = verseTranslation
+                for index, translation in enumerate(verse_translations):
+                    rows[index][language.value.abbreviation] = translation
 
-        with open(csvFilePath, "w", encoding="utf-8") as file:
-            dictWriter = csv.DictWriter(file, fieldnames=fieldNames)
-            dictWriter.writeheader()
-            dictWriter.writerows(rows)
+                with open(csv_file_path, "w", encoding="utf-8") as csv_file:
+                    dict_writer = csv.DictWriter(csv_file, fieldnames=field_names)
+                    dict_writer.writeheader()
+                    dict_writer.writerows(rows)
 
-        if RemoveEmptyRows(csvFilePath):
+        if RemoveEmptyRows(csv_file_path):
             return True
     except Exception:
         return False

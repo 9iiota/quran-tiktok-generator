@@ -55,9 +55,9 @@ class AudioSettings:
 
 
 @dataclass
-class CSVColumnNames:
-    verseNumber: str
-    verseText: str
+class ColumnHeaders:
+    verse_number: str
+    verse_text: str
     timestamp: str
 
 

@@ -1,4 +1,4 @@
-from classes import AdditionalVideoSettings, TimeModifiers
+from models import AdditionalVideoSettings, TimeModifiers
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
@@ -150,8 +150,13 @@ class Presets(Enum):
         (255),
     )
     FATIH_SEFERAGIC_AL_HAQQAH_1_8 = Preset(
-        r"Surahs\Fatih Seferagic\Al-Haqqah (69.1-8)",
+        r"Surahs\Fatih Seferagic\Al-Haqqah (69.1-12)",
         (1, 8),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.4),
+    )
+    FATIH_SEFERAGIC_AL_HAQQAH_9_12 = Preset(
+        r"Surahs\Fatih Seferagic\Al-Haqqah (69.1-12)",
+        (9, 12),
     )
     FATIH_SEFERAGIC_AL_HADID_20 = Preset(
         r"Surahs\Fatih Seferagic\Al-Hadid (57.20)",

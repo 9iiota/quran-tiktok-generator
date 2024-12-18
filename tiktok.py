@@ -2,10 +2,10 @@ import os
 import re
 
 from datetime import datetime
-from classes import (
+from models import (
     Account,
     AudioSettings,
-    CSVColumnNames,
+    ColumnHeaders,
     TextClipInfo,
     TimeModifiers,
     VideoModes,
@@ -100,8 +100,8 @@ class TikTok:
         chapter_csv_file_path = os.path.join(audio_directory_path, "chapter.csv")
         timestamps_csv_file_path = os.path.join(audio_directory_path, "Markers.csv")
 
-        csv_column_names = CSVColumnNames(
-            verseNumber="verse", verseText="ar", timestamp="timestamps"
+        csv_column_names = ColumnHeaders(
+            verse_number="verse", verse_text="ar", timestamp="timestamps"
         )
 
         verse_text_text_clip = TextClipInfo(

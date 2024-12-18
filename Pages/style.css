@@ -70,7 +70,8 @@ body
     font-weight: 500;
 }
 
-.background-clip span
+.background-clip span,
+.video-clip span
 {
     position: absolute;
     top: 50%;
@@ -80,19 +81,48 @@ body
     color: rgb(180, 180, 180);
 }
 
-.background-clip.dragging
+.background-clip.dragging,
+.video-clip.dragging
 {
-    /* position: absolute; */
-    pointer-events: none;
-    z-index: 1000;
+    transform: scale(1.03);
+    transition: .03s;
 }
 
-.background-clip.dragging .name
+.background-clip.dragging .name,
+.video-clip.dragging .name
 {
     color: rgb(218, 83, 80);
 }
 
-.background-clip.dragging span
+.background-clip.dragging span,
+.video-clip.dragging span
 {
     color: rgb(214, 104, 103);
+}
+
+.file-drop-zone
+{
+    width: 100%;
+    max-width: 400px;
+    height: 60px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 20px auto;
+    font-size: 16px;
+    color: #666;
+}
+
+.file-drop-zone.dragover
+{
+    border-color: #00aaff;
+    background-color: #f0f8ff;
+}
+
+.hidden
+{
+    display: none;
 }
