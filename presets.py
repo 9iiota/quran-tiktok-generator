@@ -310,6 +310,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Al-Ahqaf (46.30-31)",
         (30, 31),
     )
+    MUHAMMAD_AL_LUHAIDAN_AL_AHZAB_40_44 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Ahzab (33.40-44)",
+        (40, 44),
+    )
     MUHAMMAD_AL_LUHAIDAN_AL_AHZAB_63_66 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Ahzab (33.63-66)",
         (63, 66),
@@ -379,6 +383,15 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_FURQAN_74 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Furqan (25.61-77)",
         (74),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_HAQQAH_13_18 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Haqqah (69.13-24)",
+        (13, 18),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.3),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_HAQQAH_19_24 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Haqqah (69.13-24)",
+        (19, 24),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_HAQQAH_29_33 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Haqqah (69.29-33)",
