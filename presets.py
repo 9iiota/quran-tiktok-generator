@@ -274,6 +274,10 @@ class Presets(Enum):
         r"Surahs\Maher Al-Muaiqly\Al-An'am (6.160-165)",
         (160, 165),
     )
+    JABER_ALQAYTAN_AL_MUDDATHTHIR_53_56 = Preset(
+        r"Surahs\Jaber Alqaytan\Al-Muddaththir (74.53-56)",
+        (53, 56),
+    )
     MAHDI_ASH_SHISHANI_AL_IKHLAS_1_4 = Preset(
         r"Surahs\Mahdi Ash-Shishani\Al-Ikhlas (112.1-4)",
         (1, 4),
@@ -342,6 +346,10 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_138_141 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.138-141)",
         (138, 141),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_185 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.185)",
+        (185),
     )
     MUHAMMAD_AL_LUHAIDAN_AL_BAQARAH_214 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Baqarah (2.214)",
@@ -462,6 +470,10 @@ class Presets(Enum):
     MUHAMMAD_AL_LUHAIDAN_AL_WAQIAH_12_26 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Waqi'ah (56.1-26)",
         (12, 26),
+    )
+    MUHAMMAD_AL_LUHAIDAN_AL_WAQIAH_68_74 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Waqi'ah (56.68-74)",
+        (68, 74),
     )
     MUHAMMAD_AL_LUHAIDAN_AN_NAJM_39_55 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\An-Najm (53.39-62)",
@@ -813,6 +825,10 @@ class Presets(Enum):
     YASSER_AL_DOSARI_LUQMAN_8_11 = Preset(
         r"Surahs\Yasser Al-Dosari\Luqman (31.8-11)",
         (8, 11),
+    )
+    YASSER_AL_DOSARI_TAHA_49_52 = Preset(
+        r"Surahs\Yasser Al-Dosari\Taha (20.49-52)",
+        (49, 52),
     )
     YOUSEF_AL_SOQIER_ASH_SHUARA_87_95 = Preset(
         r"Surahs\Yousef Al-Soqier\Ash-Shu'ara (26.87-95)",
