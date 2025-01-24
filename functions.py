@@ -788,9 +788,12 @@ def UpdateCsvFileTimestamps(
             data = list(csv_dict_reader)
 
             while len(data) < len(sorted_timestamps):
-                data.append(
-                    {timestamp_column_name: sorted_timestamps[len(data)].strip()}
-                )
+                try:
+                    data.append(
+                        {timestamp_column_name: sorted_timestamps[len(data)].strip()}
+                    )
+                except AttributeError:
+                    data.append({timestamp_column_name: sorted_timestamps[len(data)]})
 
             for line in range(len(sorted_timestamps)):
                 if isinstance(sorted_timestamps[line], list):
