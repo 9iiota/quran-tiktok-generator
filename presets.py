@@ -521,9 +521,17 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\As-Sajdah (32.12-14)",
         (12, 14),
     )
+    MUHAMMAD_AL_LUHAIDAN_AZ_ZUMAR_10_16 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Az-Zumar (39.10-16)",
+        (10, 16),
+    )
     MUHAMMAD_AL_LUHAIDAN_AZ_ZUMAR_22_23 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Az-Zumar (39.22-23)",
         (22, 23),
+    )
+    MUHAMMAD_AL_LUHAIDAN_FATIR_33_35 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Fatir (35.33-35)",
+        (33, 35),
     )
     MUHAMMAD_AL_LUHAIDAN_GHAFIR_48_52 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Ghafir (40.48-52)",
