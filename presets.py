@@ -653,6 +653,10 @@ class Presets(Enum):
         r"Surahs\Umar Sildinskiy\Al-Infitar (82.9-19)",
         (9, 19),
     )
+    UMAR_SILDINSKIY_AR_RAHMAN_48_55 = Preset(
+        r"Surahs\Umar Sildinskiy\Ar-Rahman (55.48-55)",
+        (48, 55),
+    )
     UNKNOWN_ADH_DHARIYAT_17_28 = Preset(
         r"Surahs\Unknown\Adh-Dhariyat (51.17-28)",
         (17, 28),
