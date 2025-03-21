@@ -674,6 +674,15 @@ class Presets(Enum):
         (56, 57),
         time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
+    UNKNOWN_AL_BAQARAH_113_115 = Preset(
+        r"Surahs\Unknown\Al-Baqarah (2.113-117)",
+        (113, 115),
+        time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.35),
+    )
+    UNKNOWN_AL_BAQARAH_116_117 = Preset(
+        r"Surahs\Unknown\Al-Baqarah (2.113-117)",
+        (116, 117),
+    )
     UNKNOWN_AL_BAQARAH_153_157 = Preset(
         r"Surahs\Unknown\Al-Baqarah (2.153-157)",
         (153, 157),
@@ -724,6 +733,10 @@ class Presets(Enum):
     )
     UNKNOWN_AS_SAFFAT_123_132 = Preset(
         r"Surahs\Unknown\As-Saffat (37.123-132)",
+        (123, 132),
+    )
+    UNKNOWN_AS_SAFFAT_123_132_ = Preset(
+        r"Surahs\Unknown\As-Saffat (37.123-132)_",
         (123, 132),
     )
     UNKNOWN_AT_TUR_35_43 = Preset(

@@ -899,7 +899,7 @@ def UpdateCsvFileVerseNumbers(
                     if best_ratio == 100:
                         break
 
-                if best_ratio >= 90:
+                if best_ratio >= 84:
                     verse = f"{chapter_number}:{best_verse_number}"
                     if verse not in existing_verses:
                         row[verse_number_column_name] = verse
@@ -1157,7 +1157,7 @@ def PrintColored(color: str, text: str) -> None:
 
 
 def convert_video_map_paths_to_absolute_paths(
-    video_map: dict[str, list[list[str, float or int, int, str]]]
+    video_map: dict[str, list[list[str, float or int, int, str]]],
 ) -> dict[str, list[list[str, float or int, int, str]]]:
     """
     Converts the paths in a video map to absolute paths.
