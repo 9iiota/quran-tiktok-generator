@@ -727,6 +727,10 @@ class Presets(Enum):
         r"Surahs\Unknown\Al-Qiyamah (75.20-27)",
         (20, 27),
     )
+    UNKNOWN_AR_RAHMAN_46_55 = Preset(
+        r"Surahs\Unknown\Ar-Rahman (55.46-55)",
+        (46, 55),
+    )
     UNKNOWN_ASH_SHUARA_78_83 = Preset(
         r"Surahs\Unknown\Ash-Shu'ara (26.78-83)",
         (78, 83),
