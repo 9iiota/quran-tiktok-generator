@@ -521,6 +521,10 @@ def create_video(
     formatter.json_eol_style = EolStyle.LF
     formatter.dont_justify_numbers = True
 
+    videoMapOutput = {
+        key: videoMapOutput[key] for key in sorted(videoMapOutput.keys(), key=int)
+    }
+
     formatter.dump(
         videoMapOutput,
         output_file=json_output_file_path,

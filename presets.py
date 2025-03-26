@@ -137,6 +137,10 @@ class Presets(Enum):
         r"Surahs\Bandar Balilah\Al-An'am (6.61-62)",
         (61, 62),
     )
+    BANDAR_BALILAH_AT_TAWBAH_112 = Preset(
+        r"Surahs\Bandar Balilah\At-Tawbah (9.112)",
+        (112),
+    )
     FAHAD_AL_KANDARI_AZ_ZALZALAH_1_8 = Preset(
         r"Surahs\Fahad Al-Kandari\Az-Zalzalah (99.1-8)",
         (1, 8),
