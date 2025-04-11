@@ -113,6 +113,10 @@ class Presets(Enum):
         (73, 74),
         time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
     )
+    AHMED_HAMADI_AN_NISA_82 = Preset(
+        r"Surahs\Ahmed Hamadi\An-Nisa (4.82)",
+        (82),
+    )
     AHMED_KHEDR_TAHA_14_16 = Preset(
         r"Surahs\Ahmed Khedr\Taha (20.1-135)",
         (14, 16),

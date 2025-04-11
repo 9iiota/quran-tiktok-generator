@@ -1,7 +1,8 @@
+audioop-lts
 colorama
 compact-json
 fuzzywuzzy
-moviepy
+moviepy==1.0.3
 opencv-python
 plyer
 pyquran
