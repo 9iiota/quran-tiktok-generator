@@ -1,3 +1,6 @@
+import concurrent.futures
+from threading import Lock
+
 import contextlib
 import csv
 import moviepy.editor as mpy
@@ -9,10 +12,10 @@ import requests
 from colorama import Fore, Style
 from compact_json import EolStyle, Formatter
 from datetime import datetime, timedelta
-from classes import (
+from models import (
     Account,
     AudioSettings,
-    CSVColumnNames,
+    ColumnHeaders,
     TextClipInfo,
     TimeModifiers,
     VideoModes,
@@ -27,15 +30,15 @@ from typing import Optional
 
 def create_video(
     account: Account,
-    audio_settings: AudioSettings,
-    csv_column_names: CSVColumnNames,
-    time_modifiers: TimeModifiers,
-    video_settings: VideoSettings,
+    audioSettings: AudioSettings,
+    csvColumnNames: ColumnHeaders,
+    timeModifiers: TimeModifiers,
+    videoSettings: VideoSettings,
     output_video_verse_range: tuple[int, int],
-    output_mp4_file_name: str,
-    chapter_csv_file: str,
-    timestamps_csv_file: str,
-    additional_video_settings: Optional[
+    outputFileName: str,
+    chapterCsvFile: str,
+    timestampsCsvFile: str,
+    additionalVideoSettings: Optional[
         AdditionalVideoSettings
     ] = AdditionalVideoSettings(),
     verse_text_text_clip: Optional[TextClipInfo] = None,
@@ -43,7 +46,7 @@ def create_video(
     verse_number_text_clip: Optional[TextClipInfo] = None,
     reciter_name: Optional[str] = None,
     reciter_name_text_clip: Optional[TextClipInfo] = None,
-    output_mp4_file: Optional[str] = None,
+    outputFile: Optional[str] = None,
 ) -> None:
     """
     Create a video with the given parameters.
@@ -55,543 +58,460 @@ def create_video(
     if not isinstance(account, Account):
         account = account.value
 
-    if not os.path.isfile(audio_settings.audio_mp3_file):
-        raise FileNotFoundError(f"{audio_settings.audio_mp3_file} is not a file.")
+    if not os.path.isfile(audioSettings.audioFile):
+        raise FileNotFoundError(f"{audioSettings.audioFile} is not a file.")
 
-    audio_mp3_file_directory_path = os.path.dirname(audio_settings.audio_mp3_file)
+    audioFileDirectory = os.path.dirname(audioSettings.audioFile)
 
-    if output_mp4_file:
-        output_mp4_file = output_mp4_file.replace("\\", "/")
+    if outputFile:
+        outputFile = outputFile.replace("\\", "/")
 
         try:
-            output_directory_path = os.path.dirname(output_mp4_file)
+            outputDirectory = os.path.dirname(outputFile)
         except Exception:
-            raise NotADirectoryError(
-                f"{output_directory_path} is not a valid directory."
-            )
+            raise NotADirectoryError(f"{outputDirectory} is not a valid directory.")
     else:
-        output_directory_path = os.path.join(audio_mp3_file_directory_path, "Videos")
-        output_mp4_file = os.path.join(
-            output_directory_path, f"{output_mp4_file_name}.mp4"
+        outputDirectory = os.path.join(audioFileDirectory, "Videos")
+        outputFile = os.path.join(outputDirectory, f"{outputFileName}.mp4")
+
+    if not os.path.isdir(outputDirectory):
+        os.mkdir(outputDirectory)
+
+    chapterCsvFile = chapterCsvFile.replace("\\", "/")
+    if not os.path.isfile(chapterCsvFile):
+        # Create chapter CSV file and add verses
+        columnNames = [csvColumnNames.verse_number, csvColumnNames.verse_text]
+        if not CreateCsvFile(chapterCsvFile, columnNames):
+            PrintColored(
+                Fore.RED,
+                f"Unable to create {chapterCsvFile} with column names {columnNames}.",
+            )
+            return
+        PrintColored(
+            Fore.GREEN,
+            f"Created {chapterCsvFile} with column names {columnNames}.",
         )
 
-    if not os.path.isdir(output_directory_path):
-        os.mkdir(output_directory_path)
-
-    chapter_csv_file = chapter_csv_file.replace("\\", "/")
-
-    if not os.path.isfile(chapter_csv_file):
-        column_names = [csv_column_names.verse_number, csv_column_names.verse_text]
-        if create_csv_file(chapter_csv_file, column_names):
-            colored_print(
-                Fore.GREEN,
-                f"Created {chapter_csv_file} with column names {column_names}.",
-            )
-
-            if append_verse_texts_to_csv_file(
-                chapter_csv_file,
-                audio_settings.chapter_number,
-                audio_settings.audio_verse_range,
-                csv_column_names.verse_number,
-                csv_column_names.verse_text,
-            ):
-                colored_print(Fore.GREEN, f"Added verse texts to {chapter_csv_file}.")
-
-    if append_verse_translations_to_csv_file(
-        chapter_csv_file,
-        account.language,
-        audio_settings.chapter_number,
-        audio_settings.audio_verse_range,
-        csv_column_names.timestamp,
-    ):
-        colored_print(Fore.GREEN, f"Added verse translations to {chapter_csv_file}.")
-
-        return
-
-    if not os.path.isfile(timestamps_csv_file):
-        raise FileNotFoundError(f"{timestamps_csv_file} is not a valid path.")
-    else:
-        if update_csv_file_timestamps(
-            chapter_csv_file, timestamps_csv_file, csv_column_names.timestamp
+        if not AddVerses(
+            chapterCsvFile,
+            audioSettings.chapterNumber,
+            audioSettings.verseRange,
+            csvColumnNames.verse_number,
+            csvColumnNames.verse_text,
         ):
-            colored_print(Fore.GREEN, f"Added timestamps to {chapter_csv_file}.")
+            PrintColored(Fore.RED, f"Unable to add verse texts to {chapterCsvFile}.")
+            return
+        PrintColored(Fore.GREEN, f"Added verse texts to {chapterCsvFile}.")
 
-            if update_csv_file_verse_numbers(
-                chapter_csv_file,
-                audio_settings.chapter_number,
-                audio_settings.audio_verse_range,
-                csv_column_names.verse_number,
-                csv_column_names.verse_text,
-                csv_column_names.timestamp,
+    if not AddTranslations(
+        chapterCsvFile,
+        account.language,
+        audioSettings.chapterNumber,
+        audioSettings.verseRange,
+        csvColumnNames.timestamp,
+    ):
+        PrintColored(Fore.RED, f"Unable to add translations to {chapterCsvFile}.")
+        return
+    PrintColored(Fore.GREEN, f"Added translations to {chapterCsvFile}.")
+
+    # TODO
+    if not os.path.isfile(timestampsCsvFile):
+        raise FileNotFoundError(f"{timestampsCsvFile} is not a valid path.")
+    else:
+        if UpdateCsvFileTimestamps(
+            chapterCsvFile, timestampsCsvFile, csvColumnNames.timestamp
+        ):
+            PrintColored(Fore.GREEN, f"Added timestamps to {chapterCsvFile}.")
+
+            if UpdateCsvFileVerseNumbers(
+                chapterCsvFile,
+                audioSettings.chapterNumber,
+                audioSettings.verseRange,
+                csvColumnNames.verse_number,
+                csvColumnNames.verse_text,
+                csvColumnNames.timestamp,
             ):
-                colored_print(Fore.GREEN, f"Added verse numbers to {chapter_csv_file}.")
+                PrintColored(Fore.GREEN, f"Added verse numbers to {chapterCsvFile}.")
 
-    language_abbreviation = account.language.value.abbreviation
+    languageAbbreviation = account.language.value.abbreviation
 
     # TODO: A clip should be able to be created without language abbreviation column
-    chapter_csv_lines = select_columns_from_csv_file(
-        chapter_csv_file,
+    chapterCsvLines = SelectColumnsFromCsvFile(
+        chapterCsvFile,
         [
-            csv_column_names.verse_number,
-            csv_column_names.verse_text,
-            language_abbreviation,
-            csv_column_names.timestamp,
+            csvColumnNames.verse_number,
+            csvColumnNames.verse_text,
+            languageAbbreviation,
+            csvColumnNames.timestamp,
         ],
     )
 
-    start_line, end_line = get_loop_range(
-        chapter_csv_lines,
-        audio_settings.chapter_number,
+    startLine, endLine = GetLoopRange(
+        chapterCsvLines,
+        audioSettings.chapterNumber,
         output_video_verse_range,
-        additional_video_settings.start_line,
-        additional_video_settings.end_line,
+        additionalVideoSettings.startLine,
+        additionalVideoSettings.endLine,
     )
 
-    video_width, video_height = video_settings.video_dimensions
+    videoWidth, videoHeight = videoSettings.videoDimensions
 
-    video_start_timestamp = chapter_csv_lines[start_line - 1][3].strip().split(",")[0]
-    if time_modifiers.start_time_modifier:
-        video_start = offset_timestamp(
-            video_start_timestamp, time_modifiers.start_time_modifier
+    videoStartTimestamp = chapterCsvLines[startLine - 1][3].strip().split(",")[0]
+    if timeModifiers.startTimeModifier:
+        videoStart = OffsetTimestamp(
+            videoStartTimestamp, timeModifiers.startTimeModifier
         )
     else:
-        video_start = offset_timestamp(
-            video_start_timestamp, time_modifiers.time_modifier
-        )
+        videoStart = OffsetTimestamp(videoStartTimestamp, timeModifiers.timeModifier)
 
-    video_end_timestamp = chapter_csv_lines[end_line - 1][3].strip().split(",")[0]
-    video_end = offset_timestamp(video_end_timestamp, time_modifiers.end_time_modifier)
+    videoEndTimestamp = chapterCsvLines[endLine - 1][3].strip().split(",")[0]
+    videoEnd = OffsetTimestamp(videoEndTimestamp, timeModifiers.endTimeModifier)
 
-    video_duration = get_time_difference_seconds(video_start, video_end)
+    # video_duration = GetTimeDifferenceSeconds(videoStart, videoEnd)
 
-    audio = mpy.AudioFileClip(audio_settings.audio_mp3_file).subclip(
-        video_start, video_end
-    )
+    audio = mpy.AudioFileClip(audioSettings.audioFile).subclip(videoStart, videoEnd)
 
     # TODO: Unsure if it is better to have absolute or relative paths
     # if video_map:
     #     video_map = convert_video_map_paths_to_absolute_paths(video_map)
 
-    all_background_clips_paths = get_relative_mp4_paths(
-        account.background_clips_directories
-    )
-    target_aspect_ratio = video_width / video_height
-    text_clips_array = []
-    used_background_clips_paths = []
-    video_clips = []
-    video_map_output = {}
+    allBackgroundClips = GetRelativeMp4Paths(account.clipDirectories)
+    targetAspectRatio = videoWidth / videoHeight
+    textClips = []
+    usedBackgroundClips = []
+    videoClipEntries = []
+    videoMapOutput = {}
 
-    if additional_video_settings.video_map:
-        additional_video_settings.video_map = {
-            int(key): value
-            for key, value in additional_video_settings.video_map.items()
+    if additionalVideoSettings.videoMap:
+        additionalVideoSettings.videoMap = {
+            int(key): value for key, value in additionalVideoSettings.videoMap.items()
         }
 
-    loop_range = range(start_line, end_line)
+    videoClipEntriesLock = Lock()
 
-    colored_print(
-        Fore.MAGENTA, f"Creating clips in range {start_line}-{end_line - 1}..."
-    )
+    loopRange = range(startLine, endLine)
 
-    for line in loop_range:
-        clip_index = line - start_line + 1
-        current_chapter_csv_line = chapter_csv_lines[line - 1]
+    PrintColored(Fore.MAGENTA, f"Creating clips in range {startLine}-{endLine - 1}...")
+
+    def CreateClip(line):
+        videoClipIndex = line - startLine + 1
+        chapterCsvLine = chapterCsvLines[line - 1]
 
         # TODO: A line should be able to exist without verse_translation
-        verse_number, verse_text, verse_translation, timestamp = (
-            current_chapter_csv_line
-        )
+        verseNumber, verseText, verseTranslation, timestamp = chapterCsvLine
 
-        colored_print(Fore.MAGENTA, f"Creating clip {clip_index}...")
+        PrintColored(Fore.MAGENTA, f"Creating clip {videoClipIndex}...")
 
-        next_line = chapter_csv_lines[line]
-        next_timestamp = next_line[3]
+        nextLine = chapterCsvLines[line]
+        nextTimestamp = nextLine[3]
 
-        if line == start_line:
-            audio_start = video_start
+        if line == startLine:
+            audioStart = videoStart
         else:
-            audio_start = offset_timestamp(
-                strip_timestamp(timestamp)[0], time_modifiers.time_modifier
+            audioStart = OffsetTimestamp(
+                StripTimestamp(timestamp)[0], timeModifiers.timeModifier
             )
 
-        if line == end_line - 1:
-            audio_end = video_end
+        if line == endLine - 1:
+            audioEnd = videoEnd
         else:
-            audio_end = offset_timestamp(
-                strip_timestamp(next_timestamp)[0], time_modifiers.time_modifier
+            audioEnd = OffsetTimestamp(
+                StripTimestamp(nextTimestamp)[0], timeModifiers.timeModifier
             )
 
-        total_video_clip_duration = get_time_difference_seconds(audio_start, audio_end)
+        maxVideoClipDuration = GetTimeDifferenceSeconds(audioStart, audioEnd)
 
         try:
-            text_end = offset_timestamp(
-                strip_timestamp(next_timestamp)[1], time_modifiers.time_modifier
+            textEnd = OffsetTimestamp(
+                StripTimestamp(nextTimestamp)[1], timeModifiers.timeModifier
             )
-            text_duration = get_time_difference_seconds(audio_start, text_end)
+            textDuration = GetTimeDifferenceSeconds(audioStart, textEnd)
         except IndexError:
-            text_duration = total_video_clip_duration
+            textDuration = maxVideoClipDuration
 
-        if not additional_video_settings.single_background_video:
-            current_video_clip_duration = 0
-            video_clip_background_clip_paths = []
+        if not additionalVideoSettings.backgroundVideo:
+            videoClipDuration = 0
+            videoClipBackgroundClips = []
 
-            if video_settings.video_mode == VideoModes.VIDEO:
-                video_map_index = line - start_line + 1
+            if videoSettings.videoMode == VideoModes.VIDEO:
+                while videoClipDuration < maxVideoClipDuration:
+                    # Get new background clips until the total duration of the background clips is long enough for the video clip
+                    backgroundClipPath = GetRandomChoice(allBackgroundClips)
 
-                if (
-                    additional_video_settings.video_map
-                    and video_map_index in additional_video_settings.video_map.keys()
-                ):
-                    background_clips_count = len(
-                        additional_video_settings.video_map[video_map_index]
-                    )
+                    # if len(usedBackgroundClips) == len(allBackgroundClips):
+                    #     allowDuplicateBackgroundClips = True
 
-                    for i in range(background_clips_count):
-                        background_clip_info = additional_video_settings.video_map[
-                            video_map_index
-                        ][i]
+                    if backgroundClipPath not in usedBackgroundClips:
+                        clipDuration = GetClipDuration(
+                            backgroundClipPath,
+                            videoSettings.clipSpeed,
+                        )
+                        maxTimeOffset = GetMaxTimeOffset(
+                            clipDuration,
+                            videoSettings.minimumClipDuration,
+                        )
+                        timeOffset = get_random_time_offset(maxTimeOffset)
+                        offsetClipDuration = clipDuration - timeOffset
 
-                        background_clip_path = background_clip_info[0]
-                        background_clip = mpy.VideoFileClip(
-                            background_clip_path
-                        ).speedx(video_settings.background_clips_speed)
-
-                        background_clip_duration = calculate_clip_duration(
-                            background_clip_path, video_settings.background_clips_speed
+                        # If the background clip remaining duration is longer than the video clip duration, set the adjusted background clip duration to the video clip duration
+                        adjustedClipDuration = min(
+                            maxVideoClipDuration, offsetClipDuration
                         )
 
-                        max_time_offset = calculate_clip_max_time_offset(
-                            background_clip_duration,
-                            video_settings.minimal_background_clip_duration,
-                        )
-                        background_clip_time_offset = get_background_clip_time_offset(
-                            background_clip_info, max_time_offset
+                        remainingVideoClipDuration = (
+                            maxVideoClipDuration - videoClipDuration
                         )
 
-                        try:
-                            if background_clip_time_offset != background_clip_info[1]:
-                                colored_print(
-                                    Fore.YELLOW,
-                                    f"Verse {video_map_index} background clip {i + 1} time offset is invalid, using ({background_clip_time_offset}) instead",
-                                )
-                        except IndexError:
-                            pass
-
-                        max_horizontal_offset = calculate_clip_max_horizontal_offset(
-                            background_clip.w, video_width
-                        )
-
-                        if max_horizontal_offset < 0:
-                            raise ValueError(
-                                f"Verse {video_map_index} Background clip {i + 1} width ({background_clip.w}) is less than video width ({video_width})"
-                            )
-
-                        background_clip_horizontal_offset = (
-                            get_background_clip_horizontal_offset(
-                                background_clip_info, max_horizontal_offset
-                            )
-                        )
-
-                        try:
-                            if (
-                                background_clip_horizontal_offset
-                                != background_clip_info[2]
-                            ):
-                                colored_print(
-                                    Fore.YELLOW,
-                                    f"Verse {video_map_index} background clip {i + 1} horizontal offset is invalid, using ({background_clip_horizontal_offset}) instead",
-                                )
-                        except IndexError:
-                            pass
-
-                        background_clip_mirrored = get_background_clip_mirrored(
-                            background_clip_info,
-                            video_settings.allow_mirrored_background_clips,
-                        )
-
-                        try:
-                            if background_clip_mirrored != background_clip_info[3]:
-                                colored_print(
-                                    Fore.YELLOW,
-                                    f"Verse {video_map_index} background clip {i + 1} mirrored is invalid, using ({background_clip_mirrored}) instead",
-                                )
-                        except IndexError:
-                            pass
-
-                        time_offsetted_background_clip_duration = (
-                            background_clip_duration - background_clip_time_offset
-                        )
-                        video_clip_remaining_duration = (
-                            total_video_clip_duration - current_video_clip_duration
-                        )
-
-                        if validate_background_clip_duration(
-                            time_offsetted_background_clip_duration,
-                            video_settings.minimal_background_clip_duration,
-                            video_clip_remaining_duration,
+                        if (
+                            remainingVideoClipDuration - adjustedClipDuration
+                            >= videoSettings.minimumClipDuration
+                            or remainingVideoClipDuration - adjustedClipDuration <= 0
                         ):
-                            video_clip_background_clip_paths.append(
+                            backgroundClip = mpy.VideoFileClip(backgroundClipPath)
+
+                            maxHorizontalOffset = GetMaxHorizontalOffset(
+                                backgroundClip.w, videoWidth
+                            )
+                            # if maxHorizontalOffset < 0:
+                            #     raise ValueError(
+                            #         f"Verse {videoMapIndex} Background clip {x + 1} width ({backgroundClip.w}) is less than video width ({video_width})"
+                            #     )
+
+                            horizontalOffset = GetHorizontalOffset(maxHorizontalOffset)
+
+                            if videoSettings.allowMirroredClips:
+                                isMirrored = str(random.choice([True, False]))
+                            else:
+                                isMirrored = "False"
+
+                            videoClipBackgroundClips.append(
                                 [
-                                    background_clip_path,
-                                    background_clip_time_offset,
-                                    background_clip_horizontal_offset,
-                                    background_clip_mirrored,
+                                    backgroundClipPath,
+                                    timeOffset,
+                                    horizontalOffset,
+                                    isMirrored,
                                 ]
                             )
-                            used_background_clips_paths.append(background_clip_path)
+                            usedBackgroundClips.append(backgroundClipPath)
 
-                            current_video_clip_duration += (
-                                time_offsetted_background_clip_duration
-                            )
+                            videoClipDuration += adjustedClipDuration
 
-                            if current_video_clip_duration >= total_video_clip_duration:
-                                break
-                        else:
-                            colored_print(
-                                Fore.RED,
-                                f"Verse {video_map_index} background clip {i + 1} duration ({background_clip_duration}) is invalid, video clip remaining duration ({round((video_clip_remaining_duration - time_offsetted_background_clip_duration), 2)}), skipping...",
-                            )
-
-                    video_clip_remaining_duration = (
-                        total_video_clip_duration - current_video_clip_duration
-                    )
-                    if video_clip_remaining_duration > 0:
-                        (
-                            i,
-                            used_background_clips_paths,
-                            video_clip_background_clip_paths,
-                            video_map_index,
-                        ) = get_valid_background_clips(
-                            all_background_clips_paths,
-                            video_settings.allow_duplicate_background_clips,
-                            video_settings.allow_mirrored_background_clips,
-                            video_settings.background_clips_speed,
-                            video_settings.minimal_background_clip_duration,
-                            current_video_clip_duration,
-                            used_background_clips_paths,
-                            video_clip_background_clip_paths,
-                            total_video_clip_duration,
-                            additional_video_settings.video_map,
-                            video_map_index,
-                            video_width,
-                            i,
-                        )
-                else:
-                    (
-                        used_background_clips_paths,
-                        video_clip_background_clip_paths,
-                        video_map_index,
-                    ) = get_valid_background_clips(
-                        all_background_clips_paths,
-                        video_settings.allow_duplicate_background_clips,
-                        video_settings.allow_mirrored_background_clips,
-                        video_settings.background_clips_speed,
-                        video_settings.minimal_background_clip_duration,
-                        current_video_clip_duration,
-                        used_background_clips_paths,
-                        video_clip_background_clip_paths,
-                        total_video_clip_duration,
-                        additional_video_settings.video_map,
-                        video_map_index,
-                        video_width,
-                    )[
-                        1:
-                    ]
-
-                video_map_output[video_map_index] = video_clip_background_clip_paths
+                videoMapOutput[videoClipIndex] = videoClipBackgroundClips
             else:
-                background_clip_path = get_random_path(all_background_clips_paths)
-                background_clip = mpy.VideoFileClip(background_clip_path)
-                background_clip_duration = calculate_clip_duration(
-                    background_clip_path, video_settings.background_clips_speed
+                backgroundClipPath = GetRandomChoice(allBackgroundClips)
+                backgroundClip = mpy.VideoFileClip(backgroundClipPath)
+                clipDuration = GetClipDuration(
+                    backgroundClipPath, videoSettings.clipSpeed
                 )
 
-                max_time_offset = calculate_clip_max_time_offset(
-                    background_clip_duration,
-                    video_settings.minimal_background_clip_duration,
+                maxTimeOffset = GetMaxTimeOffset(
+                    clipDuration,
+                    videoSettings.minimumClipDuration,
                 )
-                background_clip_time_offset = get_random_time_offset(max_time_offset)
+                timeOffset = get_random_time_offset(maxTimeOffset)
 
-                max_horizontal_offset = calculate_clip_max_horizontal_offset(
-                    background_clip.w, video_width
+                maxHorizontalOffset = GetMaxHorizontalOffset(
+                    backgroundClip.w, videoWidth
                 )
 
-                if max_horizontal_offset < 0:
+                if maxHorizontalOffset < 0:
                     raise ValueError(
-                        f"Background clip {background_clip_path} width ({background_clip.w}) is less than video width ({video_width})"
+                        f"Background clip {backgroundClipPath} width ({backgroundClip.w}) is less than video width ({videoWidth})"
                     )
 
-                background_clip_horizontal_offset = get_random_horizontal_offset(
-                    max_horizontal_offset
+                horizontalOffset = GetHorizontalOffset(maxHorizontalOffset)
+
+                isMirrored = get_background_clip_mirrored(
+                    backgroundClipPath,
+                    videoSettings.allowMirroredClips,
                 )
 
-                background_clip_mirrored = get_background_clip_mirrored(
-                    background_clip_path, video_settings.allow_mirrored_background_clips
-                )
-
-                video_clip_background_clip_paths.append(
+                videoClipBackgroundClips.append(
                     [
-                        background_clip_path,
-                        background_clip_time_offset,
-                        background_clip_horizontal_offset,
-                        background_clip_mirrored,
+                        backgroundClipPath,
+                        timeOffset,
+                        horizontalOffset,
+                        isMirrored,
                     ]
                 )
 
         # Append text clips
-        text_clips = []
+        textClips = []
 
         if verse_text_text_clip:
             verse_text_color = account.mode.value.verse_text_color
             verse_text_clip = verse_text_text_clip.create_text_clip(
                 color=verse_text_color,
-                duration=text_duration,
-                font=account.verse_text_font_file,
-                text=verse_text,
+                duration=textDuration,
+                font=account.verseTextFontFile,
+                text=verseText,
             )
-            text_clips.append(verse_text_clip)
+            textClips.append(verse_text_clip)
 
         if verse_translation_text_clip:
             verse_translation_color = account.mode.value.verse_translation_color
             verse_translation_clip = verse_translation_text_clip.create_text_clip(
                 color=verse_translation_color,
-                duration=text_duration,
-                font=account.verse_translation_font_file,
-                text=verse_translation,
+                duration=textDuration,
+                font=account.verseTranslationFontFile,
+                text=verseTranslation,
             )
-            text_clips.append(verse_translation_clip)
+            textClips.append(verse_translation_clip)
 
         # Append verse number text clip if it is a new verse
-        if verse_number_text_clip and verse_number != "":
+        if verse_number_text_clip and verseNumber != "":
             verse_number_color = account.mode.value.verse_number_color
             verse_number_clip = verse_number_text_clip.create_text_clip(
                 color=verse_number_color,
-                duration=text_duration,
-                font=account.verse_number_font_file,
-                text=verse_number,
+                duration=textDuration,
+                font=account.verseNumberFontFile,
+                text=verseNumber,
             )
-            text_clips.append(verse_number_clip)
+            textClips.append(verse_number_clip)
 
         # Append reciter name text clip if it is the first clip
-        if line == start_line and reciter_name and reciter_name_text_clip:
+        if line == startLine and reciter_name and reciter_name_text_clip:
             reciter_name_color = account.mode.value.reciter_name_color
             reciter_name_clip = reciter_name_text_clip.create_text_clip(
                 color=reciter_name_color,
-                duration=text_duration,
-                font=account.reciter_name_font_file,
+                duration=textDuration,
+                font=account.reciterNameFontFile,
                 text=reciter_name,
             )
-            text_clips.append(reciter_name_clip)
+            textClips.append(reciter_name_clip)
 
-        if not additional_video_settings.single_background_video:
+        if not additionalVideoSettings.backgroundVideo:
             # Create shadow clip to put overlay on the video clip
             shadow_color = account.mode.value.shadow_color
             shadow_opacity = account.mode.value.shadow_opacity
             shadow_clip = create_shadow_clip(
-                size=video_settings.video_dimensions,
+                size=videoSettings.videoDimensions,
                 color=shadow_color,
-                duration=total_video_clip_duration,
+                duration=maxVideoClipDuration,
                 opacity=shadow_opacity,
             )
 
-            colored_print(Fore.CYAN, f"Using background clip(s):")
+            PrintColored(Fore.CYAN, f"{videoClipIndex} Using background clip(s):")
 
-            for background_clip_path in video_clip_background_clip_paths:
-                colored_print(Fore.CYAN, f"- {background_clip_path[0]}")
+            for backgroundClipPath in videoClipBackgroundClips:
+                PrintColored(Fore.CYAN, f"- {backgroundClipPath[0]}")
 
-            video_clip = create_video_clip(
-                background_clips_paths=video_clip_background_clip_paths,
-                background_clips_speed=video_settings.background_clips_speed,
-                final_clip_duration=total_video_clip_duration,
-                target_aspect_ratio=target_aspect_ratio,
-                text_clips=text_clips,
-                video_dimensions=video_settings.video_dimensions,
-                video_mode=video_settings.video_mode,
-                shadow_clip=shadow_clip,
-                text_duration=text_duration,
+            videoClipEntry = (
+                videoClipIndex,
+                CreateVideoClip(
+                    background_clips_paths=videoClipBackgroundClips,
+                    background_clips_speed=videoSettings.clipSpeed,
+                    final_clip_duration=maxVideoClipDuration,
+                    target_aspect_ratio=targetAspectRatio,
+                    text_clips=textClips,
+                    video_dimensions=videoSettings.videoDimensions,
+                    video_mode=videoSettings.videoMode,
+                    shadow_clip=shadow_clip,
+                    text_duration=textDuration,
+                ),
             )
-            video_clips.append(video_clip)
 
-            colored_print(Fore.GREEN, f"Created clip {clip_index}")
+            # Use lock when appending to the shared list
+            with videoClipEntriesLock:
+                videoClipEntries.append(videoClipEntry)
+
+            PrintColored(Fore.GREEN, f"Created clip {videoClipIndex}")
         else:
             # Set text clip start times if using a single background video
-            text_start_time = get_time_difference_seconds(audio_start, video_start)
+            text_start_time = GetTimeDifferenceSeconds(audioStart, videoStart)
 
-            text_clips[0] = text_clips[0].set_start(text_start_time)
-            text_clips[1] = text_clips[1].set_start(text_start_time)
+            textClips[0] = textClips[0].set_start(text_start_time)
+            textClips[1] = textClips[1].set_start(text_start_time)
 
             # Append verse number text clip
-            if verse_number != "":
-                text_clips[2] = text_clips[2].set_start(text_start_time)
+            if verseNumber != "":
+                textClips[2] = textClips[2].set_start(text_start_time)
 
             # Append reciter name text clip if it is the first clip
-            if line == start_line and reciter_name:
-                text_clips[-1] = text_clips[-1].set_start(text_start_time)
+            if line == startLine and reciter_name:
+                textClips[-1] = textClips[-1].set_start(text_start_time)
 
-            text_clips_array.extend(text_clips)
+            textClips.extend(textClips)
 
-    if not additional_video_settings.single_background_video:
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        # Submit tasks to the executor
+        futures = [executor.submit(CreateClip, line) for line in loopRange]
+
+        for future in concurrent.futures.as_completed(
+            futures
+        ):  # Process as they complete
+            try:
+                future.result()  # Raise any exception from the thread
+            except Exception as e:
+                print(f"Exception in thread: {e}")
+
+    print("All tasks are completed. Proceeding to the next part.")
+
+    videoClipEntries = sorted(videoClipEntries, key=lambda clip: clip[0])
+    videoClips = [videoClipEntry[1] for videoClipEntry in videoClipEntries]
+
+    if not additionalVideoSettings.backgroundVideo:
         final_video = mpy.concatenate_videoclips(
-            clips=video_clips, method="chain"
+            clips=videoClips, method="chain"
         ).set_audio(audio)
     else:
         background_clip = mpy.VideoFileClip(
-            additional_video_settings.single_background_video
-        ).subclip(video_start)
+            additionalVideoSettings.backgroundVideo
+        ).subclip(videoStart)
 
         background_clip_width, background_clip_height = background_clip.size
         current_aspect_ratio = background_clip_width / background_clip_height
 
-        if current_aspect_ratio > target_aspect_ratio:
-            new_width = int(background_clip_height * target_aspect_ratio)
+        if current_aspect_ratio > targetAspectRatio:
+            new_width = int(background_clip_height * targetAspectRatio)
 
-            if not additional_video_settings.single_background_video_horizontal_offset:
+            if not additionalVideoSettings.backgroundVideoHorizontalOffset:
                 background_video_horizontal_offset = (
                     background_clip_width - new_width
                 ) // 2
             else:
                 background_video_horizontal_offset = (
-                    additional_video_settings.single_background_video_horizontal_offset
+                    additionalVideoSettings.backgroundVideoHorizontalOffset
                 )
 
             background_clip = background_clip.crop(
                 x1=background_video_horizontal_offset,
                 x2=background_video_horizontal_offset + new_width,
-            ).resize(video_settings.video_dimensions)
+            ).resize(videoSettings.videoDimensions)
         else:
-            new_height = int(background_clip_width / target_aspect_ratio)
+            new_height = int(background_clip_width / targetAspectRatio)
 
-            if not additional_video_settings.single_background_video_vertical_offset:
+            if not additionalVideoSettings.backgroundVideoVerticalOffset:
                 background_video_vertical_offset = (
                     background_clip_height - new_height
                 ) // 2
             else:
                 background_video_vertical_offset = (
-                    additional_video_settings.single_background_video_vertical_offset
+                    additionalVideoSettings.backgroundVideoVerticalOffset
                 )
 
             background_clip = background_clip.crop(
                 y1=background_video_vertical_offset,
                 y2=background_video_vertical_offset + new_height,
-            ).resize(video_settings.video_dimensions)
+            ).resize(videoSettings.videoDimensions)
 
         shadow_clip = create_shadow_clip(
             color=account.mode.value.shadow_color,
             duration=background_clip.duration,
             opacity=account.mode.value.shadow_opacity,
-            size=video_settings.video_dimensions,
+            size=videoSettings.videoDimensions,
         )
 
         video = mpy.CompositeVideoClip([background_clip, shadow_clip])
         final_video = mpy.CompositeVideoClip(
-            [video, *text_clips_array], use_bgclip=True
+            [video, *textClips], use_bgclip=True
         ).set_audio(audio)
 
-        video_map_output = additional_video_settings.single_background_video
+        videoMapOutput = additionalVideoSettings.backgroundVideo
 
-    colored_print(Fore.GREEN, "Creating final video...")
+    PrintColored(Fore.GREEN, "Creating final video...")
 
-    json_output_file_path = output_mp4_file.replace(".mp4", ".json")
+    json_output_file_path = outputFile.replace(".mp4", ".json")
 
     formatter = Formatter()
     formatter.use_tab_to_indent = True
@@ -601,31 +521,35 @@ def create_video(
     formatter.json_eol_style = EolStyle.LF
     formatter.dont_justify_numbers = True
 
+    videoMapOutput = {
+        key: videoMapOutput[key] for key in sorted(videoMapOutput.keys(), key=int)
+    }
+
     formatter.dump(
-        video_map_output,
+        videoMapOutput,
         output_file=json_output_file_path,
         newline_at_eof=True,
     )
 
     try:
-        if additional_video_settings.single_background_video:
+        if additionalVideoSettings.backgroundVideo:
             final_video.write_videofile(
-                filename=output_mp4_file,
+                filename=outputFile,
                 fps=video.fps,
             )
-        elif video_settings.video_mode == VideoModes.VIDEO:
+        elif videoSettings.videoMode == VideoModes.VIDEO:
             final_video.write_videofile(
                 codec="libx264",
-                filename=output_mp4_file,
+                filename=outputFile,
             )
-        elif video_settings.video_mode == VideoModes.IMAGE:
+        elif videoSettings.videoMode == VideoModes.IMAGE:
             final_video.write_videofile(
                 codec="libx264",
-                filename=output_mp4_file,
+                filename=outputFile,
                 fps=60,
             )
 
-        colored_print(Fore.GREEN, "Created final video")
+        PrintColored(Fore.GREEN, "Created final video")
     except Exception as error:
         raise Exception(f"Failed to create final video: {error}") from error
 
@@ -638,7 +562,7 @@ def adjust_timestamps(input_file, output_file, seconds_to_add):
 
             data = list(reader)
             for line in range(len(data)):
-                data[line]["Start"] = offset_timestamp(
+                data[line]["Start"] = OffsetTimestamp(
                     data[line]["Start"], seconds_to_add
                 )
 
@@ -649,188 +573,138 @@ def adjust_timestamps(input_file, output_file, seconds_to_add):
                 writer.writeheader()
                 writer.writerows(data)
 
-        remove_empty_rows_from_csv_file(output_file)
+        RemoveEmptyRows(output_file)
 
         print(f"Timestamps modified and saved to {output_file}")
     except Exception as e:
         print(f"An error occurred: {e}")
 
 
-def create_csv_file(chapter_csv_file_path: str, column_names: list[str]) -> bool:
+def CreateCsvFile(path: str, columnNames: list[str]) -> bool:
     """
-    Creates a CSV file.
-
-    Parameters
-    ----------
-    chapter_csv_file_path : str
-        The path of the CSV file to create.
-    field_names : list[str]
-        The names of the columns of the CSV file.
-
-    Returns
-    -------
-    bool
-        True if the CSV file was created successfully, False otherwise.
+    Creates a CSV file using the given column names.
     """
 
-    with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
-        csv_dict_writer = csv.DictWriter(chapter_csv_file, fieldnames=column_names)
-        csv_dict_writer.writeheader()
+    with open(path, "w", encoding="utf-8") as file:
+        dictWriter = csv.DictWriter(file, fieldnames=columnNames)
 
-    return True
+        try:
+            dictWriter.writeheader()
+
+            return True
+        except Exception:
+            return False
 
 
-def append_verse_texts_to_csv_file(
-    chapter_csv_file_path: str,
-    chapter_number: int,
-    entire_audio_verse_range: tuple[int, int],
-    verse_number_column_name: str,
-    verse_text_column_name: str,
+def AddVerses(
+    csvFilePath: str,
+    chapterNumber: int,
+    verseRange: tuple[int, int],
+    verseNumberColumnName: str,
+    verseTextColumnName: str,
 ) -> bool:
     """
-    Appends the verse texts of a chapter from the Qur'an to a CSV file.
-
-    Parameters
-    ----------
-    chapter_csv_file_path : str
-        The path of the CSV file to append the verse texts to.
-    chapter_number : int
-        The chapter number of the chapter to get the verse texts of.
-    start_verse : int
-        The verse number of the first verse to get.
-    verse_number_column_name : str
-        The name of the column containing the verse numbers.
-    verse_text_column_name : str
-        The name of the column containing the verse texts.
-    end_verse : int
-        The verse number of the last verse to get.
-
-    Returns
-    -------
-    bool
-        True if the verse texts were appended successfully, False otherwise.
+    Adds verses to the CSV file.
     """
 
-    with open(chapter_csv_file_path, "r", encoding="utf-8") as chapter_csv_file:
-        csv_dict_reader = csv.DictReader(chapter_csv_file)
-        field_names = csv_dict_reader.fieldnames
+    try:
+        with open(csvFilePath, "r", encoding="utf-8") as file:
+            dictReader = csv.DictReader(file)
 
-        verse_column_index = field_names.index(verse_number_column_name)
-        verse_text_column_index = field_names.index(verse_text_column_name)
+            fieldNames = dictReader.fieldnames
+            verseNumberColumnIndex = fieldNames.index(verseNumberColumnName)
+            verseTextColumnIndex = fieldNames.index(verseTextColumnName)
 
-        data = []
-        start_verse, end_verse = entire_audio_verse_range
-        verse_texts = get_chapter_text(chapter_number)[start_verse - 1 : end_verse]
+            rows = []
+            startVerse, endVerse = verseRange
+            verseTexts = GetChapterText(chapterNumber)[startVerse - 1 : endVerse]
+            for index, verseText in enumerate(verseTexts):
+                verseNumber = f"{chapterNumber}:{startVerse + index}"
+                if verseText is not None:
+                    rows.append(
+                        {
+                            fieldNames[verseNumberColumnIndex]: verseNumber,
+                            fieldNames[verseTextColumnIndex]: verseText,
+                        }
+                    )
 
-        for i in range(len(verse_texts)):
-            verse_number = f"{chapter_number}:{start_verse + i}"
-            verse_text = verse_texts[i]
+        with open(csvFilePath, "w", encoding="utf-8") as file:
+            dictWriter = csv.DictWriter(file, fieldnames=fieldNames)
+            dictWriter.writeheader()
+            dictWriter.writerows(rows)
 
-            if verse_text is not None:
-                data.append(
-                    {
-                        field_names[verse_column_index]: verse_number,
-                        field_names[verse_text_column_index]: verse_text,
-                    }
-                )
-
-        with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
-            csv_dict_writer = csv.DictWriter(chapter_csv_file, fieldnames=field_names)
-            csv_dict_writer.writeheader()
-            csv_dict_writer.writerows(data)
-
-    if remove_empty_rows_from_csv_file(chapter_csv_file_path):
-        return True
+        if RemoveEmptyRows(csvFilePath):
+            return True
+    except Exception:
+        return False
 
 
-def append_verse_translations_to_csv_file(
-    chapter_csv_file_path: str,
+def AddTranslations(
+    csv_file_path: str,
     language: Languages,
-    chapter_number: int,
-    entire_audio_verse_range: tuple[int, int],
+    chapterNumber: int,
+    verse_range: tuple[int, int],
     timestamp_column_name: str,
 ) -> bool:
     """
-    Appends the verse translations of a chapter from the Qur'an to a CSV file.
-
-    Parameters
-    ----------
-    chapter_csv_file_path : str
-        The path of the CSV file to append the verse translations to.
-    language : Language
-        The language of the translation.
-    chapter_number : int
-        The chapter number of the chapter to get the verse translations of.
-    start_verse : int
-        The verse number of the first verse to get.
-    end_verse : int
-        The verse number of the last verse to get.
-
-    Returns
-    -------
-    bool
-        True if the verse translations were appended successfully, False otherwise.
+    Appends the verse translations of a chapter from the Qur'an to a CSV file
     """
 
-    with open(chapter_csv_file_path, "r", encoding="utf-8") as chapter_csv_file:
-        csv_dict_reader = csv.DictReader(chapter_csv_file)
-        field_names = csv_dict_reader.fieldnames
+    try:
+        with open(csv_file_path, "r", encoding="utf-8") as csv_file:
+            dict_reader = csv.DictReader(csv_file)
 
-        if language.value.abbreviation not in field_names:
-            data = list(csv_dict_reader)
+            field_names = dict_reader.fieldnames
+            if language.value.abbreviation not in field_names:
+                if timestamp_column_name in field_names:
+                    # Insert the translation column before the timestamp column
+                    timestamp_column_index = field_names.index(timestamp_column_name)
+                    field_names.insert(
+                        timestamp_column_index, language.value.abbreviation
+                    )
+                else:
+                    # Append the translation column to the end
+                    field_names.append(language.value.abbreviation)
 
-            if timestamp_column_name in field_names:
-                timestamp_column_index = field_names.index(timestamp_column_name)
-                field_names.insert(timestamp_column_index, language.value.abbreviation)
-            else:
-                field_names.append(language.value.abbreviation)
+                rows = list(dict_reader)
+                start_verse, end_verse = verse_range
+                verse_translations = GetChapterTranslation(chapterNumber, language)[
+                    start_verse - 1 : end_verse
+                ]
+                for index, translation in enumerate(verse_translations):
+                    rows[index][language.value.abbreviation] = translation
 
-            start_verse, end_verse = entire_audio_verse_range
-            verse_translations = fetch_chapter_translation(chapter_number, language)[
-                start_verse - 1 : end_verse
-            ]
+                with open(csv_file_path, "w", encoding="utf-8") as csv_file:
+                    dict_writer = csv.DictWriter(csv_file, fieldnames=field_names)
+                    dict_writer.writeheader()
+                    dict_writer.writerows(rows)
 
-            for i, verse_translation in enumerate(verse_translations):
-                data[i][language.value.abbreviation] = verse_translation
-
-            with open(chapter_csv_file_path, "w", encoding="utf-8") as chapter_csv_file:
-                csv_dict_writer = csv.DictWriter(
-                    chapter_csv_file, fieldnames=field_names
-                )
-                csv_dict_writer.writeheader()
-                csv_dict_writer.writerows(data)
-
-            if remove_empty_rows_from_csv_file(chapter_csv_file_path):
-                return True
+        if RemoveEmptyRows(csv_file_path):
+            return True
+    except Exception:
+        return False
 
 
-def remove_empty_rows_from_csv_file(csv_file_path: str) -> bool:
+def RemoveEmptyRows(csvFilePath: str) -> bool:
     """
-    Removes empty rows from a CSV file.
-
-    Parameters
-    ----------
-    csv_file_path : str
-        The path of the CSV file to remove the empty rows from.
-
-    Returns
-    -------
-    bool
-        True if the empty rows were removed successfully, False otherwise.
+    Removes empty rows from a CSV file
     """
 
-    with open(csv_file_path, mode="r", encoding="utf-8") as csv_file:
-        csv_reader = csv.reader(csv_file)
-        rows = [row for row in csv_reader if any(cell.strip() != "" for cell in row)]
+    try:
+        with open(csvFilePath, mode="r", encoding="utf-8") as file:
+            reader = csv.reader(file)
+            rows = [row for row in reader if any(cell.strip() != "" for cell in row)]
 
-    with open(csv_file_path, mode="w", encoding="utf-8", newline="") as csv_file:
-        csv_writer = csv.writer(csv_file)
-        csv_writer.writerows(rows)
+        with open(csvFilePath, mode="w", encoding="utf-8", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerows(rows)
 
-    return True
+        return True
+    except Exception:
+        return False
 
 
-def select_columns_from_csv_file(
+def SelectColumnsFromCsvFile(
     csv_file_path: str, columns_to_select: list[str]
 ) -> list[list[str]]:
     """
@@ -861,7 +735,7 @@ def select_columns_from_csv_file(
     return selected_data
 
 
-def update_csv_file_timestamps(
+def UpdateCsvFileTimestamps(
     chapter_csv_file_path: str,
     timestamps_csv_file_path: str,
     timestamp_column_name: str,
@@ -918,9 +792,12 @@ def update_csv_file_timestamps(
             data = list(csv_dict_reader)
 
             while len(data) < len(sorted_timestamps):
-                data.append(
-                    {timestamp_column_name: sorted_timestamps[len(data)].strip()}
-                )
+                try:
+                    data.append(
+                        {timestamp_column_name: sorted_timestamps[len(data)].strip()}
+                    )
+                except AttributeError:
+                    data.append({timestamp_column_name: sorted_timestamps[len(data)]})
 
             for line in range(len(sorted_timestamps)):
                 if isinstance(sorted_timestamps[line], list):
@@ -937,11 +814,11 @@ def update_csv_file_timestamps(
                 writer.writeheader()
                 writer.writerows(data)
 
-    if remove_empty_rows_from_csv_file(chapter_csv_file_path):
+    if RemoveEmptyRows(chapter_csv_file_path):
         return True
 
 
-def update_csv_file_verse_numbers(
+def UpdateCsvFileVerseNumbers(
     chapter_csv_file_path: str,
     chapter_number: int,
     entire_audio_verse_range: tuple[int, int],
@@ -982,7 +859,7 @@ def update_csv_file_verse_numbers(
         data = []
         existing_verses = set()
         start_verse, end_verse = entire_audio_verse_range
-        verse_texts = get_chapter_text(chapter_number)[start_verse - 1 : end_verse]
+        verse_texts = GetChapterText(chapter_number)[start_verse - 1 : end_verse]
         indexed_verse_texts = [
             list(item) for item in zip(range(start_verse, end_verse + 1), verse_texts)
         ]
@@ -1026,7 +903,7 @@ def update_csv_file_verse_numbers(
                     if best_ratio == 100:
                         break
 
-                if best_ratio >= 90:
+                if best_ratio >= 84:
                     verse = f"{chapter_number}:{best_verse_number}"
                     if verse not in existing_verses:
                         row[verse_number_column_name] = verse
@@ -1052,11 +929,11 @@ def update_csv_file_verse_numbers(
             csv_dict_writer.writeheader()
             csv_dict_writer.writerows(data)
 
-    if remove_empty_rows_from_csv_file(chapter_csv_file_path):
+    if RemoveEmptyRows(chapter_csv_file_path):
         return True
 
 
-def get_loop_range(
+def GetLoopRange(
     chapter_csv_lines: list[list[str]],
     chapter_number: int,
     verse_range: tuple[int, int],
@@ -1101,7 +978,7 @@ def get_loop_range(
     return (start_line, end_line)
 
 
-def get_time_difference_seconds(time1: str, time2: str) -> float:
+def GetTimeDifferenceSeconds(time1: str, time2: str) -> float:
     """
     Calculate the time difference between two time strings in the format "MM:SS.SSS"
 
@@ -1128,7 +1005,7 @@ def get_time_difference_seconds(time1: str, time2: str) -> float:
     return time_difference.total_seconds()
 
 
-def offset_timestamp(timestamp: str, time_offset_seconds: float) -> str:
+def OffsetTimestamp(timestamp: str, time_offset_seconds: float) -> str:
     """
     Offset the timestamp by the given time offset.
 
@@ -1186,61 +1063,49 @@ def fetch_chapter_name(chapter_number: int) -> str:
     return chapter_names[chapter_number - 1]
 
 
-def fetch_chapter_translation(chapter_number: int, language: Languages) -> list[str]:
+def GetChapterTranslation(chapterNumber: int, language: Languages) -> list[str]:
     """
-    Gets the translation of a chapter from the Quran
-
-    Parameters
-    ----------
-    chapter_number : int
-        The chapter number of the chapter to get the translation of.
-    language : Language
-        The language of the translation.
-
-    Returns
-    -------
-    list[str]
-        A list of strings containing the translation of the chapter.
+    Gets the translation of a chapter from the Qur'an
     """
-
-    translation_id = language.value.translation_id
-    url = f"https://api.quran.com/api/v4/quran/translations/{translation_id}?chapter_number={chapter_number}"
 
     try:
-        response = requests.get(url)
-    except Exception as error:
-        raise Exception(
-            f"Failed to fetch translation for chapter {chapter_number} in {language.value['abbreviation']}."
-        ) from error
+        translationId = language.value.translation_id
+        response = requests.get(
+            f"https://api.quran.com/api/v4/quran/translations/{translationId}?chapter_number={chapterNumber}"
+        )
 
-    return [
-        re.sub(
-            "’",
-            "'",
+        return [
             re.sub(
-                "ʿ",
+                "’",
                 "'",
                 re.sub(
-                    "ū",
-                    "u",
+                    "ʿ",
+                    "'",
                     re.sub(
-                        "صَۣ",
-                        "صَ",
+                        "ū",
+                        "u",
                         re.sub(
-                            "ḥ",
-                            "h",
+                            "صَۣ",
+                            "صَ",
                             re.sub(
-                                "ā",
-                                "a",
-                                re.sub(r"<.*?>*<.*?>", "", translation["text"]),
+                                "ḥ",
+                                "h",
+                                re.sub(
+                                    "ā",
+                                    "a",
+                                    re.sub(r"<.*?>*<.*?>", "", translation["text"]),
+                                ),
                             ),
                         ),
                     ),
                 ),
-            ),
-        )
-        for translation in response.json()["translations"]
-    ]
+            )
+            for translation in response.json()["translations"]
+        ]
+    except Exception as error:
+        raise Exception(
+            f"Failed to fetch translation for chapter {chapterNumber} in {language.value['abbreviation']}."
+        ) from error
 
 
 def fetch_chapter_verse_count(chapter_number: int) -> int:
@@ -1268,32 +1133,25 @@ def fetch_chapter_verse_count(chapter_number: int) -> int:
     return response.json()["chapter"]["verses_count"]
 
 
-def get_chapter_text(chapter_number: int) -> list[str]:
+def GetChapterText(chapterNumber: int) -> list[str]:
     """
     Gets the text of a chapter from the Qur'an
-
-    Parameters
-    ----------
-    chapter_number : int
-        The chapter number of the chapter to get the text of.
-
-    Returns
-    -------
-    list[str]
-        A list of strings containing the text of the chapter.
     """
 
-    response = requests.get(
-        f"https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number={chapter_number}"
-    )
+    try:
+        response = requests.get(
+            f"https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number={chapterNumber}"
+        )
 
-    return [
-        re.sub("ا۟", "ا", verse["text_uthmani"]) for verse in response.json()["verses"]
-    ]
-    # return quran.get_sura(chapter_number, with_tashkeel=True)
+        return [
+            re.sub("ا۟", "ا", verse["text_uthmani"])
+            for verse in response.json()["verses"]
+        ]
+    except Exception as error:
+        raise Exception(f"Failed to fetch text for chapter {chapterNumber}.") from error
 
 
-def colored_print(color: str, text: str) -> None:
+def PrintColored(color: str, text: str) -> None:
     """
     Prints text in color.
     """
@@ -1303,7 +1161,7 @@ def colored_print(color: str, text: str) -> None:
 
 
 def convert_video_map_paths_to_absolute_paths(
-    video_map: dict[str, list[list[str, float or int, int, str]]]
+    video_map: dict[str, list[list[str, float or int, int, str]]],
 ) -> dict[str, list[list[str, float or int, int, str]]]:
     """
     Converts the paths in a video map to absolute paths.
@@ -1385,7 +1243,7 @@ def get_absolute_mp4_paths(
     ]
 
 
-def get_relative_mp4_paths(
+def GetRelativeMp4Paths(
     folder_paths: list[str],
 ) -> list[str]:
     """
@@ -1410,7 +1268,7 @@ def get_relative_mp4_paths(
     ]
 
 
-def calculate_clip_duration(clip_path: str, clip_speed: float) -> float:
+def GetClipDuration(clipPath: str, clipSpeed: float) -> float:
     """
     Gets the duration of a clip.
 
@@ -1427,7 +1285,7 @@ def calculate_clip_duration(clip_path: str, clip_speed: float) -> float:
         The duration of the clip.
     """
 
-    return get_video_duration_seconds(clip_path) / clip_speed
+    return GetVideoDurationSeconds(clipPath) / clipSpeed
 
 
 def get_background_clip_horizontal_offset(
@@ -1456,10 +1314,10 @@ def get_background_clip_horizontal_offset(
     ):
         return background_clip_info[2]
     else:
-        return get_random_horizontal_offset(max_horizontal_offset)
+        return GetHorizontalOffset(max_horizontal_offset)
 
 
-def calculate_clip_max_horizontal_offset(clip_width: int, video_width: int) -> int:
+def GetMaxHorizontalOffset(clip_width: int, video_width: int) -> int:
     """
     Gets the max horizontal offset for a clip
 
@@ -1479,9 +1337,7 @@ def calculate_clip_max_horizontal_offset(clip_width: int, video_width: int) -> i
     return clip_width - video_width
 
 
-def calculate_clip_max_time_offset(
-    clip_duration: float, minimal_clip_duration: float
-) -> float:
+def GetMaxTimeOffset(clip_duration: float, minimal_clip_duration: float) -> float:
     """
     Gets the max time offset for a clip
 
@@ -1532,7 +1388,7 @@ def get_background_clip_mirrored(
         return "False"
 
 
-def get_random_horizontal_offset(max_horizontal_offset: int) -> int:
+def GetHorizontalOffset(max_horizontal_offset: int) -> int:
     """
     Returns a random horizontal offset
 
@@ -1550,7 +1406,7 @@ def get_random_horizontal_offset(max_horizontal_offset: int) -> int:
     return random.randint(0, max_horizontal_offset)
 
 
-def get_random_path(all_paths: list[str]) -> str:
+def GetRandomChoice(all_paths: list[str]) -> str:
     """
     Returns a random path.
 
@@ -1640,7 +1496,7 @@ def get_background_clip_time_offset(
         return get_random_time_offset(max_time_offset)
 
 
-def get_video_duration_seconds(mp4_file_path: str) -> float:
+def GetVideoDurationSeconds(mp4File: str) -> float:
     """
     Gets the duration of a video in seconds.
 
@@ -1655,7 +1511,7 @@ def get_video_duration_seconds(mp4_file_path: str) -> float:
         The duration of the video in seconds.
     """
 
-    return mpy.VideoFileClip(mp4_file_path).duration
+    return mpy.VideoFileClip(mp4File).duration
 
 
 def sort_nested_timestamps(
@@ -1684,7 +1540,7 @@ def sort_nested_timestamps(
     return timestamps
 
 
-def strip_timestamp(timestamp: str) -> str:
+def StripTimestamp(timestamp: str) -> str:
     """
     Gets a stripped timestamp.
 
@@ -1733,7 +1589,7 @@ def get_valid_background_clips(
 
     while True:
         # Get new background clips until the total duration of the background clips is long enough for the video clip
-        background_clip_path = get_random_path(all_background_clips_paths)
+        background_clip_path = GetRandomChoice(all_background_clips_paths)
 
         if len(used_background_clips_paths) == len(all_background_clips_paths):
             allow_duplicate_background_clips = True
@@ -1749,11 +1605,11 @@ def get_valid_background_clips(
                 or video_map is None
             )
         ):
-            background_clip_duration = calculate_clip_duration(
+            background_clip_duration = GetClipDuration(
                 background_clip_path, background_clips_speed
             )
 
-            max_time_offset = calculate_clip_max_time_offset(
+            max_time_offset = GetMaxTimeOffset(
                 background_clip_duration, minimal_background_clip_duration
             )
             background_clip_time_offset = get_random_time_offset(max_time_offset)
@@ -1782,7 +1638,7 @@ def get_valid_background_clips(
             ):
                 background_clip = mpy.VideoFileClip(background_clip_path)
 
-                max_horizontal_offset = calculate_clip_max_horizontal_offset(
+                max_horizontal_offset = GetMaxHorizontalOffset(
                     background_clip.w, video_width
                 )
 
@@ -1791,7 +1647,7 @@ def get_valid_background_clips(
                         f"Verse {video_map_index} Background clip {x + 1} width ({background_clip.w}) is less than video width ({video_width})"
                     )
 
-                background_clip_horizontal_offset = get_random_horizontal_offset(
+                background_clip_horizontal_offset = GetHorizontalOffset(
                     max_horizontal_offset
                 )
 
@@ -2011,7 +1867,7 @@ def create_text_clip(
     )
 
 
-def create_video_clip(
+def CreateVideoClip(
     background_clips_paths: list[list[str, float or int, int, str]],
     background_clips_speed: float,
     final_clip_duration: float,
@@ -2069,7 +1925,7 @@ def create_video_clip(
                 background_clip = background_clip.fx(mpy.vfx.mirror_x)
 
             background_clip_duration = (
-                calculate_clip_duration(background_clip_path, background_clips_speed)
+                GetClipDuration(background_clip_path, background_clips_speed)
             ) - background_clip_time_offset
 
             background_clip = (

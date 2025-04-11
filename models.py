@@ -15,7 +15,9 @@ class ColorMode:
     reciter_name_color: Optional[str] = None
 
     def __post_init__(self):
-        self.verse_translation_color = self.verse_translation_color or self.verse_text_color
+        self.verse_translation_color = (
+            self.verse_translation_color or self.verse_text_color
+        )
         self.verse_number_color = self.verse_number_color or self.verse_text_color
         self.reciter_name_color = self.reciter_name_color or self.verse_text_color
 
@@ -28,28 +30,32 @@ class Language:
 
 @dataclass
 class Account:
-    background_clips_directories: list[str]
+    clipDirectories: list[str]
     language: Language
     mode: ColorMode
-    verse_text_font_file: str
-    verse_translation_font_file: str
-    verse_number_font_file: Optional[str] = None
-    reciter_name_font_file: Optional[str] = None
+    verseTextFontFile: str
+    verseTranslationFontFile: str
+    verseNumberFontFile: Optional[str] = None
+    reciterNameFontFile: Optional[str] = None
 
     def __post_init__(self):
-        self.verse_number_font_file = self.verse_number_font_file or self.verse_translation_font_file
-        self.reciter_name_font_file = self.reciter_name_font_file or self.verse_translation_font_file
+        self.verseNumberFontFile = (
+            self.verseNumberFontFile or self.verseTranslationFontFile
+        )
+        self.reciterNameFontFile = (
+            self.reciterNameFontFile or self.verseTranslationFontFile
+        )
 
 
 @dataclass
 class AudioSettings:
-    audio_mp3_file: str
-    chapter_number: int
-    audio_verse_range: tuple[int, int]
+    audioFile: str
+    chapterNumber: int
+    verseRange: tuple[int, int]
 
 
 @dataclass
-class CSVColumnNames:
+class ColumnHeaders:
     verse_number: str
     verse_text: str
     timestamp: str
@@ -84,9 +90,9 @@ class TextClipInfo:
 
 @dataclass
 class TimeModifiers:
-    time_modifier: float
-    end_time_modifier: float
-    start_time_modifier: Optional[float] = None
+    timeModifier: float
+    endTimeModifier: float
+    startTimeModifier: Optional[float] = None
 
 
 class VideoModes(Enum):
@@ -96,27 +102,35 @@ class VideoModes(Enum):
 
 @dataclass
 class VideoSettings:
-    allow_duplicate_background_clips: bool
-    allow_mirrored_background_clips: bool
-    background_clips_speed: float
-    minimal_background_clip_duration: float
-    video_dimensions: tuple[int, int]
-    video_mode: VideoModes
+    allowDuplicateClips: bool
+    allowMirroredClips: bool
+    clipSpeed: float
+    minimumClipDuration: float
+    videoDimensions: tuple[int, int]
+    videoMode: VideoModes
 
 
 @dataclass
 class AdditionalVideoSettings:
-    start_line: Optional[int] = None
-    end_line: Optional[int] = None
-    single_background_video: Optional[str] = None
-    single_background_video_horizontal_offset: Optional[int] = None
-    single_background_video_vertical_offset: Optional[int] = None
-    video_map: Optional[dict[str, list[list[str, float, int, str]]]] = None
+    startLine: Optional[int] = None
+    endLine: Optional[int] = None
+    backgroundVideo: Optional[str] = None
+    backgroundVideoHorizontalOffset: Optional[int] = None
+    backgroundVideoVerticalOffset: Optional[int] = None
+    videoMap: Optional[dict[str, list[list[str, float, int, str]]]] = None
 
 
 class ColorModes(Enum):
-    DARK = ColorMode(shadow_color=(0, 0, 0), shadow_opacity=0.7, verse_text_color="rgb(255, 255, 255)")
-    LIGHT = ColorMode(shadow_color=(255, 255, 255), shadow_opacity=0.7, verse_text_color="rgb(0, 0, 0)")
+    DARK = ColorMode(
+        shadow_color=(0, 0, 0),
+        shadow_opacity=0.7,
+        verse_text_color="rgb(255, 255, 255)",
+    )
+    LIGHT = ColorMode(
+        shadow_color=(255, 255, 255),
+        shadow_opacity=0.7,
+        verse_text_color="rgb(0, 0, 0)",
+    )
 
 
 class Languages(Enum):

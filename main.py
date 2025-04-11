@@ -1,4 +1,4 @@
-from classes import Account, ColorModes, Languages, AdditionalVideoSettings
+from models import Account, ColorModes, Languages, AdditionalVideoSettings
 from moviepy.config import change_settings
 from presets import Presets
 from enum import Enum
@@ -12,21 +12,22 @@ change_settings(
 
 class Joe(Enum):
     hello = Account(
-        background_clips_directories=["Background_Clips/Anime"],
+        clipDirectories=["Background_Clips/Anime"],
         language=Languages.ENGLISH,
         mode=ColorModes.DARK,
-        verse_text_font_file="Fonts/Hafs.ttf",
-        verse_translation_font_file="Fonts/Butler_Regular.otf",
+        verseTextFontFile="Fonts/Hafs.ttf",
+        verseTranslationFontFile="Fonts/Butler_Regular.otf",
     )
 
 
+# WANNEER JE EEN VIDEOMAP MEEGEEFT DAN GEBRUIKT HIJ HEM NIET
 def main():
     tiktok = TikTok(Accounts.QURAN_2_LISTEN)
-    preset = Presets.MUHAMMAD_AL_LUHAIDAN_AN_NAJM_56_62
+    preset = Presets.RASHID_AL_ARKANI_AL_HUMAZAH_1_9
 
     tiktok.create(
         preset,
-        # additional_video_settings=AdditionalVideoSettings(video_map={}),
+        # additional_video_settings=AdditionalVideoSettings(videoMap={}),
     )
 
 
