@@ -677,6 +677,10 @@ class Presets(Enum):
         r"Surahs\Umair Shamim\As-Saffat (37.139-163)",
         (149, 163),
     )
+    UMAR_SILDINSKIY_AL_HADID_14 = Preset(
+        r"Surahs\Umar Sildinskiy\Al-Hadid (57.14)",
+        (14),
+    )
     UMAR_SILDINSKIY_AL_INFITAR_9_19 = Preset(
         r"Surahs\Umar Sildinskiy\Al-Infitar (82.9-19)",
         (9, 19),

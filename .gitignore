@@ -166,3 +166,4 @@ cython_debug/
 *.wav
 *.MOV
 *.pkf
+test
