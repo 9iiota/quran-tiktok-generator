@@ -433,7 +433,7 @@ def create_video(
 
             textClips.extend(textClips)
 
-    with concurrent.futures.ThreadPoolExecutor() as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=7) as executor:
         # Submit tasks to the executor
         futures = [executor.submit(CreateClip, line) for line in loopRange]
 

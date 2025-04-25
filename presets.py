@@ -487,6 +487,10 @@ class Presets(Enum):
         r"Surahs\Muhammad Al-Luhaidan\Al-Waqi'ah (56.1-26)",
         (12, 26),
     )
+    MUHAMMAD_AL_LUHAIDAN_AL_WAQIAH_27_40 = Preset(
+        r"Surahs\Muhammad Al-Luhaidan\Al-Waqi'ah (56.27-40)",
+        (27, 40),
+    )
     MUHAMMAD_AL_LUHAIDAN_AL_WAQIAH_68_74 = Preset(
         r"Surahs\Muhammad Al-Luhaidan\Al-Waqi'ah (56.68-74)",
         (68, 74),
