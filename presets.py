@@ -655,6 +655,10 @@ class Presets(Enum):
         r"Surahs\Salim Bahanan\At-Tin (95.1-8)",
         (1, 8),
     )
+    SALMAN_ALOTAIBI_SAD_30_34 = Preset(
+        r"Surahs\Salman Alotaibi\Sad (38.30-34)",
+        (30, 34),
+    )
     SHAMSUL_HAQUE_BAQARAH_79_80 = Preset(
         r"Surahs\Shamsul Haque\Al-Baqarah (2.79-80)",
         (79, 80),
