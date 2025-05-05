@@ -890,6 +890,10 @@ class Presets(Enum):
         r"Surahs\Yasser Al-Dosari\Ash-Sharh (94.1-8)",
         (1, 8),
     )
+    YASSER_AL_DOSARI_AR_RUM_40 = Preset(
+        r"Surahs\Yasser Al-Dosari\Ar-Rum (30.40)",
+        (40),
+    )
     YASSER_AL_DOSARI_AT_TAWBAH_104 = Preset(
         r"Surahs\Yasser Al-Dosari\At-Tawbah (9.104)",
         (104),
