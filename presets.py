@@ -298,6 +298,10 @@ class Presets(Enum):
         r"Surahs\Mahdi Ash-Shishani\Al-Kafirun (109.1-6)",
         (1, 6),
     )
+    MANSOUR_AS_SALIMI_AL_ANBYA_87_88 = Preset(
+        r"Surahs\Mansour As Salimi\Al-Anbya (21.87-88)",
+        (87, 88),
+    )
     MANSOUR_AS_SALIMI_FURQAN_15 = Preset(
         r"Surahs\Mansour As Salimi\Al-Furqan (25.15)",
         (15),
