@@ -955,6 +955,10 @@ class Presets(Enum):
         r"Surahs\Yousef Al-Soqier\Qaf (50.19-22)",
         (19, 22),
     )
+    YOUSEF_AL_SOQIER_QURAYSH_1_4 = Preset(
+        r"Surahs\Yousef Al-Soqier\Quraysh (106.1-4)",
+        (1, 4),
+    )
     YOUSEF_AL_SOQIER_YA_SIN_63_65 = Preset(
         r"Surahs\Yousef Al-Soqier\Ya-Sin (36.55-67)",
         (63, 65),
