@@ -639,6 +639,10 @@ class Presets(Enum):
         r"Surahs\Omar Bn DiaaAldeen\Al-Furqan (25.58)",
         (58),
     )
+    OMAR_BN_DIAAALDEEN_YUNUS_89_90 = Preset(
+        r"Surahs\Omar Bn DiaaAldeen\Yunus (10.89-90)",
+        (89, 90),
+    )
     RASHID_AL_ARKANI_AL_HUMAZAH_1_9 = Preset(
         r"Surahs\Rashid Al-Arkani\Al-Humazah (104.1-9)",
         (1, 9),
