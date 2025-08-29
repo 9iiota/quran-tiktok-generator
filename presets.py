@@ -108,7 +108,11 @@ class Presets(Enum):
         (17),
         time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.5),
     )
-    ABDULLAH_AL_QARNI_MAIDAH_73_74 = Preset(
+    ABDULLAH_AL_QARNI_AL_FURQAN_60_62 = Preset(
+        r"Surahs\Abdullah Al-Qarni\Al-Furqan (25.60-62)",
+        (60, 62),
+    )
+    ABDULLAH_AL_QARNI_AL_MAIDAH_73_74 = Preset(
         r"Surahs\Abdullah Al-Qarni\Al-Ma'idah (5.72-76)",
         (73, 74),
         time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.2),
@@ -915,6 +919,18 @@ class Presets(Enum):
     YASSER_AL_DOSARI_AL_MUTAFFIFIN_18_28 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Mutaffifin (83.7-28)",
         (18, 28),
+    )
+    YASSER_AL_DOSARI_AL_QAMAR_1_8 = Preset(
+        r"Surahs\Yasser Al-Dosari\Al-Qamar (54.1-22)",
+        (1, 8),
+    )
+    YASSER_AL_DOSARI_AL_QAMAR_9_17 = Preset(
+        r"Surahs\Yasser Al-Dosari\Al-Qamar (54.1-22)",
+        (9, 17),
+    )
+    YASSER_AL_DOSARI_AL_QAMAR_18_22 = Preset(
+        r"Surahs\Yasser Al-Dosari\Al-Qamar (54.1-22)",
+        (18, 22),
     )
     YASSER_AL_DOSARI_AL_QASAS_7_8 = Preset(
         r"Surahs\Yasser Al-Dosari\Al-Qasas (28.7-8)",

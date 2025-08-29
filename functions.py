@@ -859,7 +859,10 @@ def UpdateCsvFileVerseNumbers(
         data = []
         existing_verses = set()
         start_verse, end_verse = entire_audio_verse_range
-        verse_texts = GetChapterText(chapter_number)[start_verse - 1 : end_verse]
+        verse_texts = [
+            re.sub("۞", "", verse)
+            for verse in GetChapterText(chapter_number)[start_verse - 1 : end_verse]
+        ]
         indexed_verse_texts = [
             list(item) for item in zip(range(start_verse, end_verse + 1), verse_texts)
         ]
