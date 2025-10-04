@@ -23,7 +23,7 @@ class Joe(Enum):
 # WANNEER JE EEN VIDEOMAP MEEGEEFT DAN GEBRUIKT HIJ HEM NIET
 def main():
     tiktok = TikTok(Accounts.QURAN_2_LISTEN)
-    preset = Presets.YASSER_AL_DOSARI_AL_JUMUAH_8
+    preset = Presets.SALMAN_ALOTAIBI_AL_AHZAB_21_24
 
     tiktok.create(
         preset,
