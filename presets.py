@@ -314,6 +314,10 @@ class Presets(Enum):
         r"Surahs\Mansour As Salimi\Al-Furqan (25.15)",
         (15),
     )
+    MANSOUR_AS_SALIMI_AL_WAQIAH_10_24 = Preset(
+        r"Surahs\Mansour As Salimi\Al-Waqi'ah (56.10-24)",
+        (10, 24),
+    )
     MANSOUR_AS_SALIMI_MARYAM_27_33 = Preset(
         r"Surahs\Mansour As Salimi\Maryam (19.16-33)",
         (27, 33),
