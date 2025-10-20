@@ -209,8 +209,6 @@ Name,Start,Duration,Time Format,Type
 See `requirements.txt` for a complete list of Python dependencies. Key libraries include:
 
 * `moviepy` - Video editing and composition
-* `Pillow` - Image processing
-* `pandas` - CSV data handling
 * Additional libraries for text rendering and audio processing
 
 ---
