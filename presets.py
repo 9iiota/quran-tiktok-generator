@@ -310,9 +310,21 @@ class Presets(Enum):
         r"Surahs\Mansour As Salimi\Al-Anbya (21.87-88)",
         (87, 88),
     )
-    MANSOUR_AS_SALIMI_FURQAN_15 = Preset(
+    MANSOUR_AS_SALIMI_AL_FURQAN_15 = Preset(
         r"Surahs\Mansour As Salimi\Al-Furqan (25.15)",
         (15),
+    )
+    MANSOUR_AS_SALIMI_AL_KAHF_83_88 = Preset(
+        r"Surahs\Mansour As Salimi\Al-Kahf (18.83-98)",
+        (83, 88),
+    )
+    MANSOUR_AS_SALIMI_AL_KAHF_89_91 = Preset(
+        r"Surahs\Mansour As Salimi\Al-Kahf (18.83-98)",
+        (89, 91),
+    )
+    MANSOUR_AS_SALIMI_AL_KAHF_92_98 = Preset(
+        r"Surahs\Mansour As Salimi\Al-Kahf (18.83-98)",
+        (92, 98),
     )
     MANSOUR_AS_SALIMI_AL_WAQIAH_10_24 = Preset(
         r"Surahs\Mansour As Salimi\Al-Waqi'ah (56.10-24)",
