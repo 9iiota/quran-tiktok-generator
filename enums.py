@@ -10,6 +10,13 @@ class Accounts(Enum):
         verseTextFontFile="Fonts/Hafs.ttf",
         verseTranslationFontFile="Fonts/Butler_Regular.otf",
     )
+    VERSES_IN_THE_WIND = Account(
+        clipDirectories=["Background_Clips/Ghost_of_Tsushima"],
+        language=Languages.ENGLISH,
+        mode=ColorModes.DARK,
+        verseTextFontFile="Fonts/Hafs.ttf",
+        verseTranslationFontFile="Fonts/Butler_Regular.otf",
+    )
     DUTCH = Account(
         clipDirectories=["Background_Clips/Anime"],
         language=Languages.DUTCH,
