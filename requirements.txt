@@ -8,3 +8,4 @@ plyer
 pyquran
 python-Levenshtein
 requests
+pandas

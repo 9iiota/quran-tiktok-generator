@@ -2,7 +2,7 @@ from models import Account, ColorModes, Languages, AdditionalVideoSettings
 from moviepy.config import change_settings
 from presets import Presets
 from enum import Enum
-from tiktok import TikTok
+from app.tiktok import TikTok
 from enums import Accounts
 
 change_settings(
@@ -12,11 +12,11 @@ change_settings(
 
 class Joe(Enum):
     hello = Account(
-        clipDirectories=["Background_Clips/Anime"],
+        clip_directories=["Background_Clips/Anime"],
         language=Languages.ENGLISH,
         mode=ColorModes.DARK,
-        verseTextFontFile="Fonts/Hafs.ttf",
-        verseTranslationFontFile="Fonts/Butler_Regular.otf",
+        verse_text_font_file="Fonts/Hafs.ttf",
+        verse_translation_font_file="Fonts/Butler_Regular.otf",
     )
 
 

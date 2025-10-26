@@ -175,7 +175,7 @@ def create_video(
     # if video_map:
     #     video_map = convert_video_map_paths_to_absolute_paths(video_map)
 
-    allBackgroundClips = GetRelativeMp4Paths(account.clipDirectories)
+    allBackgroundClips = GetRelativeMp4Paths(account.clip_directories)
     targetAspectRatio = videoWidth / videoHeight
     textClips = []
     usedBackgroundClips = []
@@ -343,7 +343,7 @@ def create_video(
             verse_text_clip = verse_text_text_clip.create_text_clip(
                 color=verse_text_color,
                 duration=textDuration,
-                font=account.verseTextFontFile,
+                font=account.verse_text_font_file,
                 text=verseText,
             )
             textClips.append(verse_text_clip)
@@ -353,7 +353,7 @@ def create_video(
             verse_translation_clip = verse_translation_text_clip.create_text_clip(
                 color=verse_translation_color,
                 duration=textDuration,
-                font=account.verseTranslationFontFile,
+                font=account.verse_translation_font_file,
                 text=verseTranslation,
             )
             textClips.append(verse_translation_clip)
@@ -364,7 +364,7 @@ def create_video(
             verse_number_clip = verse_number_text_clip.create_text_clip(
                 color=verse_number_color,
                 duration=textDuration,
-                font=account.verseNumberFontFile,
+                font=account.verse_number_font_file,
                 text=verseNumber,
             )
             textClips.append(verse_number_clip)
@@ -375,7 +375,7 @@ def create_video(
             reciter_name_clip = reciter_name_text_clip.create_text_clip(
                 color=reciter_name_color,
                 duration=textDuration,
-                font=account.reciterNameFontFile,
+                font=account.reciter_name_font_file,
                 text=reciter_name,
             )
             textClips.append(reciter_name_clip)
