@@ -2,7 +2,7 @@ from models import Account, ColorModes, Languages, AdditionalVideoSettings
 from moviepy.config import change_settings
 from presets import Presets
 from enum import Enum
-from app.tiktok import TikTok
+from tiktok import TikTok
 from enums import Accounts
 
 change_settings(
@@ -23,7 +23,7 @@ class Joe(Enum):
 # WANNEER JE EEN VIDEOMAP MEEGEEFT DAN GEBRUIKT HIJ HEM NIET
 def main():
     tiktok = TikTok(Accounts.QURAN_2_LISTEN)
-    preset = Presets.MANSOUR_AS_SALIMI_AL_KAHF_92_98
+    preset = Presets.YASSER_AL_DOSARI_AN_NAHL_96_100
 
     tiktok.create(
         preset,
