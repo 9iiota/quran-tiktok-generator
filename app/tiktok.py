@@ -3,7 +3,7 @@ import re
 
 from datetime import datetime
 from models import (
-    Account,
+    UserPreferences,
     AudioSettings,
     ColumnHeaders,
     TextClipInfo,
@@ -18,7 +18,7 @@ from typing import Optional
 
 
 class TikTok:
-    def __init__(self, account: Account):
+    def __init__(self, account: UserPreferences):
         self.account = account
 
     def create(
@@ -75,7 +75,7 @@ class TikTok:
             verseRange=start_to_end_timestamp_verse_range,
         )
 
-        if not isinstance(self.account, Account):
+        if not isinstance(self.account, UserPreferences):
             account_name = str(self.account).split(".")[-1].lower()
             self.account = self.account.value
         else:

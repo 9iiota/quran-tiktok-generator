@@ -29,21 +29,21 @@ class Language:
 
 
 @dataclass
-class Account:
+class UserPreferences:
     clip_directories: list[str]
     language: Language
     mode: ColorMode
-    verse_text_font_file: str
-    verse_translation_font_file: str
-    verse_number_font_file: Optional[str] = None
-    reciter_name_font_file: Optional[str] = None
+    arabic_font_file_path: str
+    translation_font_file_path: str
+    verse_number_font_file_path: Optional[str] = None
+    reciter_name_font_file_path: Optional[str] = None
 
     def __post_init__(self):
-        self.verse_number_font_file = (
-            self.verse_number_font_file or self.verse_translation_font_file
+        self.verse_number_font_file_path = (
+            self.verse_number_font_file_path or self.translation_font_file_path
         )
-        self.reciter_name_font_file = (
-            self.reciter_name_font_file or self.verse_translation_font_file
+        self.reciter_name_font_file_path = (
+            self.reciter_name_font_file_path or self.translation_font_file_path
         )
 
 

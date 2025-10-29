@@ -13,7 +13,7 @@ from colorama import Fore, Style
 from compact_json import EolStyle, Formatter
 from datetime import datetime, timedelta
 from models import (
-    Account,
+    UserPreferences,
     AudioSettings,
     ColumnHeaders,
     TextClipInfo,
@@ -29,7 +29,7 @@ from typing import Optional
 
 
 def create_video(
-    account: Account,
+    account: UserPreferences,
     audioSettings: AudioSettings,
     csvColumnNames: ColumnHeaders,
     timeModifiers: TimeModifiers,
@@ -55,7 +55,7 @@ def create_video(
     ----------
     """
 
-    if not isinstance(account, Account):
+    if not isinstance(account, UserPreferences):
         account = account.value
 
     if not os.path.isfile(audioSettings.audioFile):
@@ -343,7 +343,7 @@ def create_video(
             verse_text_clip = verse_text_text_clip.create_text_clip(
                 color=verse_text_color,
                 duration=textDuration,
-                font=account.verse_text_font_file,
+                font=account.arabic_font_file_path,
                 text=verseText,
             )
             textClips.append(verse_text_clip)
@@ -353,7 +353,7 @@ def create_video(
             verse_translation_clip = verse_translation_text_clip.create_text_clip(
                 color=verse_translation_color,
                 duration=textDuration,
-                font=account.verse_translation_font_file,
+                font=account.translation_font_file_path,
                 text=verseTranslation,
             )
             textClips.append(verse_translation_clip)
@@ -364,7 +364,7 @@ def create_video(
             verse_number_clip = verse_number_text_clip.create_text_clip(
                 color=verse_number_color,
                 duration=textDuration,
-                font=account.verse_number_font_file,
+                font=account.verse_number_font_file_path,
                 text=verseNumber,
             )
             textClips.append(verse_number_clip)
@@ -375,7 +375,7 @@ def create_video(
             reciter_name_clip = reciter_name_text_clip.create_text_clip(
                 color=reciter_name_color,
                 duration=textDuration,
-                font=account.reciter_name_font_file,
+                font=account.reciter_name_font_file_path,
                 text=reciter_name,
             )
             textClips.append(reciter_name_clip)

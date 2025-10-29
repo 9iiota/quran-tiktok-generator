@@ -1,37 +1,37 @@
-from models import Account, ColorModes, Languages
+from models import UserPreferences, ColorModes, Languages
 from enum import Enum
 
 
 class Accounts(Enum):
-    QURAN_2_LISTEN = Account(
+    QURAN_2_LISTEN = UserPreferences(
         clip_directories=["assets/background_clips/anime"],
         language=Languages.ENGLISH,
         mode=ColorModes.DARK,
-        verse_text_font_file="assets/fonts/Hafs.ttf",
-        verse_translation_font_file="assets/fonts/Butler_Regular.otf",
+        arabic_font_file_path="assets/fonts/Hafs.ttf",
+        translation_font_file_path="assets/fonts/Butler_Regular.otf",
     )
-    VERSES_IN_THE_WIND = Account(
+    VERSES_IN_THE_WIND = UserPreferences(
         clip_directories=["Background_Clips/Ghost_of_Tsushima"],
         language=Languages.ENGLISH,
         mode=ColorModes.DARK,
-        verse_text_font_file="Fonts/Hafs.ttf",
-        verse_translation_font_file="Fonts/Butler_Regular.otf",
+        arabic_font_file_path="Fonts/Hafs.ttf",
+        translation_font_file_path="Fonts/Butler_Regular.otf",
     )
-    DUTCH = Account(
+    DUTCH = UserPreferences(
         clip_directories=["Background_Clips/Anime"],
         language=Languages.DUTCH,
         mode=ColorModes.DARK,
-        verse_text_font_file="Fonts/Hafs.ttf",
-        verse_translation_font_file="Fonts/Butler_Regular.otf",
+        arabic_font_file_path="Fonts/Hafs.ttf",
+        translation_font_file_path="Fonts/Butler_Regular.otf",
     )
-    RECITE_2_REFLECT = Account(
+    RECITE_2_REFLECT = UserPreferences(
         clip_directories=["Background_Clips/Real", "Background_Clips/Real_2"],
         language=Languages.ENGLISH,
         mode=ColorModes.DARK,
-        verse_text_font_file="Fonts/Hafs.ttf",
-        verse_translation_font_file="Fonts/Butler_Regular.otf",
+        arabic_font_file_path="Fonts/Hafs.ttf",
+        translation_font_file_path="Fonts/Butler_Regular.otf",
     )
-    HEARTFELTRECITATIONS = Account(
+    HEARTFELTRECITATIONS = UserPreferences(
         clip_directories=[
             "Background_Clips/Anime",
             "Background_Clips/Real",
@@ -39,13 +39,13 @@ class Accounts(Enum):
         ],
         language=Languages.ENGLISH,
         mode=ColorModes.DARK,
-        verse_text_font_file="Fonts/Hafs.ttf",
-        verse_translation_font_file="Fonts/Butler_Regular.otf",
+        arabic_font_file_path="Fonts/Hafs.ttf",
+        translation_font_file_path="Fonts/Butler_Regular.otf",
     )
-    QURANIC_TIKTOKS = Account(
+    QURANIC_TIKTOKS = UserPreferences(
         clip_directories=["Background_Clips/Real", "Background_Clips/Real_2"],
         language=Languages.ENGLISH,
         mode=ColorModes.DARK,
-        verse_text_font_file="Fonts/Hafs.ttf",
-        verse_translation_font_file="Fonts/Butler_Regular.otf",
+        arabic_font_file_path="Fonts/Hafs.ttf",
+        translation_font_file_path="Fonts/Butler_Regular.otf",
     )
