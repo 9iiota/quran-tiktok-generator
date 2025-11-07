@@ -269,6 +269,10 @@ class Presets(Enum):
         r"Surahs\Fatih Seferagic\Ya-Sin (36.77-83)",
         (77, 83),
     )
+    HAITHAM_AL_DUKHAN_YA_SIN_20_27 = Preset(
+        r"assets\Surahs\Haitham Al Dukhan\Ya-Sin (36.20-27)",
+        (20, 27),
+    )
     IDRISS_ABKAR_AL_JINN_18_19 = Preset(
         r"Surahs\Idriss Abkar\Al-Jinn (72.18-19)",
         (18, 19),
