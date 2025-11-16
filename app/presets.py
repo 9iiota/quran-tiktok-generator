@@ -298,6 +298,10 @@ class Presets(Enum):
         r"Surahs\Maher Al-Muaiqly\Al-An'am (6.160-165)",
         (160, 165),
     )
+    MAHER_AL_MUAIQLY_AN_NUR_26_28 = Preset(
+        r"assets\surahs\Maher Al-Muaiqly\An-Nur (24.26-28)",
+        (26, 28),
+    )
     JABER_ALQAYTAN_AL_MUDDATHTHIR_53_56 = Preset(
         r"Surahs\Jaber Alqaytan\Al-Muddaththir (74.53-56)",
         (53, 56),
