@@ -827,6 +827,10 @@ class Presets(Enum):
         r"Surahs\Unknown\Al-Mu'minun (23.1-6)",
         (1, 6),
     )
+    UNKNOWN_AL_QASAS_22_24 = Preset(
+        r"assets\surahs\Unknown\Al-Qasas (28.22-24)",
+        (22, 24),
+    )
     UNKNOWN_AN_NASR_1_3 = Preset(
         r"Surahs\Unknown\An-Nasr (110.1-3)",
         (1, 3),
