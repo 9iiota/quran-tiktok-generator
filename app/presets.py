@@ -108,6 +108,10 @@ class Presets(Enum):
         (17),
         time_modifiers=TimeModifiers(timeModifier=-0.2, endTimeModifier=-0.5),
     )
+    ABDUL_RAHMAN_NAJI_AL_QALAM_1_7 = Preset(
+        r"assets\surahs\Abdul Rahman Naji\Al-Qalam (68.1-7)",
+        (1, 7),
+    )
     ABDULLAH_AL_QARNI_AL_FURQAN_60_62 = Preset(
         r"Surahs\Abdullah Al-Qarni\Al-Furqan (25.60-62)",
         (60, 62),
