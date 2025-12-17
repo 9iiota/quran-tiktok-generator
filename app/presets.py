@@ -310,6 +310,10 @@ class Presets(Enum):
         r"Surahs\Jaber Alqaytan\Al-Muddaththir (74.53-56)",
         (53, 56),
     )
+    MAHDI_ASH_SHISHANI_AL_BAQARAH_8_12 = Preset(
+        r"assets\surahs\Mahdi Ash-Shishani\Al-Baqarah (2.8-12)",
+        (8, 12),
+    )
     MAHDI_ASH_SHISHANI_AL_IKHLAS_1_4 = Preset(
         r"Surahs\Mahdi Ash-Shishani\Al-Ikhlas (112.1-4)",
         (1, 4),
