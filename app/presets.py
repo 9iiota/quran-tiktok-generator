@@ -894,6 +894,10 @@ class Presets(Enum):
             backgroundVideo=r"assets\surahs\Unknown\Az-Zumar (39.71-75)\video.mp4",
         ),
     )
+    UNKNOWN_TAHA_1_9 = Preset(
+        r"assets\surahs\Unknown\Taha (20.1-9)",
+        (1, 9),
+    )
     UNKNOWN_TAHA_124_126 = Preset(
         r"assets\surahs\Unknown\Taha (20.124-126)",
         (124, 126),
